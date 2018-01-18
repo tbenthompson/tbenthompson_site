@@ -46,3 +46,11 @@ h1.postlink {
 .whitespace {
     margin-top: 3%;
 }
+
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
