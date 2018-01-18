@@ -1,0 +1,44 @@
+.section {
+    padding-bottom: 10px;
+}
+
+.mainpagelist {
+    font-size: 24px;
+}
+
+.postlink a {
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.accounts {
+    font-size: 15px;
+}
+
+.content h1:not(:first-child), .content h2:not(:first-child), .content h3:not(:first-child), .content h4:not(:first-child), .content h5:not(:first-child), .content h6:not(:first-child), article+article {
+    margin-top: 20px;
+}
+
+.content h1 code, .content h2 code, .content h3 code, .content h4 code, .content h5 code, .content h6 code {
+    font-size: 90%;
+    padding: 2px 4px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #42464c;
+}
+
+.face-wrapper{
+    position: relative;
+    top: -50px;
+    padding-bottom: 10px;
+}
+
+.face {
+    border-radius: 50%;
+}
+
+.whitespace {
+    margin-top: 3%;
+}

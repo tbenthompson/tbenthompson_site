@@ -1,0 +1,23 @@
+baseurl = "http://tbenthompson.com/"
+languageCode = "en-us"
+title = "T. Ben Thompson"
+theme = "none"
+copyright = ""#&copy; <a href=\"http://tbenthompson.com/\">T. Ben Thompson</a> 2018"
+# Number of posts per page
+Paginate = 5
+enableRobotsTXT = true 
+
+[author]
+name="T. Ben Thompson"
+
+[params.assets]
+customCSS = ["css/custom.css"]
+
+[params.info]
+homeTitle = "T. Ben Thompson" # Title for home page
+
+[taxonomies]
+tag ="tags"
+
+[blackfriday]
+hrefTargetBlank = true

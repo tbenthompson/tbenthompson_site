@@ -1,0 +1,9 @@
+{{ partial "header" . }}
+{{ partial "nav" . }}
+<section class="section">
+    <div class="container">
+        {{ block "main" . }}
+        {{ end }}
+    </div>
+</section>
+{{ partial "footer" . }}

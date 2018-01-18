@@ -1,0 +1,7 @@
+{{ define "main" }}
+    <h1 class="title">{{.Title}}</h1>
+    {{$section:=.Section}}
+    {{ range sort (where .Data.Pages "Section" $section) "Weight" }}
+    <h1 class="postlink"><a href="{{ .Permalink }}">{{ .Title }} {{if (eq .Section "post")}}- {{ .Date.Format "January 2, 2006" }}{{end}}</a></h1>
+    {{ end }}
+{{ end }}

@@ -1,0 +1,21 @@
+{{ define "main" }}
+    <div class="face-wrapper">
+        <img class="face" width="150" src="ben_thompson.jpg"/>
+    </div>
+
+    <div class="content">
+      {{ .Content }}
+    </div>
+    {{ range .Site.Menus.main }}
+    <h1 class="mainpagelist"><a href="{{.URL}}">{{.Name}}</a></h1>
+    {{ end }}
+    <h1 class="mainpagelist"><a href="/post">Posts</a></h1>
+    <h1 class="mainpagelist"><a href="/project">Projects</a></h1>
+    <div class="whitespace">
+    </div>
+    <h1 class="mainpagelist">Recent Posts</h1>
+    {{ $paginator := .Paginate (where .Data.Pages "Type" "post") 5 }}
+    {{ range sort $paginator.Pages }}
+    <h1 class="postlink"><a href="{{ .Permalink }}">{{.Title }} - {{ .Date.Format "January 2, 2006" }}</a></h1>
+    {{ end }}
+{{ end }}
