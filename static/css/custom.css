@@ -2,6 +2,10 @@
     padding-bottom: 10px;
 }
 
+h1.mainpagelist {
+    margin-top: 7px;
+}
+
 .mainpagelist {
     font-size: 172%;
 }
@@ -16,11 +20,7 @@ h1.postlink {
 }
 
 .accounts {
-    font-size: 90%;
-}
-
-.content h1:not(:first-child), .content h2:not(:first-child), .content h3:not(:first-child), .content h4:not(:first-child), .content h5:not(:first-child), .content h6:not(:first-child), article+article {
-    margin-top: 20px;
+    font-size: 100%;
 }
 
 .content h1 code, .content h2 code, .content h3 code, .content h4 code, .content h5 code, .content h6 code {

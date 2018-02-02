@@ -1,6 +1,7 @@
 +++
+when="2015"
 title="Crustal stress estimation in the Himalayan wedge"
-weight=999
+weight = 750
 +++
 
 Quantitative estimates of crustal stress magnitude and orientation are hard to come by. On the other hand, geodesy is providing an increasingly accurate picture of global tectonic motions. Field and laboratory analyses contribute fault slip rates and exhumation rates. Seismology yields estimates of stress from moment tensor analyses. I am working to combine these data sources with geometrically accurate elastic boundary element models to estimate the crustal stress field and the driving forces behind those stresses -- for example, mantle tractions on the base of the crust. 

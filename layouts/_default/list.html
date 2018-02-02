@@ -1,7 +1,11 @@
 {{ define "main" }}
     <h1 class="title">{{.Title}}</h1>
     {{$section:=.Section}}
-    {{ range sort (where .Data.Pages "Section" $section) "Weight" }}
-    <h1 class="postlink"><a href="{{ .Permalink }}">* {{ .Title }} {{if (eq .Section "post")}}- {{ .Date.Format "January 2, 2006" }}{{end}}</a></h1>
+    {{ range sort (where .Data.Pages "Section" $section) "Weight"}}
+    {{if (eq .Section "post")}}
+    <h1 class="postlink"><a href="{{ .Permalink }}">* {{ .Title }} - {{ .Date.Format "January 2, 2006" }}</a></h1>
+    {{else}}
+    <h1 class="postlink"><a href="{{ .Permalink }}">* {{.Params.when}} - {{ .Title }}</a></h1>
+    {{end}}
     {{ end }}
 {{ end }}

@@ -4,7 +4,6 @@ title = "T. Ben Thompson"
 theme = "none"
 copyright = ""#&copy; <a href=\"http://tbenthompson.com/\">T. Ben Thompson</a> 2018"
 # Number of posts per page
-Paginate = 5
 enableRobotsTXT = true 
 
 [author]

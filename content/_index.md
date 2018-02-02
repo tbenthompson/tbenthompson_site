@@ -3,6 +3,9 @@ title = "Homepage"
 +++
 
 # About me 
-I am a geoscientist, computational mathematician and software developer. In these roles, I study active tectonics and the earthquake cycle. My recent research estimates the tectonic driving forces and frictional fault strengths in the Himalayas and Tibet using innovative boundary element methods.
+
+I am a geoscientist, software developer, and computational mathematician. My recent research applies new, efficient and powerful boundary element methods to active tectonics and earthquake cycle problems. 
 
 I am a graduate student in the Harvard Department of Earth and Planetary Sciences where I am advised by Prof. Brendan Meade. 
+
+I also really like to run and ski a long ways in the mountains.

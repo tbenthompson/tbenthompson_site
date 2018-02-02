@@ -1,6 +1,7 @@
 +++
+when="2014"
 title="Longmen Shan fault geometry and slip rates"
-weight = 1000
+weight=850
 +++
 
 *[GRL article](http://onlinelibrary.wiley.com/doi/10.1002/2014GL062833/abstract).*
