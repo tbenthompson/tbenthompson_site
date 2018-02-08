@@ -1,5 +1,5 @@
 +++
-title="Sparse N-body matrices"
+title="Sparse n-body matrices"
 date=2016-07-02
 +++
 
