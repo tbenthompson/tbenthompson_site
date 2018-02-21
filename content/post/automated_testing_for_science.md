@@ -58,13 +58,14 @@ Unfortunately, even if there are useful special cases, often the resulting tests
 
 I think property testing is the most useful approach when the answer isn't known. Instead of check the final answer, we check a *property* of some final or intermediate part of the calculation. For example:
 
-* Newton's method for root finding should take exactly one step to solve any linear system of equations. So, a simple property test might be to generate 100 random linear systems and check that all of them are solved. This is a sort of 
+* Newton's method for root finding should take exactly one step to solve any linear system of equations. So, a simple property test might be to generate 100 random linear systems and check that all of them are solved in one step. The difference from a special case is that we have a simple algorithm for generating many special cases.
 * In the case of a finite element or boundary element model, the solution should converge with increasing mesh density.
+* Running an idempotent function 100 times should leave the system in the same state as running it once.
 * With an infinite penalty, ridge and lasso regressions return all zeros. With a penalty of zero, ridge and lasso regressions return the same answer as unregularized least squares.
 
 I've always written property tests by hand, but there are some libraries that attempt to automate part of the process. They're probably more useful if you are writing code that might receive inputs from the "outside" and thus must check behavior in funky edge cases (zero length lists, NaNs, Infinity, etc). 
 Many property testing libraries are descended from the original QuickCheck Haskell library.
-I've heard good things about [ https://github.com/HypothesisWorks/hypothesis-python](Hypothesis).
+I've heard good things about [Hypothesis](https://github.com/HypothesisWorks/hypothesis-python).
 
 ## Golden master testing
 
