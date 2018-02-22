@@ -22,7 +22,7 @@ There are a ton of other features available with py.test, like fixtures, fancy a
 
 ## Golden master tests
 
-Golden master testing doesn't really **require** any special infrastructure, but it can be nice to have a coordinated way to generate the keys and specify golden master tests. First, I set up a configuration option 
+Golden master testing doesn't really **require** any special infrastructure, but it can be nice to have a coordinated way to generate the keys and specify golden master tests. First, I set up a configuration option in `tests/conftest.py`. This is a special file that `py.test` uses to load plugins and configuration.
 
 ```
 def pytest_addoption(parser):
@@ -61,9 +61,12 @@ To use this:
 def test_mycomplexfnc(request):
     return mycomplexfnc()
 ```
+
 When I run `py.test --save-golden-masters`, this will automatically save the result of the function to `tests/golden_masters/test_mycomplexfnc.npy`. Then, the next time I run `py.test`, the output of the `mycomplexfnc()` will be compared to 4 digits against the old saved version.
 
 Modifying this to work with pandas dataframes or other objects would be relatively simple. It could also be refactored to work with general objects without much effort, but, in my case, all the functions where I don't have anything better than a golden master test are functions that return arrays.
+
+Should you put the saved golden master test results in version control? I would say yes, since they are necessary for properly testing the code base. 
 
 ## Slow tests
 
