@@ -4,7 +4,10 @@ title = "T. Ben Thompson"
 theme = "none"
 copyright = ""#&copy; <a href=\"http://tbenthompson.com/\">T. Ben Thompson</a> 2018"
 # Number of posts per page
-enableRobotsTXT = true 
+enableRobotsTXT = true
+pygmentsUseClassic=true
+pygmentsCodefences=true
+pygmentsStyle="default"
 
 [author]
 name="T. Ben Thompson"
