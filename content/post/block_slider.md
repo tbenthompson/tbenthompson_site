@@ -13,7 +13,7 @@ Recently, I've been working on some 3D quasidynamic earthquake modeling problems
 * The numerical methods for determining traction on the fault surface given the current values of slip everywhere on the fault (elasticity!)
 * The frictional evolution for determining the current velocity on the fault surface from the traction.
 
-Or, in pseudocode, it's a simple feedback where we loop: 
+Or, in pseudocode, it's a simple feedback where I loop: 
 ```
 while not done:
     slip += velocity * dt
@@ -106,7 +106,7 @@ def steady_state(V_slider):
 state_0 = steady_state(V_slider_0)
 ```
 
-Okay, so now I'm getting to the part where I actually solve the differential equations! But, first, there's an interesting thing about this model. It's actually a differential algebraic equation (DAE) instead of a pure ODE. That's because the current velocity is not defined in differential terms, but instead it is implicity defined as a function of the current shear stress and state parameter. Most of the time, for the 1D spring block slider model that I'm looking at here, folks have transformed it into a pure ODE. However, that transformation to an ODE doesn't work very well in the 3D setting. So, for 3D, we're stuck with a DAE. It's not as easy, but it's also not **that** bad. For the sake of easily translating the 1D model here to use a 3D elastic solver, I'm going to actually keep using the DAE formulation.
+Okay, so now I'm getting to the part where I actually solve the differential equations! But, first, there's an interesting thing about this model. It's actually a differential algebraic equation (DAE) instead of a pure ODE. That's because the current velocity is not defined in differential terms, but instead it is implicity defined as a function of the current shear stress and state parameter. Most of the time, for the 1D spring block slider model that I'm looking at here, folks have transformed it into a pure ODE. However, that transformation to an ODE doesn't work very well in the 3D setting. So, for 3D, I'm stuck with a DAE. It's not as easy, but it's also not **that** bad. For the sake of easily translating the 1D model here to use a 3D elastic solver, I'm going to actually keep using the DAE formulation.
 
 So, at each time step, I need to solve an algebraic equation for the current velocity. 
 
