@@ -74,7 +74,11 @@ def G(V, state):
     return (b * V0 / Dc) * (np.exp((f0 - state) / b) - (V / V0))
 ```
 
-I'll check $k_{crit}$. If $k > k_{crit}$, the system is unconditionally unstable and $V \to \infty$.
+
+I'll check $ k_{crit}$. 
+
+If $k > k_{crit}$, the system is unconditionally unstable and $V \to \infty$.
+
 
 
 ```python
