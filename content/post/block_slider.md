@@ -1,12 +1,14 @@
+
 +++
 title="A Quasidynamic spring block slider"
 date=2018-03-10
 +++
 
+*source available [here](block_slider.ipynb)*
 
 Figures first, explanations later!
 
-<img src="/qd_1d.png" alt="Evolution of a quasidynamic spring-block-slider system."/>
+<img src="qd_1d.png" alt="Evolution of a quasidynamic spring-block-slider system."/>
 
 Recently, I've been working on some 3D quasidynamic earthquake modeling problems. We're planning to add in some realistic geometries using tectosaur to see what influence that has on the earthquake cycle. While putting together that 3D model, I realized that it consists of two main pieces:
 
@@ -74,11 +76,7 @@ def G(V, state):
     return (b * V0 / Dc) * (np.exp((f0 - state) / b) - (V / V0))
 ```
 
-
-I'll check $ k_{crit}$. 
-
-If $k > k_{crit}$, the system is unconditionally unstable and $V \to \infty$.
-
+I'll check $k_{crit}$. If $k > k_{crit}$, the system is unconditionally unstable and $V \to \infty$.
 
 
 ```python
@@ -201,6 +199,7 @@ plt.rcParams['ytick.labelsize'] = 16
 plt.rcParams['legend.fontsize'] = 20
 plt.rcParams['figure.titlesize'] = 22
 plt.rcParams['text.latex.preamble'] = '\\usepackage{amsmath}'
+plt.rcParams['savefig.transparent'] = False
 ```
 
 
@@ -232,5 +231,5 @@ plt.show()
 ```
 
 
-![png](/qd_1d.png)
+![png](block_slider_files/block_slider_26_0.png)
 
