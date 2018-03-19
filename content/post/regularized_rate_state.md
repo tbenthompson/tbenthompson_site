@@ -38,7 +38,7 @@ With this transformation, $\ref{rsorig}$ becomes:
 \label{rstransform}
 \end{equation}
 
-For me, this is nicer in that I can understand the new "state" parameter, $\Psi$, as the current strength of friction when $V$ is vanishingly small.
+For me, this is nicer in that I can understand the new "state" parameter, $\Psi$, as the current strength of friction when $V = V_0$.
 
 Now, I'll get the aging law in terms of $\Psi$.  Differentiating \ref{transform}:
 
