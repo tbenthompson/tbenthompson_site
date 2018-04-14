@@ -1,6 +1,6 @@
 +++
 when="ongoing"
-title="The Earth isn’t flat: The large influence of topography on geodetic fault slip imaging."
+title="Topography and the shallow slip deficit inference"
 weight=350
 +++
 Images of earthquake slip typically rely on flat Earth physical models to link surface observations to fault activity at depth despite the extreme topographic relief (20%) in vicinity of recent great earthquakes (e.g., 2008 $M_w$=7.9 Wenchuan). 
