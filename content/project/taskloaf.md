@@ -1,7 +1,7 @@
 +++
 when="ongoing"
 title="Taskloaf: Simplified distributed task parallelism"
-weight = 425
+weight = 341
 +++
 
 *[Taskloaf GitHub page](https://github.com/tbenthompson/taskloaf)*

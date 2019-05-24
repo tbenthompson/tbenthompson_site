@@ -1,6 +1,9 @@
 +++
-when="ongoing"
-title="Geometrically complex quasidynamic earthquake ruptures"
+when="2019"
+title="Earthquake cycle modeling of the Cascadia subduction zone"
 weight=349
 +++
-Earthquake modelling normally involves a planar fault in an elastic half or full space. Over the past couple years, I have looked at what happens to static earthquake models when we add fault geometry, surface topography and Earth curvature. There are some large and interesting effects. I am now looking into the influence of these geometric effects on quasidynamic and dynamic earthquake rupture models. A lot of research has been directed towards to complex, nonlinear effects of rheology and friction laws in rupture modeling. I suspect that geometric effects will also have a strong and nonlinear influence on rupture models. 
+
+[Paper](https://eartharxiv.org/3vuxw/)
+
+The Cascadia subduction zone hosts great $\mathrm{M}\_\mathrm{W} > 8.5$ earthquakes, but studying these events is hindered by our short observational record. Earthquake cycle simulation provides an alternative window into the behavior of the subduction zone. Here, we present simulations over 3,800 years, 14 ruptures and hundreds of slow slip events on a high-fidelity geometric representation of the Cascadia subduction zone beneath surface topography. The boundaries of these ruptures are defined by ephemeral stress barriers that last for several cycles but are eliminated by a barrier-crossing rupture. Thus, it is possible that many real world rupture barriers are due to remnant stress shadows from previous slip events and may not persist over several earthquake cycles. In addition, we see ``fast'' slow slip events with $\mathrm{M}_\mathrm{W} \approx 8$. These events may occur in nature and reduce the seismically available moment or they may be a spurious feature of an unrealistic friction law.
