@@ -1,6 +1,6 @@
 +++
 when="2006-2009"
-title="Machine Learning, Neural Networks, and Melanoma"
+title="Machine learning, neural networks, and melanoma"
 weight=1050
 +++
 

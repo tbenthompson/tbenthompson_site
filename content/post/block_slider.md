@@ -1,6 +1,5 @@
-
 +++
-title="A Quasidynamic spring block slider"
+title="A quasidynamic spring block slider"
 date=2018-03-10
 +++
 

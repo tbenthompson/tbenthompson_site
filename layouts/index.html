@@ -6,14 +6,17 @@
     <div class="content">
       {{ .Content }}
     </div>
-    <h1 class="mainpagelist"><a href="/project">Projects</a></h1>
-    <h1 class="mainpagelist"><a href="/post">Posts</a></h1>
     <div class="whitespace">
     </div>
-    <h1 class="mainpagelist">Recent Posts</h1>
-    {{ $paginator := .Paginate (where .Data.Pages "Type" "post") 3 }}
-    {{ range sort $paginator.Pages }}
-    <h1 class="postlink"><a href="{{ .Permalink }}">{{.Title }} - {{ .Date.Format "January 2, 2006" }}</a></h1>
+    <h1 class="mainpagelist">Work and Projects</h1>
+    {{ range (index .Data.Pages 1).Pages }}
+    <h1 class="postlink"><a href="{{ .Permalink }}"><div style="width: 130px; display: inline-block">{{ .Params.when}}</div> - {{ .Title }}</a></h1>
+    {{ end }}
+    <div class="whitespace">
+
+    <h1 class="mainpagelist">Posts</h1>
+    {{ range (index .Data.Pages 0).Pages }}
+    <h1 class="postlink"><a href="{{ .Permalink }}"><div style="width: 130px; display: inline-block">{{ .Date.Format "Jan 2, 2006" }}</div> - {{ .Title }}</a></h1>
     {{ end }}
     <div class="whitespace">
     </div>
