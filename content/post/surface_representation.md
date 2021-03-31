@@ -21,7 +21,7 @@ Let's back up and consider how to mesh our model earthquake problem from the per
 
 **Accuracy**: There is accurate satellite data on the location of the Earth's surface down to about a a few meters resolution. And for faults, depending on where in the world, the uncertainty in fault location is on the order of 10-10000m. So, only a few digits of accuracy could possibly be relevant in these models since there's already a high level of error introduced by the mere location uncertainty in the faults, much less all the other uncertainties that I haven't discussed here. The main goal, at least at this point in the evolution of the earthquake science field, is in terms of qualitative behavior and questions on the scale of 1-50% or even about the sign of an effect (positive or negative).
 
-**Robustness**: This is where the smoothness gets important. From my (admittedly narrow) experience, having smooth boundaries makes so much about integral equation methods simpler. Especially for these faulting/crack problems where hypersingular terms are common.
+**Robustness**: This is where smoothness gets really important. From my experience, having smooth boundaries makes so much about integral equation methods simpler. Especially for these faulting/crack problems where hypersingular terms are common.
 
 ## A different approach
 
