@@ -11,7 +11,7 @@ That means that we're stuck between a rock and a hard place and have to choose:
 * non-tangential, but continuous slip
 * tangential, but discontinuous slip. 
 
-So, planar triangles probably aren't a sustainable or "correct" way to represent a fault surface unless that surface is perfectly planar. Fundamentally the problem is that our fault surface representation is $C^0$, meaning that the function itself is continuous but the derivatives are not. This problem propagates through the whole model up in other ways too. Suppose you choose to have discontinuous, but tangential, slip. Then, there will be stress singularities at every element junction! 
+So, planar triangles probably aren't a sustainable or "correct" way to represent a fault surface unless that surface is perfectly planar or we're zoomed in far enough that the underlying microscale behavior is relevant. Fundamentally the problem is that our fault surface representation is $C^0$, meaning that the function itself is continuous but the derivatives are not. This problem propagates through the whole model up in other ways too. Suppose you choose to have discontinuous, but tangential, slip. Then, there will be stress singularities at every element junction! 
 
 Should we use a smoother fault surface representation? Probably. A $C^1$ fault representation where the normal vector is continuous between adjacent elements solves the problem described in the previous paragraph. 
 
