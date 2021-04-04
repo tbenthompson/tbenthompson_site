@@ -1,6 +1,6 @@
 +++
 title="Maybe we should stop using constant slip elements for fault modeling."
-date=2021-03-21
+date=2021-03-31
 draft=true
 +++
 
