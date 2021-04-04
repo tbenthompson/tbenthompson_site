@@ -1,6 +1,6 @@
 +++
 title="Maybe we should stop using planar triangles for fault modeling."
-date=2021-03-21
+date=2021-03-31
 +++
 
 Let's consider a model problem where the goal is to calculate the stress on a fault due to some slip on that fault. We also include a topographic free surface. How should we model this surface? 
