@@ -18,8 +18,8 @@ Along those lines, these are some rough ideas I've had:
 * Find one or more close collaborators. This is my number one collaborative goal -- to find someone who is interested in working together on a daily basis. Not your typical weekly arms-length collaboration. I don't know if this goal is achievable.
 * Do projects **for** people. Facilitate other people's work as much as I can. Make it undeniably valuable for other people to seek me out and work with me. 
 * Write a lot. I probably won't be publishing articles in journals, but even if I were, the 6-12 month publishing cadence is far too slow to rely completely on publications for communicating with other scientists. I'd prefer a feedback loop on the order of a week or two. I plan to use my website for my technical writing. 
-* Email people on a regular basis. Cold emailing people. Build an email list that I use any time I write a new website post. Recruit hard for my email list. Should I become the guy-who-spams-his-website-posts-to-everyone? Is this a case of no publicity is bad publicity?
-* Lots of video calls! Visit in person (once the pandemic is over) if people are in the northeast.
+* Email people on a regular basis. Cold emailing people. Build an email list that I use any time I write a new website post. Recruit hard for my email list. Should I become the guy-who-spams-his-website-posts-to-everyone? Is this a case of no publicity is bad publicity? I'm not sure.
+* Lots of video calls! Visit in person once the pandemic is over if people are in the northeast.
 
 ### Three pillars of good work
 
