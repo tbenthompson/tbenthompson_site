@@ -1,24 +1,26 @@
 baseurl = "http://tbenthompson.com/"
-languageCode = "en-us"
-title = "T. Ben Thompson"
+
 theme = "none"
+
+title = "T. Ben Thompson"
+author = "T. Ben Thompson"
+languageCode = "en-us"
+
 enableRobotsTXT = true
+
 pygmentsUseClassic            = false
 pygmentsCodeFences            = true
 pygmentsCodeFencesGuessSyntax = true
 pygmentsUseClasses            = true
 
-[author]
-name="T. Ben Thompson"
+# [params.assets]
+# customCSS = ["/css/custom.css?version=51"]
 
-[params.assets]
-customCSS = ["/css/custom.css?version=51"]
-
-[params.info]
-homeTitle = "T. Ben Thompson" # Title for home page
+[params]
+    hideMadeWithLine = true
 
 [taxonomies]
-tag ="tags"
+tag = "tags"
 
 [markup.goldmark.renderer]
 unsafe = true
