@@ -3,7 +3,7 @@
 {{ .Content }}
 
 {{ .Scratch.Set "subscribeText" "You can get new posts emailed to you!" }}
-{{ .Scratch.Set "subscribeType" "posts" }}
+{{ .Scratch.Set "subscribeType" "post" }}
 {{- partial "subscribe.html" . -}}
 
 <b>Recent posts</b> • <a href="/post">all posts</a> • <a href="/post/index.xml">rss</a>

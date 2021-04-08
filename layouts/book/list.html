@@ -12,13 +12,9 @@
     <li>
       <span>
         <i>
-          {{ if eq .Section "project" }}
-          {{ .Params.when }}
-          {{ else }}
           <time datetime='{{ .Date.Format "2006-01-02" }}' pubdate>
             {{ .Date.Format "02 Jan, 2006" }}
           </time>
-          {{ end }}
         </i>
       </span>
       <a href="{{ .Permalink }}">{{ .Title }}</a>
@@ -40,9 +36,7 @@
     </small>
     {{ end }}
 </content>
-{{ if eq .Section "post" }}
-{{ .Scratch.Set "subscribeText" "If you enjoyed these posts, please subscribe here!" }}
-{{ .Scratch.Set "subscribeType" "post" }}
+{{ .Scratch.Set "subscribeText" "If you enjoyed these posts, please subscribe here! You'll only get new posts from this \"BIE Book\" section of my website." }}
+{{ .Scratch.Set "subscribeType" "book" }}
 {{- partial "subscribe.html" . -}}
-{{ end }} 
 {{ end }}
