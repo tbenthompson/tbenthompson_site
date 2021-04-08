@@ -13,12 +13,6 @@ pygmentsCodeFences            = true
 pygmentsCodeFencesGuessSyntax = true
 pygmentsUseClasses            = true
 
-# [params.assets]
-# customCSS = ["/css/custom.css?version=51"]
-
-[params]
-    hideMadeWithLine = true
-
 [taxonomies]
 tag = "tags"
 
