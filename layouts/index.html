@@ -1,3 +1,26 @@
 {{ define "main" }}
+<h2>{{ .Title }}</h2>
 {{ .Content }}
+
+{{ .Scratch.Set "subscribeText" "You can get new posts emailed to you!" }}
+{{ .Scratch.Set "subscribeType" "posts" }}
+{{- partial "subscribe.html" . -}}
+
+<b>Recent posts</b> • <a href="/post">all posts</a> • <a href="/post/index.xml">rss</a>
+  {{- range ( where site.RegularPages "Section" "post" | first 5 ) }}
+  <div>
+  <span>
+    <i>
+      {{ if eq .Section "project" }}
+      {{ .Params.when }}
+      {{ else }}
+      <time datetime='{{ .Date.Format "2006-01-02" }}' pubdate>
+        {{ .Date.Format "02 Jan, 2006" }}
+      </time>
+      {{ end }}
+    </i>
+  </span>
+  <a href="{{ .Permalink }}">{{ .Title }}</a>
+  </div>
+  {{ end }}
 {{ end }}

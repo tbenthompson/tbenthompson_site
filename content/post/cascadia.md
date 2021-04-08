@@ -1,5 +1,5 @@
 +++
-title="(Cool video alert!) Cascadia earthquake cycle simulation"
+title="Cool video of Cascadia earthquake cycle simulations"
 date=2019-04-02
 +++
 

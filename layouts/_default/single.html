@@ -1,20 +1,36 @@
 {{ define "main" }}
-{{ if not .Params.menu }}
 <h2>{{ .Title }}</h2>
+{{ if not .Params.menu }}
 <p>
   <i>
-    <time datetime='{{ .Date.Format "2006-01-02" }}' pubdate>
-      {{ .Date.Format "02 Jan, 2006" }}
-    </time>
+      {{ if eq .Section "project" }}
+      {{ .Params.when }}
+      {{ else }}
+      <time datetime='{{ .Date.Format "2006-01-02" }}' pubdate>
+        {{ .Date.Format "02 Jan, 2006" }}
+      </time>
+      {{ end }}
   </i>
 </p>
 {{ end }}
 <content>
   {{ .Content }}
 </content>
+
+{{ .Scratch.Set "subscribeText" "If you enjoyed this post, please subscribe!" }}
+{{ .Scratch.Set "subscribeType" "posts" }}
+{{- partial "subscribe.html" . -}}
+
 <p>
   {{ range (.GetTerms "tags") }}
   <a href="{{ .Permalink }}">#{{ .LinkTitle }}</a>
   {{ end }}
 </p>
+<script src="https://utteranc.es/client.js"
+        repo="tbenthompson/tbenthompson.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
 {{ end }}
