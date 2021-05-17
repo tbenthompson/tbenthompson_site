@@ -32,7 +32,7 @@ These folks think they will have to maintain the code or support users. For thes
 There are a lot of other reasons someone would decline to share their code:
 
 * Career incentives. They think their secret sauce code is their ticket to a job/tenure/grants/etc. Bummer!
-* The code doesn't exist. Data analysis was done using an interactive system and haven't saved the source. Scary!
+* The code doesn't exist. Data analysis was done using an interactive system and the original source is gone. Scary!
 * Proprietary code. But then why is the paper not proprietary? Bummer!
 * The code only runs on (insert supercomputer here). See above. Being able to just read the code is very valuable.
 
