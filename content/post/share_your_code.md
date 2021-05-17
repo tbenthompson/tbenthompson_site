@@ -7,7 +7,7 @@ TL;DR: If you write a paper that involves complex code, share your code freely o
 
 People have talked a lot already about why it's a good idea to share code with your research. I want to address a specific component of this. The desire to share good, well-maintained code often becomes a barrier to sharing any code at all. So, here, I'd just like to say that we love you, and we love your code too no matter what it looks like.
 
-<sub>This mostly comes from my experience at the computational methods and Earth science communities.</sub>
+Disclaimer: This mostly comes from my experience at the computational methods and Earth science communities.
 
 ## No, you can’t see my work.
 
@@ -34,7 +34,7 @@ There are a lot of other reasons someone would decline to share their code:
 * Career incentives. They think their secret sauce code is their ticket to a job/tenure/grants/etc. Bummer!
 * The code doesn't exist. Data analysis was done using an interactive system and haven't saved the source. Scary!
 * Proprietary code. But then why is the paper not proprietary? Bummer!
-* The code only runs on (insert supercomputer here). See above, being able to just read the code is very valuable.
+* The code only runs on (insert supercomputer here). See above. Being able to just read the code is very valuable.
 
 I'm not going to dive into these here, but it's worth thinking about to train people and redesign incentive systems so that these aren't issues.
 
@@ -45,6 +45,6 @@ I'm not going to dive into these here, but it's worth thinking about to train pe
 * [This set of guidelines](https://github.com/paperswithcode/releasing-research-code) for releasing machine learning research code.
 * [ReScience C](http://rescience.github.io/) is an open-access journal dedicated to reproduction of computational papers. 
 
-<sub>*Thanks to Greg Wagner, Liz Santorella for helping out. If you want to chat please [get in touch](mailto:t.ben.thompson@gmail.com)!*</sub>
+*Thanks to Greg Wagner, Liz Santorella for helping out. If you want to chat please [get in touch](mailto:t.ben.thompson@gmail.com)!*
 
 
