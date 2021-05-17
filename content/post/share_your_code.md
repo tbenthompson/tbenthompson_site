@@ -41,7 +41,7 @@ I'm not going to dive into these here, but it's worth thinking about to train pe
 ## Some useful links:
 
 * [Randall LeVeque made a more extensive and better argument than me!](https://faculty.washington.edu/rjl/pubs/topten/topten.pdf)
-* [Papers with Code](https://www.paperswithcode.com/) is a great project linking for the machine learning world. It would be great to have something similar in other areas.
+* [Papers with Code](https://www.paperswithcode.com/) is a great project linking papers and their code repositories. It's focused on the machine learning world. It would be great to have something similar in other areas.
 * [This set of guidelines](https://github.com/paperswithcode/releasing-research-code) for releasing machine learning research code.
 * [ReScience C](http://rescience.github.io/) is an open-access journal dedicated to reproduction of computational papers. 
 
