@@ -5,9 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A fault and topography mesh of the South America subduction zone. &#8212; The BIE Book</title>
+    <title>2. A fault and topography mesh of the South America subduction zone. &#8212; The BIE Book</title>
     
-  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -45,7 +42,7 @@
     <script src="../_static/copybutton.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -58,25 +55,16 @@
     <link rel="canonical" href="https://tbenthompson.com/book/tdes/sa_geometry.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="The QBX sequence: quadrature by expansion" href="../qbx_intro.html" />
-    <link rel="prev" title="Using TDEs to build a fault model with topography." href="sa_tdes.html" />
-
+    <link rel="next" title="3. Minimizing memory usage: a matrix-free iterative solver" href="free_matvec.html" />
+    <link rel="prev" title="1. Using TDEs to build a fault model with topography." href="sa_tdes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-<!-- Opengraph tags -->
-<meta property="og:url"         content="https://tbenthompson.com/book/tdes/sa_geometry.html" />
-<meta property="og:type"        content="article" />
-<meta property="og:title"       content="A fault and topography mesh of the South America subduction zone." />
-<meta property="og:description" content="A fault and topography mesh of the South America subduction zone.  In the TDEs + Topography post, I used a mesh of the South America subduction zone. In this po" />
-
-
-<meta name="twitter:card" content="summary" />
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -85,56 +73,92 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../index.html">
-  
-  
-  <h1 class="site-logo" id="site-title">The BIE Book</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">The BIE Book</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../intro.html">
    Boundary integral method tutorials
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active collapsible-parent">
-  <a class="reference internal" href="../tde_intro.html">
-   The TDE sequence: triangular dislocation elements
+<p class="caption">
+ <span class="caption-text">
+  The TDE sequence: triangular dislocation elements
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
   </a>
-  <ul class="current collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="sa_tdes.html">
-     Using TDEs to build a fault model with topography.
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     A fault and topography mesh of the South America subduction zone.
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../qbx_intro.html">
-   The QBX sequence: quadrature by expansion
+  <a class="reference internal" href="free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hmatrix.html">
+   5. Hierarchical matrices for triangular dislocation elements.
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The QBX sequence: quadrature by expansion
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part1_nearfield.html">
+   1. Near-field evaluation via quadrature by expansion (QBX).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
+   2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Back matter
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../references.html">
    References
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../thanks.html">
+   Thanks!
+  </a>
+ </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 </div>
@@ -199,12 +223,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -230,31 +254,34 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#looking-at-the-fault-model">
-   Looking at the fault model.
+   2.1. Looking at the fault model.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#refining-the-fault-mesh">
+   2.2. Refining the fault mesh
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#downloading-dem-data">
-   Downloading DEM data
+   2.3. Downloading DEM data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#building-the-surface-mesh">
-   Building the surface mesh.
+   2.4. Building the surface mesh.
   </a>
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
@@ -264,7 +291,7 @@
               <div>
                 
   <div class="section" id="a-fault-and-topography-mesh-of-the-south-america-subduction-zone">
-<h1>A fault and topography mesh of the South America subduction zone.<a class="headerlink" href="#a-fault-and-topography-mesh-of-the-south-america-subduction-zone" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">2. </span>A fault and topography mesh of the South America subduction zone.<a class="headerlink" href="#a-fault-and-topography-mesh-of-the-south-america-subduction-zone" title="Permalink to this headline">¶</a></h1>
 <p>In the TDEs + Topography post, I used a mesh of the South America subduction zone. In this post, I thought it’d be fun to explain how I built that mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -278,16 +305,16 @@
 </div>
 </div>
 <div class="section" id="looking-at-the-fault-model">
-<h2>Looking at the fault model.<a class="headerlink" href="#looking-at-the-fault-model" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.1. </span>Looking at the fault model.<a class="headerlink" href="#looking-at-the-fault-model" title="Permalink to this headline">¶</a></h2>
 <p>First off, I’m not going to explain how to build the fault geometry. That’s already been built! I’m using the same triangular subduction zone mesh used by <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2017GC007391">Shannon Graham in her Global Block model papers</a>. That mesh was built using the <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JB008524">Slab 1.0 subduction zone contours</a>. Also, the link in the Slab 1.0 paper is dead and the <a class="reference external" href="https://store.overlandbound.com/products/slab">first Google search for Slab 1.0 is a portable cutting board</a>.</p>
 <p>Anyway… I’ll load the mesh up from the <code class="docutils literal notranslate"><span class="pre">.mat</span></code> file (a Matlab file format) and plot it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="s1">&#39;south_america_50km_mod_ext.mat&#39;</span><span class="p">)</span>
-<span class="n">fault_pts</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
-<span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">360</span>
-<span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">1000</span>
-<span class="n">fault_tris</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="s2">&quot;south_america_50km_mod_ext.mat&quot;</span><span class="p">)</span>
+<span class="n">fault_pts</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">360</span>
+<span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">1000</span>
+<span class="n">fault_tris</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -296,6 +323,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cutde.geometry</span> <span class="kn">import</span> <span class="n">compute_normal_vectors</span>
+
 <span class="n">normals</span> <span class="o">=</span> <span class="n">compute_normal_vectors</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -303,21 +331,27 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">tripc</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tripcolor</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">tripc</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tripcolor</span><span class="p">(</span>
+    <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">fault_tris</span><span class="p">,</span>
+    <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;depth (km)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;longitude&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;latitude&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tripcolor</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]))</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;depth (km)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tripcolor</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -330,21 +364,91 @@
 <p>The mesh itself looks great at first glance! But, there is a mild problem with the element orientations at the southern end of the fault mesh. They don’t match the rest of the mesh. To fix the issue I can flip the triangle vertex ordering. Instead of ordering the vertices of a given triangle 0-1-2, I can flip the normal vector by ordering them 0-2-1. I’m actually going to flip the orientation of all the dark blue parts of the mesh since it’s a bit nicer to follow the convention that dipping fault normal vector point upwards. This convention results in an upwards-pointing dip vector which is consistent with the upwards dip-vector found in Okada.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flip_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">flag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flip_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">flag</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="n">flipped_tris</span> <span class="o">=</span> <span class="n">fault_tris</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">flipped_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fault_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">flipped_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">fault_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">flipped_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fault_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">flipped_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">fault_tris</span><span class="p">[</span><span class="n">flip_indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">fault_tris</span> <span class="o">=</span> <span class="n">flipped_tris</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="section" id="refining-the-fault-mesh">
+<h2><span class="section-number">2.2. </span>Refining the fault mesh<a class="headerlink" href="#refining-the-fault-mesh" title="Permalink to this headline">¶</a></h2>
+<p>Depending on the situation, it might be nice to refine the fault mesh for more accuracy. A simple approach is to split each triangle into four new triangles based on the midpoints of each edge.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v0</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v01</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">v0</span> <span class="o">+</span> <span class="n">v1</span><span class="p">)</span>
+<span class="n">v02</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">v0</span> <span class="o">+</span> <span class="n">v2</span><span class="p">)</span>
+<span class="n">v12</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_edge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">)</span>
+
+
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">v0</span><span class="p">)</span>
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v01</span><span class="p">,</span> <span class="n">v12</span><span class="p">)</span>
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v01</span><span class="p">,</span> <span class="n">v02</span><span class="p">)</span>
+<span class="n">plot_edge</span><span class="p">(</span><span class="n">v12</span><span class="p">,</span> <span class="n">v02</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sa_geometry_13_0.png" src="../_images/sa_geometry_13_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">fault_pts</span><span class="p">,</span> <span class="n">v01</span><span class="p">,</span> <span class="n">v02</span><span class="p">,</span> <span class="n">v12</span><span class="p">])</span>
+<span class="n">v01_idxs</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">v01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">v01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">v02_idxs</span> <span class="o">=</span> <span class="n">v01_idxs</span> <span class="o">+</span> <span class="n">v01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">v12_idxs</span> <span class="o">=</span> <span class="n">v01_idxs</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">v01</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mesh_fncs</span>
+
+<span class="n">new_tris</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v01_idxs</span><span class="p">,</span> <span class="n">v02_idxs</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v12_idxs</span><span class="p">,</span> <span class="n">v01_idxs</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">fault_tris</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">v02_idxs</span><span class="p">,</span> <span class="n">v12_idxs</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">v01_idxs</span><span class="p">,</span> <span class="n">v12_idxs</span><span class="p">,</span> <span class="n">v02_idxs</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">new_tris</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">new_tris</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># fault_pts, fault_tris = mesh_fncs.remove_duplicate_pts((new_pts, new_tris))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="downloading-dem-data">
-<h2>Downloading DEM data<a class="headerlink" href="#downloading-dem-data" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.3. </span>Downloading DEM data<a class="headerlink" href="#downloading-dem-data" title="Permalink to this headline">¶</a></h2>
 <p>Now, let’s add surface topography and Earth curvature to this geometry. Why? Because, we can! And because we’re interested in the influence of realistic geometry. Also, I’ll end up projecting to geocentric coordinates where (X, Y, Z) = (0, 0, 0) is the center of the Earth.</p>
 <p>Let’s start by Long ago I was using Mapzen for easily downloading DEM data. But Mapzen has gone out of business. So, I was sad and forlorn and had no easy source of DEM data… Until I discovered that Mapzen had <a class="reference external" href="https://aws.amazon.com/public-datasets/terrain/">exported their entire terrain tiles dataset to Amazon S3!</a>. So, I replaced the old Mapzen API with some calls to AWS S3 using <code class="docutils literal notranslate"><span class="pre">boto3</span></code>. The basic API call is</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">save_path</span><span class="p">):</span>
@@ -375,7 +479,7 @@
 <span class="n">bounds</span> <span class="o">=</span> <span class="n">collect_dem</span><span class="o">.</span><span class="n">get_dem_bounds</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">)</span>
 <span class="n">dem_lon</span><span class="p">,</span> <span class="n">dem_lat</span><span class="p">,</span> <span class="n">dem</span> <span class="o">=</span> <span class="n">collect_dem</span><span class="o">.</span><span class="n">get_dem</span><span class="p">(</span><span class="n">zoom</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">n_dem_interp_pts</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">dem_lon</span><span class="p">,</span> <span class="n">dem_lat</span><span class="p">,</span> <span class="n">dem</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -386,53 +490,59 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>downloading dem data for bounds = [-51.875283536, -83.3826, 10.333847175999999, -66.93539999999999] and zoom = 2
 10.333847175999999 -83.3826
 -51.875283536 -66.93539999999999
-Downloading /tmp/collected-nr8qzv2z/2-1-1.tif
+Downloading /tmp/collected-gh3acxma/2-1-1.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-nr8qzv2z/2-1-2.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-gh3acxma/2-1-2.tif
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Combining 2 into dem_download/raw_merc.tif ...
 </pre></div>
 </div>
-<img alt="../_images/sa_geometry_11_3.png" src="../_images/sa_geometry_11_3.png" />
+<img alt="../_images/sa_geometry_17_3.png" src="../_images/sa_geometry_17_3.png" />
 </div>
 </div>
 </div>
 <div class="section" id="building-the-surface-mesh">
-<h2>Building the surface mesh.<a class="headerlink" href="#building-the-surface-mesh" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Building the surface mesh.<a class="headerlink" href="#building-the-surface-mesh" title="Permalink to this headline">¶</a></h2>
 <p>The next step is to build the surface mesh. However, not just any surface mesh. I need a surface mesh that “conforms” to the fault trace. To be precise, any fault mesh edge that intersects the surface should also be an edge in the surface mesh.</p>
 <p>To do this, I’ll first identify the outer edges of the fault. This <code class="docutils literal notranslate"><span class="pre">mesh_fncs</span></code> module has a few handy functions for working with fault meshes like the <code class="docutils literal notranslate"><span class="pre">get_boundary_loop</span></code> function which returns the external edges of a surface mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mesh_fncs</span>
+
 <span class="n">boundary_loop</span> <span class="o">=</span> <span class="n">mesh_fncs</span><span class="o">.</span><span class="n">get_boundary_loop</span><span class="p">((</span><span class="n">fault_pts</span><span class="p">,</span> <span class="n">fault_tris</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">boundary_loop</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">boundary_loop</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;-.&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">boundary_loop</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">boundary_loop</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;-.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_geometry_13_0.png" src="../_images/sa_geometry_13_0.png" />
+<img alt="../_images/sa_geometry_19_0.png" src="../_images/sa_geometry_19_0.png" />
 </div>
 </div>
 <p>And then, just via trial and error, I found that boundary loop indices 130-258 correspond to the surface edges. This is demonstrated just by plotting those edges in the figure below where we looking from the side at the fault.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
 <span class="n">upper_edge_idxs</span> <span class="o">=</span> <span class="n">boundary_loop</span><span class="p">[</span><span class="mi">130</span><span class="p">:</span><span class="mi">258</span><span class="p">]</span>
-<span class="n">upper_edge_pts</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,:]</span>
+<span class="c1"># If we had refined the mesh above, this line will provide the</span>
+<span class="c1"># correct upper_edge_idxs</span>
+<span class="c1"># upper_edge_idxs = boundary_loop[259:514]</span>
+<span class="n">upper_edge_pts</span> <span class="o">=</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,</span> <span class="p">:]</span>
 <span class="n">upper_edge_pts</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;b-*&#39;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">upper_edge_idxs</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;b-*&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_geometry_15_0.png" src="../_images/sa_geometry_15_0.png" />
+<img alt="../_images/sa_geometry_21_0.png" src="../_images/sa_geometry_21_0.png" />
 </div>
 </div>
 <p>Next, we’re going to use <code class="docutils literal notranslate"><span class="pre">pygmsh</span></code> to interface with Gmsh and build our mesh. I’ll put some inline comments to explain what’s going on.</p>
@@ -445,26 +555,28 @@ Downloading /tmp/collected-nr8qzv2z/2-1-1.tif
 
 <span class="c1"># First, I&#39;ll figure out the area that I want to produce a surface mesh for.</span>
 <span class="c1"># The center of the area will be the center of the fault.</span>
-<span class="n">surf_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">upper_edge_pts</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">surf_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">upper_edge_pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="c1"># And I also want to know the furthest that any fault mesh point is from that center point.</span>
 <span class="c1"># This is essentially the fault &quot;half-length&quot;</span>
-<span class="n">fault_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">upper_edge_pts</span> <span class="o">-</span> <span class="n">surf_center</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">fault_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">upper_edge_pts</span> <span class="o">-</span> <span class="n">surf_center</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
 <span class="c1"># The &quot;half-width&quot; of the surface mesh will be 1.5 times the fault half-length</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">fault_L</span> <span class="o">*</span> <span class="mf">1.5</span>
 
 <span class="c1"># And the typical element length-scale will about one tenth the fault length.</span>
-<span class="c1"># This length scale will only be relevant far from the fault. Near the fault, </span>
+<span class="c1"># This length scale will only be relevant far from the fault. Near the fault,</span>
 <span class="c1"># the length of the fault edges will force surface elements to be much smaller.</span>
 <span class="n">mesh_size_divisor</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">mesh_size</span> <span class="o">=</span> <span class="n">fault_L</span> <span class="o">/</span> <span class="n">mesh_size_divisor</span>
 
 <span class="c1"># The main polygon of the mesh is a big square.</span>
-<span class="n">surf_corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-<span class="p">])</span>
+<span class="n">surf_corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 <span class="n">surf</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_polygon</span><span class="p">(</span><span class="n">surf_corners</span><span class="p">,</span> <span class="n">mesh_size</span><span class="p">)</span>
 
 <span class="c1"># Now, I&#39;ll add the fault trace edge points.</span>
@@ -472,15 +584,13 @@ Downloading /tmp/collected-nr8qzv2z/2-1-1.tif
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upper_edge_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
     <span class="n">gmsh_pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">upper_edge_pts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mesh_size</span><span class="p">)</span>
 
-<span class="c1"># And this chunk of code specifies that those edges should be </span>
-<span class="c1"># included in the surface mesh. </span>
+<span class="c1"># And this chunk of code specifies that those edges should be</span>
+<span class="c1"># included in the surface mesh.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_edge_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-    <span class="n">line</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">gmsh_pts</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">gmsh_pts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    
+    <span class="n">line</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">gmsh_pts</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">gmsh_pts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
     <span class="c1"># pygmsh didn&#39;t support this elegantly, so I just insert manual gmsh code.</span>
-    <span class="n">intersection_code</span> <span class="o">=</span> <span class="s1">&#39;Line{{</span><span class="si">{}</span><span class="s1">}} In Surface{{</span><span class="si">{}</span><span class="s1">}};&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">surf</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">id</span>
-    <span class="p">)</span>
+    <span class="n">intersection_code</span> <span class="o">=</span> <span class="s2">&quot;Line{{</span><span class="si">{}</span><span class="s2">}} In Surface{{</span><span class="si">{}</span><span class="s2">}};&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">surf</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="n">geom</span><span class="o">.</span><span class="n">add_raw_code</span><span class="p">(</span><span class="n">intersection_code</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -489,17 +599,15 @@ Downloading /tmp/collected-nr8qzv2z/2-1-1.tif
 <p>Finally, build the geometry and can generate the surface mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">(</span>
-    <span class="n">geom</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Info    : Running &#39;gmsh -2 /tmp/tmpurrortux.geo -format msh -bin -o /tmp/tmp21w1sdbp.msh&#39; [Gmsh 4.6.0, 1 node, max. 1 thread]
-Info    : Started on Tue Apr 13 02:04:16 2021
-Info    : Reading &#39;/tmp/tmpurrortux.geo&#39;...
-Info    : Done reading &#39;/tmp/tmpurrortux.geo&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Info    : Running &#39;gmsh -2 /tmp/tmph90k_b5x.geo -format msh -bin -o /tmp/tmpx_4d2miw.msh&#39; [Gmsh 4.6.0, 1 node, max. 1 thread]
+Info    : Started on Sat Jun 12 17:51:59 2021
+Info    : Reading &#39;/tmp/tmph90k_b5x.geo&#39;...
+Info    : Done reading &#39;/tmp/tmph90k_b5x.geo&#39;
 Info    : Meshing 1D...
 Info    : [  0%] Meshing curve 1 (Line)
 Info    : [ 10%] Meshing curve 2 (Line)
@@ -632,14 +740,14 @@ Info    : [100%] Meshing curve 130 (Line)
 Info    : [100%] Meshing curve 131 (Line)
 Info    : [100%] Meshing curve 132 (Line)
 Info    : [100%] Meshing curve 133 (Line)
-Info    : Done meshing 1D (Wall 0.0249779s, CPU 0.10902s)
+Info    : Done meshing 1D (Wall 0.00989509s, CPU 0.021973s)
 Info    : Meshing 2D...
 Info    : Meshing surface 6 (Plane, Frontal-Delaunay)
-Info    : Done meshing 2D (Wall 0.0919411s, CPU 0.217719s)
+Info    : Done meshing 2D (Wall 0.062953s, CPU 0.178667s)
 Info    : 1931 nodes 4119 elements
-Info    : Writing &#39;/tmp/tmp21w1sdbp.msh&#39;...
-Info    : Done writing &#39;/tmp/tmp21w1sdbp.msh&#39;
-Info    : Stopped on Tue Apr 13 02:04:16 2021 (From start: Wall 0.138658s, CPU 0.477227s)
+Info    : Writing &#39;/tmp/tmpx_4d2miw.msh&#39;...
+Info    : Done writing &#39;/tmp/tmpx_4d2miw.msh&#39;
+Info    : Stopped on Sat Jun 12 17:51:59 2021 (From start: Wall 0.0860991s, CPU 0.282743s)
 </pre></div>
 </div>
 </div>
@@ -648,11 +756,13 @@ Info    : Stopped on Tue Apr 13 02:04:16 2021 (From start: Wall 0.138658s, CPU 0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">surf_pts</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span>
-<span class="n">surf_tris</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells_dict</span><span class="p">[</span><span class="s1">&#39;triangle&#39;</span><span class="p">]</span>
+<span class="n">surf_tris</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells_dict</span><span class="p">[</span><span class="s2">&quot;triangle&quot;</span><span class="p">]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">upper_edge_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">upper_edge_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span><span class="c1">#, markersize = 2)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">upper_edge_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">upper_edge_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">)</span>  <span class="c1"># , markersize = 2)</span>
 <span class="n">vW</span> <span class="o">=</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">w</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vW</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">vW</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vW</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">vW</span><span class="p">])</span>
@@ -661,7 +771,7 @@ Info    : Stopped on Tue Apr 13 02:04:16 2021 (From start: Wall 0.138658s, CPU 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_geometry_21_0.png" src="../_images/sa_geometry_21_0.png" />
+<img alt="../_images/sa_geometry_27_0.png" src="../_images/sa_geometry_27_0.png" />
 </div>
 </div>
 <p>Great, that’s exactly what I was going for. A mesh that conforms to the fault trace and also gets smoothly coarser moving away from the fault trace.</p>
@@ -676,11 +786,11 @@ Info    : Stopped on Tue Apr 13 02:04:16 2021 (From start: Wall 0.138658s, CPU 0
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">collect_dem</span><span class="o">.</span><span class="n">get_dem_bounds</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">)</span>
 <span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">,</span> <span class="n">DEM</span> <span class="o">=</span> <span class="n">collect_dem</span><span class="o">.</span><span class="n">get_dem</span><span class="p">(</span><span class="n">zoom</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">n_dem_interp_pts</span><span class="p">)</span>
 
-<span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
-    <span class="p">(</span><span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">),</span> <span class="n">DEM</span><span class="p">,</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">),</span> <span class="n">DEM</span><span class="p">,</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="p">)</span>
-<span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
-    <span class="p">(</span><span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">),</span> <span class="n">DEM</span><span class="p">,</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">),</span> <span class="n">DEM</span><span class="p">,</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -689,22 +799,22 @@ Info    : Stopped on Tue Apr 13 02:04:16 2021 (From start: Wall 0.138658s, CPU 0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>downloading dem data for bounds = [-67.80746557203787, -123.7930824435223, 27.407324315006626, -28.5782925564778] and zoom = 2
 27.407324315006626 -123.7930824435223
 -67.80746557203787 -28.5782925564778
-Downloading /tmp/collected-ukpro61z/2-0-1.tif
+Downloading /tmp/collected-ea1g6eyt/2-0-1.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ukpro61z/2-1-1.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ea1g6eyt/2-1-1.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ukpro61z/2-0-2.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ea1g6eyt/2-0-2.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ukpro61z/2-1-2.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ea1g6eyt/2-1-2.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ukpro61z/2-0-3.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ea1g6eyt/2-0-3.tif
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ukpro61z/2-1-3.tif
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading /tmp/collected-ea1g6eyt/2-1-3.tif
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Combining 6 into dem_download/raw_merc.tif ...
@@ -715,32 +825,34 @@ Downloading /tmp/collected-ukpro61z/2-0-1.tif
 <p>And I’ll make a simple plot of the final mesh. Looks good!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="s1">&#39;w-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span>
+    <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">surf_tris</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">triplot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">fault_tris</span><span class="p">,</span> <span class="s2">&quot;w-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 <span class="n">vW</span> <span class="o">=</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="n">fault_L</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vW</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">vW</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vW</span><span class="p">,</span> <span class="n">surf_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">vW</span><span class="p">])</span>
 <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;elevation (km)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;longitude&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;latitude&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;elevation (km)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_geometry_25_0.png" src="../_images/sa_geometry_25_0.png" />
+<img alt="../_images/sa_geometry_31_0.png" src="../_images/sa_geometry_31_0.png" />
 </div>
 </div>
 <p>Let’s zoom in on an longitude-z plane approximate cross section of the fault and surface to check that the fault trace and surface match up. The big red dot is a fault mesh point while the blue stars show the points in the cross section from the surface mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idxs</span> <span class="o">=</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">20.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">idxs</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">20.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s1">&#39;b*&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idxs</span> <span class="o">=</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">20.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">idxs</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">surf_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">20.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surf_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="s2">&quot;b*&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">73</span><span class="p">,</span> <span class="o">-</span><span class="mi">70</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -748,13 +860,16 @@ Downloading /tmp/collected-ukpro61z/2-0-1.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_geometry_27_0.png" src="../_images/sa_geometry_27_0.png" />
+<img alt="../_images/sa_geometry_33_0.png" src="../_images/sa_geometry_33_0.png" />
 </div>
 </div>
 <p>Awesome! The mesh is ready to use and I’ll save it to disk for safe-keeping.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sa_mesh</span><span class="si">{</span><span class="n">mesh_size_divisor</span><span class="si">}</span><span class="s1">.npy&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">surf_pts</span><span class="p">,</span> <span class="n">surf_tris</span><span class="p">),</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">,</span> <span class="n">fault_tris</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;sa_mesh</span><span class="si">{</span><span class="n">mesh_size_divisor</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">fault_tris</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.npy&quot;</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">surf_pts</span><span class="p">,</span> <span class="n">surf_tris</span><span class="p">),</span> <span class="p">(</span><span class="n">fault_pts</span><span class="p">,</span> <span class="n">fault_tris</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -787,8 +902,8 @@ Downloading /tmp/collected-ukpro61z/2-0-1.tif
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="sa_tdes.html" title="previous page">Using TDEs to build a fault model with topography.</a>
-    <a class='right-next' id="next-link" href="../qbx_intro.html" title="next page">The QBX sequence: quadrature by expansion</a>
+    <a class='left-prev' id="prev-link" href="sa_tdes.html" title="previous page"><span class="section-number">1. </span>Using TDEs to build a fault model with topography.</a>
+    <a class='right-next' id="next-link" href="free_matvec.html" title="next page"><span class="section-number">3. </span>Minimizing memory usage: a matrix-free iterative solver</a>
 
         </div>
         
@@ -809,21 +924,19 @@ Downloading /tmp/collected-ukpro61z/2-0-1.tif
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
 
-
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-114592151-1', 'auto');
-      ga('set', 'anonymizeIp', true);
-      ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-    
   </body>
 </html>

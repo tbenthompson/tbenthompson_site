@@ -14,15 +14,15 @@ kernelspec:
 
 # Using TDEs to build a fault model with topography.
 
-The goal here is to calculate the surface displacements and stresses due to a known slip field on a fault. The free surface will have real topography and Earth curvature! This is a step up from the half-space with a rectangular fault that's super common in earthquake science.
+Welcome to the TDE sequence. Here, we'll build tools for doing 3D fault modeling using triangular dislocation elements (TDEs). 
 
-I'll be using a fullspace TDE implementation introduced by [Nikkhoo and Walter 2015](https://academic.oup.com/gji/article/201/2/1119/572006?login=true) as implemented in my [GPU-accelerated version `cutde`](https://github.com/tbenthompson/cutde). `cutde` works best with a Nvidia GPU, but should also work on almost any modern computer because there is also an OpenCL backend.
+In this first section, the goal here is to calculate the surface displacements and stresses due to a known slip field on a fault. The free surface will have real topography and Earth curvature! This is a step up from the half-space with a rectangular fault that's super common in earthquake science. I'll be using a fullspace TDE implementation introduced by {cite:p}`nikkhoo2015triangular` as implemented in my [GPU-accelerated version `cutde`](https://github.com/tbenthompson/cutde). `cutde` works best with a Nvidia GPU, but should also work on almost any modern computer because there is also an OpenCL backend.
 
-**WARNING:** Any constant-slip dislocation method (Okada, TDEs) will result in *stress singularities* at the edges of each elements. This might be disastrous for problems like quasidynamic rupture where we are calculating stress values directly on the fault surface. Because we're calculating displacements instead of stresses, we don't have to worry about this problem here. For any problems that require calculating stresses on the boundary, I would recommend using a different method.
+**WARNING:** Any constant-slip dislocation method (Okada, TDEs) will result in *stress singularities* at the edges of each elements. This might be disastrous for problems like quasidynamic rupture where we are calculating stress values directly on the fault surface. Because we're calculating displacements instead of stresses, we don't have to worry about this problem here. For any problems that require calculating stresses on the boundary, I would recommend using [a different method](../c1qbx/part1_nearfield).
 
 ## Fullspace example
 
-I'll start with an example of how to run some fullspace displacement calculations with `cutde`. 
+I'll start with an example of how to run some fullspace displacement calculations with `cutde`.
 
 ```{code-cell} ipython3
 import cutde
@@ -52,9 +52,9 @@ pts = np.array([obsx, obsy, 0 * obsy]).reshape((3, -1)).T.copy()
 And a rectangular fault consisting of two triangles. Here, I'm splitting the geometry into `(N, 3)` array of points and an `(N, 3)` array of integer indexes that specify which points compose each triangle. Note that this is a vertical fault lying along the x-axis.
 
 ```{code-cell} ipython3
-fault_L = 1000
-fault_H = 1000
-fault_D = 0
+fault_L = 1000.0
+fault_H = 1000.0
+fault_D = 0.0
 fault_pts = np.array(
     [
         [-fault_L, 0, -fault_D],
@@ -70,23 +70,20 @@ plt.ylabel("z")
 plt.show()
 ```
 
-And, we'll a use unit strike-slip for the slip field. The array has shape `(2, 3)` because we have two triangles and three components of slip per triangle. The first component of the slip is strike-slip, the second is dip-slip and the third is tensile slip.
+Here's where we use `cutde`. The `disp_matrix` function takes an `(N_OBS_PTS, 3)` array of observation points, an `(N_SRC_TRIS, 3, 3)` array specifying each vertex of the source triangles and finally `nu` which is Poisson's ratio. The output is an array with shape `(N_OBS_PTS, 3, N_SRC_TRIS, 3)` where the second dimension refers to the components of the displacement vector and the fourth dimensions refers to the components of the slip vector.
 
 ```{code-cell} ipython3
-slip = np.zeros((2, 3))
-slip[:, 0] = 1.0
+disp_mat = cutde.disp_matrix(obs_pts=pts, tris=fault_pts[fault_tris], nu=0.25)
 ```
 
-Here's where we use `cutde`. The `disp_all_pairs` function takes an `(N_OBS_PTS, 3)` array of observation points, an `(N_SRC_TRIS, 3, 3)` array specifying each vertex of the source triangles, an `(N_SRC_TRIS, 3)` array specifying the slip vectors and finally `nu` which is Poisson's ratio.
+We want to consider a unit strike-slip motion, so we'll sum the first component of the source side of the matrix to get `disp`. Then, reshape to a grid:
 
 ```{code-cell} ipython3
-disp_mat = cutde.disp_all_pairs(
-    obs_pts=pts, tris=fault_pts[fault_tris], slips=slip, nu=0.25
-)
-disp = np.sum(disp_mat, axis=1).reshape((nobs, nobs, 3))
+disp = np.sum(disp_mat[:, :, :, 0], axis=2)
+disp = disp.reshape((obsx.shape[0], obsx.shape[1], 3))
 ```
 
-And finally, let's plot the displacement field! To be very clear, **this is not the Okada half space solution**. This is a full space solution. 
+And finally, let's plot the displacement field! To be very clear, **this is not the Okada half space solution** that we'll replicate in the next section. This is a full space solution.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -108,7 +105,7 @@ plt.show()
 
 +++
 
-Okay, fullspace was cool. I guess? But, the point here is to do something with a free surface and topography! 
+Okay, fullspace was cool. I guess? But, the point here is to do something with a free surface and topography! We will compare against the rectangular dislocation solutions developed by {cite:t}`Okada1992`.
 
 So, let's start by replicating the Okada solution using fullspace TDEs. To explain how to do that, I'll back up and explain some elastic integral equation background. It's not absolutely critical to understand the details here, but it does really help to explain what's going on. I generally regret it when I skip the mathematical background to a method!
 
@@ -271,6 +268,7 @@ for d in range(3):
     plt.xlim(zoomx)
     plt.ylim(zoomy)
     plt.title(f"$u_{['x','y','z'][d]}$")
+plt.tight_layout()
 plt.show()
 ```
 
@@ -317,41 +315,17 @@ plt.show()
 Now, we're going to construct the linear system we described above. First, for the right hand side, we need to compute the influence of our fault triangules on each surface triangle centroid.
 
 ```{code-cell} ipython3
-fault_surf_mat = cutde.disp_all_pairs(surf_centroids, fault_pts[fault_tris], slip, 0.25)
-rhs = np.sum(fault_surf_mat, axis=1)
+fault_surf_mat = cutde.disp_matrix(surf_centroids, fault_pts[fault_tris], 0.25)
+rhs = np.sum(fault_surf_mat[:, :, :, 0], axis=2)
 ```
 
-For the left hand side matrix, it's a bit more complicated. First, we need to remember the vector form of the problem and compute the influence coefficients for a `fictitious_slip` in each of the three slip axes. As a reminder, 0 is strike-slip, 1 is dip-slip, 2 is tensile-slip.
+And now, let's construct the left hand side. This will be the influence of surface "slip" on the displacement at the surface.
 
 ```{code-cell} ipython3
-surf_surf_mats = []
-for d in range(3):
-    fictitious_slip = np.zeros((surf_tris.shape[0], 3))
-    fictitious_slip[:, d] = 1.0
-    surf_centers = np.mean(surf_tri_pts, axis=1)
-    surf_surf_mats.append(
-        cutde.disp_all_pairs(surf_centroids, surf_pts[surf_tris], fictitious_slip, 0.25)
-    )
-surf_surf_mat = np.array(surf_surf_mats)
+lhs = cutde.disp_matrix(surf_centroids, surf_pts[surf_tris], 0.25)
 ```
 
-At the moment we have a four dimensional array where the dimensions are:
- * 0 - type of source slip
- * 1 - the index of the observation triangle
- * 2 - the index of the source triangle
- * 3 - the dimension of the observation displacement vector.
-
-We need to rearrange the dimensions so that they are:
- * 0 - the index of the observation triangle
- * 1 - the dimension of the observation displacement vector.
- * 2 - the index of the source triangle
- * 3 - type of source slip
-
-```{code-cell} ipython3
-lhs = np.transpose(surf_surf_mat, (1, 3, 2, 0))
-```
-
-Next, we need to resolve the mismatch in our input (row) and output (column) spaces for the matrix. The output space consists of displacement vectors $(u_x, u_y, u_z)$ in the "Earth-fixed coordinate system" (EFCS). The input space consists of "fictitious slip" (actually displacements!) vectors $(f_{\mathrm{strike-slip}}, f_{\mathrm{dip-slip}}, f_{\mathrm{tensile-slip}})$ in the triangular dislocation coordinate system (TDCS). So, we need to rotate the fictitious slip into the $(x,y,z)$ coordinate space. In a more general setting, we would need to solve for the rotation to convert between these spaces. In our particular problem where the surface is planar, the rotation is simple:
+Now, there's a bit of complexity. We need to resolve the mismatch in our input (row) and output (column) spaces for the matrix. The output space consists of displacement vectors $(u_x, u_y, u_z)$ in the "Earth-fixed coordinate system" (EFCS). The input space consists of "fictitious slip" (actually displacements!) vectors $(f_{\mathrm{strike-slip}}, f_{\mathrm{dip-slip}}, f_{\mathrm{tensile-slip}})$ in the triangular dislocation coordinate system (TDCS). So, we need to rotate the fictitious slip into the $(x,y,z)$ coordinate space. In a more general setting, we would need to solve for the rotation to convert between these spaces. In our particular problem where the surface is planar, the rotation is simple:
 
 ```{code-cell} ipython3
 lhs_reordered = np.empty_like(lhs)
@@ -387,6 +361,7 @@ for d in range(3):
     plt.xlim(zoomx)
     plt.ylim(zoomy)
     plt.title(f"$u_{['x','y','z'][d]}$")
+plt.tight_layout()
 plt.show()
 ```
 
@@ -404,7 +379,7 @@ To understand what's going on, let's back up to the integral equation at hand an
 
 But, if we go looking at the expression for $T^*$, there's an ugly looking $1/r^2$ term. If $\mathbf{x}$ is a point on $\mathrm{Tri}$, then that means there's a point in the integral for which $\mathbf{x} = \mathbf{y}$ and $r = 0$. So, the integral is singular! No wonder it's unpleasant to compute a TDE for a point on the surface of the TDE. 
 
-Let's get a concrete sense of what this actually means for computing displacement. In the snippet of code below, we are going to compute the $u_y$ component of displacement due to a triangular dislocation lying on the $x,y$ plane. So, if $z=0$, we are evaluating displacement for a point directly on the triangle. 
+Let's get a concrete sense of what this actually means for computing displacement. In the snippet of code below, we are going to compute the $u_y$ component of displacement due to a triangular dislocation lying on the $x,y$ plane. So, if $z=0$, we are evaluating displacement for a point directly on the triangle.
 
 ```{code-cell} ipython3
 tris = np.array([[[-1, 0, 0], [1, 0, 0], [0, np.sqrt(3), 0]]])
@@ -416,9 +391,7 @@ z = np.array([-0.1, -1e-15, 0.0, 0.1, 1e-15, 0.0])
 obsx, obsy, obsz = np.meshgrid(x, y, z)
 pts = np.array([obsx, obsy, obsz]).reshape((3, -1)).T.copy()
 
-disp = cutde.disp_all_pairs(pts, tris, np.array([[1, 0, 0]]), 0.25)[:, 0, :].reshape(
-    (*obsx.shape, 3)
-)
+disp = cutde.disp_matrix(pts, tris, 0.25)[:, :, 0, 0].reshape((*obsx.shape, 3))
 
 
 def plotter(idx, d):
@@ -450,49 +423,31 @@ plt.tight_layout()
 plt.show()
 ```
 
-The two rows of the figure above show a 
 As seen from comparing the figures in the second column above, the value of $u_y$ has a jump in value of 1.0m when crossing from $z=-(10^{-15})$ to $z=10^{-15}$. This jump is equal to the slip, as expected. In essence, we are seeing the $\lim_{z \to 0^{-}} u_y = -0.5$ and $\lim_{z \to 0^{+}} u_y = 0.5$.
 
 However, the particularly interesting thing here is that the value of $u_y$ as computed by the Nikhoo and Walter 2015 solution is equal to the negative limit for $x < 0$ and equal to the positive limit for $x > 0$. This is exactly what is resulting in the oscillations we see in the final topographic solution we computed above. It's not surprising that the solution is indecisive like this when it comes to what value to assign to $u_y(z = 0)$. 
 
 The solution to this issue is to back up and reconsider the "collocation step". This was the step in our derivation where we chose the element centroids as the locations where we impose the integral equation by choosing those centroids as our observation points. That step is where we introduced this singularity/indeterminacy. So, the goal is to modify that step slightly to avoid the problem!
 
-Instead of choosing the centroids, let's choose a point, in our geometry, slightly below the centroid, a few centimeters into the Earth. In a more general geometry, we could just say move $\varepsilon$ along the element normal vector. Since this point isn't on the source triangule, but instead slightly below it, there is no singularity. Now, let's take the limit as $\varepsilon \to 0$. This is a much more mathematically robust way of defining our integral equation and immediately transfers to the discretization. The general idea is inspired by the [quadrature by expansion technique (Klockner and others 2013)](https://arxiv.org/abs/1207.4461) and other "limit-to-the-boundary" boundary element methods like the Leonard Gray approach to [Symmetric Galerkin Boundary Element Methods](https://www.springer.com/gp/book/9783540687702).
+Instead of choosing the centroids, let's choose a point, in our geometry, slightly below the centroid, a few centimeters into the Earth. In a more general geometry, we could just say move $\varepsilon$ along the element normal vector. Since this point isn't on the source triangule, but instead slightly below it, there is no singularity. Now, let's take the limit as $\varepsilon \to 0$. This is a much more mathematically robust way of defining our integral equation and immediately transfers to the discretization. The general idea is inspired by the quadrature by expansion technique {cite:p}`Klckner2013` and other "limit-to-the-boundary" boundary element methods like approach from {cite:t}`Sutradhar2008`.
 
 A complication here is that, in a real-world setting, we may have dimension on the order of $10^6$ meters (1,000 kilometers). As a result, in single precision arithmetic, adding a tiny offset to the current triangle centroid may result in a round-off error such that the offset is actually zero. In this situation, it is better to directly compute the limit via numerical limit techniques from multiple points farther from the boundary. For example, below, we could compute the TDE matrix for two different values of $\varepsilon$ - `[0.002, 0.001]`. Then, we use a simple one step [Richardson extrapolation](https://en.wikipedia.org/wiki/Richardson_extrapolation) to compute a more accurate estimate of the limit. Because the error is already quite small by choosing points very close to the boundary, this crude limit is actually extremely accurate! A convergence check of this numerical limit would be straightforward but I'm going to leave it out here.
 
 ```{code-cell} ipython3
-def calc_offset_mat(offset):
-    offset_mat = []
-    for d in range(3):
-        fictitious_slip = np.zeros((surf_tris.shape[0], 3))
-        fictitious_slip[:, d] = 1.0
-
-        surf_centers = np.mean(surf_tri_pts, axis=1)
-        # Offset the observation coordinates by a small amount.
-        surf_centers[:, 2] -= offset
-        offset_mat.append(
-            cutde.disp_all_pairs(
-                surf_centers, surf_pts[surf_tris], fictitious_slip, 0.25
-            )
-        )
-    return np.array(offset_mat)
-
-
 eps_mats = []
 for offset in [0.002, 0.001]:
-    eps_mats.append(calc_offset_mat(offset))
-eps_mats = np.array(eps_mats)
+    offset_centers = np.mean(surf_tri_pts, axis=1)
+    # Offset the observation coordinates by a small amount.
+    offset_centers[:, 2] -= offset
+    eps_mats.append(cutde.disp_matrix(offset_centers, surf_pts[surf_tris], 0.25))
 
 # A simple one step "richardson extrapolation". This seems to reduce the "offset error" to basically zero.
-extrap_mat = 2 * eps_mats[1] - eps_mats[0]
+lhs = 2 * eps_mats[1] - eps_mats[0]
 ```
 
 Finish solving the problem exactly as before but with a more accurate matrix.
 
 ```{code-cell} ipython3
-lhs = np.transpose(extrap_mat, (1, 3, 2, 0))
-
 lhs_reordered = np.empty_like(lhs)
 lhs_reordered[:, :, :, 0] = lhs[:, :, :, 1]
 lhs_reordered[:, :, :, 1] = lhs[:, :, :, 0]
@@ -526,7 +481,7 @@ for i in range(okada_pts.shape[0]):
 
 ### Okada vs Fullspace TDEs
 
-This is a comparison between Okada and a solution derived from fullspace TDEs. The first row is Okada, the second is the solution from TDEs. The third is the error. The error is on the order of 1% in the $u_x$ and $u_y$ components and 2.5% in $u_z$. The error is focused right around the fault tips. To reduce the error further, we would need a higher resolution discretization in those areas. That's entirely feasible! 
+This is a comparison between Okada and a solution derived from fullspace TDEs. The first row is Okada, the second is the solution from TDEs. The third is the error. The error is on the order of 1% in the $u_x$ and $u_y$ components and 2.5% in $u_z$. The error is focused right around the fault tips. To reduce the error further, we would need a higher resolution discretization in those areas. That's entirely feasible!
 
 ```{code-cell} ipython3
 plt.figure(figsize=(18, 18))
@@ -572,7 +527,7 @@ import matplotlib.pyplot as plt
 
 %config InlineBackend.figure_format='retina'
 (surf_pts_lonlat, surf_tris), (fault_pts_lonlat, fault_tris) = np.load(
-    "sa_mesh4.npy", allow_pickle=True
+    "sa_mesh4_1804.npy", allow_pickle=True
 )
 ```
 
@@ -628,7 +583,11 @@ import k3d
 plot = k3d.plot()
 sm = k3d.mesh(surf_pts_xyz, surf_tris, attribute=surf_pts_lonlat[:, 2], opacity=0.75)
 sm2 = k3d.mesh(
-    surf_pts_xyz, surf_tris, attribute=surf_pts_lonlat[:, 2], wireframe=True, opacity=0.15
+    surf_pts_xyz,
+    surf_tris,
+    attribute=surf_pts_lonlat[:, 2],
+    wireframe=True,
+    opacity=0.15,
 )
 fm = k3d.mesh(fault_pts_xyz, fault_tris, color=0x0000FF, wireframe=True)
 plot += sm
@@ -666,7 +625,9 @@ To build the various rotation matrices, we will use two functions from `cutde`:
 
 ```{code-cell} ipython3
 surf_centers_lonlat = np.mean(surf_pts_lonlat[surf_tris], axis=1)
-surf_lonlat_to_xyz_T = cutde.compute_projection_transforms(surf_centers_lonlat, transformer)
+surf_lonlat_to_xyz_T = cutde.compute_projection_transforms(
+    surf_centers_lonlat, transformer
+)
 
 surf_tri_pts_xyz = surf_pts_xyz[surf_tris]
 surf_xyz_to_tdcs_R = cutde.compute_efcs_to_tdcs_rotations(surf_tri_pts_xyz)
@@ -677,7 +638,9 @@ surf_tdcs2_to_lonlat_R = cutde.compute_efcs_to_tdcs_rotations(surf_tri_pts_lonla
 
 ```{code-cell} ipython3
 fault_centers_lonlat = np.mean(fault_pts_lonlat[fault_tris], axis=1)
-fault_lonlat_to_xyz_T = cutde.compute_projection_transforms(fault_centers_lonlat, transformer)
+fault_lonlat_to_xyz_T = cutde.compute_projection_transforms(
+    fault_centers_lonlat, transformer
+)
 
 fault_tri_pts_xyz = fault_pts_xyz[fault_tris]
 fault_xyz_to_tdcs_R = cutde.compute_efcs_to_tdcs_rotations(fault_tri_pts_xyz)
@@ -694,7 +657,7 @@ dip_lonlat = fault_tdcs2_to_lonlat_R[:, 1, :]
 ```{code-cell} ipython3
 plt.figure(figsize=(12, 6))
 for d in range(2):
-    plt.subplot(1, 2, 1+d)
+    plt.subplot(1, 2, 1 + d)
     plt.triplot(
         fault_pts_lonlat[:, 0], fault_pts_lonlat[:, 1], fault_tris, linewidth=0.5
     )
@@ -704,7 +667,7 @@ for d in range(2):
         fault_centers_lonlat[:, 1],
         v[:, 0],
         v[:, 1],
-        scale=[15, 0.0005][d]
+        scale=[15, 0.0005][d],
     )
     plt.axis("equal")
     plt.xlim([-80, -75])
@@ -726,17 +689,11 @@ dip_xyz /= np.linalg.norm(dip_xyz, axis=1)[:, None]
 fault_centers_xyz = np.mean(fault_pts_xyz[fault_tris], axis=1)
 plt.figure(figsize=(12, 6))
 for d in range(2):
-    plt.subplot(1, 2, 1+d)
-    plt.triplot(
-        fault_pts_xyz[:, 0], fault_pts_xyz[:, 2], fault_tris, linewidth=0.5
-    )
+    plt.subplot(1, 2, 1 + d)
+    plt.triplot(fault_pts_xyz[:, 0], fault_pts_xyz[:, 2], fault_tris, linewidth=0.5)
     v = [strike_xyz, dip_xyz][d]
     plt.quiver(
-        fault_centers_xyz[:, 0],
-        fault_centers_xyz[:, 2],
-        v[:, 0],
-        v[:, 2],
-        scale=20
+        fault_centers_xyz[:, 0], fault_centers_xyz[:, 2], v[:, 0], v[:, 2], scale=20
     )
     plt.axis("equal")
     plt.xlim([1.0e6, 1.8e6])
@@ -756,7 +713,7 @@ Now, we'll set up the linear system and solve for surface displacement due to a 
 The first section calculates the self-interaction matrix for the free surface. It's essentially identical to the Okada replication case except that we:
 1. Use `surf_xyz_to_tdcs_R` to rotate our `fictitious_slip` vectors into the TDE coordinate system.
 2. The offset is in the direction of the normal vector, `Vnormal`. Before, we simply assumed that the normal was $(0,0,1)$ because the surface was planar.
-3. The offsets are chosen to be `[2.0, 1.0]` instead of `[0.02, 0.01]`. This is simply because the scale of the problem is much larger. As a percentage of the triangle size, this is about the same offset. In a more robust implementation, we could choose the offset as a function of the size of the triangle. The offset distance is a somewhat flexible parameter, but it's important to avoid the offset point being too far away for good accuracy or too close such that we hit floating point round-off issues. 
+3. The offsets are chosen to be `[2.0, 1.0]` instead of `[0.02, 0.01]`. This is simply because the scale of the problem is much larger. As a percentage of the triangle size, this is about the same offset. In a more robust implementation, we could choose the offset as a function of the size of the triangle. The offset distance is a somewhat flexible parameter, but it's important to avoid the offset point being too far away for good accuracy or too close such that we hit floating point round-off issues.
 
 ```{code-cell} ipython3
 ft = np.float32
@@ -765,49 +722,40 @@ Vnormal = surf_xyz_to_tdcs_R[:, 2, :]
 surf_centers_xyz = np.mean(surf_tri_pts_xyz, axis=1)
 surf_tri_pts_xyz_conv = surf_tri_pts_xyz.astype(ft)
 
-def calc_offset_mat(offset):
-    offset_mat = []
-    for d in range(3):
-        fictitious_slip = np.zeros((surf_tris.shape[0], 3))
-        fictitious_slip[:, d] = 1.0
-
-        # transform from the X,Y,Z coordinate system to the TDE-centered coordinate system.
-        tde_slip = np.ascontiguousarray(
-            np.sum(surf_xyz_to_tdcs_R * fictitious_slip[:, None, :], axis=2), 
-            dtype=ft
-        )
-
-        # offset by a multiple of the normal vector.
-        # the offset is negative because we want to offset into the interior of the Earth.
-        offset_centers = (surf_centers_xyz - offset * Vnormal).astype(ft)
-        offset_mat.append(
-            cutde.disp_all_pairs(offset_centers, surf_tri_pts_xyz_conv, tde_slip, 0.25)
-        )
-    return np.array(offset_mat)
-
+# The rotation matrix from TDCS to XYZ is the transpose of XYZ to TDCS.
+# The inverse of a rotation matrix is its transpose.
+surf_tdcs_to_xyz_R = np.transpose(surf_xyz_to_tdcs_R, (0, 2, 1)).astype(ft)
 
 eps_mats = []
 for offset in [2.0, 1.0]:
-    eps_mats.append(calc_offset_mat(offset))
-eps_mats = np.array(eps_mats)
-extrap_mat = 2 * eps_mats[1] - eps_mats[0]
+    # offset by a multiple of the normal vector.
+    # the offset is negative because we want to offset into the interior of the Earth.
+    offset_centers = (surf_centers_xyz - offset * Vnormal).astype(ft)
+    offset_disp_mat = cutde.disp_matrix(offset_centers, surf_tri_pts_xyz_conv, 0.25)
+
+    # rotate into XYZ coordinates for the source slip.
+    rot_mat = np.sum(
+        offset_disp_mat[:, :, :, None, :] * surf_tdcs_to_xyz_R[None, None, :, :, :],
+        axis=4,
+    )
+
+    eps_mats.append(rot_mat)
+
+# extrapolate to the boundary.
+lhs = 2 * eps_mats[1] - eps_mats[0]
 ```
 
 For the slip vector, we use `dip_xyz` which is the unit dip vector transformed into the `xyz` coordinate system.
 
 ```{code-cell} ipython3
-slip = np.ascontiguousarray(
-    np.sum(fault_xyz_to_tdcs_R * dip_xyz[:, None, :], axis=2), 
-    dtype=ft
+slip = np.sum(fault_xyz_to_tdcs_R * dip_xyz[:, None, :], axis=2)
+fault_surf_mat = cutde.disp_matrix(
+    surf_centers_xyz.astype(ft), fault_pts_xyz[fault_tris].astype(ft), 0.25
 )
-fault_surf_mat = cutde.disp_all_pairs(
-    surf_centers_xyz.astype(ft), fault_pts_xyz[fault_tris].astype(ft), slip, 0.25
-)
-rhs = np.sum(fault_surf_mat, axis=1)
+rhs = np.sum(np.sum(fault_surf_mat * slip[None, None, :, :], axis=3), axis=2)
 ```
 
 ```{code-cell} ipython3
-lhs = np.transpose(extrap_mat, (1, 3, 2, 0))
 lhs = lhs.reshape((surf_tris.shape[0] * 3, surf_tris.shape[0] * 3))
 np.fill_diagonal(lhs, np.diag(lhs) + 1.0)
 ```
@@ -815,21 +763,24 @@ np.fill_diagonal(lhs, np.diag(lhs) + 1.0)
 Solve the linear system! This isn't an unreasonable size to solve on a normal laptop. The matrix itself should require about 0.5Gb of memory.
 
 ```{code-cell} ipython3
-print(f'matrix shape {lhs.shape}, memory use: {lhs.nbytes / 1e6} Mb')
+print(f"matrix shape {lhs.shape}, memory use: {lhs.nbytes / 1e6} Mb")
 ```
 
 ```{code-cell} ipython3
+%%time
 soln = np.linalg.solve(lhs, rhs.flatten()).reshape((-1, 3))
 ```
 
-Note that the displacements are in the $(x,y,z)$ geocentric coordinate system. So, $u_x$ is not exactly an east-west component. Similarly, $u_y$ and $u_z$ don't map to standard compass directions or up/down. To map into standard compass directions, we need to do another rotation step back into the `lonlat` coordinate system. This will be the inverse projection from what did before with `pyproj`. I've just flipped the input and output projection specification strings. 
+Note that the displacements are in the $(x,y,z)$ geocentric coordinate system. So, $u_x$ is not exactly an east-west component. Similarly, $u_y$ and $u_z$ don't map to standard compass directions or up/down. To map into standard compass directions, we need to do another rotation step back into the `lonlat` coordinate system. This will be the inverse projection from what did before with `pyproj`. I've just flipped the input and output projection specification strings.
 
 ```{code-cell} ipython3
 inverse_transformer = Transformer.from_crs(
     "+proj=geocent +datum=WGS84 +units=m +no_defs",
     "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
 )
-surf_xyz_to_lonlat_T = cutde.compute_projection_transforms(surf_centers_xyz, inverse_transformer)
+surf_xyz_to_lonlat_T = cutde.compute_projection_transforms(
+    surf_centers_xyz, inverse_transformer
+)
 ```
 
 We'll also scale the columns of the transformation matrices to make this into a true rotation matrix. This is nice because the output will then be in terms of meters in the `(east, north, up)` coordinate system.
@@ -853,8 +804,8 @@ for d in range(3):
     plt.axis("equal")
     plt.xlim([-85, -70])
     plt.ylim([-50, 10])
-    plt.title(['$u_{\\textrm{east}}$', '$u_{\\textrm{north}}$', '$u_{\\textrm{up}}$'][d])
+    plt.title(
+        ["$u_{\\textrm{east}}$", "$u_{\\textrm{north}}$", "$u_{\\textrm{up}}$"][d]
+    )
 plt.show()
 ```
-
-*Thanks to Brendan Meade and Ignacio Sepúlveda for discussions that led to this post. If you want to chat about these kind of topics, please [get in touch!](mailto:t.ben.thompson@gmail.com)*

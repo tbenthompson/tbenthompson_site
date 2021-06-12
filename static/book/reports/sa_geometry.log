@@ -1,0 +1,95 @@
+Traceback (most recent call last):
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pygmsh
+
+geom = pygmsh.built_in.Geometry()
+
+# First, I'll figure out the area that I want to produce a surface mesh for.
+# The center of the area will be the center of the fault.
+surf_center = np.mean(upper_edge_pts, axis = 0)
+# And I also want to know the furthest that any fault mesh point is from that center point.
+# This is essentially the fault "half-length"
+fault_L = np.max(np.sqrt(np.sum((upper_edge_pts - surf_center) ** 2, axis = 1)))
+# The "half-width" of the surface mesh will be 1.5 times the fault half-length
+w = fault_L * 1.5
+
+# And the typical element length-scale will about one tenth the fault length.
+# This length scale will only be relevant far from the fault. Near the fault, 
+# the length of the fault edges will force surface elements to be much smaller.
+mesh_size_divisor = 4
+mesh_size = fault_L / mesh_size_divisor
+
+# The main polygon of the mesh is a big square.
+surf_corners = np.array([
+    [surf_center[0] - w, surf_center[1] - w, 0],
+    [surf_center[0] + w, surf_center[1] - w, 0],
+    [surf_center[0] + w, surf_center[1] + w, 0],
+    [surf_center[0] - w, surf_center[1] + w, 0],
+])
+surf = geom.add_polygon(surf_corners, mesh_size)
+
+# Now, I'll add the fault trace edge points.
+gmsh_pts = dict()
+for i in range(upper_edge_pts.shape[0]):
+    gmsh_pts[i] = geom.add_point(upper_edge_pts[i], mesh_size)
+
+# And this chunk of code specifies that those edges should be 
+# included in the surface mesh. 
+for i in range(1, upper_edge_pts.shape[0]):
+    line = geom.add_line(gmsh_pts[i-1], gmsh_pts[i])
+    
+    # pygmsh didn't support this elegantly, so I just insert manual gmsh code.
+    intersection_code = 'Line{{{}}} In Surface{{{}}};'.format(
+        line.id, surf.surface.id
+    )
+    geom.add_raw_code(intersection_code)
+------------------
+
+[0;31m-----------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                   Traceback (most recent call last)
+[0;32m<ipython-input-14-bc3035383ee1>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mimport[0m [0mpygmsh[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;34m[0m[0m
+[1;32m      3[0m [0mgeom[0m [0;34m=[0m [0mpygmsh[0m[0;34m.[0m[0mbuilt_in[0m[0;34m.[0m[0mGeometry[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;34m[0m[0m
+[1;32m      5[0m [0;31m# First, I'll figure out the area that I want to produce a surface mesh for.[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/.miniconda3/envs/bie_book/lib/python3.9/site-packages/pygmsh/__init__.py[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mfrom[0m [0;34m.[0m [0;32mimport[0m [0mgeo[0m[0;34m,[0m [0mocc[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;32mfrom[0m [0;34m.[0m[0m__about__[0m [0;32mimport[0m [0m__gmsh_version__[0m[0;34m,[0m [0m__version__[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;32mfrom[0m [0;34m.[0m[0m_optimize[0m [0;32mimport[0m [0moptimize[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;32mfrom[0m [0;34m.[0m[0mhelpers[0m [0;32mimport[0m [0morient_lines[0m[0;34m,[0m [0mrotation_matrix[0m[0;34m,[0m [0mwrite[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m [0;34m[0m[0m
+
+[0;32m~/.miniconda3/envs/bie_book/lib/python3.9/site-packages/pygmsh/geo/__init__.py[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mfrom[0m [0;34m.[0m[0mgeometry[0m [0;32mimport[0m [0mGeometry[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;34m[0m[0m
+[1;32m      3[0m [0m__all__[0m [0;34m=[0m [0;34m[[0m[0;34m"Geometry"[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/.miniconda3/envs/bie_book/lib/python3.9/site-packages/pygmsh/geo/geometry.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      2[0m [0;32mfrom[0m [0mtyping[0m [0;32mimport[0m [0mList[0m[0;34m,[0m [0mOptional[0m[0;34m,[0m [0mUnion[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;34m[0m[0m
+[0;32m----> 4[0;31m [0;32mimport[0m [0mgmsh[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      5[0m [0;32mimport[0m [0mnumpy[0m [0;32mas[0m [0mnp[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      6[0m [0;34m[0m[0m
+
+[0;31mModuleNotFoundError[0m: No module named 'gmsh'
+ModuleNotFoundError: No module named 'gmsh'
+
