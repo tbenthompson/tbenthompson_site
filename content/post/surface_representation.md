@@ -1,5 +1,5 @@
 +++
-title="Maybe we should stop using planar triangles for fault modeling."
+title="Maybe we should stop using planar triangles for fault modeling"
 date=2021-03-31
 +++
 

@@ -1,5 +1,5 @@
 +++
-title="Regularizing rate and state friction for numerical simulation."
+title="Regularizing rate and state friction for numerical simulation"
 date=2018-03-19
 +++
 
@@ -17,7 +17,7 @@ Let's start with the common, empirically-derived rate and state friction with th
 \label{agingorig}
 \end{equation}
 
-First, I'll transform to use a somewhat different state variable. $\theta$ is hard to intuitively understand, while $\Psi$ is much more intuitive -- it's just the current absolute offset of the friction coefficient.  
+First, I'll transform to use a somewhat different state variable. $\theta$ is hard to intuitively understand, while $\Psi$ is much more intuitive -- it's just the current absolute offset of the friction coefficient.
 
 \begin{equation}
 \Psi = f_0 + b \log(V_0\theta/D_c)

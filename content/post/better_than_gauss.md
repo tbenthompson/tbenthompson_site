@@ -1,5 +1,5 @@
 +++
-title="Gaussian quadrature is not optimal."
+title="Gaussian quadrature is not optimal"
 date=2021-06-14
 +++
 
