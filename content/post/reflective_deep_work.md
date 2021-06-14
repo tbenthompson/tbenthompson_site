@@ -1,11 +1,10 @@
 +++
 title="Reflective deep work"
 date=2021-06-11
-draft=true
 +++
 <sub>You might also call this introspective deep work, or self-reflective deep work.</sub>
 
-I just finished reading [Deep Work](https://www.goodreads.com/book/show/25744928-deep-work) and it has me thinking about applying a few of the concepts well beyond my career. "Deep work" is all about making space for the hard intellectual work at the core of most knowledge workers' jobs. But, the concept of making space in your day or week or month for deep thought seems like it should apply well beyond my career. It seems to me that a lot of self-help or productivity advice is about reflective deep work. In some parts of life, I operate on auto-pilot almost all the time. If I'm brushing my teeth, that's perfect. But, in other situations, it seems better to occasionally stop and think.
+I just finished reading [Deep Work](https://www.goodreads.com/book/show/25744928-deep-work) and it has me thinking about applying a few of the concepts well beyond my career. "Deep work" is all about making space for the hard intellectual work at the core of most knowledge workers' jobs. But, the concept of making space in your day or week or month for deep thought seems like it should apply well beyond my career. Reflective deep work could even be a unifying theme for a lot of self-help or productivity advice. In some parts of life, I operate on auto-pilot almost all the time. If I'm brushing my teeth, that's perfect. But, in other situations, it would be better to occasionally stop and think.
 
 Examples:
 * Sitting down with a blank sheet of paper and thinking for an hour about how to improve your relationship with your significant other. Even if the relationship is already great!
