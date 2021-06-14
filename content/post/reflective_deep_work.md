@@ -1,6 +1,7 @@
 +++
 title="Reflective deep work"
 date=2021-06-11
+draft=true
 +++
 <sub>You might also call this introspective deep work, or self-reflective deep work.</sub>
 
