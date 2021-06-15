@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -233,6 +235,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -243,6 +263,8 @@
                 
   <div class="section" id="boundary-integral-method-tutorials">
 <h1>Boundary integral method tutorials<a class="headerlink" href="#boundary-integral-method-tutorials" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>Boundary integral methods are powerful tools for solving PDEs. They are particular useful in settings where the object of interest is itself a boundary, for example an earthquake fault surface.</p>
 <p>Over the last few decades, the key parts of a general-purpose boundary integral equation (BIE) solver have come together:</p>
 <ul class="simple">
@@ -254,10 +276,31 @@
 <p>However, these methods have not become mainstream yet. The only paper I am aware of that combines most of these methods is <span id="id6">Askham and Cerfon [<a class="reference internal" href="references.html#id10">2017</a>]</span> but the source is not available.</p>
 <p>This “book” will walk through implementing each of these methods in practical applications. Most of the applications will be to earthquake science problems, however there will be other examples where it makes more sense.</p>
 <p>At the moment, there are two sequences:</p>
-<ol class="simple">
-<li><p>The TDE sequence: Triangular dislocation elements (TDEs) are analytic solutions for the displacement and stress from a triangular fault/crack with a constant displacement discontinuity. While they have major limitations, TDEs are nonetheless frequently used for handling earthquake science modeling problems. I hope this track will help enable TDE users to take their applications to a new level by introducing the capability to handle topography, earth curvature and millions of TDEs.</p></li>
-<li><p>The QBX sequence: Quadrature by expansion is an elegant approach for numerically integrating the singular integrals in boundary integral equations. Combined with a <span class="math notranslate nohighlight">\(C^1\)</span> mesh discretization, fast methods and embedded boundary methods, we can build a fast, robust and general PDE solver. Based on these ideas, I will sketch out what I think the next generation of boundary integral equation methods will look like.</p></li>
+<ol>
+<li><p>The TDE sequence: Triangular dislocation elements (TDEs) are analytic solutions for the displacement and stress from a triangular fault/crack with a constant displacement discontinuity. While they have major limitations, TDEs are nonetheless frequently used for handling earthquake science modeling problems. I hope this track will help enable TDE users to take their applications to a new level by introducing the capability to handle topography, earth curvature and millions of TDEs.</p>
+<ul class="simple">
+<li><p>In sections 1 and 2, I start by demonstrating how to use TDEs to model arbitrary fault surfaces and Earth surface topography.</p></li>
+<li><p>Then, in sections 3, 4 and 5, I explain how to combine modern fast methods like H-matrices and adaptive cross approximation with TDEs.</p></li>
+</ul>
+</li>
+<li><p>The QBX sequence: Quadrature by expansion is an elegant approach for numerically integrating the singular integrals in boundary integral equations. Combined with a <span class="math notranslate nohighlight">\(C^1\)</span> mesh discretization, fast methods and embedded boundary methods, we can build a fast, robust and general PDE solver. Based on these ideas, I will sketch out what I think the next generation of boundary integral equation methods will look like.</p>
+<ul class="simple">
+<li><p>In sections 1 and 2, I will explain how to use QBX to evaluate nearfield integrals and then demonstrate QBX on a variety of interesting geometries.</p></li>
+</ul>
+ <!-- * In section 3, I will extend QBX from nearfield integrals to directly evaluating singular boundary integral equations. That will allow us to solve a BEM problem. -->
+ <!-- * In section 4, I will introduce basis splines as a method for general purpose $C^1$ mesh discretization. -->
+ <!-- * In section 5, I will introduce body force integrals and solve a simple time-dependent viscoelastic earthquake problem. -->
+</li>
 </ol>
+</div>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>The tutorials here are directed at a fairly experienced audience. Some prior knowledge and skills that would be helpful:</p>
+<ul class="simple">
+<li><p>Python skills: particularly standard scientific Python tools like <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. A lot of the code here is vectorized because it allows me to communicate the ideas more concisely while also having reasonably fast code. If you feel that your Python skills are weak, the tutorials here could be a decent way to learn. You might consider downloading the notebooks and running them yourself to explore.</p></li>
+<li><p>Applied math skills: multi-variable calculus, basic partial differential equations, numerical linear algebra. Do you know what it means to “Use an LU decomposition to solve the linear system resulting from a finite difference discretization of the Poisson equation?” I’ll try to provide references when I’m discussing more technical topics.</p></li>
+</ul>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">

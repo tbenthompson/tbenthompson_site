@@ -306,8 +306,12 @@
 </div>
 <div class="section" id="looking-at-the-fault-model">
 <h2><span class="section-number">2.1. </span>Looking at the fault model.<a class="headerlink" href="#looking-at-the-fault-model" title="Permalink to this headline">¶</a></h2>
-<p>First off, I’m not going to explain how to build the fault geometry. That’s already been built! I’m using the same triangular subduction zone mesh used by <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2017GC007391">Shannon Graham in her Global Block model papers</a>. That mesh was built using the <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JB008524">Slab 1.0 subduction zone contours</a>. Also, the link in the Slab 1.0 paper is dead and the <a class="reference external" href="https://store.overlandbound.com/products/slab">first Google search for Slab 1.0 is a portable cutting board</a>.</p>
-<p>Anyway… I’ll load the mesh up from the <code class="docutils literal notranslate"><span class="pre">.mat</span></code> file (a Matlab file format) and plot it.</p>
+<p>First off, I’m not going to explain how to build the fault geometry. That’s already been built! I’m using the same triangular subduction zone mesh used by <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2017GC007391">Shannon Graham in her Global Block model papers</a>. That mesh was built using the <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JB008524">Slab 1.0 subduction zone contours</a>.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>The link in the Slab 1.0 paper is dead and the <a class="reference external" href="https://store.overlandbound.com/products/slab">first Google search for Slab 1.0 is a portable cutting board</a>: “Who knew the cutting surface industry needed disrupting?  And disrupt it, the SLAB 1.0 does.”</p>
+</div>
+<p>I’ll load the mesh up from the <code class="docutils literal notranslate"><span class="pre">.mat</span></code> file (a Matlab file format) and plot it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="s2">&quot;south_america_50km_mod_ext.mat&quot;</span><span class="p">)</span>
@@ -361,7 +365,7 @@
 <img alt="../_images/sa_geometry_7_0.png" src="../_images/sa_geometry_7_0.png" />
 </div>
 </div>
-<p>The mesh itself looks great at first glance! But, there is a mild problem with the element orientations at the southern end of the fault mesh. They don’t match the rest of the mesh. To fix the issue I can flip the triangle vertex ordering. Instead of ordering the vertices of a given triangle 0-1-2, I can flip the normal vector by ordering them 0-2-1. I’m actually going to flip the orientation of all the dark blue parts of the mesh since it’s a bit nicer to follow the convention that dipping fault normal vector point upwards. This convention results in an upwards-pointing dip vector which is consistent with the upwards dip-vector found in Okada.</p>
+<p>The mesh itself looks great at first glance! But, there is a mild problem with the element orientations at the southern end of the fault mesh. They don’t match the rest of the mesh. To fix the issue I can flip the triangle vertex ordering. Instead of ordering the vertices of a given triangle 0-1-2, I can flip the normal vector by ordering them 0-2-1. I’m actually going to flip the orientation of all the dark blue parts of the mesh since it’s a bit nicer to follow the convention that dipping fault normal vectors point upwards. This convention results in an upwards-pointing dip vector which is consistent with the upwards dip-vector found in Okada though it is inconsistent with the normal geological convention where the dip vector points downwards.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flip_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
