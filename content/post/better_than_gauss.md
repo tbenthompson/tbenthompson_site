@@ -15,7 +15,7 @@ So, where did the misconception that Gaussian quadrature is the best possible qu
 
 then there are $n$ points, $x_k$, and $n$ weights $w_k$. Solving a linear system for the points and weights that exactly integrate a polynomial results in a solvable linear system with $2n$ rows and columns. And a polynomial with order $2n-1$ has $2n$ coefficients, so Gaussian quadrature is clearly optimal in the order of polynomial integrable with $N$ points and weights (this isn't a rigorous proof).
 
-But, it *does not follow* that the best quadrature rule for small polynomials is also the best possible quadrature rule for general analytic functions. As the Hale and Trefethen paper demonstrates, Gaussian quadrature is suboptimal by approximately a factor of $\pi/2$ in terms of the number of quadrature points required for a given level of error.
+Because analytic functions can be represented as a polynomial series, it's tempting to extend the result from polynomials to analytic functions. But, it *does not follow* that the best quadrature rule for small polynomials is also the best possible quadrature rule for general analytic functions or even the best possible quadrature rule for polynomials with order greater than $2n - 1$. As the Hale and Trefethen paper demonstrates, Gaussian quadrature is suboptimal by approximately a factor of $\pi/2$ in terms of the number of quadrature points required for a given level of error.
 
 ### Just give me a quadrature rule
 
