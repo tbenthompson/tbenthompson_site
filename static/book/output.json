@@ -1,0 +1,76 @@
+{"filename": "tdes/free_matvec.md", "lineno": 21, "status": "unchecked", "code": 0, "uri": "", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 40, "status": "unchecked", "code": 0, "uri": "#id10", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 271, "status": "unchecked", "code": 0, "uri": "#id102", "info": ""}
+{"filename": "intro.md", "lineno": 13, "status": "unchecked", "code": 0, "uri": "#id11", "info": ""}
+{"filename": "tdes/sa_tdes.md", "lineno": 19, "status": "unchecked", "code": 0, "uri": "#id113", "info": ""}
+{"filename": "intro.md", "lineno": 12, "status": "unchecked", "code": 0, "uri": "#id12", "info": ""}
+{"filename": "tdes/sa_tdes.md", "lineno": 432, "status": "unchecked", "code": 0, "uri": "#id132", "info": ""}
+{"filename": "tdes/sa_tdes.md", "lineno": 108, "status": "unchecked", "code": 0, "uri": "#id140", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 367, "status": "unchecked", "code": 0, "uri": "#id167", "info": ""}
+{"filename": "tdes/free_matvec.md", "lineno": 280, "status": "unchecked", "code": 0, "uri": "#id169", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 19, "status": "unchecked", "code": 0, "uri": "#id170", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 19, "status": "unchecked", "code": 0, "uri": "#id171", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 19, "status": "unchecked", "code": 0, "uri": "#id172", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 271, "status": "unchecked", "code": 0, "uri": "#id173", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 278, "status": "unchecked", "code": 0, "uri": "#id174", "info": ""}
+{"filename": "tdes/low_rank.md", "lineno": 271, "status": "unchecked", "code": 0, "uri": "#id175", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 678, "status": "unchecked", "code": 0, "uri": "#id176", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 35, "status": "unchecked", "code": 0, "uri": "#id177", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 34, "status": "unchecked", "code": 0, "uri": "#id178", "info": ""}
+{"filename": "c1qbx/part2_screw_dislocation.md", "lineno": 57, "status": "unchecked", "code": 0, "uri": "#id179", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 33, "status": "unchecked", "code": 0, "uri": "#id2", "info": ""}
+{"filename": "intro.md", "lineno": 11, "status": "unchecked", "code": 0, "uri": "#id3", "info": ""}
+{"filename": "intro.md", "lineno": 11, "status": "unchecked", "code": 0, "uri": "#id4", "info": ""}
+{"filename": "intro.md", "lineno": 12, "status": "unchecked", "code": 0, "uri": "#id5", "info": ""}
+{"filename": "intro.md", "lineno": 12, "status": "unchecked", "code": 0, "uri": "#id6", "info": ""}
+{"filename": "intro.md", "lineno": 12, "status": "unchecked", "code": 0, "uri": "#id7", "info": ""}
+{"filename": "intro.md", "lineno": 13, "status": "unchecked", "code": 0, "uri": "#id8", "info": ""}
+{"filename": "intro.md", "lineno": 13, "status": "unchecked", "code": 0, "uri": "#id9", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "broken", "code": 0, "uri": "http://www.bssaonline.org/content/82/2/1018.short", "info": "404 Client Error: Not Found for url: http://www.bssaonline.org/content/82/2/1018.short"}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 33, "status": "working", "code": 0, "uri": "https://arxiv.org/abs/1207.4461", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "working", "code": 0, "uri": "https://arxiv.org/abs/1110.2807", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 40, "status": "working", "code": 0, "uri": "https://arxiv.org/abs/1610.00823", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 34, "status": "working", "code": 0, "uri": "https://arxiv.org/abs/1612.00977", "info": ""}
+{"filename": "tdes/sa_geometry.md", "lineno": 150, "status": "redirected", "code": 301, "uri": "https://aws.amazon.com/public-datasets/terrain/", "info": "https://registry.opendata.aws/terrain-tiles/", "text": "permanently"}
+{"filename": "tdes/hmatrix.md", "lineno": 900, "status": "working", "code": 0, "uri": "https://cython.readthedocs.io/en/latest/src/tutorial/cython_tutorial.html", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 902, "status": "working", "code": 0, "uri": "https://cython.readthedocs.io/en/latest/src/userguide/numpy_tutorial.html", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 901, "status": "working", "code": 0, "uri": "https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html#memoryviews", "info": ""}
+{"filename": "tdes/free_matvec.md", "lineno": 204, "status": "working", "code": 0, "uri": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.gmres.html", "info": ""}
+{"filename": "c1qbx/part1_nearfield.md", "lineno": 35, "status": "working", "code": 0, "uri": "https://arxiv.org/pdf/1805.06106.pdf", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1007/pl00005410", "info": "https://link.springer.com/article/10.1007/PL00005410", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 301, "uri": "https://doi.org/10.1007/978-3-540-77147-0_3", "info": "https://link.springer.com/chapter/10.1007/978-3-540-77147-0_3", "text": "permanently"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1007/s00607-004-0103-1", "info": "https://link.springer.com/article/10.1007/s00607-004-0103-1", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/0021-9991(87)90140-9", "info": "https://linkinghub.elsevier.com/retrieve/pii/0021999187901409", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2003.08.011", "info": "https://linkinghub.elsevier.com/retrieve/pii/S0021999103004352", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2003.11.021", "info": "https://linkinghub.elsevier.com/retrieve/pii/S0021999103006090", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2013.06.027", "info": "https://linkinghub.elsevier.com/retrieve/pii/S0021999113004579", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2017.04.063", "info": "https://linkinghub.elsevier.com/retrieve/pii/S002199911730342X", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2018.08.012", "info": "https://linkinghub.elsevier.com/retrieve/pii/S0021999118305345", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1016/j.jcp.2019.03.024", "info": "https://linkinghub.elsevier.com/retrieve/pii/S0021999119302074", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1007/s00607-004-0099-6", "info": "https://link.springer.com/article/10.1007/s00607-004-0099-6", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1007/s10543-017-0689-2", "info": "https://link.springer.com/article/10.1007/s10543-017-0689-2", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1017/s0962492906410011", "info": "https://www.cambridge.org/core/journals/acta-numerica/article/abs/fast-direct-solvers-for-integral-equations-in-complex-threedimensional-domains/B3CCDC43521A7EEEC0207786AE469C4B", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1038/324446a0", "info": "https://www.nature.com/articles/324446a0", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1137/090771806", "info": "https://epubs.siam.org/doi/10.1137/090771806", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1137/0907058", "info": "https://epubs.siam.org/doi/10.1137/0907058", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1137/15m1034477", "info": "https://epubs.siam.org/doi/10.1137/15M1034477", "text": "with Found"}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1137/s0036144502417715", "info": "https://epubs.siam.org/doi/10.1137/S0036144502417715", "text": "with Found"}
+{"filename": "tdes/hmatrix.md", "lineno": 77, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/B-tree", "info": ""}
+{"filename": "tdes/free_matvec.md", "lineno": 189, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Conjugate_gradient_method", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.1137/s1064827500369967", "info": "https://epubs.siam.org/doi/10.1137/S1064827500369967", "text": "with Found"}
+{"filename": "tdes/free_matvec.md", "lineno": 189, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Generalized_minimal_residual_method", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 77, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/K-d_tree", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 693, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Jackknife_resampling", "info": ""}
+{"filename": "tdes/free_matvec.md", "lineno": 189, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Krylov_subspace", "info": ""}
+{"filename": "tdes/free_matvec.md", "lineno": 29, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Matrix-free_methods", "info": ""}
+{"filename": "tdes/hmatrix.md", "lineno": 77, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Octree", "info": ""}
+{"filename": "tdes/sa_tdes.md", "lineno": 434, "status": "working", "code": 0, "uri": "https://en.wikipedia.org/wiki/Richardson_extrapolation", "info": ""}
+{"filename": "tdes/sa_tdes.md", "lineno": 233, "status": "working", "code": 0, "uri": "https://github.com/tbenthompson/okada_wrapper", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://doi.org/10.5281/ZENODO.2561574", "info": "https://zenodo.org/record/2561575", "text": "with Found"}
+{"filename": "tdes/sa_tdes.md", "lineno": 19, "status": "working", "code": 0, "uri": "https://github.com/tbenthompson/cutde", "info": ""}
+{"filename": "tdes/sa_geometry.md", "lineno": 33, "status": "working", "code": 0, "uri": "https://store.overlandbound.com/products/slab", "info": ""}
+{"filename": "thanks.md", "lineno": 4, "status": "unchecked", "code": 0, "uri": "mailto:t.ben.thompson@gmail.com", "info": ""}
+{"filename": "c1qbx/part2_screw_dislocation.md", "lineno": 57, "status": "working", "code": 0, "uri": "https://people.maths.ox.ac.uk/trefethen/barycentric.pdf", "info": ""}
+{"filename": "references.md", "lineno": 1, "status": "redirected", "code": 302, "uri": "https://zenodo.org/record/2561574", "info": "https://zenodo.org/record/2561575", "text": "with Found"}
+{"filename": "tdes/sa_geometry.md", "lineno": 31, "status": "working", "code": 0, "uri": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2017GC007391", "info": ""}
+{"filename": "tdes/sa_geometry.md", "lineno": 31, "status": "redirected", "code": 302, "uri": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JB008524", "info": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2011JB008524", "text": "with Found"}
