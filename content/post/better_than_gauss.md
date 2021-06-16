@@ -3,19 +3,19 @@ title="Gaussian quadrature is not optimal"
 date=2021-06-14
 +++
 
-It's conventional wisdom that Gauss quadrature is the most point-efficient quadrature formula for analytic functions. But, it's not true! ["New quadrature formulas from conformal maps" by Hale and Trefethen (2008)](http://www.cs.ox.ac.uk/files/731/NA-07-15.pdf) demonstrate that it's possible to have quadrature formulas that converge about 50% faster for analytic functions. The paper is quite accessible and I encourage you to read it, but I also wanted to help bring attention to it since it seems like it should be more well-known.
+It's conventional wisdom that Gaussian quadrature is the most point-efficient quadrature formula for analytic functions. But, it's not true! ["New quadrature formulas from conformal maps" by Hale and Trefethen (2008)](http://www.cs.ox.ac.uk/files/731/NA-07-15.pdf) demonstrate that it's possible to have quadrature formulas that converge about 50% faster for analytic functions. The paper is quite accessible and I encourage you to read it, but I also wanted to help bring attention to it since it seems like it should be more well-known.
 
 ### Polynomials vs analytic functions
 
-So, where did the misconception that Gauss quadrature is the best possible quadrature rule for smooth functions? I think it comes from framing the problem in terms of the maximum order of polynomial that can be integrated exactly. By that metric, Gauss quadrature **is** the best that can be done. If we write down a quadrature rule like: 
+So, where did the misconception that Gaussian quadrature is the best possible quadrature rule for smooth functions? I think it comes from framing the problem in terms of the maximum order of polynomial that can be integrated exactly. By that metric, Gaussian quadrature **is** the best that can be done. If we write down a quadrature rule like: 
 
 \begin{equation}
 \int_{-1}^{1} f(x) dx \approx \sum_{k}^n w_k f(x_k) 
 \end{equation}
 
-then there are $n$ points, $x_k$, and $n$ weights $w_k$. Solving a linear system for the points and weights that exactly integrate a polynomial results in a solvable linear system with $2n$ rows and columns. And a polynomial with order $2n-1$ has $2n$ coefficients, so Gauss quadrature is clearly optimal in the order of polynomial integrable with $N$ points and weights (this isn't a rigorous proof).
+then there are $n$ points, $x_k$, and $n$ weights $w_k$. Solving a linear system for the points and weights that exactly integrate a polynomial results in a solvable linear system with $2n$ rows and columns. And a polynomial with order $2n-1$ has $2n$ coefficients, so Gaussian quadrature is clearly optimal in the order of polynomial integrable with $N$ points and weights (this isn't a rigorous proof).
 
-But, it *does not follow* that the best quadrature rule for small polynomials is also the best possible quadrature rule for general analytic functions. As the Hale and Trefethen paper demonstrates, Gauss quadrature is suboptimal by approximately a factor of $\pi/2$ in terms of the number of quadrature points required for a given level of error.
+But, it *does not follow* that the best quadrature rule for small polynomials is also the best possible quadrature rule for general analytic functions. As the Hale and Trefethen paper demonstrates, Gaussian quadrature is suboptimal by approximately a factor of $\pi/2$ in terms of the number of quadrature points required for a given level of error.
 
 ### Just give me a quadrature rule
 
