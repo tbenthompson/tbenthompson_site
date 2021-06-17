@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -231,6 +233,23 @@
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="false/v2/gh/tbenthompson/BIE_book/master?urlpath=tree/tdes/free_matvec.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -492,8 +511,8 @@ Wall time: 8.1 s
 <div class="section" id="iterative-linear-solution">
 <h2><span class="section-number">3.3. </span>Iterative linear solution<a class="headerlink" href="#iterative-linear-solution" title="Permalink to this headline">¶</a></h2>
 <p>Okay, so how do we use this matrix-vector product to solve the linear system? Because the entire matrix is never in memory, direct solvers like LU decomposition or Cholesky decomposition are no longer an option. But, iterative linear solvers are still an option. The <a class="reference external" href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient (CG) method</a> is a well-known example of an iterative solver. However, CG requires a symmetric positive definite matrix. Because our columns come from integrals over elements but our rows come from observation points, there is an inherent asymmetry to the boundary element matrices we are producing here. <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_minimal_residual_method">GMRES</a> is an iterative linear solver that tolerates asymmetry. It’s specifically a type of <a class="reference external" href="https://en.wikipedia.org/wiki/Krylov_subspace">“Krylov subspace”</a> iterative linear solver and as such requires only the set of vectors:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7fc3e0a0-cee1-49f1-8199-fce35a6f18a3">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-7fc3e0a0-cee1-49f1-8199-fce35a6f18a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-300889e1-5f5b-4b03-ac21-1f109335467a">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-300889e1-5f5b-4b03-ac21-1f109335467a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \{b, Ab, A^2b, ..., A^nb\}
 \end{equation}\]</div>
 <p>As such, only having an implementation of the matrix vector product <span class="math notranslate nohighlight">\(Ab\)</span> is required since the later iterates can be computed with multiple matrix vector product. For example, <span class="math notranslate nohighlight">\(A^2b = A(Ab)\)</span>.</p>

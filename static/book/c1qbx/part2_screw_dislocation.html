@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -232,6 +234,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="false/v2/gh/tbenthompson/BIE_book/master?urlpath=tree/c1qbx/part2_screw_dislocation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -314,10 +333,11 @@
 <div class="math notranslate nohighlight">
 \[ \nabla^2 u_3 = 0 \]</div>
 <p>As a result, we can describe solutions to the Laplace equation in terms of the elastic behavior of infinitely long strike-slip faults (aka a “screw dislocation”).</p>
-<p>Below, we’re going to use QBX to compute the displacements and stresses resulting from slip on infinitely long strike-slip faults with fun shapes. In particular, the “double layer” integral we computed in part 1 will translate slip on the fault into a displacement value in the volume. We’ll introduce the “hypersingular” integral to calculate stresses from slip.</p>
+<p>Below, we’re going to use QBX to compute the displacements and stresses resulting from slip on infinitely long strike-slip faults with fun shapes. In particular, the “double layer” integral we computed in part 1 will compute displacement in the volume from the input slip on the fault. We’ll also introduce the “hypersingular” integral to calculate stresses from slip.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="o">%</span><span class="k">matplotlib</span> inline
@@ -338,32 +358,22 @@
 <div class="section" id="barycentric-lagrange-interpolation">
 <h2><span class="section-number">2.2. </span>Barycentric Lagrange interpolation<a class="headerlink" href="#barycentric-lagrange-interpolation" title="Permalink to this headline">¶</a></h2>
 <p>When we compute a boundary integral, there are two sources of error: the surface approximation error and the quadrature error. We’ve been focusing here on the quadrature error because it can be reduced dramatically with better algorithms (QBX!). The surface approximation error is handled simply through using a higher resolution approximation to the surface – for example, represent a circle with 100 points instead of 50. However, below, it will be nice to be able to hold the surface approximation error constant while reducing the quadrature error to zero. But, in the integration techniques we have been using, the quadrature error and the surface error are inextricably linked. When we increase from using 50 to 100 points to integrate a function over a circle, we have been improving both the surface approximation and also using a more accurate quadrature rule.</p>
-<p>To separate the two components, we’ll interpolate points from a low order surface approximation in order to calculate the locations of quadrature points for a higher order integral approximation. To make the difference more concrete… Before, we would calculate new point locations for a circle by calculating <span class="math notranslate nohighlight">\((cos \theta, sin \theta)\)</span>. Now, we will calculate the new point from a polynomial interpolation of the <span class="math notranslate nohighlight">\(n\)</span> existing points <span class="math notranslate nohighlight">\(\sum_{i}^n c_i p_i(x)\)</span>. In some sense, this is also more realistic. In a real-world application, we normally have a data-derived surface representation that we can’t improve. On the other hand, we <em>can</em> add more quadrature points by interpolating on that surface, but that won’t make the surface itself any more accurate.</p>
-<p>To do this, it’s going to be helpful to have some functions for interpolation! This snippet of code below is an implementation of <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id179">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interp_weights</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">weights</span>
-
-<span class="k">def</span> <span class="nf">barycentric_eval</span><span class="p">(</span><span class="n">eval_pts</span><span class="p">,</span> <span class="n">interp_pts</span><span class="p">,</span> <span class="n">interp_wts</span><span class="p">,</span> <span class="n">fnc_vals</span><span class="p">):</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="n">eval_pts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">interp_pts</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">kernel</span> <span class="o">=</span> <span class="n">interp_wts</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">dist</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">kernel</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">fnc_vals</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>To separate the two components, we’ll interpolate points from a low order surface approximation in order to calculate the locations of quadrature points for a higher order integral approximation. To make the difference more concrete… Before, we would calculate new point locations for a circle by calculating <span class="math notranslate nohighlight">\((cos \theta, sin \theta)\)</span>. Now, we will calculate the new point from a polynomial interpolation of the <span class="math notranslate nohighlight">\(n\)</span> existing points <span class="math notranslate nohighlight">\(\sum_{i}^n c_i p_i(x)\)</span>. In some sense, this is also more realistic. In a real-world application, we normally have a data-derived surface representation that we can’t improve. On the other hand, we <em>can</em> add more quadrature points by interpolating on that surface. But adding more quadrature points won’t make the surface itself any more accurate.</p>
+<p>To do this, it’s going to be helpful to have some functions for polynomial interpolation! We’ll use the <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.BarycentricInterpolator</span></code> implementation of <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id179">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
 <p>Below is a little check to make sure our interpolation snippet is working correctly. We interpolate <span class="math notranslate nohighlight">\(sin(5x)\)</span> (plotted with a solid black line) on a grid of 7 points (blue dots) and plot the resulting approximate function (red dashes line). This isn’t a rigorous check, but it seems like it’s working! Convergence is very fast if we increase the interpolation order, but I’ve left out a demonstration of that.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qx</span><span class="p">,</span> <span class="n">qw</span> <span class="o">=</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-<span class="n">gauss_interp_wts</span> <span class="o">=</span> <span class="n">interp_weights</span><span class="p">(</span><span class="n">qx</span><span class="p">)</span>
-<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">BarycentricInterpolator</span>
+
+<span class="c1"># First, form the interpolating polynomial</span>
+<span class="n">qx</span><span class="p">,</span> <span class="n">qw</span> <span class="o">=</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">fqx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">qx</span><span class="p">)</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">barycentric_eval</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">qx</span><span class="p">,</span> <span class="n">gauss_interp_wts</span><span class="p">,</span> <span class="n">fqx</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">qx</span><span class="p">,</span> <span class="n">fqx</span><span class="p">)</span>
+
+<span class="c1"># Then, evaluate the polynomial at a bunch of points for plotting.</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qx</span><span class="p">,</span> <span class="n">fqx</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">xs</span><span class="p">),</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
@@ -372,18 +382,20 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_8_0.png" src="../_images/part2_screw_dislocation_8_0.png" />
+<img alt="../_images/part2_screw_dislocation_7_0.png" src="../_images/part2_screw_dislocation_7_0.png" />
 </div>
 </div>
 <p>Let’s also have a couple helper functions for interpolating functions and surface.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interp_fnc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">):</span>
-    <span class="n">iw</span> <span class="o">=</span> <span class="n">interp_weights</span><span class="p">(</span><span class="n">in_xhat</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">barycentric_eval</span><span class="p">(</span><span class="n">out_xhat</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">in_xhat</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">I</span><span class="p">(</span><span class="n">out_xhat</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">interp_surface</span><span class="p">(</span><span class="n">in_surf</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># So far, we&#39;ve defined surfaces as five element tuples consisting of:</span>
+    <span class="c1"># (x, y, normal_x, normal_y, jacobian)</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">in_surf</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
         <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interp_fnc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span>
@@ -394,9 +406,18 @@
 </div>
 <div class="section" id="hypersingular-stress-integrals">
 <h2><span class="section-number">2.3. </span>Hypersingular stress integrals<a class="headerlink" href="#hypersingular-stress-integrals" title="Permalink to this headline">¶</a></h2>
-<p>The second missing piece is a naive integrator for the hypersingular integral! In earthquake speak, still operating in the antiplane setting, since we set the observation point normal to <span class="math notranslate nohighlight">\((1, 0)\)</span>, we’re computing the stress component <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span>. If we set the observation normal to <span class="math notranslate nohighlight">\((0, 1)\)</span>, we would compute <span class="math notranslate nohighlight">\(\sigma_{yz}\)</span>. (Note: I’m also implicitly assuming the shear modulus <span class="math notranslate nohighlight">\(\mu = 1\)</span>.)</p>
-<p>Since, we already built all the components of an algorithm for the double layer case, we can now just write this naive integrator for a new kernel and everything works perfectly.</p>
-<p>Why is this kernel called “hypersingular”? Because the kernel behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r^2})\)</span> in 2D. This makes the integral especially difficult. As you’ll see below, this is not a barrier for QBX and we are able to calculate the integral extremely accurately even right on the surface.</p>
+<p>The second missing piece is a set of tools for computing stresses in the volume given an input fault slip. Continuing in the antiplane strain setting, what we want is to compute the gradient of displacement times the shear modulus.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ba74c282-901d-45fb-8c1f-a7b0a52ea9db">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-ba74c282-901d-45fb-8c1f-a7b0a52ea9db" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+(\sigma_{xz}, \sigma_{yz}) = (\mu \frac{\partial \phi}{\partial x}, \mu \frac{\partial \phi}{\partial y})
+\end{equation}\]</div>
+<p>To simplify things a bit here, I’m going to just compute the first compute <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span>. This is equivalent to computing a traction with the normal vector equal to <span class="math notranslate nohighlight">\((1, 0)\)</span>.</p>
+<p>The hypersingular integral will computes <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span> for us given the source slip distribution. Since, we already built all the components of a QBX algorithm for the double layer case, we can now just write the naive integrator for a new kernel and everything works perfectly. In the cell below, I’ve implemented a naive integrator for the hypersingular integral.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>As a reminder, By “naive integrator”, I just mean the non-QBX integration function that would be the equivalent of the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> function from the previous section.</p>
+</div>
+<p>Why is this kernel called “hypersingular”? Because the kernel behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r^2})\)</span> in 2D. This makes the integral especially difficult for many traditional integration methods. As you’ll see below, this is not a barrier for QBX and we are able to calculate the integral extremely accurately even right on the surface.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hypersingular_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">):</span>
@@ -406,8 +427,8 @@
     <span class="n">dy</span> <span class="o">=</span> <span class="n">obsy</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">srcy</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">r2</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">**</span> <span class="mi">2</span>
     
-    <span class="n">obsny</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">obsx</span>
     <span class="n">obsnx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">obsny</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">obsx</span>
     
     <span class="n">srcn_dot_obsn</span> <span class="o">=</span> <span class="n">srcnx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">obsnx</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">srcny</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">obsny</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
     <span class="n">d_dot_srcn</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">srcnx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">srcny</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
@@ -421,10 +442,14 @@
 </div>
 </div>
 </div>
-<p>Finally, I’ll write a pretty big function that is going to produce nice figures for comparing QBX against a naive computation. The function is written to be independent of the surface and kernel function. It also accepts QBX parameters. As a reminder, <code class="docutils literal notranslate"><span class="pre">offset_mult</span></code> is a multiplier for how far off the surface the QBX expansion centers are placed. <code class="docutils literal notranslate"><span class="pre">kappa</span></code> is the upsampling rate in case we want to use a higher order quadrature for computing QBX coefficients than for representing the surface. And <code class="docutils literal notranslate"><span class="pre">qbx_p</span></code> is the order of the power series expansion. Please look through the function! Very little is new compared to Part 1.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>By leaving out the shear modulus, I’m implicitly assuming that <span class="math notranslate nohighlight">\(\mu = 1\)</span>. You can just imagine that we’re solving a nondimensionalized version of the problem. This is quite common because scaling the displacement and stress to lie in a similar range of values can improve the numerical condition of some problems.</p>
+</div>
+<p>Finally, I’ll write a pretty big function that is going to produce nice figures for comparing QBX against a naive computation. The function is written to be independent of the surface and kernel function. It also accepts QBX parameters. As a reminder, <code class="docutils literal notranslate"><span class="pre">offset_mult</span></code> is a multiplier for how far off the surface the QBX expansion centers are placed. <code class="docutils literal notranslate"><span class="pre">kappa</span></code> is the upsampling rate in case we want to use a higher order quadrature for computing QBX coefficients than for representing the surface. And <code class="docutils literal notranslate"><span class="pre">qbx_p</span></code> is the order of the power series expansion. Please look through the function! Very little is new compared to section 1.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">qbx_example</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">offset_mult</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">qbx_p</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">qbx_example</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">offset_mult</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">qbx_p</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">slip_fnc</span><span class="p">(</span><span class="n">xhat</span><span class="p">):</span>
         <span class="c1"># This must be zero at the endpoints!</span>
@@ -496,11 +521,16 @@
         <span class="n">qbx_r</span><span class="p">,</span> 
         <span class="n">qbx_coeffs</span>
     <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Naive solution&#39;</span><span class="p">)</span>
-    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
     <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">disp_low</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">disp_low</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
@@ -518,7 +548,9 @@
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Naive error&#39;</span><span class="p">)</span>
-    <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">disp_low</span> <span class="o">-</span> <span class="n">disp_high</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">disp_low</span> <span class="o">-</span> <span class="n">disp_high</span><span class="p">))</span>
     <span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">12.0</span>
     <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
@@ -548,7 +580,9 @@
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;QBX error&#39;</span><span class="p">)</span>
-    <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">disp_qbx</span> <span class="o">-</span> <span class="n">disp_high</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">disp_qbx</span> <span class="o">-</span> <span class="n">disp_high</span><span class="p">))</span>
     <span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">12.0</span>
     <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
@@ -580,16 +614,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_17_0.png" src="../_images/part2_screw_dislocation_17_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_17_3.png" src="../_images/part2_screw_dislocation_17_3.png" />
+<img alt="../_images/part2_screw_dislocation_16_0.png" src="../_images/part2_screw_dislocation_16_0.png" />
+<img alt="../_images/part2_screw_dislocation_16_1.png" src="../_images/part2_screw_dislocation_16_1.png" />
 </div>
 </div>
 </div>
@@ -602,16 +628,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_19_0.png" src="../_images/part2_screw_dislocation_19_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_19_3.png" src="../_images/part2_screw_dislocation_19_3.png" />
+<img alt="../_images/part2_screw_dislocation_18_0.png" src="../_images/part2_screw_dislocation_18_0.png" />
+<img alt="../_images/part2_screw_dislocation_18_1.png" src="../_images/part2_screw_dislocation_18_1.png" />
 </div>
 </div>
 </div>
@@ -632,16 +650,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_21_0.png" src="../_images/part2_screw_dislocation_21_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_21_3.png" src="../_images/part2_screw_dislocation_21_3.png" />
+<img alt="../_images/part2_screw_dislocation_20_0.png" src="../_images/part2_screw_dislocation_20_0.png" />
+<img alt="../_images/part2_screw_dislocation_20_1.png" src="../_images/part2_screw_dislocation_20_1.png" />
 </div>
 </div>
 </div>
@@ -654,16 +664,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_23_0.png" src="../_images/part2_screw_dislocation_23_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_23_3.png" src="../_images/part2_screw_dislocation_23_3.png" />
+<img alt="../_images/part2_screw_dislocation_22_0.png" src="../_images/part2_screw_dislocation_22_0.png" />
+<img alt="../_images/part2_screw_dislocation_22_1.png" src="../_images/part2_screw_dislocation_22_1.png" />
 </div>
 </div>
 </div>
@@ -687,16 +689,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_25_0.png" src="../_images/part2_screw_dislocation_25_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_25_3.png" src="../_images/part2_screw_dislocation_25_3.png" />
+<img alt="../_images/part2_screw_dislocation_24_0.png" src="../_images/part2_screw_dislocation_24_0.png" />
+<img alt="../_images/part2_screw_dislocation_24_1.png" src="../_images/part2_screw_dislocation_24_1.png" />
 </div>
 </div>
 </div>
@@ -709,16 +703,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_27_0.png" src="../_images/part2_screw_dislocation_27_0.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:95: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_low - disp_high))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-4395429525d3&gt;:125: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(disp_qbx - disp_high))
-</pre></div>
-</div>
-<img alt="../_images/part2_screw_dislocation_27_3.png" src="../_images/part2_screw_dislocation_27_3.png" />
+<img alt="../_images/part2_screw_dislocation_26_0.png" src="../_images/part2_screw_dislocation_26_0.png" />
+<img alt="../_images/part2_screw_dislocation_26_1.png" src="../_images/part2_screw_dislocation_26_1.png" />
 </div>
 </div>
 </div>

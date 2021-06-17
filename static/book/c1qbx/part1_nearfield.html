@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -232,6 +234,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="false/v2/gh/tbenthompson/BIE_book/master?urlpath=tree/c1qbx/part1_nearfield.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -287,8 +306,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#general-purpose-qbx-methods">
-   1.3. General-purpose QBX methods
+  <a class="reference internal nav-link" href="#general-purpose-qbx-implementation">
+   1.3. General-purpose QBX implementation
   </a>
  </li>
 </ul>
@@ -309,11 +328,13 @@
 <div class="section" id="near-field-evaluation">
 <h3><span class="section-number">1.1.1. </span>Near-field evaluation<a class="headerlink" href="#near-field-evaluation" title="Permalink to this headline">¶</a></h3>
 <p>When working with boundary integral methods, it’s common to need to evaluate surface integrals like:</p>
-<div class="math notranslate nohighlight">
-\[u(x) = \int_{S} K(x, y) \phi(y) dy\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-ec920fbc-311f-429b-9598-7447e41b0159">
+<span class="eqno">(1.14)<a class="headerlink" href="#equation-ec920fbc-311f-429b-9598-7447e41b0159" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(x) = \int_{S} K(x, y) \phi(y) dy
+\end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(K(x, y)\)</span> is often a singular function with a form like <span class="math notranslate nohighlight">\(\log(\|x-y\|)\)</span> or <span class="math notranslate nohighlight">\(\frac{1}{\|x-y\|}\)</span>.</p>
-<p>If <span class="math notranslate nohighlight">\(x\)</span> is far away from <span class="math notranslate nohighlight">\(S\)</span>, then the integral is super easy to compute with standard quadrature rules like Gaussian quadrature or the trapezoidal rule. But, if <span class="math notranslate nohighlight">\(x\)</span> is close to some part of <span class="math notranslate nohighlight">\(S\)</span>, then the singularity in <span class="math notranslate nohighlight">\(K(x,y)\)</span> makes computation of the integral hard. This is called the <strong>near-field evaluation problem</strong>.</p>
-<p>The brute force solution to the problem is to just increase the order of the quadrature rule you’re using. Strictly speaking, this works. But, the number of quadrature points will grow prohibitively large as <span class="math notranslate nohighlight">\(x\)</span> approaches <span class="math notranslate nohighlight">\(S\)</span>. Depending on the exact behavior of <span class="math notranslate nohighlight">\(K(x,y)\)</span>, the number of quadrature points might grow like <span class="math notranslate nohighlight">\(O(r^{-1})\)</span> or <span class="math notranslate nohighlight">\(O(r^{-2})\)</span> in terms of <span class="math notranslate nohighlight">\(r\)</span>, the shortest distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(x\)</span> is far away from <span class="math notranslate nohighlight">\(S\)</span>, then the integral is very smooth and well-behaved and can be super easily computed with standard quadrature rules like Gaussian quadrature or the trapezoidal rule. But, if <span class="math notranslate nohighlight">\(x\)</span> is close to some part of <span class="math notranslate nohighlight">\(S\)</span>, then the singularity in <span class="math notranslate nohighlight">\(K(x,y)\)</span> makes computation of the integral hard. In the boundary integral literature, this is called the <strong>near-field evaluation problem</strong>.</p>
+<p>The brute force solution to the problem is to just increase the order of the quadrature rule you’re using. Strictly speaking, this works. But, the number of quadrature points will grow prohibitively large as <span class="math notranslate nohighlight">\(x\)</span> approaches <span class="math notranslate nohighlight">\(S\)</span>. Depending on the exact behavior of <span class="math notranslate nohighlight">\(K(x,y)\)</span>, the number of quadrature points might grow like <span class="math notranslate nohighlight">\(O(r^{-1})\)</span> or <span class="math notranslate nohighlight">\(O(r^{-2})\)</span> in terms of <span class="math notranslate nohighlight">\(r\)</span>, the shortest distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(S\)</span>. Even mildly nearby points will require too many quadrature points to be practical.</p>
 </div>
 <div class="section" id="qbx">
 <h3><span class="section-number">1.1.2. </span>QBX<a class="headerlink" href="#qbx" title="Permalink to this headline">¶</a></h3>
@@ -327,14 +348,21 @@
 </div>
 <div class="section" id="qbx-via-complex-power-series">
 <h3><span class="section-number">1.1.3. </span>QBX via complex power series<a class="headerlink" href="#qbx-via-complex-power-series" title="Permalink to this headline">¶</a></h3>
-<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id10">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions. We re-write the observation coordinate into the complex plane. The observation point <span class="math notranslate nohighlight">\(\hat{x} = x_1 + ix_2\)</span> and the expansion center <span class="math notranslate nohighlight">\(\hat{c} = c_1 + ic_2\)</span> which is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)\]</div>
-<p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(x)\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(c\)</span>. Since the whole point of this method is to solve the problem that computing <span class="math notranslate nohighlight">\(u(x)\)</span> near the surface is hard, we need to make sure that the circle centered at <span class="math notranslate nohighlight">\(c\)</span> has a radius substantially less than <span class="math notranslate nohighlight">\(r\)</span>. So, generally <span class="math notranslate nohighlight">\(\delta\)</span> is chosen as 0.5. That will keep the evaluation points far enough from the surface, but keep the circle large enough to properly resolve the power series. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>
+<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id10">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions. We re-write the observation coordinate into the complex plane. The observation point becomes <span class="math notranslate nohighlight">\(\hat{x} = x_1 + ix_2\)</span> and the expansion center becomes <span class="math notranslate nohighlight">\(\hat{c} = c_1 + ic_2\)</span>. The expansion center is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cd91ee48-841c-4ee1-aef1-60c0343b92f6">
+<span class="eqno">(1.15)<a class="headerlink" href="#equation-cd91ee48-841c-4ee1-aef1-60c0343b92f6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
+\end{equation}\]</div>
+<p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(x)\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(c\)</span>. Since the whole point of this method is to solve the problem that computing <span class="math notranslate nohighlight">\(u(x)\)</span> near the surface is hard, we need to make sure that the circle centered at <span class="math notranslate nohighlight">\(c\)</span> has a radius substantially less than <span class="math notranslate nohighlight">\(r\)</span>. If the radius is too large, we will need to evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> too close to <span class="math notranslate nohighlight">\(S\)</span>. On the other hand, if the radius is too small, then the expansion gains less approximation power per added term. So, generally <span class="math notranslate nohighlight">\(\delta\)</span> is chosen as 0.5 to balance these two concerns. That will keep the evaluation points far enough from the surface, but keep the circle large enough to properly resolve the power series. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>
 <div class="math notranslate nohighlight">
 \[\alpha_l = \frac{1}{\pi (\delta r)^l}\int_{0}^{2\pi} u(c + \delta r(cos \theta, sin \theta)) e^{-il\theta} d\theta \]</div>
 <p>and for <span class="math notranslate nohighlight">\(l=0\)</span>, we simply divide the above integral by two.</p>
 <p>Because these expansion coefficient integrals are of a smooth function and are periodic, it makes sense to use a trapezoidal quadrature rule for integrating them.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/part1_nearfield_3_0.png" src="../_images/part1_nearfield_3_0.png" />
+</div>
+</div>
 </div>
 <div class="section" id="summary">
 <h3><span class="section-number">1.1.4. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h3>
@@ -348,11 +376,11 @@
 </ol>
 <p>Some comments about QBX:</p>
 <ul class="simple">
-<li><p>Because the evaluation of the series is independent of the computation of the coefficients, we can compute many near-field values for the price of one.</p></li>
-<li><p>The method actually works just as well for computing a <span class="math notranslate nohighlight">\(u(x)\)</span> directly on the boundary. To be precise, we can compute a limit to the boundary like <span class="math notranslate nohighlight">\(\lim_{x \to S^+}u(x)\)</span>. Thus, QBX can actually replace the singular quadrature required in many boundary integral methods.</p></li>
-<li><p>The method works best when there are no singularities in <span class="math notranslate nohighlight">\(u(x)\)</span>. The most common violation of this is a sharp corner in <span class="math notranslate nohighlight">\(S\)</span>. When there are corners, QBX will still work, but the expansion center <span class="math notranslate nohighlight">\(c\)</span> will need to be closer to the surface and a high number of quadrature points might be needed in the vicinity of the corner.</p></li>
-<li><p>There are three relevant parameters which all control the accuracy. The distance to offset from the surface, <span class="math notranslate nohighlight">\(R\)</span>. The order of the expansion, <span class="math notranslate nohighlight">\(p\)</span>. And the order of quadrature method used to compute the coefficients of the expansion, <span class="math notranslate nohighlight">\(n_q\)</span>. They interact in somewhat complex ways.</p></li>
-<li><p>By increasing <span class="math notranslate nohighlight">\(R\)</span>, the expansion is formed further from the surface and (holding <span class="math notranslate nohighlight">\(n_q\)</span> constant) the expansion coefficients will be computed more accurately, but (holding <span class="math notranslate nohighlight">\(p\)</span> constant) the accuracy of the expansion near the surface will decrease because the distance from the evaluation point to the expansion center is larger.</p></li>
+<li><p>Because the evaluation of the series is independent of the computation of the coefficients, we can compute <strong>many near-field values for the price of one</strong>.</p></li>
+<li><p>The method actually works just as well for computing a <span class="math notranslate nohighlight">\(u(x)\)</span> directly on the boundary. To be precise, we can compute a limit to the boundary like <span class="math notranslate nohighlight">\(\lim_{x \to S^+}u(x)\)</span>. Thus, QBX can actually <strong>replace the singular quadrature required in many boundary integral methods</strong>.</p></li>
+<li><p>The method works best when there are no singularities in <span class="math notranslate nohighlight">\(u(x)\)</span>. The most common violation of this is a sharp corner in <span class="math notranslate nohighlight">\(S\)</span>. When there are corners, QBX will still work, but the expansion center <span class="math notranslate nohighlight">\(c\)</span> will need to be closer to the surface and, as a result, a high number of quadrature points will be needed in the vicinity of the corner.</p></li>
+<li><p>There are three relevant parameters which all control the accuracy. The distance to offset from the surface, <span class="math notranslate nohighlight">\(r\)</span>. The order of the expansion, <span class="math notranslate nohighlight">\(p\)</span>. And the order of quadrature method used to compute the coefficients of the expansion, <span class="math notranslate nohighlight">\(n_q\)</span>. They interact in somewhat complex ways.</p></li>
+<li><p>By increasing <span class="math notranslate nohighlight">\(r\)</span>, the expansion is formed further from the surface and (holding <span class="math notranslate nohighlight">\(n_q\)</span> constant) the expansion coefficients will be computed more accurately, but (holding <span class="math notranslate nohighlight">\(p\)</span> constant) the accuracy of the expansion near the surface will decrease because the distance from the evaluation point to the expansion center is larger.</p></li>
 <li><p>Increasing <span class="math notranslate nohighlight">\(p\)</span> will improve the accuracy of the expansion up to a point, but eventually the higher order terms in the expansion will become corrupted by the error introduced by the numerical integration. So, in order to increase <span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(n_q\)</span> must also increase.</p></li>
 </ul>
 </div>
@@ -361,7 +389,11 @@
 <h2><span class="section-number">1.2. </span>Implementing QBX<a class="headerlink" href="#implementing-qbx" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="the-double-layer-potential-on-a-circle">
 <h3><span class="section-number">1.2.1. </span>The double layer potential on a circle.<a class="headerlink" href="#the-double-layer-potential-on-a-circle" title="Permalink to this headline">¶</a></h3>
-<p>Great, let’s put together a simple implementation for the Laplace double layer potential! So, we’re computing the electric or magnetic potential due to a dipolar surface. Or, the displacement due to an earthquake under the assumption of antiplane strain. How easily does this extend to 2D plane-strain elasticity? Super easily. In fact, basically nothing needs to change except that we do everything four times, once for each component of the 2x2 tensor form of the equations!</p>
+<p>Great, let’s put together a simple implementation for the Laplace double layer potential! The double layer potential is one of the fundamental objects of potential theory and, physically, is the integral that computes the electric or magnetic potential due to a dipolar surface. Or, the integral that computes the displacement due to an earthquake under the assumption of antiplane strain.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>How easily do these double layer potential calculations extend to 2D plane-strain elasticity? Super easily. In fact, basically nothing needs to change except that we do everything four times, once for each component of the 2x2 tensor form of the equations! Extension to 3D elasticity is even more involved from a software and computational standpoint, but also does not require major algorithmic changes.</p>
+</div>
 <p>First, we’ll set up a few useful functions: a couple quadrature rules and a definition of the circular geometry we’ll be using.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -376,7 +408,7 @@
 <span class="k">def</span> <span class="nf">trapezoidal_rule</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
 
-<span class="c1"># our simple curve functions will return (x, y, nx, ny, jacobian)</span>
+<span class="c1"># our simple curve functions will return (x, y, normal_x, normal_y, jacobian)</span>
 <span class="c1"># because the input quadrature rule is on the domain [-1, 1], the </span>
 <span class="c1"># jacobian of the transformation for a circle with radius 1 is </span>
 <span class="c1"># constant and equal to pi.</span>
@@ -389,16 +421,16 @@
 </div>
 </div>
 </div>
-<p>If we discretize the integral for many observation points</p>
+<p>The double layer potential takes the form of a standard boundary integral operator, where the specific form of <span class="math notranslate nohighlight">\(K(x, y)\)</span> can be found in the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> code below.</p>
 <div class="math notranslate nohighlight">
 \[u(x) = \int_{S} K(x, y) \phi(y) dy\]</div>
-<p>the result:</p>
+<p>Discretizing the integral for many observation points indexed by <span class="math notranslate nohighlight">\(i\)</span> and for many source points indexed by <span class="math notranslate nohighlight">\(j\)</span>, the result:</p>
 <div class="math notranslate nohighlight">
 \[u_i = \sum_j K(x_i, y_j) \phi(y_j)\]</div>
 <p>can be written in matrix form:</p>
 <div class="math notranslate nohighlight">
 \[\textbf{u} = \textbf{A} \textbf{b}\]</div>
-<p>where the matrix of interest is <span class="math notranslate nohighlight">\(A_{ij} = K(x_i, y_j)\)</span>. This function computes that matrix for K(x,y) as the dipole kernel of the Laplace equation or the “slip to displacement” kernel for antiplane elasticity!</p>
+<p>where the matrix of interest is <span class="math notranslate nohighlight">\(A_{ij} = K(x_i, y_j)\)</span>. This function computes that matrix for K(x,y) as the dipole kernel of the Laplace equation or the “slip to displacement” kernel for antiplane elasticity! The function below builds this matrix!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">double_layer_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">):</span>
@@ -416,7 +448,7 @@
 </div>
 </div>
 </div>
-<p>So, let’s plot up what <span class="math notranslate nohighlight">\(u(x)\)</span> looks like. For the rest of this notebook, we’ll use the simple <span class="math notranslate nohighlight">\(\phi(y) = y_2\)</span> as the source function. Let’s start by using a fairly low quadrature order, just 50 points on the whole circle.</p>
+<p>So, let’s plot up what <span class="math notranslate nohighlight">\(u(x)\)</span> looks like. For the rest of this section, we’ll use the simple <span class="math notranslate nohighlight">\(\phi(y) = y_2\)</span> as the source function and use a circle as the surface <span class="math notranslate nohighlight">\(S\)</span>. In the next section, we’ll explore some more interesting geometries and functions. Let’s start by using a fairly low quadrature order, just 50 points on the whole circle.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nobs</span> <span class="o">=</span> <span class="mi">100</span>
@@ -457,10 +489,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part1_nearfield_8_0.png" src="../_images/part1_nearfield_8_0.png" />
+<img alt="../_images/part1_nearfield_12_0.png" src="../_images/part1_nearfield_12_0.png" />
 </div>
 </div>
-<p>Pretty picture! But, you can immediately see the uglyness near the boundary. This is what we’ll solve with QBX! Let’s actually quantify that error. We’ll compare our 50 point integration against a 2000 point integration.</p>
+<p>Pretty picture. But, you can immediately see the uglyness near the boundary! This is what we’ll solve with QBX. Let’s actually quantify that error. We’ll compare our 50 point integration against a 2000 point integration.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zoomnobs</span> <span class="o">=</span> <span class="mi">200</span>
@@ -513,11 +545,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-7-9924903fd95e&gt;:18: RuntimeWarning: divide by zero encountered in log10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-8-9924903fd95e&gt;:18: RuntimeWarning: divide by zero encountered in log10
   logerror = np.log10(np.abs(zoomu_low - zoomu_high))
 </pre></div>
 </div>
-<img alt="../_images/part1_nearfield_11_1.png" src="../_images/part1_nearfield_11_1.png" />
+<img alt="../_images/part1_nearfield_15_1.png" src="../_images/part1_nearfield_15_1.png" />
 </div>
 </div>
 <p>We’re zoomed in on the left edge of the circle here which shows the little dipoles from the low order quadrature on the left. In the middle, the super high order quadrature cleans up the picture (but, note that if you zoomed in by a factor of 10x, you’d see the dipoles again even with the 2000 point quadrature). The right hand figure shows the <span class="math notranslate nohighlight">\(\log_{10}\)</span> error in the low order integrals. The error very close to the surface is more-or-less 100%.</p>
@@ -541,7 +573,7 @@
 
 <span class="c1"># transform the quadrature rule from [-1, 1] to [0, 2*pi]</span>
 <span class="n">trap_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">trap_x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">trap_weights</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="c1"># multiply by the jacobian of the transformation</span>
+<span class="n">trap_weights</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="c1"># multiply the quadrature weights by the jacobian of the transformation</span>
 </pre></div>
 </div>
 </div>
@@ -632,7 +664,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part1_nearfield_26_0.png" src="../_images/part1_nearfield_26_0.png" />
+<img alt="../_images/part1_nearfield_30_0.png" src="../_images/part1_nearfield_30_0.png" />
 </div>
 </div>
 <p>The left panel here shows <span class="math notranslate nohighlight">\(u(x)\)</span> from the QBX evaluation, the middle panel shows <span class="math notranslate nohighlight">\(u(x)\)</span> from the 2000 point quadrature and the right panel shows the <span class="math notranslate nohighlight">\(\log_{10}\)</span> error in the QBX evaluation. Take-aways:</p>
@@ -643,14 +675,17 @@
 </ul>
 </div>
 </div>
-<div class="section" id="general-purpose-qbx-methods">
-<h2><span class="section-number">1.3. </span>General-purpose QBX methods<a class="headerlink" href="#general-purpose-qbx-methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general-purpose-qbx-implementation">
+<h2><span class="section-number">1.3. </span>General-purpose QBX implementation<a class="headerlink" href="#general-purpose-qbx-implementation" title="Permalink to this headline">¶</a></h2>
 <p>While what we did so far is a cool demonstration, it’s not a practical implementation. Ultimately, we need to be able to provide a big list of observation points and expect the code to choose whether to compute the integral directly or, if a point is near the surface, use QBX. And, we need to assign points to which expansion they are going to use.</p>
 <p>It might make sense to skip to the end of this section and take a look at the figure generated to understand what the end goal is.</p>
 <p>First, I’ll skim over the implementation of a couple functions that generalize and vectorize the code from above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">qbx_choose_centers</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">mult</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function will produce expansion centers for QBX power series. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
 
     <span class="c1"># The expansion center will be offset from the surface in the direction of</span>
@@ -663,10 +698,12 @@
 
 
 <span class="k">def</span> <span class="nf">qbx_expand_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="c1"># Instead of computing for a single expansion center, we&#39;ll do it for many</span>
-    <span class="c1"># at once.  There will be one expansion center for each point on the input</span>
-    <span class="c1"># surface.  We&#39;ll also compute the matrix form so that we can apply it</span>
-    <span class="c1"># multiply times for different source functions.</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function will produce a matrix that computes the terms in the many QBX</span>
+<span class="sd">    expansions as a function of the source function. </span>
+<span class="sd">    </span>
+<span class="sd">    We build the matrix for all the QBX expansion centers at once.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
 
     <span class="n">qbx_nq</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">qbx_p</span> <span class="o">+</span> <span class="mi">1</span>
@@ -674,8 +711,8 @@
     <span class="n">qbx_qw</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
     <span class="n">qbx_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">qbx_qx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># The coefficient integral points will have shape (number of expansions,</span>
-    <span class="c1"># number of quadrature points).</span>
+    <span class="c1"># The coefficient integral points will have shape:</span>
+    <span class="c1"># (number of expansions, number of quadrature points).</span>
     <span class="n">qbx_eval_r</span> <span class="o">=</span> <span class="n">qbx_r</span> <span class="o">*</span> <span class="mf">0.5</span>
     <span class="n">qbx_x</span> <span class="o">=</span> <span class="n">center_x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">qbx_eval_r</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">qbx_theta</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">qbx_y</span> <span class="o">=</span> <span class="n">center_y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">qbx_eval_r</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">qbx_theta</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
@@ -685,7 +722,7 @@
     <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">*</span><span class="n">qbx_x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">srcx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
     <span class="c1"># Compute the expansion coefficients in matrix form.</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">center_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qbx_p</span><span class="p">,</span> <span class="n">srcx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">center_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qbx_p</span><span class="p">,</span> <span class="n">srcx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qbx_p</span><span class="p">):</span>
         <span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">qbx_eval_r</span> <span class="o">**</span> <span class="n">L</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">L</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -696,12 +733,18 @@
 
 
 <span class="k">def</span> <span class="nf">qbx_eval_matrix</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="c1"># Construct a matrix that evaluates the QBX expansions. This should look</span>
-    <span class="c1"># very similar to the single-expansion case above.</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the expansion coefficients computed by the matrix from qbx_expand_matrix,</span>
+<span class="sd">    we want to evaluate the actual potential at a point. This function produces</span>
+<span class="sd">    a matrix that evaluates potential at (obsx, obsy) given expansions centered at</span>
+<span class="sd">    (center_x, center_y).</span>
+<span class="sd">    </span>
+<span class="sd">    The form of the function should look very similar to the single-expansion case above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">obs_complex</span> <span class="o">=</span> <span class="n">obsx</span> <span class="o">+</span> <span class="n">obsy</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
     <span class="n">qbx_center</span> <span class="o">=</span> <span class="n">center_x</span> <span class="o">+</span> <span class="n">center_y</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
     <span class="n">sep</span> <span class="o">=</span> <span class="n">obs_complex</span> <span class="o">-</span> <span class="n">qbx_center</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qbx_p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qbx_p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qbx_p</span><span class="p">):</span>
         <span class="n">out</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">L</span><span class="p">]</span> <span class="o">=</span> <span class="n">sep</span> <span class="o">**</span> <span class="n">L</span>
     <span class="k">return</span> <span class="n">out</span>
@@ -724,7 +767,23 @@
     <span class="n">qbx_r</span><span class="p">,</span>
     <span class="n">qbx_coeffs</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="c1"># Build a KDTree for doing nearest neighbor searches amongst the QBX centers</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a full interior evaluation using naive calculation when acceptable</span>
+<span class="sd">    and using QBX when necessary.</span>
+<span class="sd">    </span>
+<span class="sd">    Steps:</span>
+<span class="sd">    1) Use a KDTree to identify which QBX expansion center is closest to each </span>
+<span class="sd">       of the provided observation coordinates (obsx, obsy)</span>
+<span class="sd">    2) Determine if those points are close enough to the surface to justify using </span>
+<span class="sd">       QBX.</span>
+<span class="sd">    3) Construct a vectorized mapping between observation points and their </span>
+<span class="sd">       corresponding expansion center.</span>
+<span class="sd">    4) Compute the naive calculation where acceptable.</span>
+<span class="sd">    5) Compute the QBX calculation where necessary.</span>
+<span class="sd">    6) Combine the naive and QBX calculation!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Step 1) Build a KDTree for doing nearest neighbor searches amongst the QBX centers</span>
     <span class="n">center_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
     <span class="n">qbx_centers_tree</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">center_pts</span><span class="p">)</span>
 
@@ -734,7 +793,7 @@
 
     <span class="n">lookup_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="c1"># Identify the distance to the closest expansion, which expansion that is,</span>
+    <span class="c1"># Step 2) Identify the distance to the closest expansion, which expansion that is,</span>
     <span class="c1"># and the distance to the surface.</span>
     <span class="n">dist_to_expansion</span><span class="p">,</span> <span class="n">closest_expansion</span> <span class="o">=</span> <span class="n">qbx_centers_tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">lookup_pts</span><span class="p">)</span>
     <span class="n">dist_to_surface</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">surface_tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">lookup_pts</span><span class="p">)</span>
@@ -746,38 +805,42 @@
         <span class="n">dist_to_surface</span> <span class="o">&lt;</span> <span class="n">qbx_r</span><span class="p">[</span><span class="n">closest_expansion</span><span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="c1"># And we identify which expansion centers are ever used, and how many times.</span>
-    <span class="n">qbx_centers_used</span><span class="p">,</span> <span class="n">center_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
-        <span class="n">closest_expansion</span><span class="p">[</span><span class="n">use_qbx</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
 
-    <span class="c1"># This part is slightly complex. The vectorization in qbx_eval_matrix means</span>
+
+    <span class="c1"># Step 3) This part is slightly complex. The vectorization in qbx_eval_matrix means</span>
     <span class="c1"># that for each QBX center, we need to compute the same number of</span>
-    <span class="c1"># observation points. So, we find the maximum number of observation points</span>
+    <span class="c1"># observation points. But, we have different numbers of observation points for </span>
+    <span class="c1"># each expansion. So, we pad the array for those expansions that have fewer </span>
+    <span class="c1"># corresponding observation points. </span>
+    <span class="c1"># To do this, we first find the maximum number of observation points</span>
     <span class="c1"># for any expansion center. qbx_eval_pts is going to be the list of points</span>
-    <span class="c1"># for each expansion center orig_pt_idxs is a mapping back to which indices</span>
+    <span class="c1"># for each expansion center. orig_pt_idxs is a mapping back to which indices</span>
     <span class="c1"># those points correspond to in the original obsx and obsy input arrays.</span>
     <span class="c1"># Because some expansion centers won&#39;t use the full n_max_per_qbx_center</span>
     <span class="c1"># observation points, orig_pt_idxs equals -1 by default. This will be used</span>
     <span class="c1"># later to identify which entries are valid and which are just</span>
-    <span class="c1"># &quot;vectorization junk&quot;.</span>
+    <span class="c1"># padding/&quot;vectorization junk&quot;.</span>
+    <span class="c1"># First, we identify which expansion centers are ever used, and how many times.</span>
+    <span class="n">qbx_centers_used</span><span class="p">,</span> <span class="n">center_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">closest_expansion</span><span class="p">[</span><span class="n">use_qbx</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <span class="n">n_max_per_qbx_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">center_counts</span><span class="p">)</span>
     <span class="n">qbx_eval_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">orig_pt_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    <span class="n">orig_pt_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qbx_centers_used</span><span class="p">):</span>
         <span class="c1"># So, for each QBX center, we find the observation points that use it.</span>
         <span class="n">idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">closest_expansion</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">use_qbx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">orig_pt_idxs</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idxs</span>
         <span class="n">qbx_eval_pts</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup_pts</span><span class="p">[</span><span class="n">orig_pt_idxs</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">],</span> <span class="p">:]</span>
 
-    <span class="c1"># Now, we get to actually computing integrals.  First, compute the brute</span>
+    <span class="c1"># Step 4) Now, we get to actually computing integrals.  First, compute the brute</span>
     <span class="c1"># force integral for every observation point. We&#39;ll just overwrite the ones</span>
     <span class="c1"># using QBX next.</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span>
         <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span> <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule</span>
     <span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
 
-    <span class="c1"># This is the matrix that maps from QBX coeffs to observation point</span>
+    <span class="c1"># Step 5) This is the matrix that maps from QBX coeffs to observation point</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">qbx_eval_matrix</span><span class="p">(</span>
         <span class="n">qbx_eval_pts</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="n">qbx_eval_pts</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span>
@@ -790,7 +853,7 @@
     <span class="c1"># summation over the l index in the alpha expansion coefficients.</span>
     <span class="n">out_for_qbx_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Q</span> <span class="o">*</span> <span class="n">qbx_coeffs</span><span class="p">[</span><span class="n">qbx_centers_used</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="c1"># Finally, use the QBX evaluation where appropriate. If orig_pt_idxs == -1,</span>
+    <span class="c1"># Step 6) Finally, use the QBX evaluation where appropriate. If orig_pt_idxs == -1,</span>
     <span class="c1"># the entries are vectorization junk.</span>
     <span class="n">out</span><span class="p">[</span><span class="n">orig_pt_idxs</span><span class="p">[</span><span class="n">orig_pt_idxs</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">out_for_qbx_points</span><span class="p">[</span><span class="n">orig_pt_idxs</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
 
@@ -799,7 +862,8 @@
 </div>
 </div>
 </div>
-<p>This part should look familiar. We’re calculating a low and high order baseline solution for calculating errors and comparing QBX again the naive approach.</p>
+<p>Whew. That was a challenge. If the code isn’t making complete sense, I’d encourage you to try downloading the Jupyter notebook and stepping through line by line looking at the shapes of the various arrays. Vectorized code can be challenging.</p>
+<p>The part below should look familiar. We’re calculating a low and high order baseline solution for calculating errors and comparing QBX against the naive approach.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">200</span>
@@ -833,8 +897,8 @@
 </div>
 </div>
 </div>
-<p>Now, we get into the meat of it. Using an 8th order QBX expansion, we’ll create expansions away from the surface for each source point. <code class="docutils literal notranslate"><span class="pre">qbx_center_x/y</span></code> are the coordinates of those expansion centers and <code class="docutils literal notranslate"><span class="pre">qbx_r</span></code> is both the maximum radius at which the expansion is valid and the distance from the surface to the expansion center. <code class="docutils literal notranslate"><span class="pre">Qexpand</span></code> will be a matrix that maps from the source density to the expansion coefficients. As a result, <code class="docutils literal notranslate"><span class="pre">qbx_coeffs</span></code> are the coefficients resulting from the density <code class="docutils literal notranslate"><span class="pre">surface[1]</span></code> (just the y coordinate on the surface).</p>
-<p>Note that everything here is independent of the observation points. We can re-use these expansion coefficients for many different sets of observation points.</p>
+<p>Now, we get into the meat of it. Using an 8th order QBX expansion, we’ll create expansions away from the surface for each source point. <code class="docutils literal notranslate"><span class="pre">qbx_center_x</span></code> and <code class="docutils literal notranslate"><span class="pre">qbx_center_y</span></code> are the coordinates of those expansion centers and <code class="docutils literal notranslate"><span class="pre">qbx_r</span></code> is both the maximum radius at which the expansion is valid and the distance from the surface to the expansion center. <code class="docutils literal notranslate"><span class="pre">Qexpand</span></code> will be a matrix that maps from the source density to the expansion coefficients. As a result, <code class="docutils literal notranslate"><span class="pre">qbx_coeffs</span></code> are the coefficients resulting from the density <code class="docutils literal notranslate"><span class="pre">surface[1]</span></code> (just the y coordinate on the surface).</p>
+<p>Note that everything in this cell is independent of the observation points. We can re-use these expansion coefficients for many different sets of observation points.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_p</span> <span class="o">=</span> <span class="mi">8</span>
@@ -844,30 +908,11 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-16-0b227c5c54ac&gt;:36: DeprecationWarning: `np.complex` is a deprecated alias for the builtin `complex`. To silence this warning, use `complex` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.complex128` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  alpha = np.empty((center_x.shape[0], qbx_p, srcx.shape[0]), dtype=np.complex)
-</pre></div>
-</div>
-</div>
 </div>
 <p>And then compute <span class="math notranslate nohighlight">\(u(x)\)</span> for every observation point. As we saw above, <code class="docutils literal notranslate"><span class="pre">qbx_interior_eval</span></code> will decide whether to use QBX or which expansion to use depending on where an observation point is located.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bie_eval_full_qbx</span> <span class="o">=</span> <span class="n">qbx_interior_eval</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_coeffs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-17-71c6a0ab8337&gt;:52: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  orig_pt_idxs = np.full((n_max_per_qbx_center, qbx_centers_used.shape[0]), -1, dtype=np.int)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-16-0b227c5c54ac&gt;:52: DeprecationWarning: `np.complex` is a deprecated alias for the builtin `complex`. To silence this warning, use `complex` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.complex128` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  out = np.empty((obsx.shape[0], obsx.shape[1], qbx_p), dtype=np.complex)
 </pre></div>
 </div>
 </div>
@@ -881,18 +926,11 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-16-0b227c5c54ac&gt;:36: DeprecationWarning: `np.complex` is a deprecated alias for the builtin `complex`. To silence this warning, use `complex` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.complex128` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  alpha = np.empty((center_x.shape[0], qbx_p, srcx.shape[0]), dtype=np.complex)
-&lt;ipython-input-17-71c6a0ab8337&gt;:52: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  orig_pt_idxs = np.full((n_max_per_qbx_center, qbx_centers_used.shape[0]), -1, dtype=np.int)
-</pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-16-0b227c5c54ac&gt;:52: DeprecationWarning: `np.complex` is a deprecated alias for the builtin `complex`. To silence this warning, use `complex` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.complex128` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-  out = np.empty((obsx.shape[0], obsx.shape[1], qbx_p), dtype=np.complex)
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -934,6 +972,7 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 
 <span class="c1">#fig.subplots_adjust(right=0.95)</span>
 <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.935</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">cbar_ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <span class="n">cb</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
 
 <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">(\|\hat</span><span class="si">{u}</span><span class="s1"> - \hat</span><span class="si">{u}</span><span class="s1">_{</span><span class="se">\\</span><span class="s1">textrm</span><span class="si">{QBX}</span><span class="s1">}|)$&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
@@ -943,27 +982,12 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">cbytick_obj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;qbx.pdf&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-22-a7073909bc8c&gt;:3: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(bie_eval_high - bie_eval))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-22-a7073909bc8c&gt;:13: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(bie_eval_high - bie_eval_qbx14))
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-22-a7073909bc8c&gt;:24: RuntimeWarning: divide by zero encountered in log10
-  logerror = np.log10(np.abs(bie_eval_high - bie_eval_full_qbx))
-&lt;ipython-input-22-a7073909bc8c&gt;:44: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
-  plt.tight_layout()
-</pre></div>
-</div>
-<img alt="../_images/part1_nearfield_39_3.png" src="../_images/part1_nearfield_39_3.png" />
+<img alt="../_images/part1_nearfield_44_0.png" src="../_images/part1_nearfield_44_0.png" />
 </div>
 </div>
 <p>The left figure shows the <span class="math notranslate nohighlight">\(\log_{10}\)</span> error for a naive brute-force integration. The middle figure shows the <span class="math notranslate nohighlight">\(\log_{10}\)</span> error when we use a single QBX expansion center. The right figure shows the <span class="math notranslate nohighlight">\(\log_{10}\)</span> when we use the closest QBX expansion center for every exterior point close to the boundary. The error is reduced from ~100% to ~0.0001% right near the boundary!</p>

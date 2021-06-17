@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -231,6 +233,23 @@
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="false/v2/gh/tbenthompson/BIE_book/master?urlpath=tree/tdes/sa_tdes.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -431,8 +450,8 @@
 <div class="section" id="the-somigliana-identity">
 <h3><span class="section-number">1.2.1. </span>The Somigliana identity<a class="headerlink" href="#the-somigliana-identity" title="Permalink to this headline">¶</a></h3>
 <p>The underlying basis of almost any (static, isotropic, homogeneous, linear) elastic boundary element or boundary integral method is the Somigliana identity:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a69faf44-2506-418a-ac5c-adce34c2568c">
-<span class="eqno">(1.1)<a class="headerlink" href="#equation-a69faf44-2506-418a-ac5c-adce34c2568c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1558ec32-8715-484a-aee4-eab7c2ebc1d5">
+<span class="eqno">(1.1)<a class="headerlink" href="#equation-1558ec32-8715-484a-aee4-eab7c2ebc1d5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     u_{k}(\mathbf{x}) + \int_{S} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = \int_{S} U^*_{kj}(\mathbf{x},\mathbf{y}) t_j(\mathbf{y}) d\mathbf{y} ~~~~~ \forall \mathbf{x} \in V
     \label{somigliana}
 \end{equation}\]</div>
@@ -446,12 +465,12 @@
 </ul>
 <p><strong>The main point here is that we sum both surface displacement and surface traction source effects over the entire source surface to compute the displacement at arbitary observation point in the domain.</strong></p>
 <p>Feel free to ignore these, but in 3D, the big ugly expressions for the kernel functions, <span class="math notranslate nohighlight">\(U^*\)</span> and <span class="math notranslate nohighlight">\(T^*\)</span> are:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cacb4c86-8818-4a41-b987-9e3448108a1c">
-<span class="eqno">(1.2)<a class="headerlink" href="#equation-cacb4c86-8818-4a41-b987-9e3448108a1c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-794d83a4-8dd6-4cf9-a1e6-f2a86b33aac3">
+<span class="eqno">(1.2)<a class="headerlink" href="#equation-794d83a4-8dd6-4cf9-a1e6-f2a86b33aac3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     U^*_{kj}(\mathbf{x},\mathbf{y}) = \frac{1}{16\pi\mu(1 - \nu)r}\big[(3 - 4\nu)\delta_{kj} + r_{,k}r_{,j}\big]
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-87404f8d-e9fd-4d18-9a30-8b38d56b7f20">
-<span class="eqno">(1.3)<a class="headerlink" href="#equation-87404f8d-e9fd-4d18-9a30-8b38d56b7f20" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b28de822-8eab-4fd5-8bc9-062daaaae312">
+<span class="eqno">(1.3)<a class="headerlink" href="#equation-b28de822-8eab-4fd5-8bc9-062daaaae312" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     T^*_{kj}(\mathbf{x},\mathbf{y}) = \frac{-1}{8\pi(1-\nu)r^2}\big[ \{(1-2\nu)\delta_{kj} + 3r_{,k}r_{,j} \}\frac{\partial r}{\partial \mathbf{n}} - (1 - 2\nu)\{n_jr_{,k} - n_kr_{,j}\}\big]
 \end{equation}\]</div>
 <p>with <span class="math notranslate nohighlight">\(\delta_{ij}\)</span> is the Kronecker delta, <span class="math notranslate nohighlight">\(\mu\)</span> as the elastic shear modulus, <span class="math notranslate nohighlight">\(\nu\)</span> as the poisson ratio, <span class="math notranslate nohighlight">\(\mathbf{n}\)</span> is the normal vector to <span class="math notranslate nohighlight">\(S\)</span> at <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(r = \|\mathbf{x} - \mathbf{y}\|\)</span> and <span class="math notranslate nohighlight">\(r_{,i} = \partial r/\partial x_i\)</span>.</p>
@@ -461,8 +480,8 @@
 <p>Okay, but there’s something missing here in the details. Faults don’t really fit with this definition of a surface as the boundary of volume. A fault is embedded in a volume and doesn’t define the boundaries of that volume. The type of surface we’re talking about here is something more like the surface of the Earth or, in an engineering setting, the surface of some mechanical part we are modeling. To transform this into a equation that can handle a fault, imagine the fault being an infinitesimally narrow opening with a volume-bounding surface on each side. See the figure.</p>
 <a class="reference internal image-reference" href="../_images/CrackSides.png"><img alt="../_images/CrackSides.png" src="../_images/CrackSides.png" style="width: 150px;" /></a>
 <p>So, let’s expand the Somigliana identity for this case:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c176d1b7-63f3-46af-8229-194624d09be8">
-<span class="eqno">(1.4)<a class="headerlink" href="#equation-c176d1b7-63f3-46af-8229-194624d09be8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f0620891-c650-47d8-a464-e4b8afd55ffb">
+<span class="eqno">(1.4)<a class="headerlink" href="#equation-f0620891-c650-47d8-a464-e4b8afd55ffb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) + \int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^+_j(\mathbf{y}) d\mathbf{y} + \int_{C^-} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^-_j(\mathbf{y}) d\mathbf{y} = \int_{C^+} U^*_{kj}(\mathbf{x},\mathbf{y}) t^+_j(\mathbf{y}) d\mathbf{y} + \int_{C^-} U^*_{kj}(\mathbf{x},\mathbf{y}) t^-_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>The critical step here is to:</p>
@@ -473,19 +492,19 @@ u_{k}(\mathbf{x}) + \int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^+_j(\mathbf{y
 <li><p>the value of <span class="math notranslate nohighlight">\(T^*\)</span> on <span class="math notranslate nohighlight">\(C^-\)</span> will be exactly the negative of its value on <span class="math notranslate nohighlight">\(C^+\)</span>, so the <span class="math notranslate nohighlight">\(T^*\)</span> integrals can be combined into a single integral that depends on <span class="math notranslate nohighlight">\(\Delta u\)</span>.</p></li>
 </ol>
 <p>What we get is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d3594071-d735-4483-a373-e4714d57cbd6">
-<span class="eqno">(1.5)<a class="headerlink" href="#equation-d3594071-d735-4483-a373-e4714d57cbd6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-c9b63be0-5a1a-40a9-97fd-24d4849a33f0">
+<span class="eqno">(1.5)<a class="headerlink" href="#equation-c9b63be0-5a1a-40a9-97fd-24d4849a33f0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) = -\int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>This is the equation that is being integrated by all the analytical slip dislocation solution (Okada, TDEs, etc). Let’s actually just define a handy function for the <em>fullspace</em> TDE (I won’t talk about halfspace TDEs here but those also exist!):</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7bfa0ac4-3d2d-4893-8673-e3ee627f28a9">
-<span class="eqno">(1.6)<a class="headerlink" href="#equation-7bfa0ac4-3d2d-4893-8673-e3ee627f28a9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-20f4f154-8224-4c37-9498-d689a7c38b1a">
+<span class="eqno">(1.6)<a class="headerlink" href="#equation-20f4f154-8224-4c37-9498-d689a7c38b1a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri}, \Delta \vec{u}) = -\int_{\mathrm{Tri}} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j d\mathbf{y}
 \end{equation}\]</div>
 <p>Note that we’re integrating over some unspecified triangle, <span class="math notranslate nohighlight">\(\mathrm{Tri}\)</span>. Also note that the slip, <span class="math notranslate nohighlight">\(\Delta u_j\)</span> is no longer dependent on <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>. That is to say, the slip is constant on the triangle. The interface is identical to the Python function where specify the observation point, the source triangle and the slip vector.</p>
 <p>For our fullspace rectangular fault above we summed two TDEs:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c92ac714-4afa-4f67-8c4d-358305b135fe">
-<span class="eqno">(1.7)<a class="headerlink" href="#equation-c92ac714-4afa-4f67-8c4d-358305b135fe" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3b0fb69f-77f7-4013-80d5-ee346516c328">
+<span class="eqno">(1.7)<a class="headerlink" href="#equation-3b0fb69f-77f7-4013-80d5-ee346516c328" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\mathbf{x}) = \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri_0}, \Delta \vec{u}_0) + \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri_1}, \Delta \vec{u}_1)
 \end{equation}\]</div>
 </div>
@@ -496,28 +515,28 @@ u_{k}(\mathbf{x}) = -\int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\ma
 <li><p>There will be both <span class="math notranslate nohighlight">\(U^*\)</span> and <span class="math notranslate nohighlight">\(T^*\)</span> integrals from the Earth’s surface, <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
 <li><p>There will a single <span class="math notranslate nohighlight">\(T^*\)</span> integral from the fault, <span class="math notranslate nohighlight">\(F\)</span>.</p></li>
 </ul>
-<div class="amsmath math notranslate nohighlight" id="equation-b88425ea-5e4b-4c67-9060-5a6f20795352">
-<span class="eqno">(1.8)<a class="headerlink" href="#equation-b88425ea-5e4b-4c67-9060-5a6f20795352" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-faae4316-2a8e-4fc4-87cc-b98814c0038c">
+<span class="eqno">(1.8)<a class="headerlink" href="#equation-faae4316-2a8e-4fc4-87cc-b98814c0038c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) - \int_{H} U^*_{kj}(\mathbf{x},\mathbf{y}) t_j(\mathbf{y}) d\mathbf{y} + \int_{H} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = -\int_{F} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>But, we know that <span class="math notranslate nohighlight">\(t_j \approx 0\)</span> on <span class="math notranslate nohighlight">\(H\)</span> because it’s the surface of the Earth. So, we’re left with:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ebcbdaae-903c-401c-b806-3d02e1125119">
-<span class="eqno">(1.9)<a class="headerlink" href="#equation-ebcbdaae-903c-401c-b806-3d02e1125119" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2b772192-45fd-4348-8aca-a19d147328a3">
+<span class="eqno">(1.9)<a class="headerlink" href="#equation-2b772192-45fd-4348-8aca-a19d147328a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) + \int_{H} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = -\int_{F} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>That’s going to be our key integral equation. Now, let’s solve it. We know the fault slip, <span class="math notranslate nohighlight">\(\Delta u\)</span>. Let’s discretize the equation in terms of TDEs! <span class="math notranslate nohighlight">\(H_j\)</span> will be the <span class="math notranslate nohighlight">\(j\)</span>-th triangle in the <span class="math notranslate nohighlight">\(H\)</span> surface and <span class="math notranslate nohighlight">\(F_j\)</span> the <span class="math notranslate nohighlight">\(j\)</span>-th triangle in the <span class="math notranslate nohighlight">\(F\)</span> surface. Notice that even though we’re integrating over displacement instead of slip, the integral over <span class="math notranslate nohighlight">\(H\)</span> takes exactly the same form as the integral over <span class="math notranslate nohighlight">\(F\)</span> and thus we can use the same <span class="math notranslate nohighlight">\(\mathrm{TDE}\)</span> function. I’ll also assume that <span class="math notranslate nohighlight">\(\vec{u}_j\)</span> is implicitly the value of displacement at the centroid of <span class="math notranslate nohighlight">\(H_j\)</span>. Let’s call that centroid <span class="math notranslate nohighlight">\(\overline{H_j}\)</span>, so <span class="math notranslate nohighlight">\(\vec{u}_j = \vec{u}(\overline{H_j})\)</span>. Similarly for <span class="math notranslate nohighlight">\(\Delta \vec{u}_i\)</span> being the value of the slip at the centroid of <span class="math notranslate nohighlight">\(F_i\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-845df00f-87d9-4ca8-a9ba-ad1a871bb4dd">
-<span class="eqno">(1.10)<a class="headerlink" href="#equation-845df00f-87d9-4ca8-a9ba-ad1a871bb4dd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7aa69b4c-334d-4b24-ad22-553afab5b74b">
+<span class="eqno">(1.10)<a class="headerlink" href="#equation-7aa69b4c-334d-4b24-ad22-553afab5b74b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\mathbf{x}) - \sum_j \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, H_j, \vec{u}_j) = \sum_j \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, F_j, \Delta \vec{u}_j)
 \end{equation}\]</div>
 <p>There’s once remaining continuous aspect here: the observation point location, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. The trick to complete the system of equations is to choose to enforce the equation at the centroids, <span class="math notranslate nohighlight">\(\overline{H_i}\)</span>, of each free surface triangle, <span class="math notranslate nohighlight">\(H_i\)</span>. So, the final system of equations is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5987d75a-3624-4330-ad66-25ca62b180bd">
-<span class="eqno">(1.11)<a class="headerlink" href="#equation-5987d75a-3624-4330-ad66-25ca62b180bd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e47cd219-acf6-4ed3-9b99-7eb0e880d5ae">
+<span class="eqno">(1.11)<a class="headerlink" href="#equation-e47cd219-acf6-4ed3-9b99-7eb0e880d5ae" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\overline{H_i}) - \sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, H_j, \vec{u}_j) = \sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, F_j, \Delta \vec{u}_j)
 \end{equation}\]</div>
 <p>To simplify the notation, suppose we only consider displacements and slip in one dimension. The naturally forms a square linear system like</p>
-<div class="amsmath math notranslate nohighlight" id="equation-908bcf85-c47d-4e59-bf5c-2a20fe0ab90f">
-<span class="eqno">(1.12)<a class="headerlink" href="#equation-908bcf85-c47d-4e59-bf5c-2a20fe0ab90f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ffa9dca2-42ba-4841-aa1c-ad983de8946e">
+<span class="eqno">(1.12)<a class="headerlink" href="#equation-ffa9dca2-42ba-4841-aa1c-ad983de8946e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \begin{split}
 A_{ij}=\delta_{ij} + \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, H_j, 1)\\
 b_i=\sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, F_j, \Delta u_j)\\
@@ -706,8 +725,8 @@ x=u_j
 <div class="section" id="so-do-tdes-not-work-for-this-problem">
 <h3><span class="section-number">1.2.6. </span>So, do TDEs not work for this problem?!<a class="headerlink" href="#so-do-tdes-not-work-for-this-problem" title="Permalink to this headline">¶</a></h3>
 <p>To understand what’s going on, let’s back up to the integral equation at hand and think about what we’re asking for. Think about the diagonal elements of the matrix where we are asking to compute the value of observation displacement directly on the source TDE. What we’re computing is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-90fa91aa-1bdf-418d-b9ad-23fb68482789">
-<span class="eqno">(1.13)<a class="headerlink" href="#equation-90fa91aa-1bdf-418d-b9ad-23fb68482789" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-793d66cf-b5d4-44bb-9f57-e9f2a6c01d95">
+<span class="eqno">(1.13)<a class="headerlink" href="#equation-793d66cf-b5d4-44bb-9f57-e9f2a6c01d95" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 -\int_{\mathrm{Tri}} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j d\mathbf{y} ~~~~ \mathrm{where} ~~ \mathbf{x} \in \mathrm{Tri}
 \end{equation}\]</div>
 <p>But, if we go looking at the expression for <span class="math notranslate nohighlight">\(T^*\)</span>, there’s an ugly looking <span class="math notranslate nohighlight">\(1/r^2\)</span> term. If <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is a point on <span class="math notranslate nohighlight">\(\mathrm{Tri}\)</span>, then that means there’s a point in the integral for which <span class="math notranslate nohighlight">\(\mathbf{x} = \mathbf{y}\)</span> and <span class="math notranslate nohighlight">\(r = 0\)</span>. So, the integral is singular! No wonder it’s unpleasant to compute a TDE for a point on the surface of the TDE.</p>
@@ -969,7 +988,7 @@ x=u_j
 </pre></div>
 </div>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "d4ec6dedc19c441e85dcd5943a9f7e9a", "version_major": 2, "version_minor": 0}
+{"model_id": "30336705647f4bbb8d9cf99195a93727", "version_major": 2, "version_minor": 0}
 </script></div>
 </div>
 <div class="cell docutils container">
@@ -1068,7 +1087,7 @@ x=u_j
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_tdes_63_0.png" src="../_images/sa_tdes_63_0.png" />
+<img alt="../_images/sa_tdes_64_0.png" src="../_images/sa_tdes_64_0.png" />
 </div>
 </div>
 <p>Transform these strike and dip vectors into the <code class="docutils literal notranslate"><span class="pre">xyz</span></code> coordinate system. And then normalize for unit vectors.</p>
@@ -1102,7 +1121,7 @@ x=u_j
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_tdes_66_0.png" src="../_images/sa_tdes_66_0.png" />
+<img alt="../_images/sa_tdes_67_0.png" src="../_images/sa_tdes_67_0.png" />
 </div>
 </div>
 <p>Looking good!</p>
@@ -1190,8 +1209,8 @@ x=u_j
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 39.4 s, sys: 1.35 s, total: 40.8 s
-Wall time: 7.49 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 40s, sys: 9.81 s, total: 1min 50s
+Wall time: 11.7 s
 </pre></div>
 </div>
 </div>
@@ -1241,7 +1260,7 @@ Wall time: 7.49 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sa_tdes_81_0.png" src="../_images/sa_tdes_81_0.png" />
+<img alt="../_images/sa_tdes_82_0.png" src="../_images/sa_tdes_82_0.png" />
 </div>
 </div>
 </div>
@@ -1250,7 +1269,7 @@ Wall time: 7.49 s
 
 
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"08aa682dcdeb402ebdd3773e7eba15fc": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [1931]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [-6853.86865234375, 5312.89794921875], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139819233423808, "indices": {"dtype": "uint32", "shape": [3812, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 0.75, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1931, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": false}}, "5173d838def748a683779aa72d833b6d": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6a4544dd92114774ac1ef2ef140d6cda": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [1931]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [-6853.86865234375, 5312.89794921875], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139819232207248, "indices": {"dtype": "uint32", "shape": [3812, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 0.15, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1931, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": true}}, "a25a5dc4f6344a6aa061fea0d65dce58": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [0]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139819267103184, "indices": {"dtype": "uint32", "shape": [1804, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 1.0, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1037, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": true}}, "d4ec6dedc19c441e85dcd5943a9f7e9a": {"model_module": "k3d", "model_module_version": "2.9.6", "model_name": "PlotModel", "state": {"_backend_version": "2.9.6", "_dom_classes": [], "_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "PlotModel", "_view_count": null, "_view_module": "k3d", "_view_module_version": "2.9.6", "_view_name": "PlotView", "antialias": 3, "auto_rendering": true, "axes": ["x", "y", "z"], "axes_helper": 1.0, "background_color": 16777215, "camera": [3758089.565316397, -9275705.951062605, -3929514.939762978, 927453.125, -3565043.375, -1350349.625, 0.16444049179218606, -0.39365328742375527, 0.904431541886733], "camera_animation": [], "camera_auto_fit": true, "camera_fov": 60.0, "camera_mode": "trackball", "camera_no_pan": false, "camera_no_rotate": false, "camera_no_zoom": false, "camera_pan_speed": 0.3, "camera_rotate_speed": 1.0, "camera_zoom_speed": 1.2, "clipping_planes": [], "colorbar_object_id": -1, "colorbar_scientific": false, "fps": 25.0, "fps_meter": false, "grid": [-1, -1, -1, 1, 1, 1], "grid_auto_fit": true, "grid_color": 15132390, "grid_visible": true, "height": 512, "layout": "IPY_MODEL_5173d838def748a683779aa72d833b6d", "lighting": 1.5, "manipulate_mode": "translate", "menu_visibility": true, "mode": "view", "name": null, "object_ids": [139819233423808, 139819232207248, 139819267103184], "rendering_steps": 1, "screenshot": "", "screenshot_scale": 2.0, "snapshot": "", "snapshot_include_js": true, "time": 0.0, "voxel_paint_color": 0}}}, "version_major": 2, "version_minor": 0}
+{"state": {"30336705647f4bbb8d9cf99195a93727": {"model_module": "k3d", "model_module_version": "2.9.6", "model_name": "PlotModel", "state": {"_backend_version": "2.9.6", "_dom_classes": [], "_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "PlotModel", "_view_count": null, "_view_module": "k3d", "_view_module_version": "2.9.6", "_view_name": "PlotView", "antialias": 3, "auto_rendering": true, "axes": ["x", "y", "z"], "axes_helper": 1.0, "background_color": 16777215, "camera": [3758089.565316397, -9275705.951062605, -3929514.939762978, 927453.125, -3565043.375, -1350349.625, 0.16444049179218606, -0.39365328742375527, 0.904431541886733], "camera_animation": [], "camera_auto_fit": true, "camera_fov": 60.0, "camera_mode": "trackball", "camera_no_pan": false, "camera_no_rotate": false, "camera_no_zoom": false, "camera_pan_speed": 0.3, "camera_rotate_speed": 1.0, "camera_zoom_speed": 1.2, "clipping_planes": [], "colorbar_object_id": -1, "colorbar_scientific": false, "fps": 25.0, "fps_meter": false, "grid": [-1, -1, -1, 1, 1, 1], "grid_auto_fit": true, "grid_color": 15132390, "grid_visible": true, "height": 512, "layout": "IPY_MODEL_e4ac39cfc80c418fbfb56ec31b78954e", "lighting": 1.5, "manipulate_mode": "translate", "menu_visibility": true, "mode": "view", "name": null, "object_ids": [139660194128800, 139661880042736, 139659860328400], "rendering_steps": 1, "screenshot": "", "screenshot_scale": 2.0, "snapshot": "", "snapshot_include_js": true, "time": 0.0, "voxel_paint_color": 0}}, "4c54ad318f8d4c4e814a0f4298295356": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [1931]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [-6853.86865234375, 5312.89794921875], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139661880042736, "indices": {"dtype": "uint32", "shape": [3812, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 0.15, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1931, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": true}}, "b0302ca621634c779d455415be790040": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [1931]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [-6853.86865234375, 5312.89794921875], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139660194128800, "indices": {"dtype": "uint32", "shape": [3812, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 0.75, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1931, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": false}}, "c25ea500646d4ee79fc3bb12575f5090": {"buffers": [{"data": "AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPw==", "encoding": "base64", "path": ["model_matrix", "data"]}], "model_module": "k3d", "model_module_version": "2.9.6", "model_name": "ObjectModel", "state": {"_model_module": "k3d", "_model_module_version": "2.9.6", "_model_name": "ObjectModel", "_view_count": null, "_view_module": null, "_view_module_version": "", "_view_name": null, "attribute": {"dtype": "float32", "shape": [0]}, "click_callback": false, "color": 255, "color_map": {"dtype": "float32", "shape": [1024]}, "color_range": [], "colors": {"dtype": "uint32", "shape": [0]}, "compression_level": 0, "flat_shading": true, "hover_callback": false, "id": 139659860328400, "indices": {"dtype": "uint32", "shape": [1804, 3]}, "model_matrix": {"dtype": "float32", "shape": [4, 4]}, "name": null, "opacity": 1.0, "opacity_function": {"dtype": "float32", "shape": [0]}, "side": "front", "texture": null, "texture_file_format": null, "triangles_attribute": {"dtype": "float32", "shape": [0]}, "type": "Mesh", "uvs": {"dtype": "float32", "shape": []}, "vertices": {"dtype": "float32", "shape": [1037, 3]}, "visible": true, "volume": {"dtype": "float32", "shape": [0]}, "volume_bounds": {"dtype": "float32", "shape": [0]}, "wireframe": true}}, "e4ac39cfc80c418fbfb56ec31b78954e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}}, "version_major": 2, "version_minor": 0}
 </script>
 
 
