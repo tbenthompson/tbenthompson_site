@@ -43,8 +43,6 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -328,8 +326,8 @@
 <div class="section" id="near-field-evaluation">
 <h3><span class="section-number">1.1.1. </span>Near-field evaluation<a class="headerlink" href="#near-field-evaluation" title="Permalink to this headline">¶</a></h3>
 <p>When working with boundary integral methods, it’s common to need to evaluate surface integrals like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ec920fbc-311f-429b-9598-7447e41b0159">
-<span class="eqno">(1.14)<a class="headerlink" href="#equation-ec920fbc-311f-429b-9598-7447e41b0159" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-486224dc-b5d6-4205-8d86-f0df949cce85">
+<span class="eqno">(1.14)<a class="headerlink" href="#equation-486224dc-b5d6-4205-8d86-f0df949cce85" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(x) = \int_{S} K(x, y) \phi(y) dy
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(K(x, y)\)</span> is often a singular function with a form like <span class="math notranslate nohighlight">\(\log(\|x-y\|)\)</span> or <span class="math notranslate nohighlight">\(\frac{1}{\|x-y\|}\)</span>.</p>
@@ -349,8 +347,8 @@ u(x) = \int_{S} K(x, y) \phi(y) dy
 <div class="section" id="qbx-via-complex-power-series">
 <h3><span class="section-number">1.1.3. </span>QBX via complex power series<a class="headerlink" href="#qbx-via-complex-power-series" title="Permalink to this headline">¶</a></h3>
 <p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id10">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions. We re-write the observation coordinate into the complex plane. The observation point becomes <span class="math notranslate nohighlight">\(\hat{x} = x_1 + ix_2\)</span> and the expansion center becomes <span class="math notranslate nohighlight">\(\hat{c} = c_1 + ic_2\)</span>. The expansion center is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cd91ee48-841c-4ee1-aef1-60c0343b92f6">
-<span class="eqno">(1.15)<a class="headerlink" href="#equation-cd91ee48-841c-4ee1-aef1-60c0343b92f6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-20e857ec-ec98-4b49-9781-cacc3a902ca2">
+<span class="eqno">(1.15)<a class="headerlink" href="#equation-20e857ec-ec98-4b49-9781-cacc3a902ca2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 \end{equation}\]</div>
 <p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(x)\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(c\)</span>. Since the whole point of this method is to solve the problem that computing <span class="math notranslate nohighlight">\(u(x)\)</span> near the surface is hard, we need to make sure that the circle centered at <span class="math notranslate nohighlight">\(c\)</span> has a radius substantially less than <span class="math notranslate nohighlight">\(r\)</span>. If the radius is too large, we will need to evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> too close to <span class="math notranslate nohighlight">\(S\)</span>. On the other hand, if the radius is too small, then the expansion gains less approximation power per added term. So, generally <span class="math notranslate nohighlight">\(\delta\)</span> is chosen as 0.5 to balance these two concerns. That will keep the evaluation points far enough from the surface, but keep the circle large enough to properly resolve the power series. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>

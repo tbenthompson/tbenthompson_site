@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>5. Hierarchical matrices for triangular dislocation elements. &#8212; The BIE Book</title>
+    <title>5. GPU-accelerated hierarchical matrices for triangular dislocation elements. &#8212; The BIE Book</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -43,8 +43,6 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -121,7 +119,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   5. Hierarchical matrices for triangular dislocation elements.
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -322,11 +320,11 @@
         
               <div>
                 
-  <div class="section" id="hierarchical-matrices-for-triangular-dislocation-elements">
-<h1><span class="section-number">5. </span>Hierarchical matrices for triangular dislocation elements.<a class="headerlink" href="#hierarchical-matrices-for-triangular-dislocation-elements" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="gpu-accelerated-hierarchical-matrices-for-triangular-dislocation-elements">
+<h1><span class="section-number">5. </span>GPU-accelerated hierarchical matrices for triangular dislocation elements.<a class="headerlink" href="#gpu-accelerated-hierarchical-matrices-for-triangular-dislocation-elements" title="Permalink to this headline">¶</a></h1>
 <p>Last time, we investigate the low-rank property of the far-field blocks of a BEM matrix and built an adaptive cross approximation (ACA) implementation. Remember, the goal is to find a way to handle dense BEM matrices without running into the brick wall of <span class="math notranslate nohighlight">\(O(n^2)\)</span> algorithmic scaling. With scaling like that, even a very powerful machine can’t handle medium sized problems with 100,000 elements. The low-rank property will be the key to solving this problem.</p>
 <p>This time, we’ll put the pieces together and actually build a <span class="math notranslate nohighlight">\(O(n\log{n})\)</span> algorithm for matrix-vector products that’s not just theoretically faster, but also much faster in practice! To do this, we’ll build a hierarchical matrix (H-matrix) implementation for TDE matrices. While I’ll just focus on performing matrix-vector products with the approximation, it’s possible to do much more with H-matrices – for example, a compressed and accelerated LU decomposition.</p>
-<p>To build our H-matrix implementation, we need to:</p>
+<p>To build an H-matrix implementation, we need to:</p>
 <ol class="simple">
 <li><p>build a tree structure in order to determine which groups of elements are far away from each other.</p></li>
 <li><p>traverse that tree to split the matrix blocks into near-field and far-field blocks.</p></li>
@@ -419,12 +417,11 @@
 </div>
 </div>
 </div>
-<p>The following three figures should help to explain what these trees will look like and what’s going on with the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array.</p>
-<p>This first figure is showing the extent of the tree nodes for the lowest two levels of the tree along with the indices of each input point.</p>
+<p>The following three figures should help to explain what these trees will look like and what’s going on with the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array. I’ve created a tree out of ten points. This first figure is showing the extent of the tree nodes for the lowest two levels of the tree along with the indices of each input point.</p>
 <a class="reference internal image-reference" href="../_images/tree_diagram1.svg"><img alt="../_images/tree_diagram1.svg" src="../_images/tree_diagram1.svg" width="400px" /></a>
-<p>The second figure shows the structure of the binary tree itself. You can see how the associated nodes are also spatially associated above. Also, the tree is not a uniform depth, since the splitting depends on whether a node still has more than one point.</p>
+<p>The second figure shows the structure of the binary tree itself. The leaves each contain only one input point with the point index specified. You can see how the associated nodes are also spatially associated above. Also, the tree is not a uniform depth, since the splitting depends on whether a node still has more than one point.</p>
 <a class="reference internal image-reference" href="../_images/tree_diagram2.svg"><img alt="../_images/tree_diagram2.svg" src="../_images/tree_diagram2.svg" width="400px" /></a>
-<p>Finally, this third figure shows the entries in the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array. The indices are ordered according to the left-to-right structure of the binary tree, exactly matching the leaf nodes above.</p>
+<p>Finally, this third figure shows the entries in the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array. The indices are ordered according to the left-to-right structure of the binary tree, exactly matching the leaf nodes above. This is helpful so that spatially nearby points are also nearby in memory. In implementing the H-matrix approximation, these re-ordered indices simplify a lot of the indexing so that we can always work with contiguous blocks of indices.</p>
 <a class="reference internal image-reference" href="../_images/tree_diagram3.svg"><img alt="../_images/tree_diagram3.svg" src="../_images/tree_diagram3.svg" width="400px" /></a>
 </div>
 <div class="section" id="building-the-tree">
@@ -604,14 +601,14 @@ radius = 5700.6865
 <p>Having built the binary tree above, let’s use it for its intended purpose: determining which nodes are close and far from which other nodes.</p>
 <p>The technique I’m using here is called a dual tree traversal <span id="id1">[<a class="reference internal" href="../references.html#id167">Yokota, 2013</a>]</span>. The basic idea is to recursively traverse both the observation and source trees simultaneously. Whenever two nodes are sufficiently far away from each other, we assign those nodes to use an approximate calculation. When the nodes are too close and are leaf nodes, we use a direct calculation. And when the nodes are too close but are not leaf nodes, we choose the larger node and recurse to use its children.</p>
 <p>Let’s make the concept of “close” and “far” more concrete. First, since both nodes are modeled as spheres, it’s trivial to say whether the nodes intersect:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5011faaa-94a8-4969-87aa-f016f14d6302">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-5011faaa-94a8-4969-87aa-f016f14d6302" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-79aa4953-f65c-4b27-9d41-bb6c63382dfb">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-79aa4953-f65c-4b27-9d41-bb6c63382dfb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{intersection~if~ ~} \|c_2 - c_1\| &lt; r_1 + r_2
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(c_i\)</span> is the center of a node and <span class="math notranslate nohighlight">\(r_i\)</span> is the radius. But, to say two nodes are far from each other, lack of intersection is not sufficient. At the edge of the intersection bound, the two spheres would meet at a point while still not intersecting. As a result, it’s possible that two elements in those nodes are still extremely close. Nearby elements will result in a block matrix that has full rank and cannot be efficiently approximated by adaptive cross approximation.</p>
 <p>So, we want a slightly stronger criterion. How about just adding a safety factor, <span class="math notranslate nohighlight">\(S\)</span> where <span class="math notranslate nohighlight">\(S &gt; 1\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a4d470a-ad2b-4748-a5fc-b7fee97abf4f">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-7a4d470a-ad2b-4748-a5fc-b7fee97abf4f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e53d684a-d763-4452-a6a4-e037f9a9a93a">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-e53d684a-d763-4452-a6a4-e037f9a9a93a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{far-field~if~ ~} \|c_2 - c_1\| &lt; S (r_1 + r_2)
 \end{equation}\]</div>
 <p>We’ll leave <span class="math notranslate nohighlight">\(S\)</span> as a parameter that can be chosen by the user. If a small value (close to 1) is chosen, that will allow more of the resulting matrix to be approximated but the individual approximated blocks will have higher rank. If a larger value is chosen, less of the matrix will be handled approximately but the approximated portions will all be very low rank. I set the default to 1.5 as a reasonable compromise.</p>
@@ -968,14 +965,14 @@ pivot row=  37, pivot col=  53, step size=1.680e-06, tolerance=2.000e-06
 <h2><span class="section-number">5.6. </span>Block tolerance<a class="headerlink" href="#block-tolerance" title="Permalink to this headline">¶</a></h2>
 <p>Great, now we have the infrastructure necessary for approximate far-field matrix blocks. But, there’s one last thing to cover before constructing the full H-matrix. How do we translate a global matrix approximation tolerance into a local block-wise tolerance?</p>
 <p>Given a large dense BEM matrix and the desire to approximate that matrix using H-matrix techniques, we’ll presumably have some tolerance, <span class="math notranslate nohighlight">\(\varepsilon\)</span> that is acceptable. For H-matrices, the tolerance is a relative constraint on the Frobenius norm difference between the approximate matrix and the true matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dba9f291-4c5b-4047-a6f9-924d732de4f2">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-dba9f291-4c5b-4047-a6f9-924d732de4f2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-165e2a51-ced3-4cc0-88bc-aa1af5ee34e6">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-165e2a51-ced3-4cc0-88bc-aa1af5ee34e6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E\|_{F} \leq \varepsilon \|B\|_{F}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(E\)</span> is the error matrix and <span class="math notranslate nohighlight">\(B\)</span> is the matrix we want to approximate.</p>
 <p>That full-matrix tolerance needs to be translated into a tolerance that is used for each approximated block. On an intuitive level, a good option is to assign each block an error budget that is proportional to what percent of the entries of the full matrix that block makes up. In other words, we require that for a block with error <span class="math notranslate nohighlight">\(E_i\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2a02d603-8a66-4fed-92be-9d2ae226c97c">
-<span class="eqno">(5.4)<a class="headerlink" href="#equation-2a02d603-8a66-4fed-92be-9d2ae226c97c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bd7b86be-a446-4674-bec0-9456b5f79a67">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-bd7b86be-a446-4674-bec0-9456b5f79a67" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E_i\|_F \leq \varepsilon \sqrt{\frac{m_i n_i}{MN}} \|B\|_F
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(n_i\)</span> are the number of rows and columns for the block and <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are the number of rows and columns of the full matrix.</p>
