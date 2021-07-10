@@ -21,8 +21,7 @@ The fundamental problem with testing and debugging scientific software is that w
 15. Check the order of accuracy/convergence rate!
 16. Even on problems where the true solution is unknown, it's possible to check for convergence rate by comparing with a very high accuracy solution. 
 17. Be a more careful programmer. Sometimes, It's okay to spend thirty minutes just thinking through each line of code.
-18. Line-by-line step through debugging is incredibly helpful. 
-19. Learn your debugging tools and IDE! 
+18. Learn your debugging tools and IDE! Line-by-line step through debugging is incredibly helpful.
 20. Don't stay stuck for more than a couple hours. Try something different. 
 21. When you notice that something looks wrong, try to encode the meaning of "wrong".
 22. Be a faster programmer. Sometimes, just trying a bunch of things is the right approach.
@@ -56,6 +55,7 @@ The fundamental problem with testing and debugging scientific software is that w
 48. Start with direct linear solvers. Iterative solvers introduce a whole new class of problems with preconditioning. 
 49. Check the condition number of your matrices. 
 50. Use standard tools and libraries where they are sufficient. 
+51. Test single threaded first. Then on two cores. Then many. And write the CPU version before the GPU version!
 51. Finally, remember not to trust your code. 
 
 
