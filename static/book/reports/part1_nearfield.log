@@ -18,65 +18,31 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import numpy as np
+import scipy.linalg
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 
+%matplotlib inline
 %config InlineBackend.figure_format='retina'
 
-plt.figure(figsize=(8,4))
+# the n-point trapezoidal rule on [-1, 1], returns tuple of (points, weights)
+def trapezoidal_rule(n):
+    return np.linspace(-1.0, 1.0, n + 1)[:-1], np.full(n, 2.0 / n)
 
-
-plt.subplot(1,2,1)
-theta = np.linspace(0, 2*np.pi, 500)
-xsS = np.cos(theta) * (1.0 + 0.3 * np.sin(theta * 5))
-ysS = np.sin(theta) * (1.0 + 0.3 * np.sin(theta * 5))
-
-dxdt = np.sin(t) * (-0.3 * np.sin(5 * t) - 1) + 1.5 * np.cos(t) * np.cos(5 * t)
-dydt = np.cos(t) + 1.5 * cos(5 * t) * np.sin(t) + 0.3 * np.cos(t) * np.sin(5 * t)
-ddt_norm = np.sqrt(dxdt ** 2 + dydt ** 2)
-dxdt /= ddt_norm
-dydt /= ddt_norm
-nx = dydt
-ny = -dxdt
-jacobian = 2 * np.pi * ddt_norm
-
-plt.plot(xsS, ysS, 'k-')
-plt.text(-0.95, -0.5, "$S$", fontsize=30)
-plt.gca().add_patch(patches.Rectangle((0.6,0.4), 0.6, 0.6, edgecolor='k', linestyle='--', facecolor='none'))
-plt.axis('off')
-
-theta_C_idx = 100
-theta_C = theta_C[theta_C_idx]
-xsS_C = xsS[theta_C_idx]
-ysS_C = xsS[theta_C_idx]
-Cx = xsS_C + 0.1 * nx[theta_C_idx]
-Cy = ysS_C + 0.1 * ny[theta_C_idx]
-plt.plot([Cx], [Cy], 'bo')
-
-plt.subplot(1,2,2)
-plt.plot(xsS, ysS, 'k-')
-plt.gca().add_patch(patches.Rectangle((0.6,0.4), 0.6, 0.6, edgecolor='k', linestyle='--', facecolor='none'))
-plt.text(0.62, 0.95, 'Zoom', fontsize=20)
-plt.text(0.62, 0.6, '$S$', fontsize=20)
-plt.xlim([0.6, 1.2])
-plt.ylim([0.4, 1.0])
-plt.axis('off')
-
-plt.tight_layout()
-plt.show()
-# circle = plt.Circle((0,0), node.radius, fill=False, color='b' if node.is_leaf else 'k')
-# plt.gca().add_patch(circle)
+# our simple curve functions will return (x, y, normal_x, normal_y, jacobian)
+# because the input quadrature rule is on the domain [-1, 1], the 
+# jacobian of the transformation for a circle with radius 1 is 
+# constant and equal to pi.
+def circle(quad_pts):
+    theta = np.pi * (quad_pts + 1)
+    x = np.cos(theta)
+    y = np.sin(theta)«
+    return x, y, x, y, np.pi
 ------------------
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-1-8f324287b70b>[0m in [0;36m<module>[0;34m[0m
-[1;32m     13[0m [0mysS[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0mtheta[0m[0;34m)[0m [0;34m*[0m [0;34m([0m[0;36m1.0[0m [0;34m+[0m [0;36m0.3[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0mtheta[0m [0;34m*[0m [0;36m5[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     14[0m [0;34m[0m[0m
-[0;32m---> 15[0;31m [0mdxdt[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0mt[0m[0;34m)[0m [0;34m*[0m [0;34m([0m[0;34m-[0m[0;36m0.3[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0;36m5[0m [0;34m*[0m [0mt[0m[0;34m)[0m [0;34m-[0m [0;36m1[0m[0;34m)[0m [0;34m+[0m [0;36m1.5[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0mcos[0m[0;34m([0m[0mt[0m[0;34m)[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0mcos[0m[0;34m([0m[0;36m5[0m [0;34m*[0m [0mt[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     16[0m [0mdydt[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mcos[0m[0;34m([0m[0mt[0m[0;34m)[0m [0;34m+[0m [0;36m1.5[0m [0;34m*[0m [0mcos[0m[0;34m([0m[0;36m5[0m [0;34m*[0m [0mt[0m[0;34m)[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0mt[0m[0;34m)[0m [0;34m+[0m [0;36m0.3[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0mcos[0m[0;34m([0m[0mt[0m[0;34m)[0m [0;34m*[0m [0mnp[0m[0;34m.[0m[0msin[0m[0;34m([0m[0;36m5[0m [0;34m*[0m [0mt[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     17[0m [0mddt_norm[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0msqrt[0m[0;34m([0m[0mdxdt[0m [0;34m**[0m [0;36m2[0m [0;34m+[0m [0mdydt[0m [0;34m**[0m [0;36m2[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;36m  File [0;32m"<ipython-input-2-f17317752c41>"[0;36m, line [0;32m19[0m
+[0;31m    y = np.sin(theta)«[0m
+[0m                     ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid character '«' (U+00AB)
 
-[0;31mNameError[0m: name 't' is not defined
-NameError: name 't' is not defined
+SyntaxError: invalid character '«' (U+00AB) (<ipython-input-2-f17317752c41>, line 19)
 

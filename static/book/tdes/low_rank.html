@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +57,7 @@
     <link rel="canonical" href="https://tbenthompson.com/book/tdes/low_rank.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5. Hierarchical matrices for triangular dislocation elements." href="hmatrix.html" />
+    <link rel="next" title="5. GPU-accelerated hierarchical matrices for triangular dislocation elements." href="hmatrix.html" />
     <link rel="prev" title="3. Minimizing memory usage: a matrix-free iterative solver" href="free_matvec.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -121,7 +121,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="hmatrix.html">
-   5. Hierarchical matrices for triangular dislocation elements.
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -139,6 +139,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
    2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part3_topo_solver.html">
+   3. A strike slip fault underneath topography.
   </a>
  </li>
 </ul>
@@ -292,13 +297,11 @@
   <a class="reference internal nav-link" href="#aca-is-accurate-and-efficient">
    4.4. ACA+ is accurate and efficient
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#svd-recompression">
-     4.4.1. SVD Recompression
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svd-recompression">
+   4.5. SVD Recompression
+  </a>
  </li>
 </ul>
 
@@ -492,18 +495,18 @@
 </div>
 </div>
 <p>To continue, it’s useful to define what the relevant metric for the matrix approximation that we’re going to do. A useful norm is the Frobenius norm because it depends only on the matrix entries and for a matrix <span class="math notranslate nohighlight">\(M \in \mathbb{R}^{n x m}\)</span> is defined as:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-05fd1772-c50d-47a3-a689-6143c5a92110">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-05fd1772-c50d-47a3-a689-6143c5a92110" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-74d53186-6c05-48cd-98bb-d6c7bc1a7ccc">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-74d53186-6c05-48cd-98bb-d6c7bc1a7ccc" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|M\|_F = \sqrt{\sum_{i,j}^{m,n} M_{ij}^2}
 \end{equation}\]</div>
 <p>An important fact is that the Frobenius norm of a matrix is the root of the sum of the square of the singular values. That is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a2739d0a-5a1d-46af-883e-3c072bf66839">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-a2739d0a-5a1d-46af-883e-3c072bf66839" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-567ce65c-4ae8-45fe-8b6d-b04c55d022d8">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-567ce65c-4ae8-45fe-8b6d-b04c55d022d8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|M\|_F = \sqrt{\sum_{k}^{min(m,n)} \sigma_k^2}
 \end{equation}\]</div>
 <p>So, what if we want to approximate a matrix with a particular tolerance, <span class="math notranslate nohighlight">\(\epsilon\)</span> in terms of the Frobenius norm? One way to do it will be to compute the SVD and then find the lowest index <span class="math notranslate nohighlight">\(K\)</span> for which the constraint is true:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab1fcd7b-c99e-4d4e-9403-264ed072a075">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-ab1fcd7b-c99e-4d4e-9403-264ed072a075" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-13a73aaa-3a79-41b5-99c4-5246689986eb">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-13a73aaa-3a79-41b5-99c4-5246689986eb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \sqrt{\sum_{k=1}^K \sigma_k^2} - \|M\|_F = \sqrt{\sum_{k=K}^{min(m,n)} \sigma_k^2} &lt; \epsilon
 \end{equation}\]</div>
 <p>The middle sum from <span class="math notranslate nohighlight">\(K\)</span> to the number of rows/columns is essentially a measure of how important the dropped singular values are. So we want that sum to be smaller than our tolerance! The actual implementation below is surprisingly simple.</p>
@@ -733,8 +736,8 @@ Frobenius(M-UV)  = 8.902174079271246e-09
 <ol>
 <li><p>Determine a “pivot” <span class="math notranslate nohighlight">\((i^*, j^*)\)</span> as the indices that maximize <span class="math notranslate nohighlight">\(R_{ij}\)</span>. Intuitively, the largest rows and columns are going to be most “important”.</p></li>
 <li><p>Assign a new rank-1 component of the approximation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9f86d64d-03e1-4f9f-b8a2-913b0729e530">
-<span class="eqno">(4.4)<a class="headerlink" href="#equation-9f86d64d-03e1-4f9f-b8a2-913b0729e530" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a76fad62-c795-4f22-a537-747cd741b60c">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-a76fad62-c795-4f22-a537-747cd741b60c" title="Permalink to this equation">¶</a></span>\[\begin{align}
     u_{kj} &amp;= R_{i^*,j} / R_{i^*,j^*} \\
     v_{ki} &amp;= R_{i,j^*}
     \end{align}\]</div>
@@ -751,8 +754,8 @@ Frobenius(M-UV)  = 8.902174079271246e-09
 <li><p>If <span class="math notranslate nohighlight">\(R_{i_{\mathrm{ref}}, j^*} &gt; R_{i^*, j_{\mathrm{ref}}}\)</span> then, we compute the column corresponding to <span class="math notranslate nohighlight">\(j^*\)</span> or if the opposite is true, we compute the row corresponding to <span class="math notranslate nohighlight">\(i^*\)</span>. Essentially, we are determining here whether we should pivot first based on the row or the column.</p></li>
 <li><p>If we pivoted based on column, we should now have computed a new residual column <span class="math notranslate nohighlight">\(R_{i,j^*} = M_{i,j^*} - \sum_{k}^{r} u_{kj^*} v_{ki}\)</span>. Find the missing pivot index now by maximizing <span class="math notranslate nohighlight">\(R_{i,j^*}\)</span> to get <span class="math notranslate nohighlight">\(i^*\)</span>. Or if we pivoted on the row, we will have a new residual row <span class="math notranslate nohighlight">\(R_{i^*,j} = M_{i^*,j} - \sum_{k}^{r} u_{kj} v_{ki^*}\)</span> and we maximize <span class="math notranslate nohighlight">\(R_{i^*,j}\)</span> to get <span class="math notranslate nohighlight">\(j^*\)</span>. The idea here is to finish the pivot operation from step 2 by pivoting in the dimension that we have not considered yet. At each step, we are essentially trying to find the largest residual matrix element out of all the entries we have seen so far with the goal of getting as close as possible to the full pivoting algorithm without actually needing to calculate all the residual matrix elements. Why am I referring to the identification of the largest entries as “pivoting”? This is by analogy to various matrix operations like LU decomposition where the numerical stability is best when the largest entries are handled first. ACA can also be reframed as an iterative triangular decomposition of a matrix. Before moving on, note how we calculate the residual row (column) here by computing the original matrix row and then subtracting the row (column) of the current approximation. This is critical since it means that we’re only compunting a single row or column of the original matrix.</p></li>
 <li><p>Next, just like in the full pivoting algorithm, assign:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d5a5500e-337c-4893-a99d-b18c462d5466">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-d5a5500e-337c-4893-a99d-b18c462d5466" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f1dab47f-2e4e-409c-8612-39dc8b335a0c">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-f1dab47f-2e4e-409c-8612-39dc8b335a0c" title="Permalink to this equation">¶</a></span>\[\begin{align}
     u_{kj} &amp;= R_{i^*,j} / R_{i^*,j^*} \\
     v_{ki} &amp;= R_{i,j^*}
     \end{align}\]</div>
@@ -1162,29 +1165,30 @@ frob error(M-UV) = 3.2135004521183193e-10
 <img alt="../_images/low_rank_47_0.png" src="../_images/low_rank_47_0.png" />
 </div>
 </div>
+</div>
 <div class="section" id="svd-recompression">
-<h3><span class="section-number">4.4.1. </span>SVD Recompression<a class="headerlink" href="#svd-recompression" title="Permalink to this headline">¶</a></h3>
+<h2><span class="section-number">4.5. </span>SVD Recompression<a class="headerlink" href="#svd-recompression" title="Permalink to this headline">¶</a></h2>
 <p>In some sense, the approximation we built with ACA is too good. Most of the time, we’re getting Frobenius errors much lower than we asked for. But there’s some inconsistency in the output error. This inconsistency is why we asked for <code class="docutils literal notranslate"><span class="pre">eps/50.0</span></code> as the convergence criterion. However, we would ideally want an algorithm that <em>juuust barely</em> meets the tolerance condition. Unfortunately that’s quite difficult when the algorithm is stuck with limited information about the matrix under consideration. So, in this final section I’ll demonstrate a simple post-processing method that will reduce the size/cost of the approximation to more precisely fit the requested tolerance.</p>
 <p>The basic idea is quite simple: just do another compression of the ACA approximation matrices with the singular value decomposition. We wanted to avoid doing an SVD on the original full-size matrix block, but now that we have constructed a reduced expression, it can be worthwhile to do the extra effort to reduce it even further with an exact SVD.</p>
 <p>How do we do that? I’ve already built an approximation that looks like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-05880172-ee31-4341-93da-a91cb8a55bc0">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-05880172-ee31-4341-93da-a91cb8a55bc0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b67ee7f2-cb16-417a-9d25-bb7aab573b7a">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-b67ee7f2-cb16-417a-9d25-bb7aab573b7a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 M \approx UV^T
 \end{equation}\]</div>
 <p>Basically <span class="math notranslate nohighlight">\(V^T\)</span> maps from a high-dimensional space to a low-dimensional space and then <span class="math notranslate nohighlight">\(U\)</span> maps back from the low-dimensional space to the high-dimensional space. So, let’s first extract the low-dimensional operation. To do that, perform a QR decomposition on both <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>. Then we have:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d28ec6d4-7736-48af-bb13-aabf0a857ea6">
-<span class="eqno">(4.7)<a class="headerlink" href="#equation-d28ec6d4-7736-48af-bb13-aabf0a857ea6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-94926ada-9769-4980-ad9a-c89a0d0e5995">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-94926ada-9769-4980-ad9a-c89a0d0e5995" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 UV^T = Q_UR_UR_V^TQ_V^T
 \end{equation}\]</div>
 <p>One way of thinking about this is that <span class="math notranslate nohighlight">\(Q_V^T\)</span> and <span class="math notranslate nohighlight">\(Q_U\)</span> are just rotations now and <span class="math notranslate nohighlight">\(R_UR_V^T\)</span> is a square matrix in the low-dimensional subspace that is performing the non-rotational action of <span class="math notranslate nohighlight">\(M\)</span>.</p>
 <p>Now, take the SVD of that small action matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e34fc1c1-6a02-4c4e-9270-03c91fc9cece">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-e34fc1c1-6a02-4c4e-9270-03c91fc9cece" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b8c30521-3088-43a4-8f76-9146fb23dfdd">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-b8c30521-3088-43a4-8f76-9146fb23dfdd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 R_UR_V^T = W \Sigma Z^T
 \end{equation}\]</div>
 <p>And we’ll filter on the singular values in <span class="math notranslate nohighlight">\(\Sigma\)</span> to reduce the rank of the matrix just like we did before with the full SVD. That’s it! To reconstruct the approximation, we just need:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-db00f587-5d90-4527-be75-d0835eef42b9">
-<span class="eqno">(4.9)<a class="headerlink" href="#equation-db00f587-5d90-4527-be75-d0835eef42b9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e2951d92-3335-4dc8-866f-b1e4d26a0ab8">
+<span class="eqno">(4.9)<a class="headerlink" href="#equation-e2951d92-3335-4dc8-866f-b1e4d26a0ab8" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \overline{U} &amp;= Q_UW\Sigma \\
 \overline{V} &amp;= ZQ_V \\
 M &amp;\approx \overline{U}\overline{V}^T
@@ -1407,7 +1411,6 @@ frob error(M-UV) = 8.906540993272918e-09
 <p>I think it’s worth stopping for a moment to appreciate how cool math can be. We started from an algorithm that involves both some randomness and a severe lack of information on the matrix being approximated. And from that algorithm, we’ve built an almost perfectly consistent algorithm for producing a precise approximate matrix. In the SVD recompressed results, there’s exactly zero variation in the rank and almost zero variation in the error. And the error is just barely on the correct side of the tolerance!</p>
 </div>
 </div>
-</div>
 
     <script type="text/x-thebe-config">
     {
@@ -1435,7 +1438,7 @@ frob error(M-UV) = 8.906540993272918e-09
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="free_matvec.html" title="previous page"><span class="section-number">3. </span>Minimizing memory usage: a matrix-free iterative solver</a>
-    <a class='right-next' id="next-link" href="hmatrix.html" title="next page"><span class="section-number">5. </span>Hierarchical matrices for triangular dislocation elements.</a>
+    <a class='right-next' id="next-link" href="hmatrix.html" title="next page"><span class="section-number">5. </span>GPU-accelerated hierarchical matrices for triangular dislocation elements.</a>
 
         </div>
         

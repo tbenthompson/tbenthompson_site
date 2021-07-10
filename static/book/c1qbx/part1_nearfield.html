@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -56,7 +56,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations" href="part2_screw_dislocation.html" />
-    <link rel="prev" title="5. Hierarchical matrices for triangular dislocation elements." href="../tdes/hmatrix.html" />
+    <link rel="prev" title="5. GPU-accelerated hierarchical matrices for triangular dislocation elements." href="../tdes/hmatrix.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -119,7 +119,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../tdes/hmatrix.html">
-   5. Hierarchical matrices for triangular dislocation elements.
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -137,6 +137,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="part2_screw_dislocation.html">
    2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part3_topo_solver.html">
+   3. A strike slip fault underneath topography.
   </a>
  </li>
 </ul>
@@ -326,34 +331,34 @@
 <div class="section" id="near-field-evaluation">
 <h3><span class="section-number">1.1.1. </span>Near-field evaluation<a class="headerlink" href="#near-field-evaluation" title="Permalink to this headline">¶</a></h3>
 <p>When working with boundary integral methods, it’s common to need to evaluate surface integrals like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-486224dc-b5d6-4205-8d86-f0df949cce85">
-<span class="eqno">(1.14)<a class="headerlink" href="#equation-486224dc-b5d6-4205-8d86-f0df949cce85" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-u(x) = \int_{S} K(x, y) \phi(y) dy
+<div class="amsmath math notranslate nohighlight" id="equation-d3dcf445-dc02-41d1-bea7-df79d5bcf73e">
+<span class="eqno">(1.14)<a class="headerlink" href="#equation-d3dcf445-dc02-41d1-bea7-df79d5bcf73e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(\mathbf{p}) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
 \end{equation}\]</div>
-<p>where <span class="math notranslate nohighlight">\(K(x, y)\)</span> is often a singular function with a form like <span class="math notranslate nohighlight">\(\log(\|x-y\|)\)</span> or <span class="math notranslate nohighlight">\(\frac{1}{\|x-y\|}\)</span>.</p>
-<p>If <span class="math notranslate nohighlight">\(x\)</span> is far away from <span class="math notranslate nohighlight">\(S\)</span>, then the integral is very smooth and well-behaved and can be super easily computed with standard quadrature rules like Gaussian quadrature or the trapezoidal rule. But, if <span class="math notranslate nohighlight">\(x\)</span> is close to some part of <span class="math notranslate nohighlight">\(S\)</span>, then the singularity in <span class="math notranslate nohighlight">\(K(x,y)\)</span> makes computation of the integral hard. In the boundary integral literature, this is called the <strong>near-field evaluation problem</strong>.</p>
-<p>The brute force solution to the problem is to just increase the order of the quadrature rule you’re using. Strictly speaking, this works. But, the number of quadrature points will grow prohibitively large as <span class="math notranslate nohighlight">\(x\)</span> approaches <span class="math notranslate nohighlight">\(S\)</span>. Depending on the exact behavior of <span class="math notranslate nohighlight">\(K(x,y)\)</span>, the number of quadrature points might grow like <span class="math notranslate nohighlight">\(O(r^{-1})\)</span> or <span class="math notranslate nohighlight">\(O(r^{-2})\)</span> in terms of <span class="math notranslate nohighlight">\(r\)</span>, the shortest distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(S\)</span>. Even mildly nearby points will require too many quadrature points to be practical.</p>
+<p>where <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> is normally a fundamental solution to a PDE or the derivative thereof. At a basic level, these integrals are hard because <span class="math notranslate nohighlight">\(K\)</span> is singular. Depending on the dimension and problem, the singularity will be something like <span class="math notranslate nohighlight">\(\log(r)\)</span> or <span class="math notranslate nohighlight">\(\frac{1}{r^n}\)</span> where <span class="math notranslate nohighlight">\(r = \|\mathbf{p}-\mathbf{q}\|_2\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is far away from <span class="math notranslate nohighlight">\(S\)</span>, then the integral is very smooth and well-behaved and can be super easily computed with standard quadrature rules like Gaussian quadrature or the trapezoidal rule. But, if <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is close to some part of <span class="math notranslate nohighlight">\(S\)</span>, then the singularity in <span class="math notranslate nohighlight">\(K(\mathbf{p},\mathbf{q})\)</span> makes computation of the integral hard. In the boundary integral literature, this is called the <strong>near-field evaluation problem</strong>. Or in the case where <span class="math notranslate nohighlight">\(\mathbf{p} \in S\)</span>, the <strong>singular evaluation problem</strong>.</p>
+<p>The brute force solution to the problem is to just compute the integral with a very high order quadrature rule or an adaptive quadrature rule. For the near-field case, using a higher order quadrature order will eventually converge to the correct value but the number of quadrature points will grow prohibitively large as <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> approaches <span class="math notranslate nohighlight">\(S\)</span>. However, for the singular evaluation problem, some integrals will not converge at all. Many approaches have been developed to handle these singular and near-singular integrals (CITE a few?).</p>
 </div>
 <div class="section" id="qbx">
 <h3><span class="section-number">1.1.2. </span>QBX<a class="headerlink" href="#qbx" title="Permalink to this headline">¶</a></h3>
-<p>A robust and general solution to nearfield evaluation is a method called quadrature by expansion (<strong>QBX</strong>). The basic idea is to form a proxy for <span class="math notranslate nohighlight">\(u(x)\)</span> “centered” at a point <span class="math notranslate nohighlight">\(c\)</span> away from <span class="math notranslate nohighlight">\(S\)</span> and then use that proxy to extrapolate to points that are close to <span class="math notranslate nohighlight">\(S\)</span>. There are several versions of QBX depending on the type of proxy used:</p>
+<p>A robust and general solution to nearfield evaluation is a method called quadrature by expansion (<strong>QBX</strong>). The basic idea is to form an approximation for <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> “centered” at a point <span class="math notranslate nohighlight">\(\mathbf{c}\)</span> away from <span class="math notranslate nohighlight">\(S\)</span> and then use that proxy to extrapolate to points that are close to <span class="math notranslate nohighlight">\(S\)</span>. There are several versions of QBX depending on the type of proxy used:</p>
 <ul class="simple">
-<li><p>The <a class="reference external" href="https://arxiv.org/abs/1207.4461">original QBX paper</a><span id="id1">[<a class="reference internal" href="../references.html#id2">Klöckner <em>et al.</em>, 2013</a>]</span> uses a separation of variables technique for the Helmholtz equation to form a series expansion in terms of Hankel functions and Bessel functions. This works for other PDEs if some separation of variables techniques are known. With Poisson and elasticity, we’d probably use polar expansions in 2D and a spherical harmonic expansion in 3D.</p></li>
-<li><p>The <a class="reference external" href="https://arxiv.org/abs/1612.00977">quadrature by kernel-independent expansion (QBKIX) paper</a><span id="id2">[<a class="reference internal" href="../references.html#id178">Rahimian <em>et al.</em>, 2017</a>]</span> forms a proxy set of point sources which replace the original integral locally arounding the expansion point <span class="math notranslate nohighlight">\(c\)</span>. This approach is “kernel-independent” since it will work well for most functions <span class="math notranslate nohighlight">\(K(x,y)\)</span> even if the functions is complex enough that analytical techniques like separation of variables are too difficult.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/abs/1207.4461">original QBX paper</a><span id="id1">[<a class="reference internal" href="../references.html#id2">Klöckner <em>et al.</em>, 2013</a>]</span> uses a separation of variables technique for the Helmholtz equation to form a series expansion in terms of Hankel functions and Bessel functions. This works for other PDEs if some separation of variables techniques are known. With Poisson and elasticity, we’d probably use polar expansions in 2D and spherical harmonic expansions in 3D.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/abs/1612.00977">quadrature by kernel-independent expansion (QBKIX) paper</a><span id="id2">[<a class="reference internal" href="../references.html#id178">Rahimian <em>et al.</em>, 2017</a>]</span> forms a proxy set of point sources which replace the original integral locally arounding the expansion point <span class="math notranslate nohighlight">\(c\)</span>. This approach is “kernel-independent” since it will work well for most functions <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> even if the functions is complex enough that analytical techniques like separation of variables are too difficult.</p></li>
 <li><p>The <a class="reference external" href="https://arxiv.org/pdf/1805.06106.pdf">GIGAQBX algorithm</a><span id="id3">[<a class="reference internal" href="../references.html#id177">Wala and Klöckner, 2019</a>]</span> derives rigorous error and runtime bounds for QBX combined with the fast multipole method.</p></li>
 </ul>
-<p>There are several other approaches. All share the share basic ideas. Ultimately, QBX works because <span class="math notranslate nohighlight">\(u(x)\)</span> is normally a smooth function, and approximating it directly provides a sort of backdoor around the singularities in <span class="math notranslate nohighlight">\(K(x,y)\)</span>. And, QBX methods are generally efficient because <span class="math notranslate nohighlight">\(c\)</span> is far enough away from <span class="math notranslate nohighlight">\(S\)</span> that the computation of the expansion is fairly cheap.</p>
+<p>There are several other approaches. All share the share basic ideas. Ultimately, QBX works because even though the surface integral may be singular, <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> is normally a smooth function. Approximating it directly provides a sort of backdoor around the singularities in <span class="math notranslate nohighlight">\(K(\mathbf{p},\mathbf{q})\)</span>. And, QBX methods are generally efficient because <span class="math notranslate nohighlight">\(c\)</span> is far enough away from <span class="math notranslate nohighlight">\(S\)</span> that the computation of the expansion is fairly cheap.</p>
 </div>
 <div class="section" id="qbx-via-complex-power-series">
 <h3><span class="section-number">1.1.3. </span>QBX via complex power series<a class="headerlink" href="#qbx-via-complex-power-series" title="Permalink to this headline">¶</a></h3>
-<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id10">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions. We re-write the observation coordinate into the complex plane. The observation point becomes <span class="math notranslate nohighlight">\(\hat{x} = x_1 + ix_2\)</span> and the expansion center becomes <span class="math notranslate nohighlight">\(\hat{c} = c_1 + ic_2\)</span>. The expansion center is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-20e857ec-ec98-4b49-9781-cacc3a902ca2">
-<span class="eqno">(1.15)<a class="headerlink" href="#equation-20e857ec-ec98-4b49-9781-cacc3a902ca2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
-u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
+<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id10">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions. We re-write the observation coordinate into the complex plane. The observation point becomes <span class="math notranslate nohighlight">\(\hat{p} = p_x + ip_y\)</span> and the expansion center becomes <span class="math notranslate nohighlight">\(\hat{c} = c_x + ic_y\)</span>. The expansion center is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e7d13413-3f66-4101-b93e-b8b11c306289">
+<span class="eqno">(1.15)<a class="headerlink" href="#equation-e7d13413-3f66-4101-b93e-b8b11c306289" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{p} - \hat{c})^l\big)
 \end{equation}\]</div>
-<p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(x)\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(c\)</span>. Since the whole point of this method is to solve the problem that computing <span class="math notranslate nohighlight">\(u(x)\)</span> near the surface is hard, we need to make sure that the circle centered at <span class="math notranslate nohighlight">\(c\)</span> has a radius substantially less than <span class="math notranslate nohighlight">\(r\)</span>. If the radius is too large, we will need to evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> too close to <span class="math notranslate nohighlight">\(S\)</span>. On the other hand, if the radius is too small, then the expansion gains less approximation power per added term. So, generally <span class="math notranslate nohighlight">\(\delta\)</span> is chosen as 0.5 to balance these two concerns. That will keep the evaluation points far enough from the surface, but keep the circle large enough to properly resolve the power series. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>
+<p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(\mathbf{c}\)</span>. Since the whole point of this method is to solve the problem that computing <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> near the surface is hard, we need to make sure that the circle centered at <span class="math notranslate nohighlight">\(c\)</span> has a radius substantially less than <span class="math notranslate nohighlight">\(r\)</span>. If the radius is too large, we will need to evaluate <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> too close to <span class="math notranslate nohighlight">\(S\)</span>. On the other hand, if the radius is too small, then the expansion gains less approximation power per added term. So, generally <span class="math notranslate nohighlight">\(\delta\)</span> is chosen as 0.5 to balance these two concerns. That will keep the evaluation points far enough from the surface, but keep the circle large enough to properly resolve the power series. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>
 <div class="math notranslate nohighlight">
-\[\alpha_l = \frac{1}{\pi (\delta r)^l}\int_{0}^{2\pi} u(c + \delta r(cos \theta, sin \theta)) e^{-il\theta} d\theta \]</div>
+\[\alpha_l = \frac{1}{\pi (\delta r)^l}\int_{0}^{2\pi} u(\mathbf{c} + \delta r(cos \theta, sin \theta)) e^{-il\theta} d\theta \]</div>
 <p>and for <span class="math notranslate nohighlight">\(l=0\)</span>, we simply divide the above integral by two.</p>
 <p>Because these expansion coefficient integrals are of a smooth function and are periodic, it makes sense to use a trapezoidal quadrature rule for integrating them.</p>
 <div class="cell tag_remove-input docutils container">
@@ -367,16 +372,16 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <p>So, what’s the full algorithm look like?</p>
 <ol class="simple">
 <li><p>Choose an expansion center a distance of <span class="math notranslate nohighlight">\(r\)</span> away from the surface.</p></li>
-<li><p>Discretize the integrals for the expansion coefficients and identify the points where we will need to evaluate <span class="math notranslate nohighlight">\(u(c + \delta r(cos \theta, sin \theta))\)</span>.</p></li>
-<li><p>Evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> for those points by directly evaluating <span class="math notranslate nohighlight">\(\int K(x, y) \phi(y) dy\)</span> using a simple quadrature rule (e.g. Gaussian quadrature). Because we choose, <span class="math notranslate nohighlight">\(\delta = 1/2\)</span>, the closest we will have to evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> is <span class="math notranslate nohighlight">\(r/2\)</span>.</p></li>
+<li><p>Discretize the integrals for the expansion coefficients and identify the points where we will need to evaluate <span class="math notranslate nohighlight">\(u(\mathbf{c} + \delta r(cos \theta, sin \theta))\)</span>.</p></li>
+<li><p>Evaluate <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> for those points by directly evaluating <span class="math notranslate nohighlight">\(\int K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}\)</span> using a simple quadrature rule (e.g. Gaussian quadrature). Because we choose, <span class="math notranslate nohighlight">\(\delta = 1/2\)</span>, the closest we will have to evaluate <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> is <span class="math notranslate nohighlight">\(r/2\)</span>.</p></li>
 <li><p>Integrate/sum to compute <span class="math notranslate nohighlight">\(\alpha_l\)</span>.</p></li>
-<li><p>Now that we have the coefficients <span class="math notranslate nohighlight">\(\alpha_l\)</span>, to evaluate <span class="math notranslate nohighlight">\(u(x)\)</span> at any point arbitrarily close to the surface, simply evaluate the complex power series and take the real part.</p></li>
+<li><p>Now that we have the coefficients <span class="math notranslate nohighlight">\(\alpha_l\)</span>, to evaluate <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> at any point arbitrarily close to the surface, simply evaluate the complex power series and take the real part.</p></li>
 </ol>
 <p>Some comments about QBX:</p>
 <ul class="simple">
 <li><p>Because the evaluation of the series is independent of the computation of the coefficients, we can compute <strong>many near-field values for the price of one</strong>.</p></li>
-<li><p>The method actually works just as well for computing a <span class="math notranslate nohighlight">\(u(x)\)</span> directly on the boundary. To be precise, we can compute a limit to the boundary like <span class="math notranslate nohighlight">\(\lim_{x \to S^+}u(x)\)</span>. Thus, QBX can actually <strong>replace the singular quadrature required in many boundary integral methods</strong>.</p></li>
-<li><p>The method works best when there are no singularities in <span class="math notranslate nohighlight">\(u(x)\)</span>. The most common violation of this is a sharp corner in <span class="math notranslate nohighlight">\(S\)</span>. When there are corners, QBX will still work, but the expansion center <span class="math notranslate nohighlight">\(c\)</span> will need to be closer to the surface and, as a result, a high number of quadrature points will be needed in the vicinity of the corner.</p></li>
+<li><p>The method actually works just as well for computing a <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> directly on the boundary. To be precise, we can compute a limit to the boundary like <span class="math notranslate nohighlight">\(\lim_{\mathbf{p} \to S^+}u(\mathbf{p})\)</span>. Thus, QBX can actually <strong>replace the singular quadrature required in many boundary integral methods</strong>.</p></li>
+<li><p>The method works best when there are no singularities in <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span>. The most common violation of this is a sharp corner in <span class="math notranslate nohighlight">\(S\)</span>. When there are corners, QBX will still work, but the expansion center <span class="math notranslate nohighlight">\(c\)</span> will need to be closer to the surface and, as a result, a high number of quadrature points will be needed in the vicinity of the corner.</p></li>
 <li><p>There are three relevant parameters which all control the accuracy. The distance to offset from the surface, <span class="math notranslate nohighlight">\(r\)</span>. The order of the expansion, <span class="math notranslate nohighlight">\(p\)</span>. And the order of quadrature method used to compute the coefficients of the expansion, <span class="math notranslate nohighlight">\(n_q\)</span>. They interact in somewhat complex ways.</p></li>
 <li><p>By increasing <span class="math notranslate nohighlight">\(r\)</span>, the expansion is formed further from the surface and (holding <span class="math notranslate nohighlight">\(n_q\)</span> constant) the expansion coefficients will be computed more accurately, but (holding <span class="math notranslate nohighlight">\(p\)</span> constant) the accuracy of the expansion near the surface will decrease because the distance from the evaluation point to the expansion center is larger.</p></li>
 <li><p>Increasing <span class="math notranslate nohighlight">\(p\)</span> will improve the accuracy of the expansion up to a point, but eventually the higher order terms in the expansion will become corrupted by the error introduced by the numerical integration. So, in order to increase <span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(n_q\)</span> must also increase.</p></li>
@@ -406,9 +411,10 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <span class="k">def</span> <span class="nf">trapezoidal_rule</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
 
+
 <span class="c1"># our simple curve functions will return (x, y, normal_x, normal_y, jacobian)</span>
-<span class="c1"># because the input quadrature rule is on the domain [-1, 1], the </span>
-<span class="c1"># jacobian of the transformation for a circle with radius 1 is </span>
+<span class="c1"># because the input quadrature rule is on the domain [-1, 1], the</span>
+<span class="c1"># jacobian of the transformation for a circle with radius 1 is</span>
 <span class="c1"># constant and equal to pi.</span>
 <span class="k">def</span> <span class="nf">circle</span><span class="p">(</span><span class="n">quad_pts</span><span class="p">):</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">quad_pts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -419,34 +425,40 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 </div>
 </div>
-<p>The double layer potential takes the form of a standard boundary integral operator, where the specific form of <span class="math notranslate nohighlight">\(K(x, y)\)</span> can be found in the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> code below.</p>
-<div class="math notranslate nohighlight">
-\[u(x) = \int_{S} K(x, y) \phi(y) dy\]</div>
+<p>The double layer potential takes the form of a standard boundary integral operator, where the specific form of <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> can be found in the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> code below.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cd84299c-ffdd-4337-908c-7c08d48e5b7c">
+<span class="eqno">(1.16)<a class="headerlink" href="#equation-cd84299c-ffdd-4337-908c-7c08d48e5b7c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(x) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
+\end{equation}\]</div>
 <p>Discretizing the integral for many observation points indexed by <span class="math notranslate nohighlight">\(i\)</span> and for many source points indexed by <span class="math notranslate nohighlight">\(j\)</span>, the result:</p>
-<div class="math notranslate nohighlight">
-\[u_i = \sum_j K(x_i, y_j) \phi(y_j)\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-d779ebfc-8ca1-461d-9fd5-69e062ddb7a5">
+<span class="eqno">(1.17)<a class="headerlink" href="#equation-d779ebfc-8ca1-461d-9fd5-69e062ddb7a5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_i = \sum_j K(\mathbf{p}_i, \mathbf{q}_j) \phi(\mathbf{q}_j)
+\end{equation}\]</div>
 <p>can be written in matrix form:</p>
-<div class="math notranslate nohighlight">
-\[\textbf{u} = \textbf{A} \textbf{b}\]</div>
-<p>where the matrix of interest is <span class="math notranslate nohighlight">\(A_{ij} = K(x_i, y_j)\)</span>. This function computes that matrix for K(x,y) as the dipole kernel of the Laplace equation or the “slip to displacement” kernel for antiplane elasticity! The function below builds this matrix!</p>
+<div class="amsmath math notranslate nohighlight" id="equation-fa6e9d6a-67ab-447c-849b-279ae66521a8">
+<span class="eqno">(1.18)<a class="headerlink" href="#equation-fa6e9d6a-67ab-447c-849b-279ae66521a8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\textbf{u} = \textbf{A} \textbf{b}
+\end{equation}\]</div>
+<p>where the matrix of interest is <span class="math notranslate nohighlight">\(A_{ij} = K(\mathbf{p}_i, \mathbf{q}_j)\)</span>. This function computes that matrix for <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> as the dipole kernel of the Laplace equation or the “slip to displacement” kernel for antiplane elasticity! The function below builds this matrix!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">double_layer_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">):</span>
     <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
-    
+
     <span class="n">dx</span> <span class="o">=</span> <span class="n">obsx</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">srcx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">dy</span> <span class="o">=</span> <span class="n">obsy</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">srcy</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">r2</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">**</span> <span class="mi">2</span>
 
     <span class="c1"># The double layer potential</span>
     <span class="n">integrand</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="n">srcnx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">srcny</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="n">r2</span>
-    
+
     <span class="k">return</span> <span class="n">integrand</span> <span class="o">*</span> <span class="n">curve_jacobian</span> <span class="o">*</span> <span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>So, let’s plot up what <span class="math notranslate nohighlight">\(u(x)\)</span> looks like. For the rest of this section, we’ll use the simple <span class="math notranslate nohighlight">\(\phi(y) = y_2\)</span> as the source function and use a circle as the surface <span class="math notranslate nohighlight">\(S\)</span>. In the next section, we’ll explore some more interesting geometries and functions. Let’s start by using a fairly low quadrature order, just 50 points on the whole circle.</p>
+<p>So, let’s plot up what <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> looks like. For the rest of this section, we’ll use the simple <span class="math notranslate nohighlight">\(\phi(\mathbf{q}) = q_y\)</span> as the source function and use a circle as the surface <span class="math notranslate nohighlight">\(S\)</span>. In the next section, we’ll explore some more interesting geometries and functions. Let’s start by using a fairly low quadrature order, just 50 points on the whole circle.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nobs</span> <span class="o">=</span> <span class="mi">100</span>
@@ -464,13 +476,13 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span>
-    <span class="n">surface</span>   <span class="o">=</span> <span class="n">surface_low</span><span class="p">,</span>
-    <span class="n">quad_rule</span> <span class="o">=</span> <span class="n">quad_rule_low</span><span class="p">,</span>
-    <span class="n">obsx</span>      <span class="o">=</span> <span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> 
-    <span class="n">obsy</span>      <span class="o">=</span> <span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">surface</span><span class="o">=</span><span class="n">surface_low</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule_low</span><span class="p">,</span>
+    <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
 <span class="p">)</span>
-<span class="n">phi</span> <span class="o">=</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># phi = y_2</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="c1"># u = Ab</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># phi = y_2</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>  <span class="c1"># u = Ab</span>
 <span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -478,9 +490,18 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xs</span><span class="p">,</span>
+    <span class="n">ys</span><span class="p">,</span>
+    <span class="n">u</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -499,42 +520,85 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <span class="n">zoomxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomx</span><span class="p">,</span> <span class="n">zoomnobs</span><span class="p">)</span>
 <span class="n">zoomys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomy</span><span class="p">,</span> <span class="n">zoomnobs</span><span class="p">)</span>
 <span class="n">zoomobsx</span><span class="p">,</span> <span class="n">zoomobsy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">)</span>
-<span class="n">zoomu_low</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span><span class="n">surface_low</span><span class="p">,</span> <span class="n">quad_rule_low</span><span class="p">,</span> <span class="n">zoomobsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">zoomobsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>\
-    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">zoomobsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">zoomu_low</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">double_layer_matrix</span><span class="p">(</span>
+        <span class="n">surface_low</span><span class="p">,</span> <span class="n">quad_rule_low</span><span class="p">,</span> <span class="n">zoomobsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">zoomobsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">zoomobsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">quad_rule_high</span> <span class="o">=</span> <span class="n">trapezoidal_rule</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
 <span class="n">surface_high</span> <span class="o">=</span> <span class="n">circle</span><span class="p">(</span><span class="n">quad_rule_high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">zoomu_high</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span><span class="n">surface_high</span><span class="p">,</span> <span class="n">quad_rule_high</span><span class="p">,</span> <span class="n">zoomobsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">zoomobsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>\
-    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">zoomobsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">zoomu_high</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">double_layer_matrix</span><span class="p">(</span>
+        <span class="n">surface_high</span><span class="p">,</span> <span class="n">quad_rule_high</span><span class="p">,</span> <span class="n">zoomobsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">zoomobsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">zoomobsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_low</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_low</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_low</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">zoomu_low</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">zoomu_high</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">zoomu_low</span> <span class="o">-</span> <span class="n">zoomu_high</span><span class="p">))</span>
-<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">12.0</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.0</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">logerror</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -543,7 +607,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-8-9924903fd95e&gt;:18: RuntimeWarning: divide by zero encountered in log10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-8-55f7bbadeca6&gt;:40: RuntimeWarning: divide by zero encountered in log10
   logerror = np.log10(np.abs(zoomu_low - zoomu_high))
 </pre></div>
 </div>
@@ -571,7 +635,9 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 
 <span class="c1"># transform the quadrature rule from [-1, 1] to [0, 2*pi]</span>
 <span class="n">trap_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">trap_x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">trap_weights</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="c1"># multiply the quadrature weights by the jacobian of the transformation</span>
+<span class="n">trap_weights</span> <span class="o">*=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="p">)</span>  <span class="c1"># multiply the quadrature weights by the jacobian of the transformation</span>
 </pre></div>
 </div>
 </div>
@@ -581,8 +647,8 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_delta_r</span> <span class="o">=</span> <span class="mf">0.25</span>
 <span class="c1"># (qbx_x, qbx_y) defines the points used for computing the circular coefficient integrals centered at the expansion center.</span>
-<span class="n">qbx_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">qbx_delta_r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">trap_theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">qbx_center_x</span><span class="p">)</span>
-<span class="n">qbx_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">qbx_delta_r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">trap_theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">qbx_center_y</span><span class="p">)</span>
+<span class="n">qbx_x</span> <span class="o">=</span> <span class="n">qbx_delta_r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">trap_theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">qbx_center_x</span>
+<span class="n">qbx_y</span> <span class="o">=</span> <span class="n">qbx_delta_r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">trap_theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">qbx_center_y</span>
 </pre></div>
 </div>
 </div>
@@ -597,7 +663,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 <p>And here we implement the coefficient integrals. This looks ugly, but it’s a direct implementation of the discretized coefficient integrals where <span class="math notranslate nohighlight">\(\omega_i\)</span> are the quadrature weights <code class="docutils literal notranslate"><span class="pre">trap_ws</span></code></p>
 <div class="math notranslate nohighlight">
-\[\alpha_l = \frac{1}{\pi (\delta r)^l}\sum_{i=0}^{2p} \omega_i u(c + \delta r(cos \theta_i, sin \theta_i)) e^{-il\theta_i} \]</div>
+\[\alpha_l = \frac{1}{\pi (\delta r)^l}\sum_{i=0}^{2p} \omega_i u(\mathbf{c} + \delta r(cos \theta_i, sin \theta_i)) e^{-il\theta_i} \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="p">[]</span>
@@ -631,29 +697,62 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_qbx</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_qbx</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_qbx</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">zoomu_qbx</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">zoomu_high</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">zoomu_high</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">zoomu_qbx</span> <span class="o">-</span> <span class="n">zoomu_high</span><span class="p">))</span>
-<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">12.0</span>
-<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.0</span>
+<span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span> <span class="n">zoomys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">zoomxs</span><span class="p">,</span>
+    <span class="n">zoomys</span><span class="p">,</span>
+    <span class="n">logerror</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_low</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -682,7 +781,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">qbx_choose_centers</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">mult</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function will produce expansion centers for QBX power series. </span>
+<span class="sd">    This function will produce expansion centers for QBX power series.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
 
@@ -698,9 +797,9 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <span class="k">def</span> <span class="nf">qbx_expand_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function will produce a matrix that computes the terms in the many QBX</span>
-<span class="sd">    expansions as a function of the source function. </span>
-<span class="sd">    </span>
-<span class="sd">    We build the matrix for all the QBX expansion centers at once.  </span>
+<span class="sd">    expansions as a function of the source function.</span>
+
+<span class="sd">    We build the matrix for all the QBX expansion centers at once.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
 
@@ -736,7 +835,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <span class="sd">    we want to evaluate the actual potential at a point. This function produces</span>
 <span class="sd">    a matrix that evaluates potential at (obsx, obsy) given expansions centered at</span>
 <span class="sd">    (center_x, center_y).</span>
-<span class="sd">    </span>
+
 <span class="sd">    The form of the function should look very similar to the single-expansion case above.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">obs_complex</span> <span class="o">=</span> <span class="n">obsx</span> <span class="o">+</span> <span class="n">obsy</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
@@ -754,6 +853,8 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">cKDTree</span>
+
+
 <span class="k">def</span> <span class="nf">qbx_interior_eval</span><span class="p">(</span>
     <span class="n">surface</span><span class="p">,</span>
     <span class="n">quad_rule</span><span class="p">,</span>
@@ -768,19 +869,19 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform a full interior evaluation using naive calculation when acceptable</span>
 <span class="sd">    and using QBX when necessary.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Steps:</span>
-<span class="sd">    1) Use a KDTree to identify which QBX expansion center is closest to each </span>
+<span class="sd">    1) Use a KDTree to identify which QBX expansion center is closest to each</span>
 <span class="sd">       of the provided observation coordinates (obsx, obsy)</span>
-<span class="sd">    2) Determine if those points are close enough to the surface to justify using </span>
+<span class="sd">    2) Determine if those points are close enough to the surface to justify using</span>
 <span class="sd">       QBX.</span>
-<span class="sd">    3) Construct a vectorized mapping between observation points and their </span>
+<span class="sd">    3) Construct a vectorized mapping between observation points and their</span>
 <span class="sd">       corresponding expansion center.</span>
 <span class="sd">    4) Compute the naive calculation where acceptable.</span>
 <span class="sd">    5) Compute the QBX calculation where necessary.</span>
 <span class="sd">    6) Combine the naive and QBX calculation!</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="c1"># Step 1) Build a KDTree for doing nearest neighbor searches amongst the QBX centers</span>
     <span class="n">center_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
     <span class="n">qbx_centers_tree</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">center_pts</span><span class="p">)</span>
@@ -803,13 +904,11 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
         <span class="n">dist_to_surface</span> <span class="o">&lt;</span> <span class="n">qbx_r</span><span class="p">[</span><span class="n">closest_expansion</span><span class="p">]</span>
     <span class="p">)</span>
 
-
-
     <span class="c1"># Step 3) This part is slightly complex. The vectorization in qbx_eval_matrix means</span>
     <span class="c1"># that for each QBX center, we need to compute the same number of</span>
-    <span class="c1"># observation points. But, we have different numbers of observation points for </span>
-    <span class="c1"># each expansion. So, we pad the array for those expansions that have fewer </span>
-    <span class="c1"># corresponding observation points. </span>
+    <span class="c1"># observation points. But, we have different numbers of observation points for</span>
+    <span class="c1"># each expansion. So, we pad the array for those expansions that have fewer</span>
+    <span class="c1"># corresponding observation points.</span>
     <span class="c1"># To do this, we first find the maximum number of observation points</span>
     <span class="c1"># for any expansion center. qbx_eval_pts is going to be the list of points</span>
     <span class="c1"># for each expansion center. orig_pt_idxs is a mapping back to which indices</span>
@@ -824,12 +923,16 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
     <span class="p">)</span>
     <span class="n">n_max_per_qbx_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">center_counts</span><span class="p">)</span>
     <span class="n">qbx_eval_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">orig_pt_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">orig_pt_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">n_max_per_qbx_center</span><span class="p">,</span> <span class="n">qbx_centers_used</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+    <span class="p">)</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qbx_centers_used</span><span class="p">):</span>
         <span class="c1"># So, for each QBX center, we find the observation points that use it.</span>
         <span class="n">idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">closest_expansion</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">use_qbx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">orig_pt_idxs</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idxs</span>
-        <span class="n">qbx_eval_pts</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup_pts</span><span class="p">[</span><span class="n">orig_pt_idxs</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">],</span> <span class="p">:]</span>
+        <span class="n">qbx_eval_pts</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup_pts</span><span class="p">[</span>
+            <span class="n">orig_pt_idxs</span><span class="p">[:</span> <span class="n">idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">],</span> <span class="p">:</span>
+        <span class="p">]</span>
 
     <span class="c1"># Step 4) Now, we get to actually computing integrals.  First, compute the brute</span>
     <span class="c1"># force integral for every observation point. We&#39;ll just overwrite the ones</span>
@@ -849,7 +952,9 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 
     <span class="c1"># And perform a summation over the terms in each QBX. axis=2 is the</span>
     <span class="c1"># summation over the l index in the alpha expansion coefficients.</span>
-    <span class="n">out_for_qbx_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Q</span> <span class="o">*</span> <span class="n">qbx_coeffs</span><span class="p">[</span><span class="n">qbx_centers_used</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">out_for_qbx_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Q</span> <span class="o">*</span> <span class="n">qbx_coeffs</span><span class="p">[</span><span class="n">qbx_centers_used</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
 
     <span class="c1"># Step 6) Finally, use the QBX evaluation where appropriate. If orig_pt_idxs == -1,</span>
     <span class="c1"># the entries are vectorization junk.</span>
@@ -876,21 +981,26 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomy</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
 <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
 
-<span class="n">bie_eval</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span>
-    <span class="n">surface</span>   <span class="o">=</span> <span class="n">surface</span><span class="p">,</span>
-    <span class="n">obsx</span>      <span class="o">=</span> <span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> 
-    <span class="n">obsy</span>      <span class="o">=</span> <span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-    <span class="n">quad_rule</span> <span class="o">=</span> <span class="n">quad_rule</span>
-<span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">bie_eval</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">double_layer_matrix</span><span class="p">(</span>
+        <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span> <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">quad_rule_high</span> <span class="o">=</span> <span class="n">trapezoidal_rule</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
 <span class="n">surface_high</span> <span class="o">=</span> <span class="n">circle</span><span class="p">(</span><span class="n">quad_rule_high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">bie_eval_high</span> <span class="o">=</span> <span class="n">double_layer_matrix</span><span class="p">(</span>
-    <span class="n">surface</span>   <span class="o">=</span> <span class="n">surface_high</span><span class="p">,</span>
-    <span class="n">obsx</span>      <span class="o">=</span> <span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> 
-    <span class="n">obsy</span>      <span class="o">=</span> <span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-    <span class="n">quad_rule</span> <span class="o">=</span> <span class="n">quad_rule_high</span>
-<span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">bie_eval_high</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">double_layer_matrix</span><span class="p">(</span>
+        <span class="n">surface</span><span class="o">=</span><span class="n">surface_high</span><span class="p">,</span>
+        <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule_high</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -900,8 +1010,12 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_p</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span> <span class="o">=</span> <span class="n">qbx_choose_centers</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">mult</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Qexpand</span> <span class="o">=</span> <span class="n">qbx_expand_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_p</span> <span class="o">=</span> <span class="n">qbx_p</span><span class="p">)</span>
+<span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span> <span class="o">=</span> <span class="n">qbx_choose_centers</span><span class="p">(</span>
+    <span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">mult</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">)</span>
+<span class="n">Qexpand</span> <span class="o">=</span> <span class="n">qbx_expand_matrix</span><span class="p">(</span>
+    <span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="n">qbx_p</span>
+<span class="p">)</span>
 <span class="n">qbx_coeffs</span> <span class="o">=</span> <span class="n">Qexpand</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -910,7 +1024,17 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <p>And then compute <span class="math notranslate nohighlight">\(u(x)\)</span> for every observation point. As we saw above, <code class="docutils literal notranslate"><span class="pre">qbx_interior_eval</span></code> will decide whether to use QBX or which expansion to use depending on where an observation point is located.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bie_eval_full_qbx</span> <span class="o">=</span> <span class="n">qbx_interior_eval</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="n">qbx_r</span><span class="p">,</span> <span class="n">qbx_coeffs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bie_eval_full_qbx</span> <span class="o">=</span> <span class="n">qbx_interior_eval</span><span class="p">(</span>
+    <span class="n">surface</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">obsx</span><span class="p">,</span>
+    <span class="n">obsy</span><span class="p">,</span>
+    <span class="n">qbx_center_x</span><span class="p">,</span>
+    <span class="n">qbx_center_y</span><span class="p">,</span>
+    <span class="n">qbx_r</span><span class="p">,</span>
+    <span class="n">qbx_coeffs</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -918,9 +1042,26 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <p>We’ll also create a second solution where we use just a single QBX center with index 14. This is nice just for demonstrating the the effect of a single expansion!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Qexpand14</span> <span class="o">=</span> <span class="n">qbx_expand_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_center_y</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_r</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_p</span> <span class="o">=</span> <span class="n">qbx_p</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Qexpand14</span> <span class="o">=</span> <span class="n">qbx_expand_matrix</span><span class="p">(</span>
+    <span class="n">surface</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">qbx_center_x</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_center_y</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_r</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_p</span><span class="o">=</span><span class="n">qbx_p</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">qbx_coeffs14</span> <span class="o">=</span> <span class="n">Qexpand14</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">bie_eval_qbx14</span> <span class="o">=</span> <span class="n">qbx_interior_eval</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">qbx_center_x</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_center_y</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_r</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">qbx_coeffs14</span><span class="p">)</span>
+<span class="n">bie_eval_qbx14</span> <span class="o">=</span> <span class="n">qbx_interior_eval</span><span class="p">(</span>
+    <span class="n">surface</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">obsx</span><span class="p">,</span>
+    <span class="n">obsy</span><span class="p">,</span>
+    <span class="n">qbx_center_x</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_center_y</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_r</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span>
+    <span class="n">qbx_coeffs14</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -928,6 +1069,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -935,49 +1077,78 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">bie_eval_high</span> <span class="o">-</span> <span class="n">bie_eval</span><span class="p">))</span>
-<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">17.0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">17.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">error_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
 <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xs</span><span class="p">,</span>
+    <span class="n">ys</span><span class="p">,</span>
+    <span class="n">logerror</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">bie_eval_high</span> <span class="o">-</span> <span class="n">bie_eval_qbx14</span><span class="p">))</span>
-<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">17.0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">17.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xs</span><span class="p">,</span>
+    <span class="n">ys</span><span class="p">,</span>
+    <span class="n">logerror</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([])</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">bie_eval_high</span> <span class="o">-</span> <span class="n">bie_eval_full_qbx</span><span class="p">))</span>
-<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span><span class="o">=-</span><span class="mf">17.0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">logerror</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">logerror</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">17.0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">logerror</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">xs</span><span class="p">,</span>
+    <span class="n">ys</span><span class="p">,</span>
+    <span class="n">logerror</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">error_levels</span><span class="p">,</span>
+    <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([])</span>
 
-<span class="c1">#fig.subplots_adjust(right=0.95)</span>
+<span class="c1"># fig.subplots_adjust(right=0.95)</span>
 <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.935</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
 <span class="n">cbar_ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <span class="n">cb</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
 
-<span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">(\|\hat</span><span class="si">{u}</span><span class="s1"> - \hat</span><span class="si">{u}</span><span class="s1">_{</span><span class="se">\\</span><span class="s1">textrm</span><span class="si">{QBX}</span><span class="s1">}|)$&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
-<span class="n">cb</span><span class="o">.</span><span class="n">outline</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
-<span class="n">cbytick_obj</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">getp</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="s1">&#39;yticklabels&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">cbytick_obj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span>
+    <span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(\|\hat</span><span class="si">{u}</span><span class="s2"> - \hat</span><span class="si">{u}</span><span class="s2">_{</span><span class="se">\\</span><span class="s2">textrm</span><span class="si">{QBX}</span><span class="s2">}\|)$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">outline</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">cbytick_obj</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">getp</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="s2">&quot;yticklabels&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">cbytick_obj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1017,7 +1188,7 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{x} - \hat{c})^l\big)
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../tdes/hmatrix.html" title="previous page"><span class="section-number">5. </span>Hierarchical matrices for triangular dislocation elements.</a>
+    <a class='left-prev' id="prev-link" href="../tdes/hmatrix.html" title="previous page"><span class="section-number">5. </span>GPU-accelerated hierarchical matrices for triangular dislocation elements.</a>
     <a class='right-next' id="next-link" href="part2_screw_dislocation.html" title="next page"><span class="section-number">2. </span>More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations</a>
 
         </div>

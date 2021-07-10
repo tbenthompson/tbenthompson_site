@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -137,6 +139,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
    2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part3_topo_solver.html">
+   3. A strike slip fault underneath topography.
   </a>
  </li>
 </ul>
@@ -501,7 +508,7 @@
     <span class="c1"># 7) Create children!</span>
     <span class="n">idx_split</span> <span class="o">=</span> <span class="n">idx_start</span> <span class="o">+</span> <span class="n">n_left</span>
     <span class="n">node</span><span class="o">.</span><span class="n">is_leaf</span> <span class="o">=</span> <span class="kc">False</span>
-    
+
     <span class="c1"># We recursively call build_tree_node here. The key difference between the left and right</span>
     <span class="c1"># sides is that the left receives the index block [idx_start, idx_split) and the right</span>
     <span class="c1"># receives the index block [idx_split, idx_end). Thus, we&#39;ve created a smaller, equivalent</span>
@@ -601,14 +608,14 @@ radius = 5700.6865
 <p>Having built the binary tree above, let’s use it for its intended purpose: determining which nodes are close and far from which other nodes.</p>
 <p>The technique I’m using here is called a dual tree traversal <span id="id1">[<a class="reference internal" href="../references.html#id167">Yokota, 2013</a>]</span>. The basic idea is to recursively traverse both the observation and source trees simultaneously. Whenever two nodes are sufficiently far away from each other, we assign those nodes to use an approximate calculation. When the nodes are too close and are leaf nodes, we use a direct calculation. And when the nodes are too close but are not leaf nodes, we choose the larger node and recurse to use its children.</p>
 <p>Let’s make the concept of “close” and “far” more concrete. First, since both nodes are modeled as spheres, it’s trivial to say whether the nodes intersect:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-79aa4953-f65c-4b27-9d41-bb6c63382dfb">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-79aa4953-f65c-4b27-9d41-bb6c63382dfb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f53b6c24-0738-4fb2-8553-5011f78c198b">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-f53b6c24-0738-4fb2-8553-5011f78c198b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{intersection~if~ ~} \|c_2 - c_1\| &lt; r_1 + r_2
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(c_i\)</span> is the center of a node and <span class="math notranslate nohighlight">\(r_i\)</span> is the radius. But, to say two nodes are far from each other, lack of intersection is not sufficient. At the edge of the intersection bound, the two spheres would meet at a point while still not intersecting. As a result, it’s possible that two elements in those nodes are still extremely close. Nearby elements will result in a block matrix that has full rank and cannot be efficiently approximated by adaptive cross approximation.</p>
 <p>So, we want a slightly stronger criterion. How about just adding a safety factor, <span class="math notranslate nohighlight">\(S\)</span> where <span class="math notranslate nohighlight">\(S &gt; 1\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e53d684a-d763-4452-a6a4-e037f9a9a93a">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-e53d684a-d763-4452-a6a4-e037f9a9a93a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ce05b61f-4168-4b22-9faf-994213480321">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-ce05b61f-4168-4b22-9faf-994213480321" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{far-field~if~ ~} \|c_2 - c_1\| &lt; S (r_1 + r_2)
 \end{equation}\]</div>
 <p>We’ll leave <span class="math notranslate nohighlight">\(S\)</span> as a parameter that can be chosen by the user. If a small value (close to 1) is chosen, that will allow more of the resulting matrix to be approximated but the individual approximated blocks will have higher rank. If a larger value is chosen, less of the matrix will be handled approximately but the approximated portions will all be very low rank. I set the default to 1.5 as a reasonable compromise.</p>
@@ -770,12 +777,12 @@ radius = 5700.6865
             <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">DD</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">timing_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> secs&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 0.225 secs
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 0.215 secs
 </pre></div>
 </div>
 </div>
@@ -794,16 +801,17 @@ radius = 5700.6865
     <span class="n">M</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
     <span class="k">return</span> <span class="n">M</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
 
+
 <span class="k">for</span> <span class="n">timing_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">direct_blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">direct_block</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">timing_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> secs&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 3.34 secs
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 3.28 secs
 </pre></div>
 </div>
 </div>
@@ -965,14 +973,14 @@ pivot row=  37, pivot col=  53, step size=1.680e-06, tolerance=2.000e-06
 <h2><span class="section-number">5.6. </span>Block tolerance<a class="headerlink" href="#block-tolerance" title="Permalink to this headline">¶</a></h2>
 <p>Great, now we have the infrastructure necessary for approximate far-field matrix blocks. But, there’s one last thing to cover before constructing the full H-matrix. How do we translate a global matrix approximation tolerance into a local block-wise tolerance?</p>
 <p>Given a large dense BEM matrix and the desire to approximate that matrix using H-matrix techniques, we’ll presumably have some tolerance, <span class="math notranslate nohighlight">\(\varepsilon\)</span> that is acceptable. For H-matrices, the tolerance is a relative constraint on the Frobenius norm difference between the approximate matrix and the true matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-165e2a51-ced3-4cc0-88bc-aa1af5ee34e6">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-165e2a51-ced3-4cc0-88bc-aa1af5ee34e6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2b2871dc-85cd-4e3a-be12-dbc90312d861">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-2b2871dc-85cd-4e3a-be12-dbc90312d861" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E\|_{F} \leq \varepsilon \|B\|_{F}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(E\)</span> is the error matrix and <span class="math notranslate nohighlight">\(B\)</span> is the matrix we want to approximate.</p>
 <p>That full-matrix tolerance needs to be translated into a tolerance that is used for each approximated block. On an intuitive level, a good option is to assign each block an error budget that is proportional to what percent of the entries of the full matrix that block makes up. In other words, we require that for a block with error <span class="math notranslate nohighlight">\(E_i\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bd7b86be-a446-4674-bec0-9456b5f79a67">
-<span class="eqno">(5.4)<a class="headerlink" href="#equation-bd7b86be-a446-4674-bec0-9456b5f79a67" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5ad47d65-3baf-43d7-a16a-51c4c3f3e5d9">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-5ad47d65-3baf-43d7-a16a-51c4c3f3e5d9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E_i\|_F \leq \varepsilon \sqrt{\frac{m_i n_i}{MN}} \|B\|_F
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(n_i\)</span> are the number of rows and columns for the block and <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are the number of rows and columns of the full matrix.</p>
@@ -1130,8 +1138,8 @@ standard deviation 0.10520567808363768
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.67 s, sys: 556 ms, total: 3.22 s
-Wall time: 3.22 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.54 s, sys: 620 ms, total: 3.16 s
+Wall time: 3.16 s
 </pre></div>
 </div>
 </div>
@@ -1202,8 +1210,8 @@ Wall time: 3.22 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.75 s, sys: 1.17 s, total: 4.92 s
-Wall time: 3.19 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.69 s, sys: 1.6 s, total: 5.29 s
+Wall time: 2.99 s
 </pre></div>
 </div>
 </div>
@@ -1404,20 +1412,6 @@ def approx_dot(long[::1] obs_start, long[::1] obs_end,
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1/1] Cythonizing /home/tbent/.cache/ipython/cython/_cython_magic_34b74e9948c73aeb39c44d858fe14b04.pyx
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>building &#39;_cython_magic_34b74e9948c73aeb39c44d858fe14b04&#39; extension
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gcc -pthread -B /home/tbent/.miniconda3/envs/bie_book/compiler_compat -Wl,--sysroot=/ -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/tbent/.miniconda3/envs/bie_book/include -fPIC -O2 -isystem /home/tbent/.miniconda3/envs/bie_book/include -fPIC -I/home/tbent/.miniconda3/envs/bie_book/lib/python3.9/site-packages/numpy/core/include -I/home/tbent/.miniconda3/envs/bie_book/include/python3.9 -c /home/tbent/.cache/ipython/cython/_cython_magic_34b74e9948c73aeb39c44d858fe14b04.c -o /home/tbent/.cache/ipython/cython/home/tbent/.cache/ipython/cython/_cython_magic_34b74e9948c73aeb39c44d858fe14b04.o -fopenmp
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gcc -pthread -B /home/tbent/.miniconda3/envs/bie_book/compiler_compat -Wl,--sysroot=/ -shared -Wl,-rpath,/home/tbent/.miniconda3/envs/bie_book/lib -Wl,-rpath-link,/home/tbent/.miniconda3/envs/bie_book/lib -L/home/tbent/.miniconda3/envs/bie_book/lib -Wl,-rpath,/home/tbent/.miniconda3/envs/bie_book/lib -Wl,-rpath-link,/home/tbent/.miniconda3/envs/bie_book/lib -L/home/tbent/.miniconda3/envs/bie_book/lib /home/tbent/.cache/ipython/cython/home/tbent/.cache/ipython/cython/_cython_magic_34b74e9948c73aeb39c44d858fe14b04.o -o /home/tbent/.cache/ipython/cython/_cython_magic_34b74e9948c73aeb39c44d858fe14b04.cpython-39-x86_64-linux-gnu.so -fopenmp
-</pre></div>
-</div>
-</div>
 </div>
 <p>And I’ll quickly check that both these functions work the way I expect. They should produce the same output as a manual Python loop over the blocks. And they do!</p>
 <div class="cell docutils container">
@@ -1475,7 +1469,7 @@ def approx_dot(long[::1] obs_start, long[::1] obs_end,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.34867911785841e-08
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.2661879484076053e-08
 </pre></div>
 </div>
 </div>
@@ -1516,7 +1510,9 @@ def approx_dot(long[::1] obs_start, long[::1] obs_end,
 
     <span class="c1"># Convert back from the tree ordering into the input ordering.</span>
     <span class="n">y_hmatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_rows</span><span class="p">)</span>
-    <span class="n">y_hmatrix</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_approx</span> <span class="o">+</span> <span class="n">y_direct</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">y_hmatrix</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_approx</span> <span class="o">+</span> <span class="n">y_direct</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">y_hmatrix</span>
 </pre></div>
 </div>
@@ -1537,7 +1533,7 @@ def approx_dot(long[::1] obs_start, long[::1] obs_end,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L2 error:  0.007833145030605981
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L2 error:  0.007833145319182208
 Linf error:  0.017134752444069784
 </pre></div>
 </div>
@@ -1551,7 +1547,7 @@ Linf error:  0.017134752444069784
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21.9 ms ± 273 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>22.7 ms ± 605 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1564,7 +1560,7 @@ Linf error:  0.017134752444069784
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.71 ms ± 217 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.3 ms ± 451 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1573,7 +1569,7 @@ Linf error:  0.017134752444069784
 <p>A quick performance note: Even thought the H-matrix vector product is faster and uses less memory, this comparison is a bit unfair to the H-matrix algorithm for two reasons:</p>
 <ol class="simple">
 <li><p>This is a pretty small problem for using H-matrices. If we had ten times as many elements, the H-matrix implementations would be a slam dunk!</p></li>
-<li><p>The BLAS implementation behind the numpy matrix-vector product has been optimized to the hilt. On my machine, it’s using OpenBLAS which should be achieving something near the peak possible performance for a dense matrix-vector. On the other hand, the  Cython code above is not optimized to that level. Many improvements are possible – explicit vectorization (AVX, AVX-512), loop unrolling, removing the atomic operations, arranging the memory better etc, etc, etc. There’s probably another factor of 2-3x on the table. So, the fact that, despite this disadvantage, the H-matrix implementation is several times faster than the dense matrix-vector product is super exciting! Furthermore,</p></li>
+<li><p>The BLAS implementation behind the numpy matrix-vector product has been optimized to the hilt. On my machine, it’s using OpenBLAS which should be achieving something near the peak possible performance for a dense matrix-vector. On the other hand, the  Cython code above is not optimized to that level. Many improvements are possible – explicit vectorization (AVX, AVX-512), loop unrolling, removing the atomic operations, arranging the memory better etc, etc, etc. There’s probably another factor of 2-3x on the table. So, the fact that, despite this disadvantage, the H-matrix implementation is several times faster than the dense matrix-vector product is super exciting!</p></li>
 </ol>
 </div>
 <div class="section" id="potential-extensions">

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -121,7 +121,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="hmatrix.html">
-   5. Hierarchical matrices for triangular dislocation elements.
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -139,6 +139,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
    2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part3_topo_solver.html">
+   3. A strike slip fault underneath topography.
   </a>
  </li>
 </ul>
@@ -450,8 +455,8 @@
 <div class="section" id="the-somigliana-identity">
 <h3><span class="section-number">1.2.1. </span>The Somigliana identity<a class="headerlink" href="#the-somigliana-identity" title="Permalink to this headline">¶</a></h3>
 <p>The underlying basis of almost any (static, isotropic, homogeneous, linear) elastic boundary element or boundary integral method is the Somigliana identity:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1558ec32-8715-484a-aee4-eab7c2ebc1d5">
-<span class="eqno">(1.1)<a class="headerlink" href="#equation-1558ec32-8715-484a-aee4-eab7c2ebc1d5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-dbfbbadc-44ec-4bed-b5de-60a70143fb81">
+<span class="eqno">(1.1)<a class="headerlink" href="#equation-dbfbbadc-44ec-4bed-b5de-60a70143fb81" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     u_{k}(\mathbf{x}) + \int_{S} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = \int_{S} U^*_{kj}(\mathbf{x},\mathbf{y}) t_j(\mathbf{y}) d\mathbf{y} ~~~~~ \forall \mathbf{x} \in V
     \label{somigliana}
 \end{equation}\]</div>
@@ -465,12 +470,12 @@
 </ul>
 <p><strong>The main point here is that we sum both surface displacement and surface traction source effects over the entire source surface to compute the displacement at arbitary observation point in the domain.</strong></p>
 <p>Feel free to ignore these, but in 3D, the big ugly expressions for the kernel functions, <span class="math notranslate nohighlight">\(U^*\)</span> and <span class="math notranslate nohighlight">\(T^*\)</span> are:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-794d83a4-8dd6-4cf9-a1e6-f2a86b33aac3">
-<span class="eqno">(1.2)<a class="headerlink" href="#equation-794d83a4-8dd6-4cf9-a1e6-f2a86b33aac3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-dc128cc3-d724-4b36-a07f-3f07e906534c">
+<span class="eqno">(1.2)<a class="headerlink" href="#equation-dc128cc3-d724-4b36-a07f-3f07e906534c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     U^*_{kj}(\mathbf{x},\mathbf{y}) = \frac{1}{16\pi\mu(1 - \nu)r}\big[(3 - 4\nu)\delta_{kj} + r_{,k}r_{,j}\big]
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-b28de822-8eab-4fd5-8bc9-062daaaae312">
-<span class="eqno">(1.3)<a class="headerlink" href="#equation-b28de822-8eab-4fd5-8bc9-062daaaae312" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b77d66f9-4c9b-4c1b-936e-3aecec2c0fde">
+<span class="eqno">(1.3)<a class="headerlink" href="#equation-b77d66f9-4c9b-4c1b-936e-3aecec2c0fde" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     T^*_{kj}(\mathbf{x},\mathbf{y}) = \frac{-1}{8\pi(1-\nu)r^2}\big[ \{(1-2\nu)\delta_{kj} + 3r_{,k}r_{,j} \}\frac{\partial r}{\partial \mathbf{n}} - (1 - 2\nu)\{n_jr_{,k} - n_kr_{,j}\}\big]
 \end{equation}\]</div>
 <p>with <span class="math notranslate nohighlight">\(\delta_{ij}\)</span> is the Kronecker delta, <span class="math notranslate nohighlight">\(\mu\)</span> as the elastic shear modulus, <span class="math notranslate nohighlight">\(\nu\)</span> as the poisson ratio, <span class="math notranslate nohighlight">\(\mathbf{n}\)</span> is the normal vector to <span class="math notranslate nohighlight">\(S\)</span> at <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(r = \|\mathbf{x} - \mathbf{y}\|\)</span> and <span class="math notranslate nohighlight">\(r_{,i} = \partial r/\partial x_i\)</span>.</p>
@@ -480,8 +485,8 @@
 <p>Okay, but there’s something missing here in the details. Faults don’t really fit with this definition of a surface as the boundary of volume. A fault is embedded in a volume and doesn’t define the boundaries of that volume. The type of surface we’re talking about here is something more like the surface of the Earth or, in an engineering setting, the surface of some mechanical part we are modeling. To transform this into a equation that can handle a fault, imagine the fault being an infinitesimally narrow opening with a volume-bounding surface on each side. See the figure.</p>
 <a class="reference internal image-reference" href="../_images/CrackSides.png"><img alt="../_images/CrackSides.png" src="../_images/CrackSides.png" style="width: 150px;" /></a>
 <p>So, let’s expand the Somigliana identity for this case:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f0620891-c650-47d8-a464-e4b8afd55ffb">
-<span class="eqno">(1.4)<a class="headerlink" href="#equation-f0620891-c650-47d8-a464-e4b8afd55ffb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6672ed83-a321-46f7-83d1-8b8c1f99d1f2">
+<span class="eqno">(1.4)<a class="headerlink" href="#equation-6672ed83-a321-46f7-83d1-8b8c1f99d1f2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) + \int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^+_j(\mathbf{y}) d\mathbf{y} + \int_{C^-} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^-_j(\mathbf{y}) d\mathbf{y} = \int_{C^+} U^*_{kj}(\mathbf{x},\mathbf{y}) t^+_j(\mathbf{y}) d\mathbf{y} + \int_{C^-} U^*_{kj}(\mathbf{x},\mathbf{y}) t^-_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>The critical step here is to:</p>
@@ -492,19 +497,19 @@ u_{k}(\mathbf{x}) + \int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u^+_j(\mathbf{y
 <li><p>the value of <span class="math notranslate nohighlight">\(T^*\)</span> on <span class="math notranslate nohighlight">\(C^-\)</span> will be exactly the negative of its value on <span class="math notranslate nohighlight">\(C^+\)</span>, so the <span class="math notranslate nohighlight">\(T^*\)</span> integrals can be combined into a single integral that depends on <span class="math notranslate nohighlight">\(\Delta u\)</span>.</p></li>
 </ol>
 <p>What we get is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c9b63be0-5a1a-40a9-97fd-24d4849a33f0">
-<span class="eqno">(1.5)<a class="headerlink" href="#equation-c9b63be0-5a1a-40a9-97fd-24d4849a33f0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8eec7ffd-454a-4b6b-a236-b8c272ef1860">
+<span class="eqno">(1.5)<a class="headerlink" href="#equation-8eec7ffd-454a-4b6b-a236-b8c272ef1860" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) = -\int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>This is the equation that is being integrated by all the analytical slip dislocation solution (Okada, TDEs, etc). Let’s actually just define a handy function for the <em>fullspace</em> TDE (I won’t talk about halfspace TDEs here but those also exist!):</p>
-<div class="amsmath math notranslate nohighlight" id="equation-20f4f154-8224-4c37-9498-d689a7c38b1a">
-<span class="eqno">(1.6)<a class="headerlink" href="#equation-20f4f154-8224-4c37-9498-d689a7c38b1a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d18ef090-b5dd-4940-a979-73458dcf18d6">
+<span class="eqno">(1.6)<a class="headerlink" href="#equation-d18ef090-b5dd-4940-a979-73458dcf18d6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri}, \Delta \vec{u}) = -\int_{\mathrm{Tri}} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j d\mathbf{y}
 \end{equation}\]</div>
 <p>Note that we’re integrating over some unspecified triangle, <span class="math notranslate nohighlight">\(\mathrm{Tri}\)</span>. Also note that the slip, <span class="math notranslate nohighlight">\(\Delta u_j\)</span> is no longer dependent on <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>. That is to say, the slip is constant on the triangle. The interface is identical to the Python function where specify the observation point, the source triangle and the slip vector.</p>
 <p>For our fullspace rectangular fault above we summed two TDEs:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3b0fb69f-77f7-4013-80d5-ee346516c328">
-<span class="eqno">(1.7)<a class="headerlink" href="#equation-3b0fb69f-77f7-4013-80d5-ee346516c328" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b16f210d-324c-404c-9d58-7d2e37573f0a">
+<span class="eqno">(1.7)<a class="headerlink" href="#equation-b16f210d-324c-404c-9d58-7d2e37573f0a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\mathbf{x}) = \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri_0}, \Delta \vec{u}_0) + \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, \mathrm{Tri_1}, \Delta \vec{u}_1)
 \end{equation}\]</div>
 </div>
@@ -515,28 +520,28 @@ u_{k}(\mathbf{x}) = -\int_{C^+} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\ma
 <li><p>There will be both <span class="math notranslate nohighlight">\(U^*\)</span> and <span class="math notranslate nohighlight">\(T^*\)</span> integrals from the Earth’s surface, <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
 <li><p>There will a single <span class="math notranslate nohighlight">\(T^*\)</span> integral from the fault, <span class="math notranslate nohighlight">\(F\)</span>.</p></li>
 </ul>
-<div class="amsmath math notranslate nohighlight" id="equation-faae4316-2a8e-4fc4-87cc-b98814c0038c">
-<span class="eqno">(1.8)<a class="headerlink" href="#equation-faae4316-2a8e-4fc4-87cc-b98814c0038c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2b8ad67e-a131-477e-8bff-f7dbc79bee4d">
+<span class="eqno">(1.8)<a class="headerlink" href="#equation-2b8ad67e-a131-477e-8bff-f7dbc79bee4d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) - \int_{H} U^*_{kj}(\mathbf{x},\mathbf{y}) t_j(\mathbf{y}) d\mathbf{y} + \int_{H} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = -\int_{F} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>But, we know that <span class="math notranslate nohighlight">\(t_j \approx 0\)</span> on <span class="math notranslate nohighlight">\(H\)</span> because it’s the surface of the Earth. So, we’re left with:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2b772192-45fd-4348-8aca-a19d147328a3">
-<span class="eqno">(1.9)<a class="headerlink" href="#equation-2b772192-45fd-4348-8aca-a19d147328a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-51d08b32-f28b-4ed3-8eaf-1cd50a10a852">
+<span class="eqno">(1.9)<a class="headerlink" href="#equation-51d08b32-f28b-4ed3-8eaf-1cd50a10a852" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{k}(\mathbf{x}) + \int_{H} T^{*}_{kj}(\mathbf{x},\mathbf{y}) u_j(\mathbf{y}) d\mathbf{y} = -\int_{F} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j(\mathbf{y}) d\mathbf{y}
 \end{equation}\]</div>
 <p>That’s going to be our key integral equation. Now, let’s solve it. We know the fault slip, <span class="math notranslate nohighlight">\(\Delta u\)</span>. Let’s discretize the equation in terms of TDEs! <span class="math notranslate nohighlight">\(H_j\)</span> will be the <span class="math notranslate nohighlight">\(j\)</span>-th triangle in the <span class="math notranslate nohighlight">\(H\)</span> surface and <span class="math notranslate nohighlight">\(F_j\)</span> the <span class="math notranslate nohighlight">\(j\)</span>-th triangle in the <span class="math notranslate nohighlight">\(F\)</span> surface. Notice that even though we’re integrating over displacement instead of slip, the integral over <span class="math notranslate nohighlight">\(H\)</span> takes exactly the same form as the integral over <span class="math notranslate nohighlight">\(F\)</span> and thus we can use the same <span class="math notranslate nohighlight">\(\mathrm{TDE}\)</span> function. I’ll also assume that <span class="math notranslate nohighlight">\(\vec{u}_j\)</span> is implicitly the value of displacement at the centroid of <span class="math notranslate nohighlight">\(H_j\)</span>. Let’s call that centroid <span class="math notranslate nohighlight">\(\overline{H_j}\)</span>, so <span class="math notranslate nohighlight">\(\vec{u}_j = \vec{u}(\overline{H_j})\)</span>. Similarly for <span class="math notranslate nohighlight">\(\Delta \vec{u}_i\)</span> being the value of the slip at the centroid of <span class="math notranslate nohighlight">\(F_i\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7aa69b4c-334d-4b24-ad22-553afab5b74b">
-<span class="eqno">(1.10)<a class="headerlink" href="#equation-7aa69b4c-334d-4b24-ad22-553afab5b74b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-932a33db-6bab-42c6-ae97-e976000fcb6b">
+<span class="eqno">(1.10)<a class="headerlink" href="#equation-932a33db-6bab-42c6-ae97-e976000fcb6b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\mathbf{x}) - \sum_j \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, H_j, \vec{u}_j) = \sum_j \mathrm{TDE}_{\mathrm{disp}}(\mathbf{x}, F_j, \Delta \vec{u}_j)
 \end{equation}\]</div>
 <p>There’s once remaining continuous aspect here: the observation point location, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. The trick to complete the system of equations is to choose to enforce the equation at the centroids, <span class="math notranslate nohighlight">\(\overline{H_i}\)</span>, of each free surface triangle, <span class="math notranslate nohighlight">\(H_i\)</span>. So, the final system of equations is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e47cd219-acf6-4ed3-9b99-7eb0e880d5ae">
-<span class="eqno">(1.11)<a class="headerlink" href="#equation-e47cd219-acf6-4ed3-9b99-7eb0e880d5ae" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ae836a58-8dce-403e-9bef-7f9d1880e8fe">
+<span class="eqno">(1.11)<a class="headerlink" href="#equation-ae836a58-8dce-403e-9bef-7f9d1880e8fe" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{u}(\overline{H_i}) - \sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, H_j, \vec{u}_j) = \sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, F_j, \Delta \vec{u}_j)
 \end{equation}\]</div>
 <p>To simplify the notation, suppose we only consider displacements and slip in one dimension. The naturally forms a square linear system like</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ffa9dca2-42ba-4841-aa1c-ad983de8946e">
-<span class="eqno">(1.12)<a class="headerlink" href="#equation-ffa9dca2-42ba-4841-aa1c-ad983de8946e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-a3419e0f-3bd5-4328-b9f0-b717267f8218">
+<span class="eqno">(1.12)<a class="headerlink" href="#equation-a3419e0f-3bd5-4328-b9f0-b717267f8218" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \begin{split}
 A_{ij}=\delta_{ij} + \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, H_j, 1)\\
 b_i=\sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, F_j, \Delta u_j)\\
@@ -725,8 +730,8 @@ x=u_j
 <div class="section" id="so-do-tdes-not-work-for-this-problem">
 <h3><span class="section-number">1.2.6. </span>So, do TDEs not work for this problem?!<a class="headerlink" href="#so-do-tdes-not-work-for-this-problem" title="Permalink to this headline">¶</a></h3>
 <p>To understand what’s going on, let’s back up to the integral equation at hand and think about what we’re asking for. Think about the diagonal elements of the matrix where we are asking to compute the value of observation displacement directly on the source TDE. What we’re computing is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-793d66cf-b5d4-44bb-9f57-e9f2a6c01d95">
-<span class="eqno">(1.13)<a class="headerlink" href="#equation-793d66cf-b5d4-44bb-9f57-e9f2a6c01d95" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d904d6ac-751e-4721-a4b6-af44d5524534">
+<span class="eqno">(1.13)<a class="headerlink" href="#equation-d904d6ac-751e-4721-a4b6-af44d5524534" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 -\int_{\mathrm{Tri}} T^{*}_{kj}(\mathbf{x},\mathbf{y}) \Delta u_j d\mathbf{y} ~~~~ \mathrm{where} ~~ \mathbf{x} \in \mathrm{Tri}
 \end{equation}\]</div>
 <p>But, if we go looking at the expression for <span class="math notranslate nohighlight">\(T^*\)</span>, there’s an ugly looking <span class="math notranslate nohighlight">\(1/r^2\)</span> term. If <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is a point on <span class="math notranslate nohighlight">\(\mathrm{Tri}\)</span>, then that means there’s a point in the integral for which <span class="math notranslate nohighlight">\(\mathbf{x} = \mathbf{y}\)</span> and <span class="math notranslate nohighlight">\(r = 0\)</span>. So, the integral is singular! No wonder it’s unpleasant to compute a TDE for a point on the surface of the TDE.</p>

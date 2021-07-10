@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -121,7 +121,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="hmatrix.html">
-   5. Hierarchical matrices for triangular dislocation elements.
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -139,6 +139,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
    2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part3_topo_solver.html">
+   3. A strike slip fault underneath topography.
   </a>
  </li>
 </ul>
@@ -511,8 +516,8 @@ Wall time: 8.1 s
 <div class="section" id="iterative-linear-solution">
 <h2><span class="section-number">3.3. </span>Iterative linear solution<a class="headerlink" href="#iterative-linear-solution" title="Permalink to this headline">¶</a></h2>
 <p>Okay, so how do we use this matrix-vector product to solve the linear system? Because the entire matrix is never in memory, direct solvers like LU decomposition or Cholesky decomposition are no longer an option. But, iterative linear solvers are still an option. The <a class="reference external" href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient (CG) method</a> is a well-known example of an iterative solver. However, CG requires a symmetric positive definite matrix. Because our columns come from integrals over elements but our rows come from observation points, there is an inherent asymmetry to the boundary element matrices we are producing here. <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_minimal_residual_method">GMRES</a> is an iterative linear solver that tolerates asymmetry. It’s specifically a type of <a class="reference external" href="https://en.wikipedia.org/wiki/Krylov_subspace">“Krylov subspace”</a> iterative linear solver and as such requires only the set of vectors:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-300889e1-5f5b-4b03-ac21-1f109335467a">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-300889e1-5f5b-4b03-ac21-1f109335467a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-fbb34733-d04d-4064-89c9-525331fe37c3">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-fbb34733-d04d-4064-89c9-525331fe37c3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \{b, Ab, A^2b, ..., A^nb\}
 \end{equation}\]</div>
 <p>As such, only having an implementation of the matrix vector product <span class="math notranslate nohighlight">\(Ab\)</span> is required since the later iterates can be computed with multiple matrix vector product. For example, <span class="math notranslate nohighlight">\(A^2b = A(Ab)\)</span>.</p>
