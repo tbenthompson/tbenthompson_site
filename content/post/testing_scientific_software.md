@@ -5,7 +5,7 @@ date=2021-07-09
 
 I think testing and debugging is one of the harder aspects of scientific and numerical software. It's easy to get buried in giant pile of code and have no idea where to look for bugs. It's even harder when actually the bug isn't in the code but is in the concepts, math or data.
 
-The fundamental problem with testing and debugging scientific software is that we don't know correct intermediate values or even the correct final output. [I helped write a previous post on similar topics](https://tbenthompson.com/post/automated_testing_for_science/) but I wanted to expand on the topic. So, here are various suggestions that probably would've helped me at some point. I'd like to expand quite a bit more on individual points here in the future. 
+The fundamental problem with testing and debugging scientific software is that we don't know correct intermediate values or even the correct final output. [I helped write a previous post on similar topics](https://tbenthompson.com/post/automated_testing_for_science/) but I wanted to write more on the topic. So, here are various suggestions that probably would've helped me at some point. I'd like to expand quite a bit more on individual points here in the future. 
 
 1. Don't trust your code. Seriously, never trust your code. 
 3. Treasure correct code and use version control. Don't lose your treasure.
