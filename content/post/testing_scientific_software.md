@@ -61,7 +61,7 @@ The fundamental problem with testing and debugging scientific software is that w
 
 
 ##### Footnotes and links
-- I've also worked in machine learning and deep learning a bit. I think a similar list would apply in those areas, but I'd have to add and remove a few points. 
+- I've also worked in machine learning, statistical software and deep learning a lot. I think a similar list would apply in those areas, but I'd have to add and remove a few points. 
 - [Best Practices for Scientific Computing](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745)
 - [Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
 - [Sharing your code feels related](https://tbenthompson.com/post/share_your_code/)
