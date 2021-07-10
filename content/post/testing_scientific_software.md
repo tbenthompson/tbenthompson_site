@@ -1,5 +1,5 @@
 +++
-title="50 suggestions on correctness and testing for scientific software"
+title="50 suggestions on correctness and testing for scientific software for PDEs"
 date=2021-07-09
 +++
 
@@ -14,7 +14,7 @@ The fundamental problem with testing and debugging scientific software is that w
 7. Add one feature at a time.
 8. Define "one feature" as narrowly as possible. 
 9. Edges cases shouldn't be an after thought. Sometimes solving an edge case can be informative about the common case.
-11. It's okay to spend a couple hours just thinking about to design a test problem that tests only one new feature. 
+11. It's okay to spend a couple hours just thinking about how to design a test problem that tests only one new feature. 
 12. Any time you can, compare with an analytical solution.
 13. The [method of manufactured solutions](https://asmedigitalcollection.asme.org/fluidsengineering/article-abstract/124/1/4/462791/Code-Verification-by-the-Method-of-Manufactured?redirectedFrom=fulltext) (MMS) is amazing.
 14. Use MMS even if it requires implementing some extra features. It will be worth it. 
