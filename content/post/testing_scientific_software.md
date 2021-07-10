@@ -1,5 +1,5 @@
 +++
-title="How to test scientific software: 50 suggestions"
+title="50 suggestions on correctness and testing for scientific software"
 date=2021-07-09
 +++
 
