@@ -19,9 +19,9 @@ Because analytic functions can be represented as a polynomial series, it's tempt
 
 ### Just give me a quadrature rule
 
-There are several formulas in the paper, but this one is particularly 
+There are several formulas in the paper, but this one is particularly useful. If we have an existing Gaussian quadrature rule specified by $x_k$ and $w_k$, then we can derive a new mapped quadrature rule, $\tilde{x}_k$, $\tilde{w}_k$ with the formula:
 \begin{align}
-\tilde{I}_n(f) &= \sum_k^n \tilde{w}_k f(\tilde{x}_k) , ~~~ \tilde{x}_k = w_kg'(x_k), ~~~ \tilde{x}_k=g(x_k) \\\\
+\tilde{I}_n(f) &= \sum_k^n \tilde{w}_k f(\tilde{x}_k) , ~~~ \tilde{w}_k = w_kg'(x_k), ~~~ \tilde{x}_k=g(x_k) \\\\
 g(s) &= \frac{1}{53089}(40320s + 6720s^3 + 3024s^5 + 1800s^7 + 1225s^9)
 \end{align}
 
