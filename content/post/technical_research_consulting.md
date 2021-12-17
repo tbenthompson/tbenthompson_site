@@ -132,3 +132,4 @@ I would like to give team members a lot of autonomy in what they work on, but wi
 
 Initially, I think it would be good to keep a clear focus on the main goal which is to solve some of the bottlenecks in academic science by providing access to technically talented individual contributors. At some point this focus might be reconsidered. It might be useful to work with private sector businesses in order to provide additional funding to the organization. 
 
+<sub>Thanks to Milan Cvitkovich, Tomo Sato, Elizabeth Santorella, Brendan Meade, Lyke Thompson and probably a couple others for useful comments on this!</sub>
