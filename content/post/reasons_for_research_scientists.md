@@ -13,24 +13,29 @@ There are [a lot of difficult questions](https://www.worksinprogress.co/issue/we
 
 Before continuing, let's get our terminology precise. For the sake of this article, a research scientist has a PhD-equivalent level of experience and is involved in the day-to-day execution of a research agenda. By comparison, a principal investigator is often aloof from the execution and is involved in discussion, supervision, grant writing, teaching, presentation. 
 
-Broadly speaking, why are research scientists not more common? 
+In order to dig deeper on this question and works towards solving the current lack of senior research scientists in academia, it would be good to understand more about what a research scientist position *is* and what such a position *could be* and many others facets like a map of where and how these positions currently exist. 
+
+## Why are research scientists not more common? 
+
 1. Research scientists are more expensive than graduate students or postdocs.
-2. Research scientists are hard to fund because our granting system and universities are built around a workforce dominated by graduate students.
+2. Research scientists are hard to fund because our granting system and universities are built around a workforce dominated by graduate students. 
 3. Talented scientists view academic research scientist positions as low prestige (especially compared to a faculty position). 
-4. There is not a path for private sector professionals to enter or return to academic research. Such people are viewed as having "quit". 
+4. There is not a path for private sector professionals to enter or return to academic research. Such people are viewed as having "quit".
+
+## What am I doing?
 
 I've been working on these problems from a few different angles. First, I'm working as a research scientist/engineer myself. Second, I put together [a proposal for a type of technical research consultancy](../technical_research_consulting) that I think would fill a helpful niche. Finally, I am working on proposals oriented at federal law makers and agency staff on how we could modify our grant funding system to employ more research scientists in academia.
 
-But, in order to dig deeper on this question and works towards solving the current lack of senior ICs, it would be good to understand more about what a research scientist position *is*, what such a position *could be*, and a map of where and how these positions currently exist. 
-
 ## Why are research scientists essential for a productive lab?
-
-If we look at the tech sector, in contrast to the more traditional managerial career path, senior individual contributor (IC) career paths have been developed over the last few decades. These IC career paths allow people to grow their influence while remaining mostly in a hands-on technical role. The most common role of a senior software engineering IC is that of the "tech lead", guiding the technical decision making and execution of a team. Other paths might involve prototyping and architecting a critical new system, diving in a solving an emergency problem, For more details on this kind of career, take a look at [the Staff Engineer book](https://staffeng.com/book).
 
 * *Productivity*: Productivity increases dramatically through the early career of a scientist. Most successful research in academia is done by late stage graduate students and by postdoctoral researchers before they leave hands-on research for a faculty (management) position. By the time a graduate student defends their dissertation, they are often the world expert in their subject. What if some of those researchers could continue building their skills and executing on high impact projects instead of being consumed by the responsibilities of a management role?
 * *Continuity*: A common refrain across academia goes “Oh, that project died because the grad student left and the knowledge was lost.” Long-term employment of research scientists who were involved in the day-to-day of lab operations would provide a reservoir of knowledge on prior projects and techniques.
 * *Guidance*: An expert software engineer can immediately spot problems in an engineering plan that might cost a project many months of time. A lab expert might foresee problems with equipment that would otherwise require a year to identify and resolve. Having senior hands-on technical staff is critical to developing successful plans that can be executed on quickly.
 * *Daily collaboration*: Many graduate students do almost all of their work alone, only sharing results and discussing strategy with their advisor every couple weeks. Working closely on a daily basis together produces better results and faster. A hands-on technical research scientist could work together with graduate students in the lab or write code together with the student. Watching others work is an excellent way to learn the tacit knowledge behind a field or skill.
+
+## What is a senior individual contributor or staff engineer?
+
+If we look at the tech sector, in contrast to the more traditional managerial career path, senior individual contributor (IC) career paths have been developed over the last few decades. These IC career paths allow people to grow their influence while remaining mostly in a hands-on technical role. The most common role of a senior software engineering IC is that of the "tech lead", guiding the technical decision making and execution of a team. Other paths might involve prototyping and architecting a critical new system or diving in and solving an emergency problem. For more details on this kind of career, take a look at [the Staff Engineer book](https://staffeng.com/book).
  
 ## Why is academia based on a graduate student workforce?
 
@@ -79,13 +84,14 @@ If there are other areas where research scientists are readily employed (nationa
 
 I think these are reasonable points and I'm very supportive of new institutional models but the inertia of our current system is huge. Academic research is a little over half of all research in the US. I'm also optimistic that changes are possible. Even if those changes are small, the impact of those changes could be large. An enormous portion of academic research is centrally funded by the federal government. Changes in the incentive mechanisms set by that funding could have huge effects. 
 
-For example, the current system incentivizes graduate student funding over research scientist funding. Including graduate student funding in an NSF grant means that you can claim "broader impacts" because you are training the next generation of scientists. Graduate students are also much cheaper than a research scientist. So, you can A) fund two or three graduate students and get a boost in the likelihood of approval or B) fund one research scientist and not get a boost in approval chances. Given the extremely competitive grant process, most scientists will choose to fund the graduate students even if that's not the best way to achieve their research goals. 
+For example, the current system incentivizes graduate student funding over research scientist funding. Including graduate student funding in an NSF grant means that you can claim "broader impacts" because you are training the next generation of scientists. Graduate students are also much cheaper than a research scientist. So, you can A) fund two or three graduate students and get a boost in the likelihood of approval or B) fund one research scientist and not get a boost in approval chances. Given the extremely competitive grant process, most scientists will choose to fund the graduate students even if that's not the best way to achieve their research goals. Small shifts in the grant approval process could lead to a lot more grants that are funding research scientist positions. 
 
 ## Questions that I would like an answer to
 
 * What is the average salary for an academic research scientist? How much stability is there in that pay?
 * Are research scientists ever viewed as "competition" by PIs? 
 * Does anyone have a good argument why academia should not employ research scientists? Almost everyone I talk to thinks that this part of the system is obviously broken. There is slow progress.
+* Why don't more scientists return to academia from the private sector? I think this one-dimensional flux of scientists from academia into the private sector leaves academia with many blind-spots. I don't think compensation is the whole story for why people don't return to academia. 
 
 ## Footnotes
 [1] The [Overedge catalog](https://arbesman.net/overedge/) lists many new institutional models that are worth paying attention to.
