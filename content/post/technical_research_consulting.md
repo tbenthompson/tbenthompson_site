@@ -65,7 +65,7 @@ Ideally short on the scale of a few days up to a couple months. The goal is to e
 
 ### Will it be hard to find capable and interested TRCs?
 
-TRCs need to have skills in several dimensions. Obviously, they need to have **at least one rare and valuable technical skill.** But, they also need to have **good project management skills, writing skills, and client communication skills.** Finding this combination of talents will not be easy. In addition, we will be unable to pay competitive rates with industry research science or engineer roles where such an individual could easily be paid \$500k in total compensation. 
+TRCs need to have skills in several dimensions. Obviously, they need to have **at least one rare and valuable technical skill.** But, they also need to have **good project management skills, writing skills, and client communication skills.** Finding this combination of talents will not be easy. In addition, we will be unable to pay competitive rates with industry research science or engineer roles where such an individual could easily be paid \\\$500k in total compensation. 
 
 That said, there is a large supply of technical talent that would like to follow an individual contributor career path in science. I’ve personally talked to a slew of people who wish they could continue as a scientist without becoming a faculty member. Many of these people leave academia for industry or settle for a different career path than they would prefer. A smaller number work at national labs or other large laboratories where research scientist positions are more common. A select few find research scientist positions in academia.
 
@@ -83,7 +83,7 @@ On the other hand, there seems to be a lot of energy in the private philanthropy
 
 ### How much funding would be required for a trial period?
 
-The main expense would be team member salaries and benefits. I’m uncertain about what rate to pay. Great team members will be in a situation where they can get paid very well in the private sector. I’m guessing that the right salary number is somewhere between \$100k and \$150k. I would expect an additional \$40k in health insurance, administrative overhead, travel costs and equipment per team member. With \$1 million per year, we could support five to seven team members depending on the salary number. I would take a smaller salary. The exact details don't seem particular important to pin down here.
+The main expense would be team member salaries and benefits. I’m uncertain about what rate to pay. Great team members will be in a situation where they can get paid very well in the private sector. I’m guessing that the right salary number is somewhere between \\\$100k and \\\$150k. I would expect an additional \\\$40k in health insurance, administrative overhead, travel costs and equipment per team member. With \\\$1 million per year, we could support five to seven team members depending on the salary number. I would take a smaller salary. The exact details don't seem particular important to pin down here.
 
 ### What would the organizational structure look like?
 
