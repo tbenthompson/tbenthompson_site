@@ -43,6 +43,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -124,13 +126,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part4_low_rank.html">
-   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part5_hmatrix.html">
-   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -336,8 +353,8 @@
 <div class="section" id="loading-a-multi-fault-system">
 <h2><span class="section-number">7.2. </span>Loading a multi-fault system<a class="headerlink" href="#loading-a-multi-fault-system" title="Permalink to this headline">¶</a></h2>
 <p>In the single fault system from the last section, we were able to gloss over loading by using a slip deficit or backslip formulation. Because the physical system is invariant with respect to a rigid body displacement, any tectonic motion that has already been fully accomodated by fault slip can be ignored. Put differently, in a single fault system with a purely elastic rheology, the stresses from tectonic motion can be equivalently described by backwards slip on the fault.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a757936d-e768-4b8c-ba94-0704a90270a3">
-<span class="eqno">(7.1)<a class="headerlink" href="#equation-a757936d-e768-4b8c-ba94-0704a90270a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-81c91e1d-2e5b-43da-ae55-4a52da41f019">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-81c91e1d-2e5b-43da-ae55-4a52da41f019" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{\textrm{total}} = u_{\textrm{loading}} + u_{\textrm{fault}}
 \end{equation}\]</div>
 <p>There are a number of different options for loading a fault system:</p>

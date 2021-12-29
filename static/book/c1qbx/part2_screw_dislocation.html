@@ -43,6 +43,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -124,8 +126,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part5_hmatrix.html">
-   1. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -362,16 +384,16 @@
 <div class="section" id="antiplane-shear">
 <h2><span class="section-number">2.2. </span>Antiplane shear<a class="headerlink" href="#antiplane-shear" title="Permalink to this headline">¶</a></h2>
 <p>A basic result in linear elastic earthquake modeling is the representation of displacement from slip on an infinitely long strike-slip fault. Because the fault is infinitely long, all displacements is fault parallel. Suppose we’re looking at a cross-section in the <span class="math notranslate nohighlight">\(x,y\)</span> plane with all displacement occuring in the <span class="math notranslate nohighlight">\(z\)</span> direction. Then the displacement vector is <span class="math notranslate nohighlight">\(\mathbf{u} = (0, 0, u_z)\)</span>. And the strain state is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d563e422-300f-46c9-9438-b7880a803ca0">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-d563e422-300f-46c9-9438-b7880a803ca0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3450c392-60df-4e90-9412-7ddc2c7a3967">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-3450c392-60df-4e90-9412-7ddc2c7a3967" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \boldsymbol{\varepsilon} = \begin{bmatrix}
 0 &amp; 0 &amp; \epsilon_{13} \\
 0 &amp; 0 &amp; \epsilon_{23}\\
  \epsilon_{13}    &amp;    \epsilon_{23}      &amp; 0\end{bmatrix}
 \end{equation}\]</div>
 <p>This special state is called “antiplane shear”. We can simplify the equations of linear elasticity to be in terms of a vector strain, <span class="math notranslate nohighlight">\(\epsilon_z = (\epsilon_{xz}, \epsilon_{yz})\)</span> and vector stress, <span class="math notranslate nohighlight">\(\sigma_z = (2\mu\epsilon_{xz}, 2\mu\epsilon_{yz})\)</span>. Combined with Newtons law, we get the result that <span class="math notranslate nohighlight">\(u_z\)</span> is a solution to the Laplace equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0feea07b-0c2e-4eee-94ce-d64821ba2b56">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-0feea07b-0c2e-4eee-94ce-d64821ba2b56" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ac7e08ac-ece7-4a93-9014-408ac4103e73">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-ac7e08ac-ece7-4a93-9014-408ac4103e73" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \nabla^2 u_z = 0
 \end{equation}\]</div>
 <p>As a result, we can describe the elastic behavior of infinitely long strike-slip faults (aka a “screw dislocation”) in terms of solutions to the Laplace equation.</p>
@@ -397,8 +419,8 @@
 <p>In the last section, we integrated over a circle. Circles are simple so we didn’t need much in the way of mesh handling code! But now, we’re going to need a little bit more. In particular, it will be nice to separate our surface into several “panels”. Panels are analogous to elements in a finite element method but make it clear that we’re talking about a surface discretization and not a volumetric discretization.</p>
 <p>The main tool we’re going to use is the <code class="docutils literal notranslate"><span class="pre">tectosaur2.panelize_symbolic_surface</span></code> function. This function processes a set of symbolic surfaces into a form that is ready for integration. Internally, <code class="docutils literal notranslate"><span class="pre">panelize_symbolic_surface</span></code> segments the symbolic curve and then discretized it according to the quadrature rule we provide. The discretized points, normals and jacobians are computed and stored in the returned <code class="docutils literal notranslate"><span class="pre">PanelSurface</span></code> object.</p>
 <p>Let’s try this out with a simple curve:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-458e95b3-f562-4d3e-a06b-86a03af20d25">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-458e95b3-f562-4d3e-a06b-86a03af20d25" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7bde8ee6-f9ba-4bbe-b913-93574e439a08">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-7bde8ee6-f9ba-4bbe-b913-93574e439a08" title="Permalink to this equation">¶</a></span>\[\begin{align}
 x &amp;= t\\
 y &amp;= \cos(t)
 \end{align}\]</div>
@@ -504,8 +526,8 @@ y &amp;= \cos(t)
 <h2><span class="section-number">2.5. </span>Hypersingular stress integrals<a class="headerlink" href="#hypersingular-stress-integrals" title="Permalink to this headline">¶</a></h2>
 <p>Integrals as functions: I think it’s useful to think about the integrals in integral equations as functions accepting a certain input and producing a certain output. For example, the double layer integral accepts a potential input (and a set of observation points and a source surface mesh) and produces a potential as output. In comparison, the hypersingular integral accepts a potential input and produces a potential gradient as output. The input is the same, but the output has had an extra derivative applied. In terms of antiplane elasticity, potential is displacement and potential gradient is stress. The API of the <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> function is intended to closely match this integrals-as-functions concept where the three main parameters are the kernel function, the observation points and the source surface.</p>
 <p>The second missing piece is a set of tools for computing stresses in the volume given an input fault slip. Continuing in the antiplane strain setting, what we want is to compute the gradient of displacement times the shear modulus.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6a8d353f-57b3-44ce-85e0-773a8a644a26">
-<span class="eqno">(2.4)<a class="headerlink" href="#equation-6a8d353f-57b3-44ce-85e0-773a8a644a26" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-a5bd4559-57f7-4db4-908d-f72b844f7ec4">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-a5bd4559-57f7-4db4-908d-f72b844f7ec4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 (\sigma_{xz}, \sigma_{yz}) = (\mu \frac{\partial \phi}{\partial x}, \mu \frac{\partial \phi}{\partial y})
 \end{equation}\]</div>
 <div class="margin sidebar">

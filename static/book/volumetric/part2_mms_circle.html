@@ -43,6 +43,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -124,8 +126,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part5_hmatrix.html">
-   1. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -325,8 +347,8 @@
 u &amp;= g ~~ \textrm{on} ~~ \partial \Omega
 \end{split}
 <code class="docutils literal notranslate"><span class="pre">u_particular</span></code> is the integral:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ee947589-9834-4af1-a41f-7625fbd2580a">
-<span class="eqno">(2.5)<a class="headerlink" href="#equation-ee947589-9834-4af1-a41f-7625fbd2580a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5fb1074d-5a7b-43df-a9a0-ba4d5b5f2b6b">
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-5fb1074d-5a7b-43df-a9a0-ba4d5b5f2b6b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 v(x) = \int_{\Omega} G(x,y) f(y) dy
 \end{equation}\]</div>
 <p>which satisfies equation 1 but not 2.</p>

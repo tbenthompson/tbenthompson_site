@@ -43,6 +43,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,7 +55,7 @@
     <link rel="canonical" href="https://tbenthompson.com/book/fault_problems.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA)." href="tdes/part4_low_rank.html" />
+    <link rel="next" title="1. Using TDEs to build a fault model with topography." href="tdes/sa_tdes.html" />
     <link rel="prev" title="Integral equation tutorials" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -122,13 +124,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="tdes/part4_low_rank.html">
-   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  <a class="reference internal" href="tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="tdes/part5_hmatrix.html">
-   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -330,10 +347,10 @@
             <p class="prev-next-title">Integral equation tutorials</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="tdes/part4_low_rank.html" title="next page">
+    <a class='right-next' id="next-link" href="tdes/sa_tdes.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Low rank approximation of BEM matrices with adaptive cross approximation (ACA).</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Using TDEs to build a fault model with topography.</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

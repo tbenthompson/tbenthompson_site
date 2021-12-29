@@ -43,6 +43,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -124,13 +126,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part4_low_rank.html">
-   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part5_hmatrix.html">
-   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -428,8 +445,8 @@ The fault mesh has 8 panels with a total of 64 points.
 <h2><span class="section-number">3.2. </span>Solving for surface displacement<a class="headerlink" href="#solving-for-surface-displacement" title="Permalink to this headline">¶</a></h2>
 <p>The first step in solving the problem is to calculate the surface displacement given unit slip on the fault. To do this, we are going to invert the relevant integral equation.</p>
 <p>The governing integral equation here is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1e9a6093-8cc0-4243-b81b-9ce7172e57f8">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-1e9a6093-8cc0-4243-b81b-9ce7172e57f8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8a8cafff-332a-4964-8107-7401ee09b986">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-8a8cafff-332a-4964-8107-7401ee09b986" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\int_{S} \frac{\partial G(x, y)}{\partial y} u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(G(x, y)\)</span> is the fundamental solution of the Laplace equation, <span class="math notranslate nohighlight">\(u_z(y)\)</span> is the slip at point <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\Omega\)</span> is the domain of interest (the Earth!) and <span class="math notranslate nohighlight">\(\partial \Omega\)</span> is the boundary of the domain (the free surface <strong>and</strong> the fault) and <span class="math notranslate nohighlight">\(u(x)\)</span> is the displacement that we would like to calculate. Finally, <span class="math notranslate nohighlight">\(x\)</span> is restricted to lie in the interior of the domain.</p>
@@ -440,14 +457,14 @@ u_z(x) = -\int_{S} \frac{\partial G(x, y)}{\partial y} u_z(y) dy  ~~~~~~~~~~~~~ 
 <li><p>Take the limit as <span class="math notranslate nohighlight">\(x\)</span> approaches the free surface.</p></li>
 </ol>
 <p>The result is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-264f5e64-bc0d-48f2-9d63-1684b032a43e">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-264f5e64-bc0d-48f2-9d63-1684b032a43e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bdf07a62-eb94-43ca-964d-e21c4f175b95">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-bdf07a62-eb94-43ca-964d-e21c4f175b95" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\lim_{\hat{x} \to x}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in H
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(H\)</span> is the free surface, <span class="math notranslate nohighlight">\(F\)</span> is the fault, <span class="math notranslate nohighlight">\(\Delta u_z(y)\)</span> is fault slip.</p>
 <p>In partially discretized form where we’ve decomposed the displacement and slip fields into basis functions, the resulting linear system will look like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6d08b84b-ae01-4123-9658-f10d768a591f">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-6d08b84b-ae01-4123-9658-f10d768a591f" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bcd23819-792c-4e96-97fb-122aa3ff5192">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-bcd23819-792c-4e96-97fb-122aa3ff5192" title="Permalink to this equation">¶</a></span>\[\begin{align}
 u_i = -A_{ij}u_j - B_{ij}(\Delta u)_j \\
 
 A_{ik} = \lim_{\hat{x} \to x_i}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} \psi_k(y) dy \\
@@ -458,8 +475,8 @@ u(x) = \sum_{i} u_i \psi_i(x)\\
 \Delta u(x) = \sum_{i} (\Delta u)_i \phi_i(x)\\
 \end{align}\]</div>
 <p>Since we want to calculate the unknown surface displacement <span class="math notranslate nohighlight">\(u_i\)</span> from the known slip <span class="math notranslate nohighlight">\((\Delta u)_j\)</span>, we can rearrange the linear system to:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c76942b6-0208-4bce-ab58-7dca318bee29">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-c76942b6-0208-4bce-ab58-7dca318bee29" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d772794e-3960-4d4a-89c3-9ec74ad5259c">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-d772794e-3960-4d4a-89c3-9ec74ad5259c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 (I + A_{ij})u_j = -B_{ij}(\Delta u)_j
 \end{equation}\]</div>
 <p>The remaining task is to compute the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and then invert the left hand side of this linear system.</p>
@@ -532,8 +549,8 @@ Wall time: 924 ms
 </div>
 </div>
 <p>Not too much code! Now that we’ve solved for surface displacement, let’s check against the classic arctan screw dislocation solution! That solution <span id="id4">[<a class="reference internal" href="../references.html#id952">Segall, Sun, 01/24/2010 - 12:00</a>]</span> is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5c8301d2-b5fa-45a3-8452-d539d7d85123">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-5c8301d2-b5fa-45a3-8452-d539d7d85123" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3e75a403-79af-45b1-93b2-fc1426d9c6fa">
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-3e75a403-79af-45b1-93b2-fc1426d9c6fa" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z = \frac{-s}{2\pi}\bigg[\tan^{-1}(\frac{x}{y + d_1}) - \tan^{-1}(\frac{x}{y - d_1}) - \tan^{-1}(\frac{x}{y + d_2}) + \tan^{-1}(\frac{x}{y - d_2}) \bigg]
 \end{equation}\]</div>
 <p>I’ll make two plots. One will show the nearfield displacement and accuracy. The other will show the (very) farfield displacement and accuracy. We’re getting 14 digits of accuracy in the nearfield, almost machine precision and 10-11 digits in the farfield. This is from solving the integral equation with ~200 eighth order panels and in less than half a second of runtime!</p>
@@ -592,8 +609,8 @@ u_z = \frac{-s}{2\pi}\bigg[\tan^{-1}(\frac{x}{y + d_1}) - \tan^{-1}(\frac{x}{y -
 </div>
 </div>
 <p>Next, we’ll build the relevant integral equation matrices. To calculate displacement, we’ll return to the original integral equation and basically just directly integrate it using <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-500466a1-5b9e-4606-ac49-4f62bbcb6568">
-<span class="eqno">(3.6)<a class="headerlink" href="#equation-500466a1-5b9e-4606-ac49-4f62bbcb6568" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0b2f364a-717c-40a0-9827-0374bb4418cb">
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-0b2f364a-717c-40a0-9827-0374bb4418cb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\int_{H} \frac{\partial G(x, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
 \end{equation}\]</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> call will hopefully look very familiar. Except for the list of observation points, it’s exactly the same as the call from solving for surface displacement. After constructing the matrices, we will multiply them by surface displacement and slip respectively to compute interior displacement.</p>
@@ -614,8 +631,8 @@ u_z(x) = -\int_{H} \frac{\partial G(x, y)}{\partial y} u_z(y) dy -\int_{F} \frac
 </div>
 </div>
 <p>Calculating stress requires computing the derivatives of the displacement. Numerical differentiation is notoriously error prone, so instead, we’ll analytically differentiate the integral equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c56e997b-733d-443b-9a05-f4cd13d2d0f9">
-<span class="eqno">(3.7)<a class="headerlink" href="#equation-c56e997b-733d-443b-9a05-f4cd13d2d0f9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ee6e5b3d-69cd-4922-920e-08664396b9b5">
+<span class="eqno">(3.8)<a class="headerlink" href="#equation-ee6e5b3d-69cd-4922-920e-08664396b9b5" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \sigma_{1z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} \Delta u_z(y) dy\bigg] \\
 \sigma_{2z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} \Delta u_z(y)\bigg] dy
 \end{align}\]</div>

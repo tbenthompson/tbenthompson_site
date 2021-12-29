@@ -43,6 +43,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -124,13 +126,28 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part4_low_rank.html">
-   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/part5_hmatrix.html">
-   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -471,14 +488,14 @@ The fault mesh has 400 panels with a total of 2000 points.
 </pre></div>
 </div>
 <p>we can write the full system:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b62fcac1-57c0-4b37-9df7-1920225262a7">
-<span class="eqno">(6.1)<a class="headerlink" href="#equation-b62fcac1-57c0-4b37-9df7-1920225262a7" title="Permalink to this equation">¶</a></span>\[\begin{bmatrix}
+<div class="amsmath math notranslate nohighlight" id="equation-44b9a3c0-7f0e-4848-af7c-59c94ef0b4c1">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-44b9a3c0-7f0e-4848-af7c-59c94ef0b4c1" title="Permalink to this equation">¶</a></span>\[\begin{bmatrix}
    A &amp; B \\
    C &amp; D
 \end{bmatrix}\]</div>
 <p>The second equation expands to the same linear system that we used before to solve for surface displacement: <span class="math notranslate nohighlight">\(u = -D^{-1}Cs\)</span>. Plugging that in, we get:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ade68277-b639-48c8-812c-c405dbf59c8e">
-<span class="eqno">(6.2)<a class="headerlink" href="#equation-ade68277-b639-48c8-812c-c405dbf59c8e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6baa390d-0d2c-4483-a9c9-709e56e7eed8">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-6baa390d-0d2c-4483-a9c9-709e56e7eed8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 t = As - BD^{-1}Cs = (A - BD^{-1}C)s
 \end{equation}\]</div>
 <p>Thus, our goal matrix operator is <span class="math notranslate nohighlight">\(A - BD^{-1}C\)</span> and we will name this <code class="docutils literal notranslate"><span class="pre">total_fault_slip_to_fault_traction</span></code>. You might recognize this as the <a class="reference external" href="https://en.wikipedia.org/wiki/Schur_complement">Schur complement</a> of the matrix system above. We performed one of step of block matrix Gaussian elimination!</p>
@@ -615,20 +632,20 @@ t = As - BD^{-1}Cs = (A - BD^{-1}C)s
 </div>
 </div>
 <p>First, a Python implementation of the quasidynamic shear stress equations. There are two components to a standard definition of rate and state friction:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-02332f54-3a05-4e51-8bf7-873d3e43ad9d">
-<span class="eqno">(6.3)<a class="headerlink" href="#equation-02332f54-3a05-4e51-8bf7-873d3e43ad9d" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-aa97700c-f69d-4c2f-980b-e30d50c64bf5">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-aa97700c-f69d-4c2f-980b-e30d50c64bf5" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \tau_{qd} = F(V, \theta)\\
 \frac{d\theta}{dt} = G(V, \theta)
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(F(V, \theta)\)</span> is the strength of friction, depending on slip rate and state and <span class="math notranslate nohighlight">\(G(V, \theta)\)</span> gives the state evolution. For <span class="math notranslate nohighlight">\(G\)</span>, we will use the aging law, given by the <code class="docutils literal notranslate"><span class="pre">aging_law</span></code> function below.</p>
 <p>We also need to relate the quasidynamic shear stress to the quasistatic shear stress:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-51118556-845e-4014-9c5b-df9e1241e223">
-<span class="eqno">(6.4)<a class="headerlink" href="#equation-51118556-845e-4014-9c5b-df9e1241e223" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1056c097-fa26-4a44-9e50-ff8c28e74823">
+<span class="eqno">(6.4)<a class="headerlink" href="#equation-1056c097-fa26-4a44-9e50-ff8c28e74823" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \tau_{qd} = \tau_{qs} - \eta * V
 \end{equation}\]</div>
 <p>which results in the full quasidynamic stress balance equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9dd8faf-6037-4fb9-ab67-9f6361a07a74">
-<span class="eqno">(6.5)<a class="headerlink" href="#equation-a9dd8faf-6037-4fb9-ab67-9f6361a07a74" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3151b7d7-0bf6-448d-a37a-197590eecbd2">
+<span class="eqno">(6.5)<a class="headerlink" href="#equation-3151b7d7-0bf6-448d-a37a-197590eecbd2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \tau_{qs} - \eta * V - F(V, \theta) = 0
 \end{equation}\]</div>
 <p>The specific form we use here is  implemented below in the <code class="docutils literal notranslate"><span class="pre">qd_equation</span></code> function.</p>
