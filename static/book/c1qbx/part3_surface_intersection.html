@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3. Slip on an infinite strike slip fault in an elastic half space &#8212; Integral equation tutorials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/patch.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tbenthompson.com/book/c1qbx/part3_surface_intersection.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Topography" href="part4_topography.html" />
+    <link rel="prev" title="2. QBX examples for the Laplace equation: fun with screw dislocations" href="part2_screw_dislocation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The TDE sequence: triangular dislocation elements
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The QBX sequence: quadrature by expansion
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="part1_nearfield.html">
+   1. Computing boundary integrals with quadrature by expansion (QBX).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part2_screw_dislocation.html">
+   2. QBX examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part5_viscoelastic.html">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part7_qd_two_faults.html">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Back matter
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../thanks.html">
+   Thanks!
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/c1qbx/part3_surface_intersection.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#constructing-the-mesh">
+   3.1. Constructing the mesh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solving-for-surface-displacement">
+   3.2. Solving for surface displacement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation">
+     3.2.1. Implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#details-on-singularities">
+       3.2.1.1. Details on singularities
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interior-evaluation-of-displacement-and-stress">
+   3.3. Interior evaluation of displacement and stress.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tools-for-debugging-the-integration-algorithm">
+   3.4. Tools for debugging the integration algorithm
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="slip-on-an-infinite-strike-slip-fault-in-an-elastic-half-space">
+<h1><span class="section-number">3. </span>Slip on an infinite strike slip fault in an elastic half space<a class="headerlink" href="#slip-on-an-infinite-strike-slip-fault-in-an-elastic-half-space" title="Permalink to this headline">¶</a></h1>
+<p>Last time we solved for the displacement and stress given slip on an infinitely long strike slip fault. This time, we’ll make the problem more interesting (and a bit harder!) by adding in a free surface. We’ll replicate classical solutions for the surface displacement on a half-space given slip on a fault. In the next section, we’ll add in a topographic free surface and have some fun!</p>
+<p>The goal here is to reproduce the classical results for an antiplane fault as a screw dislocation in an elastic half space. This is a great test of a numerical boundary integral solver because it has several particularly difficult features:</p>
+<ul class="simple">
+<li><p><strong>Infinite surfaces</strong>: The free surface in the analytical solution is infinite. Numerical methods are normally very bad at infinity! The traditional solution to this is to use half-space Green’s functions for a boundary integral method - effectively, this solves the problem analytically.</p></li>
+<li><p><strong>The fault tip</strong>: Constant slip on a finite fault will result in a stress singularity at the bottom tip of the fault. This results from the infinitesimal jump from non-zero slip on the fault side of the fault tip to zero slip on the non-fault side of the fault tip. Or, from a calculus perspective, <span class="math notranslate nohighlight">\(\frac{\partial u_z}{\partial y} = \lim_{\Delta y \to 0} \frac{\Delta u_z}{\Delta y}\)</span>. At the fault tip, <span class="math notranslate nohighlight">\(\Delta u_z\)</span> remains constant and non-zero as <span class="math notranslate nohighlight">\(\Delta y\)</span> converges to zero. The result is that the limit is infinite.</p></li>
+<li><p><strong>The fault-surface intersection</strong>: Considering either surface alone, there will be another singularity at the fault-surface intersection for the same logic as the fault tip: for the free surface, there is a jump in the displacement across the fault and for the fault, there is effectively another fault tip. However, these singularities exactly cancel leaving an entirely regular displacement and stress solution.</p></li>
+</ul>
+<p>I’m going to solve all these issues via a QBX-based direct numerical solution. The methodology used here:</p>
+<ol class="simple">
+<li><p>Can model very long but not truly infinite surfaces <a class="footnote-reference brackets" href="#infinite" id="id1">1</a>.</p></li>
+<li><p>Can calculate displacement and stress arbitrarily close a singularity <a class="footnote-reference brackets" href="#caveat" id="id2">2</a>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tectosaur2</span> <span class="kn">import</span> <span class="n">gauss_rule</span><span class="p">,</span> <span class="n">refine_surfaces</span><span class="p">,</span> <span class="n">integrate_term</span><span class="p">,</span> <span class="n">pts_grid</span>
+<span class="kn">from</span> <span class="nn">tectosaur2.laplace2d</span> <span class="kn">import</span> <span class="n">double_layer</span><span class="p">,</span> <span class="n">hypersingular</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="constructing-the-mesh">
+<h2><span class="section-number">3.1. </span>Constructing the mesh<a class="headerlink" href="#constructing-the-mesh" title="Permalink to this headline">¶</a></h2>
+<p>Step one is to set up the geometry that we will be modeling. To do this, we use the <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> function. <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> adaptively refines the specified surfaces into “panels” that follow a careful set of rules designed to guarantee that our numerical integration operations are accurate based on the “stage-1” rules layed out in section 3 of <span id="id3">Wala and Klöckner [<a class="reference internal" href="../references.html#id1083">2019</a>]</span>. It takes as arguments:</p>
+<ul class="simple">
+<li><p>A list of surfaces. Here, we will be specifying the surfaces symbolically using <code class="docutils literal notranslate"><span class="pre">sympy</span></code>. The variables <span class="math notranslate nohighlight">\(t\)</span> is implicitly assumed to vary in <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
+<ul>
+<li><p>So, for a vertical fault extending one unit deep, we specify that <span class="math notranslate nohighlight">\(y = \frac{1}{2}(t + 1)\)</span>.</p></li>
+<li><p>And for a horizontal free surface extending 1000 fault lengths away, we specify <span class="math notranslate nohighlight">\(x = 1000t\)</span>.</p></li>
+</ul>
+</li>
+<li><p>A quadrature rule that will be used to integrate over each panel.</p></li>
+<li><p>An optional list of control points which has shape <code class="docutils literal notranslate"><span class="pre">Nx4</span></code>. These points allow for specifying regions of the surface that should be refined more than the default.</p>
+<ul>
+<li><p>The first two components specify the location of the control point. In this case, the control point is located at the fault-surface intersection.</p></li>
+<li><p>The third component specifies the control radius of the control point. Every panel within this radius will be refined</p></li>
+<li><p>The fourth component specifies the maximum length of a panel within the control radius of the control point. So, the end result of the control point below is that every panel with 10 fault lengths of the origin (the fault-surface intersection) will have a maximum length of 0.2.</p></li>
+</ul>
+</li>
+</ul>
+<p>I’ve plotted the resulting surface panels in the figure. The nodes on the surface lines are the edges of panels.</p>
+<ul class="simple">
+<li><p>In the zoomed in figure, you can see the effect of the control point setting the fault-surface intersection length scale.</p></li>
+<li><p>In the zoomed out figure, you can see the effect of the adaptive refinement. One of the criteria is that no panel can be more than twice the length of any panel with a panel length’s radius of that panel. This results in the step wise increasing length of panels.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">surf_half_L</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+<span class="n">fault</span><span class="p">,</span> <span class="n">free</span> <span class="o">=</span> <span class="n">refine_surfaces</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">*</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span> <span class="c1"># the fault</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="c1"># the free surface</span>
+    <span class="p">],</span>
+    <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">control_points</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)]),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The free surface mesh has </span><span class="si">{</span><span class="n">free</span><span class="o">.</span><span class="n">n_panels</span><span class="si">}</span><span class="s2"> panels with a total of </span><span class="si">{</span><span class="n">free</span><span class="o">.</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> points.&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The fault mesh has </span><span class="si">{</span><span class="n">fault</span><span class="o">.</span><span class="n">n_panels</span><span class="si">}</span><span class="s2"> panels with a total of </span><span class="si">{</span><span class="n">fault</span><span class="o">.</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> points.&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Zoomed in&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;r-o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">free</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;scaled&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Zoomed out&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">free</span><span class="o">.</span><span class="n">panel_edges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The free surface mesh has 222 panels with a total of 1776 points.
+The fault mesh has 8 panels with a total of 64 points.
+</pre></div>
+</div>
+<img alt="../_images/part3_surface_intersection_4_1.png" src="../_images/part3_surface_intersection_4_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="solving-for-surface-displacement">
+<h2><span class="section-number">3.2. </span>Solving for surface displacement<a class="headerlink" href="#solving-for-surface-displacement" title="Permalink to this headline">¶</a></h2>
+<p>The first step in solving the problem is to calculate the surface displacement given unit slip on the fault. To do this, we are going to invert the relevant integral equation.</p>
+<p>The governing integral equation here is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bcf078e8-4d45-4603-8fb9-313699a374d1">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-bcf078e8-4d45-4603-8fb9-313699a374d1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_z(x) = -\int_{S} \frac{\partial G(x, y)}{\partial y} u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(G(x, y)\)</span> is the fundamental solution of the Laplace equation, <span class="math notranslate nohighlight">\(u_z(y)\)</span> is the slip at point <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\Omega\)</span> is the domain of interest (the Earth!) and <span class="math notranslate nohighlight">\(\partial \Omega\)</span> is the boundary of the domain (the free surface <strong>and</strong> the fault) and <span class="math notranslate nohighlight">\(u(x)\)</span> is the displacement that we would like to calculate. Finally, <span class="math notranslate nohighlight">\(x\)</span> is restricted to lie in the interior of the domain.</p>
+<p>To get to something that we can solve numerically to recover, we need a few steps:</p>
+<ol class="simple">
+<li><p>Separate the surface into two portions: the free surface and the fault.</p></li>
+<li><p>Model the fault as two co-located surface with a jump in displacement.</p></li>
+<li><p>Take the limit as <span class="math notranslate nohighlight">\(x\)</span> approaches the free surface.</p></li>
+</ol>
+<p>The result is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-090ff334-4f6d-47f8-8c41-2ed5a213f534">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-090ff334-4f6d-47f8-8c41-2ed5a213f534" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_z(x) = -\lim_{\hat{x} \to x}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in H
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(H\)</span> is the free surface, <span class="math notranslate nohighlight">\(F\)</span> is the fault, <span class="math notranslate nohighlight">\(\Delta u_z(y)\)</span> is fault slip.</p>
+<p>In partially discretized form where we’ve decomposed the displacement and slip fields into basis functions, the resulting linear system will look like:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-796af158-92bd-4ef1-ae0f-99961b0f22aa">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-796af158-92bd-4ef1-ae0f-99961b0f22aa" title="Permalink to this equation">¶</a></span>\[\begin{align}
+u_i = -A_{ij}u_j - B_{ij}(\Delta u)_j \\
+
+A_{ik} = \lim_{\hat{x} \to x_i}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} \psi_k(y) dy \\
+
+B_{ij} = \int_{F} \frac{\partial G(x_i, y)}{\partial y} \phi_j(y) dy\\
+
+u(x) = \sum_{i} u_i \psi_i(x)\\
+\Delta u(x) = \sum_{i} (\Delta u)_i \phi_i(x)\\
+\end{align}\]</div>
+<p>Since we want to calculate the unknown surface displacement <span class="math notranslate nohighlight">\(u_i\)</span> from the known slip <span class="math notranslate nohighlight">\((\Delta u)_j\)</span>, we can rearrange the linear system to:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6b6a771c-4870-41f4-b1b3-2d0a4cd7d715">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-6b6a771c-4870-41f4-b1b3-2d0a4cd7d715" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+(I + A_{ij})u_j = -B_{ij}(\Delta u)_j
+\end{equation}\]</div>
+<p>The remaining task is to compute the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and then invert the left hand side of this linear system.</p>
+<div class="section" id="implementation">
+<h3><span class="section-number">3.2.1. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
+<p>To construct these matrices, we will use the <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> function. <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> takes as parameters:</p>
+<ol class="simple">
+<li><p>The kernel function. In this case, the integral of <span class="math notranslate nohighlight">\(\frac{\partial G(x,y)}{\partial y}\)</span> is also known as the “double layer” potential in classical potential theory because it represents the effect of two co-located sheets of oppositely charged particles. Beyond the mathematical correspondence, this also maps nicely in a conceptual sense to our setting: the double layer potential represents the effect of a jump in displacement across a surface (the fault!).</p></li>
+<li><p>The observation points. Since we want to calculate the displacement at the free surface, we pass the nodes of the free surface mesh as the observation points: <code class="docutils literal notranslate"><span class="pre">free.pts</span></code>. Note that because these points are on the boundary of the domain, the integrals are computed as limits to the boundary <span class="math notranslate nohighlight">\(\hat{x} \to x\)</span>.</p></li>
+<li><p>A flexible number of source surfaces. The numerical integration is much easier if we can handle all the relevant surfaces at once in the form of the original governing equation before we had separated the free surface and fault. <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> will automatically separate the subcomponents of the resulting matrix</p></li>
+<li><p>The direction for any limits to the boundary. In this case, we want to approach the boundary from the interior, so we pass <code class="docutils literal notranslate"><span class="pre">limit_direction=1.0</span></code>. If we had wanted to approach the boundary from the exterior, we could pass <code class="docutils literal notranslate"><span class="pre">limit_direction=-1.0</span></code>.</p></li>
+<li><p>Any singularities. See below for more details.</p></li>
+<li><p>Whether to return a report on the internal details of the integration process. See the later section of debugging integration for details on the values that are returned as part of the report.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> will return a list of matrices. Each matrix will have the shape:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">number</span> <span class="n">of</span> <span class="n">observation</span> <span class="n">points</span><span class="p">,</span> <span class="n">observation</span> <span class="n">kernel</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">number</span> <span class="n">of</span> <span class="n">source</span> <span class="n">coefficients</span><span class="p">,</span> <span class="n">source</span> <span class="n">kernel</span> <span class="n">dimension</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>In comparison, the hypersingular integral has an observation kernel dimension of 2 and source kernel dimension of 1. And the double-layer-equivalent T* kernel of plane strain elasticity has observation and source kernel dimensions of 2 because it comes from a vector PDE.</p>
+</div>
+<p>In the case of the double layer potential, both kernel dimensions are 1, so you might notice a few places where we index the matrices as <code class="docutils literal notranslate"><span class="pre">mat[:,0,:,0]</span></code>. This is simply to get rid of those extra array dimensions.</p>
+<div class="section" id="details-on-singularities">
+<h4><span class="section-number">3.2.1.1. </span>Details on singularities<a class="headerlink" href="#details-on-singularities" title="Permalink to this headline">¶</a></h4>
+<p>The model has stress singularities. This is generally a sign that you should reconsider your modeling choices, but in this case it’s okay because we’re trying to match an existing analytical solution. Computing integrals near singularities in the solution is quite difficult. However, <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> will do its best to handle those singularities. For optimal accuracy, you can specify the location of the singularities. Preferably, we will also specify the location of any “possible singularities” as well.</p>
+<p><strong>What is a possible-singularities?</strong> Any given point will only be a singularity for some choices of slip field.  For example, the fault tip will produce a stress singularity for any slip distribution that is non-zero at the tip. But, if the slip field happens to be exactly zero at the fault tip, then there is no singularity. This is uncertainty is irrelevant to the integration algorithm because the algorithm is producing a matrix that can be used for arbitrary slip distributions. So, to handle the general case, it’s important to assume that any “possible singularity” will be an actual singularity.</p>
+<p>In this model, there is a possible-singularity that turns out not to be a singularity: the fault-surface intersection. Here, either the step function in the surface displacement or the nonzero fault tip slip would cause a stress singularity on its own. But, when combined the singularities produced by these two features exactly cancel, leaving behind an entirely non-singular displacement field.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="c1"># Specify singularities</span>
+<span class="n">singularities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="o">-</span><span class="n">surf_half_L</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">surf_half_L</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">])</span>
+
+<span class="c1"># Integrate!</span>
+<span class="p">(</span><span class="n">surf_disp_to_surf_disp</span><span class="p">,</span> <span class="n">fault_slip_to_surf_disp</span><span class="p">),</span> <span class="n">reports</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">double_layer</span><span class="p">,</span>
+    <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span>
+    <span class="n">free</span><span class="p">,</span>
+    <span class="n">fault</span><span class="p">,</span>
+    <span class="n">limit_direction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span>
+    <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Specify a constant unit slip along the fault.</span>
+<span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">n_pts</span><span class="p">)</span>
+
+<span class="c1"># rhs = B \Delta u</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="n">fault_slip_to_surf_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+
+<span class="c1"># lhs = I + A</span>
+<span class="n">lhs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">n_pts</span><span class="p">)</span> <span class="o">+</span> <span class="n">surf_disp_to_surf_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">surf_disp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 461 ms, sys: 85.7 ms, total: 547 ms
+Wall time: 924 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not too much code! Now that we’ve solved for surface displacement, let’s check against the classic arctan screw dislocation solution! That solution <span id="id4">[<a class="reference internal" href="../references.html#id952">Segall, Sun, 01/24/2010 - 12:00</a>]</span> is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2cfebf22-ff37-4a1e-b258-9200e9307cdf">
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-2cfebf22-ff37-4a1e-b258-9200e9307cdf" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_z = \frac{-s}{2\pi}\bigg[\tan^{-1}(\frac{x}{y + d_1}) - \tan^{-1}(\frac{x}{y - d_1}) - \tan^{-1}(\frac{x}{y + d_2}) + \tan^{-1}(\frac{x}{y - d_2}) \bigg]
+\end{equation}\]</div>
+<p>I’ll make two plots. One will show the nearfield displacement and accuracy. The other will show the (very) farfield displacement and accuracy. We’re getting 14 digits of accuracy in the nearfield, almost machine precision and 10-11 digits in the farfield. This is from solving the integral equation with ~200 eighth order panels and in less than half a second of runtime!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analytical</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="k">for</span> <span class="n">XV</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">XV</span><span class="si">}</span><span class="s2"> fault lengths&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surf_disp</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">analytical</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$u_z$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Displacement&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="n">XV</span><span class="p">,</span> <span class="n">XV</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">surf_disp</span> <span class="o">-</span> <span class="n">analytical</span><span class="p">)))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">|u_{</span><span class="se">\t</span><span class="s2">extrm</span><span class="si">{BIE}</span><span class="s2">} - u_{</span><span class="se">\t</span><span class="s2">extrm</span><span class="si">{analytic}</span><span class="s2">}|$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Error (number of digits of accuracy)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="n">XV</span><span class="p">,</span> <span class="n">XV</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part3_surface_intersection_10_0.png" src="../_images/part3_surface_intersection_10_0.png" />
+<img alt="../_images/part3_surface_intersection_10_1.png" src="../_images/part3_surface_intersection_10_1.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="interior-evaluation-of-displacement-and-stress">
+<h2><span class="section-number">3.3. </span>Interior evaluation of displacement and stress.<a class="headerlink" href="#interior-evaluation-of-displacement-and-stress" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve solved for surface displacement, we have everything we need to evaluate displacement and stress in the interior of the domain. We’ll start by producing a grid of observation points near the fault.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nobs</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">zoomx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
+<span class="n">zoomy</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomx</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomy</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
+<span class="n">obs_pts</span> <span class="o">=</span> <span class="n">pts_grid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+<span class="n">obsx</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">obsy</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we’ll build the relevant integral equation matrices. To calculate displacement, we’ll return to the original integral equation and basically just directly integrate it using <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code>.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-85e64e99-1900-4904-a970-442b91bb23f8">
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-85e64e99-1900-4904-a970-442b91bb23f8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_z(x) = -\int_{H} \frac{\partial G(x, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
+\end{equation}\]</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> call will hopefully look very familiar. Except for the list of observation points, it’s exactly the same as the call from solving for surface displacement. After constructing the matrices, we will multiply them by surface displacement and slip respectively to compute interior displacement.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="n">double_layer</span>
+<span class="p">(</span><span class="n">free_to_disp</span><span class="p">,</span> <span class="n">fault_to_disp</span><span class="p">),</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">double_layer</span><span class="p">,</span>
+    <span class="n">obs_pts</span><span class="p">,</span>
+    <span class="n">free</span><span class="p">,</span>
+    <span class="n">fault</span><span class="p">,</span>
+    <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span>
+    <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">interior_disp</span> <span class="o">=</span> <span class="o">-</span><span class="n">free_to_disp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surf_disp</span><span class="p">)</span> <span class="o">-</span> <span class="n">fault_to_disp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calculating stress requires computing the derivatives of the displacement. Numerical differentiation is notoriously error prone, so instead, we’ll analytically differentiate the integral equation:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-30226f17-3c3a-4b82-9da0-82d277010abd">
+<span class="eqno">(3.8)<a class="headerlink" href="#equation-30226f17-3c3a-4b82-9da0-82d277010abd" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\sigma_{1z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} \Delta u_z(y) dy\bigg] \\
+\sigma_{2z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} \Delta u_z(y)\bigg] dy
+\end{align}\]</div>
+<p>The result is that we can perform a very similar integration but with the double layer kernel replaced with the <span class="math notranslate nohighlight">\(\frac{\partial^2 G(x, y)}{\partial x_k \partial \textbf{y}}\)</span>. The new kernel is called the “hypersingular” kernel because of the <span class="math notranslate nohighlight">\(\frac{1}{r^2}\)</span> dominant behavior of the kernel. The <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> is the same as the displacement calculation but with the <code class="docutils literal notranslate"><span class="pre">hypersingular</span></code> kernel. The other difference is that the kernel dimension is 2 instead of 1 because there are two stres because there are two stress components.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">free_to_stress</span><span class="p">,</span> <span class="n">fault_to_stress</span><span class="p">),</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">hypersingular</span><span class="p">,</span>
+    <span class="n">obs_pts</span><span class="p">,</span>
+    <span class="n">free</span><span class="p">,</span>
+    <span class="n">fault</span><span class="p">,</span>
+    <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span>
+    <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">interior_stress</span> <span class="o">=</span> <span class="o">-</span><span class="n">free_to_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">surf_disp</span><span class="p">)</span> <span class="o">-</span> <span class="n">fault_to_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+<span class="n">interior_sxz</span> <span class="o">=</span> <span class="n">interior_stress</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">interior_syz</span> <span class="o">=</span> <span class="n">interior_stress</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/tbent/Dropbox/active/eq/tectosaur2/tectosaur2/integrate.py:201: UserWarning: Some integrals failed to converge during adaptive integration. This an indication of a problem in either the integration or the problem formulation.
+  warnings.warn(
+/Users/tbent/Dropbox/active/eq/tectosaur2/tectosaur2/integrate.py:208: UserWarning: Some expanded integrals reached maximum expansion order. These integrals may be inaccurate.
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we’ll compare with the analytical solutions for both displacement and stress. We’re achieving 9 digits of accuracy at a minimum with even better accuracy closer to the free surface and fault!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analytical_disp</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">((</span><span class="n">obsy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">obsx</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">((</span><span class="n">obsy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">obsx</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="n">disp_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">interior_disp</span> <span class="o">-</span> <span class="n">analytical_disp</span><span class="p">))</span>
+
+<span class="n">rp</span> <span class="o">=</span> <span class="n">obsx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">obsy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">ri</span> <span class="o">=</span> <span class="n">obsx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">obsy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">analytical_sxz</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="p">(((</span><span class="n">obsy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">rp</span><span class="p">)</span> <span class="o">-</span> <span class="p">((</span><span class="n">obsy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">ri</span><span class="p">))</span>
+<span class="n">analytical_syz</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="p">((</span><span class="n">obsx</span> <span class="o">/</span> <span class="n">rp</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">obsx</span> <span class="o">/</span> <span class="n">ri</span><span class="p">))</span>
+<span class="n">sxz_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">interior_sxz</span> <span class="o">-</span> <span class="n">analytical_sxz</span><span class="p">))</span>
+<span class="n">syz_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">interior_syz</span> <span class="o">-</span> <span class="n">analytical_syz</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;analytical_disp&quot;</span><span class="p">,</span> <span class="s2">&quot;$u_z$&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;analytical_sxz&quot;</span><span class="p">,</span> <span class="s2">&quot;$\sigma_</span><span class="si">{xz}</span><span class="s2">$&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;analytical_syz&quot;</span><span class="p">,</span> <span class="s2">&quot;$\sigma_</span><span class="si">{yz}</span><span class="s2">$&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;disp_err&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">|u_{\textrm</span><span class="si">{BIE}</span><span class="s2">} - u_{\textrm</span><span class="si">{analytic}</span><span class="s2">}|$&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;sxz_err&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">|\sigma_{xz,\textrm</span><span class="si">{BIE}</span><span class="s2">} - \sigma_{xz,\textrm</span><span class="si">{analytic}</span><span class="s2">}|$&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;syz_err&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">|\sigma_{yz,\textrm</span><span class="si">{BIE}</span><span class="s2">} - \sigma_{yz,\textrm</span><span class="si">{analytic}</span><span class="s2">}|$&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plots</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+    <span class="n">v2d</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">v2d</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+        <span class="n">xs</span><span class="p">,</span>
+        <span class="n">ys</span><span class="p">,</span>
+        <span class="n">v2d</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
+    <span class="c1"># plt.xlim([-0.01, 0.01])</span>
+    <span class="c1"># plt.ylim([-0.02, 0.0])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part3_surface_intersection_18_0.png" src="../_images/part3_surface_intersection_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="tools-for-debugging-the-integration-algorithm">
+<h2><span class="section-number">3.4. </span>Tools for debugging the integration algorithm<a class="headerlink" href="#tools-for-debugging-the-integration-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>In this final section, I’ll show some of the details that come from the reports produced by the integration algorithm. The figures below are useful for debugging and understanding the integration algorithm. A quick summary of each figure:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p_all</span></code>: This shows the QBX expansion order used for each interior point. The dark blue indicates zero expansion order which means that QBX was not used for those points.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_subsets</span></code>: The shows the number of adaptive integration steps that were taken in accurately integrating the QBX expansions. For example, if the integration interval <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code> is split into three subsets: <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">0.5],</span> <span class="pre">[0.5,</span> <span class="pre">1]</span></code>, then <code class="docutils literal notranslate"><span class="pre">n_subsets</span> <span class="pre">=</span> <span class="pre">3</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">direction</span></code>: The shows the direction that the expansion center was offset from the nearby source surface with respect to the nearest source surface normal vector. So, <code class="docutils literal notranslate"><span class="pre">direction</span> <span class="pre">=</span> <span class="pre">1</span></code> indicates that the expansion center for that observation is offset in the direction of the normal and <code class="docutils literal notranslate"><span class="pre">direction</span> <span class="pre">=</span> <span class="pre">-1</span></code> indicates that the expansion center was offset in the direction opposite the normal vector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">on_surface</span></code>: This field is equal to 1 if the point is lying exactly on the nearest source surface.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">closest_src_pts</span></code>: This field shows the <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> coordinates of the nearest source surface point.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">p_all</span></code> and <code class="docutils literal notranslate"><span class="pre">n_subsets</span></code> fields are particularly useful for understanding what is happening when a integral is failing to be computed properly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quick_plot</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+        <span class="n">xs</span><span class="p">,</span>
+        <span class="n">ys</span><span class="p">,</span>
+        <span class="n">v</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
+
+
+<span class="n">n_subsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">n_subsets</span><span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;use_qbx&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;n_subsets&quot;</span><span class="p">]</span>
+
+<span class="n">p_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">p_all</span><span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;use_qbx&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span>
+
+<span class="n">direction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">direction</span><span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;use_qbx&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span>
+
+<span class="n">on_surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">on_surface</span><span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;use_qbx&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;on_surface&quot;</span><span class="p">]</span>
+
+<span class="n">closest_src_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">closest_src_pts</span><span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;use_qbx&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;closest_src_pts&quot;</span><span class="p">]</span>
+<span class="n">closest_src_ptsx</span> <span class="o">=</span> <span class="n">closest_src_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">closest_src_ptsy</span> <span class="o">=</span> <span class="n">closest_src_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;p_all&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_subsets&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;direction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;on_surface&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;closest_src_ptsx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;closest_src_ptsy&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">quick_plot</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part3_surface_intersection_20_0.png" src="../_images/part3_surface_intersection_20_0.png" />
+</div>
+</div>
+<p>These figures are showing the expansion centers and radii at the fault-surface intersection and at the fault tip.</p>
+<ul class="simple">
+<li><p>The black dots showing the expansion center and the black circles show the radius of accuracy for those expansion centers.</p></li>
+<li><p>The blue dots show the observation points where we are evaluating stress. These always lie on one of the expansion circles. This is intentional because it allows the expansion center to be maximally far from any source surface.</p></li>
+<li><p>The red lines and dots show the source surfaces: the free surface and the fault.</p></li>
+</ul>
+<p>These figures can be useful for identifying expansion centers/radii that are incorrect. The two criterion for expansion circles are that:</p>
+<ol class="simple">
+<li><p>They do not intersect the source surfaces at more than the one point where they touch but do not cross. This criterion is not strictly required and a small deviation is okay but seeing an expansion center intersecting a source surface at more than just a touching point is an indication of potential problems.</p></li>
+<li><p>The circle must be 3 times it’s radius away from any singular point specified in the <code class="docutils literal notranslate"><span class="pre">singularities</span></code> list above. In these figures, you can see that the expansion radii get quite small near the fault tip and the fault surface intersection.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cs</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;exp_centers&quot;</span><span class="p">]</span>
+<span class="n">rs</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s2">&quot;exp_rs&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">V</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.025</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Fault-surface intersection&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Fault tip&quot;</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="mf">0.03</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">W</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">W</span><span class="p">]</span>
+    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">W</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">W</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;r-o&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;r-o&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b.&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k.&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">in_x_range</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">in_y_range</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">in_x_range</span> <span class="ow">and</span> <span class="n">in_y_range</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">cs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;scaled&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xrange</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yrange</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part3_surface_intersection_22_0.png" src="../_images/part3_surface_intersection_22_0.png" />
+</div>
+</div>
+<p>It’s also useful to examine cases where the expansion order is very high or the number of adaptive integration subsets is very high. These could indicate either integration failures or mistaken convergence conditions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p really high in&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">report</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">),</span> <span class="s2">&quot;cases&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;maximum number of subsets required by adaptive integration: &quot;</span><span class="p">,</span>
+    <span class="n">report</span><span class="p">[</span><span class="s2">&quot;n_subsets&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p really high in 2 cases
+maximum number of subsets required by adaptive integration:  104
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="infinite"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>It would probably be approximate truly infinite surfaces with something like <a class="reference external" href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Laguerre_quadrature">Gauss-Laguerre quadrature</a>. I’ve never needed to do this, but it’d be cool. While writing this, I’m trying to avoid getting <a class="reference external" href="https://xkcd.com/356/">nerd-sniped</a> into trying this out.</p>
+</dd>
+<dt class="label" id="caveat"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Floating point error will scale inversely with the distance from the singularity. So, if you want to calculate values very very close to the singularity (something like 1e-6 or less) then the accuracy will be correspondingly lower.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./c1qbx"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="part2_screw_dislocation.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>QBX examples for the Laplace equation: fun with screw dislocations</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="part4_topography.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Topography</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By T. Ben Thompson<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

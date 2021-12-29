@@ -1,0 +1,1676 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. GPU-accelerated hierarchical matrices for triangular dislocation elements. &#8212; Integral equation tutorials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/patch.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tbenthompson.com/book/tdes/hmatrix.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Computing boundary integrals with quadrature by expansion (QBX)." href="../c1qbx/part1_nearfield.html" />
+    <link rel="prev" title="4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA)." href="low_rank.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The TDE sequence: triangular dislocation elements
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The QBX sequence: quadrature by expansion
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part1_nearfield.html">
+   1. Computing boundary integrals with quadrature by expansion (QBX).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part2_screw_dislocation.html">
+   2. QBX examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part3_surface_intersection.html">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part5_viscoelastic.html">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part7_qd_two_faults.html">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1qbx/part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Back matter
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../thanks.html">
+   Thanks!
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/tdes/hmatrix.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-tree-data-structure">
+   5.1. The tree data structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-the-tree">
+   5.2. Building the tree
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-node-pairs-that-we-can-approximate">
+   5.3. Finding node pairs that we can approximate.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#direct-matrix-blocks">
+   5.4. Direct matrix blocks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#approximating-a-far-field-matrix-block">
+   5.5. Approximating a far-field matrix block
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#block-tolerance">
+   5.6. Block tolerance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#faster-approximate-blocks-on-gpus-with-cutde">
+   5.7. Faster approximate blocks on GPUs with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     cutde
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-matrix-vector-product">
+   5.8. A matrix-vector product
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#potential-extensions">
+   5.9. Potential extensions
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="gpu-accelerated-hierarchical-matrices-for-triangular-dislocation-elements">
+<h1><span class="section-number">5. </span>GPU-accelerated hierarchical matrices for triangular dislocation elements.<a class="headerlink" href="#gpu-accelerated-hierarchical-matrices-for-triangular-dislocation-elements" title="Permalink to this headline">¶</a></h1>
+<p>Last time, we investigate the low-rank property of the far-field blocks of a BEM matrix and built an adaptive cross approximation (ACA) implementation. Remember, the goal is to find a way to handle dense BEM matrices without running into the brick wall of <span class="math notranslate nohighlight">\(O(n^2)\)</span> algorithmic scaling. With scaling like that, even a very powerful machine can’t handle medium sized problems with 100,000 elements. The low-rank property will be the key to solving this problem.</p>
+<p>This time, we’ll put the pieces together and actually build a <span class="math notranslate nohighlight">\(O(n\log{n})\)</span> algorithm for matrix-vector products that’s not just theoretically faster, but also much faster in practice! To do this, we’ll build a hierarchical matrix (H-matrix) implementation for TDE matrices. While I’ll just focus on performing matrix-vector products with the approximation, it’s possible to do much more with H-matrices – for example, a compressed and accelerated LU decomposition.</p>
+<p>To build an H-matrix implementation, we need to:</p>
+<ol class="simple">
+<li><p>build a tree structure in order to determine which groups of elements are far away from each other.</p></li>
+<li><p>traverse that tree to split the matrix blocks into near-field and far-field blocks.</p></li>
+<li><p>compute the exact matrix for each near-field block.</p></li>
+<li><p>compute the approximate matrix using the ACA algorithm for each far-field block.</p></li>
+<li><p>perform fast matrix-vector products with both the near-field exact matrices and the far-field approximate matrices.</p></li>
+</ol>
+<p>Before we get into the problem, I’ll rebuild the same simple (boring?) surface self-interaction matrix from previous sections. Our initial goal will be to approximate this matrix. The cell is hidden:</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format=&#39;retina&#39;
+
+<span class="kn">import</span> <span class="nn">cutde</span>
+
+<span class="n">surf_L</span> <span class="o">=</span> <span class="mi">4000</span>
+<span class="n">n_els_per_dim</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">mesh_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">surf_L</span><span class="p">,</span> <span class="n">surf_L</span><span class="p">,</span> <span class="n">n_els_per_dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">mesh_ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">surf_L</span><span class="p">,</span> <span class="n">surf_L</span><span class="p">,</span> <span class="n">n_els_per_dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">mesh_xg</span><span class="p">,</span> <span class="n">mesh_yg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">mesh_xs</span><span class="p">,</span> <span class="n">mesh_ys</span><span class="p">)</span>
+<span class="n">surf_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mesh_xg</span><span class="p">,</span> <span class="n">mesh_yg</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">mesh_yg</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">surf_tris</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">n_els_per_dim</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">+</span> <span class="n">j</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_els_per_dim</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_els_per_dim</span><span class="p">):</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">mesh_xs</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">mesh_ys</span><span class="p">[</span><span class="n">j</span> <span class="p">:</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">surf_tris</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">idx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">idx</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">idx</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+        <span class="n">surf_tris</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">idx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">idx</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">idx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="n">surf_tris</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">surf_tris</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+<span class="n">surf_tri_pts</span> <span class="o">=</span> <span class="n">surf_pts</span><span class="p">[</span><span class="n">surf_tris</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">surf_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">surf_tri_pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">full_mat</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span>
+    <span class="n">surf_centroids</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">surf_tri_pts</span><span class="p">,</span> <span class="mf">0.25</span>
+<span class="p">)</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">full_mat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">full_mat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_mat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">full_mat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+<span class="c1"># full_mat += np.eye(lhs_reordered.shape[0])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-tree-data-structure">
+<h2><span class="section-number">5.1. </span>The tree data structure<a class="headerlink" href="#the-tree-data-structure" title="Permalink to this headline">¶</a></h2>
+<p>Ok, let’s build a binary tree for determining which subsets of elements are far away from each other. What do I mean by binary-tree here? Since we’re in three-dimensional space, there’s not an obvious connection to the standard binary tree in one dimension. So, start with the bounding box that contains all our elements. Then, we’ll split that box along its longest dimension. The two child boxes will then, themselves, be split along their respective longest dimensions. Thus, we can construct a binary tree in three dimensional space by always choosing the longest dimension for the split.</p>
+<p>This is closely to a <a class="reference external" href="https://en.wikipedia.org/wiki/K-d_tree">k-d tree</a>. An <a class="reference external" href="https://en.wikipedia.org/wiki/Octree">octree</a> would be another common choice here. Octree split on all three dimensions simultaneous meaning that each node has eight children, making them a sort of <a class="reference external" href="https://en.wikipedia.org/wiki/B-tree">B-tree</a>. I decided to go with the above binary tree concept here just because the code ends up being very simple. It also seems likely to me that a binary tree will find good splits because it will avoid long narrow boxes by splitting on the longest dimension.</p>
+<p>Getting back to the code, as a simplification, we’ll actually model each element as a sphere that encloses the element. This is just to make distance calculations easier. So, we calculate a “radius” for each element which is simply the distance from the centroid to the corner that is furthest from the centroid. I don’t believe this is actually the minimal bounding sphere, but it’s easy to calculate and we’re not trying to be perfectly optimal here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">element_radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">surf_tri_pts</span> <span class="o">-</span> <span class="n">surf_centroids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we’ll use Python dataclasses to implement the tree and its nodes.</p>
+<p>The data structure here might take a bit of explanation. Let’s start with the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code>, <code class="docutils literal notranslate"><span class="pre">TreeNode.idx_start</span></code> and <code class="docutils literal notranslate"><span class="pre">TreeNode.idx_end</span></code>. Once we’ve constructed a binary tree, it’s possible to order the elements from left to right by simply enforcing the rule that the indices of all elements in the left hand child have indices that are less than all the indices of the right hand child. This can be achieved by re-ordering elements during the construction process: if there are <span class="math notranslate nohighlight">\(n_l\)</span> elements in the left child, we assign them indices <span class="math notranslate nohighlight">\(0...n_l-1\)</span>. Then the <span class="math notranslate nohighlight">\(n_r\)</span> elements in the right child will be assigned indices <span class="math notranslate nohighlight">\(n_l...n_l+n_r\)</span>. The result is that the left child can be assigned <code class="docutils literal notranslate"><span class="pre">idx_start</span> <span class="pre">=</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">idx_end</span> <span class="pre">=</span> <span class="pre">n_l</span></code> and the right child can be assigned <code class="docutils literal notranslate"><span class="pre">idx_start</span> <span class="pre">=</span> <span class="pre">n_l</span></code> and <code class="docutils literal notranslate"><span class="pre">idx_end</span> <span class="pre">=</span> <span class="pre">n_r</span></code>. If this is confusing, see below for a few figures that might help explain.</p>
+<p>The node <code class="docutils literal notranslate"><span class="pre">center</span></code> and <code class="docutils literal notranslate"><span class="pre">radius</span></code> are simple, but represent a simplification. While above we talked about splitting boxes into sub-boxes, it’s simpler to perform distance calculations if we just store the bounding sphere of each of these boxes. Since we split on the longest dimension, the boxes will never deviate too far from being a cube and thus a sphere will be a decent approximation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+
+<span class="nd">@dataclass</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">TreeNode</span><span class="p">:</span>
+    <span class="n">idx_start</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">idx_end</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">center</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">is_leaf</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;TreeNode&quot;</span><span class="p">]</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;TreeNode&quot;</span><span class="p">]</span>
+
+
+<span class="nd">@dataclass</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">Tree</span><span class="p">:</span>
+    <span class="n">ordered_idxs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">root</span><span class="p">:</span> <span class="n">TreeNode</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following three figures should help to explain what these trees will look like and what’s going on with the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array. I’ve created a tree out of ten points. This first figure is showing the extent of the tree nodes for the lowest two levels of the tree along with the indices of each input point.</p>
+<a class="reference internal image-reference" href="../_images/tree_diagram1.svg"><img alt="../_images/tree_diagram1.svg" src="../_images/tree_diagram1.svg" width="400px" /></a>
+<p>The second figure shows the structure of the binary tree itself. The leaves each contain only one input point with the point index specified. You can see how the associated nodes are also spatially associated above. Also, the tree is not a uniform depth, since the splitting depends on whether a node still has more than one point.</p>
+<a class="reference internal image-reference" href="../_images/tree_diagram2.svg"><img alt="../_images/tree_diagram2.svg" src="../_images/tree_diagram2.svg" width="400px" /></a>
+<p>Finally, this third figure shows the entries in the <code class="docutils literal notranslate"><span class="pre">Tree.ordered_idxs</span></code> array. The indices are ordered according to the left-to-right structure of the binary tree, exactly matching the leaf nodes above. This is helpful so that spatially nearby points are also nearby in memory. In implementing the H-matrix approximation, these re-ordered indices simplify a lot of the indexing so that we can always work with contiguous blocks of indices.</p>
+<a class="reference internal image-reference" href="../_images/tree_diagram3.svg"><img alt="../_images/tree_diagram3.svg" src="../_images/tree_diagram3.svg" width="400px" /></a>
+</div>
+<div class="section" id="building-the-tree">
+<h2><span class="section-number">5.2. </span>Building the tree<a class="headerlink" href="#building-the-tree" title="Permalink to this headline">¶</a></h2>
+<p>Building the tree will actually only be a couple dozen lines of code! I’m going to comment inline in the functions below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build_tree</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># The tree construction process receives three parameters:</span>
+    <span class="c1">#</span>
+    <span class="c1"># pts: the center of each element.</span>
+    <span class="c1">#</span>
+    <span class="c1"># radii: the radius of each element. Remember that we&#39;re dealing with spherical</span>
+    <span class="c1">#        approximations to elements here instead of the triangular elements</span>
+    <span class="c1">#        themselves.</span>
+    <span class="c1">#</span>
+    <span class="c1"># min_pts_per_box: this determines when we&#39;ll stop splitting. If a box has more</span>
+    <span class="c1">#                  than min_pts_per_box elements, we keep splitting.</span>
+
+    <span class="c1"># We&#39;ll start with the element indices in the order that they were given to this function.</span>
+    <span class="c1"># build_tree_node will re-order these indices at each step to enforce the rule that</span>
+    <span class="c1"># left child indices must be less than right child indices.</span>
+    <span class="n">ordered_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># The rest of the tree construction process will be handled by the recursive function:</span>
+    <span class="c1"># build_tree_node. The last two parameters are idx_start and idx_end. For the root of the</span>
+    <span class="c1"># tree, we pass the full set of elements: (0, pts.shape[0])</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">build_tree_node</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="p">,</span> <span class="n">ordered_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="n">ordered_idxs</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">build_tree_node</span><span class="p">(</span>
+    <span class="n">all_pts</span><span class="p">,</span> <span class="n">all_radii</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="p">,</span> <span class="n">ordered_idxs</span><span class="p">,</span> <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_end</span>
+<span class="p">):</span>
+    <span class="c1"># 1) Collect the relevant element data.</span>
+    <span class="c1"># A view into the ordered_idxs array for the elements we&#39;re working on here.</span>
+    <span class="n">idx_view</span> <span class="o">=</span> <span class="n">ordered_idxs</span><span class="p">[</span><span class="n">idx_start</span><span class="p">:</span><span class="n">idx_end</span><span class="p">]</span>
+    <span class="c1"># And the center and radius of each element.</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">all_pts</span><span class="p">[</span><span class="n">idx_view</span><span class="p">]</span>
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">all_radii</span><span class="p">[</span><span class="n">idx_view</span><span class="p">]</span>
+
+    <span class="c1"># 2) Define the bounding box.</span>
+    <span class="n">box_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">pts</span> <span class="o">-</span> <span class="n">box_center</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">box_axis_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sep</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">box_radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sep</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">radii</span><span class="p">)</span>
+
+    <span class="c1"># 3) Build the node</span>
+    <span class="c1"># To start with, the left and right child are absent and is_leaf=True.</span>
+    <span class="c1"># If the node is not a leaf, we&#39;ll overwrite these below.</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span>
+        <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_end</span><span class="p">,</span> <span class="n">box_center</span><span class="p">,</span> <span class="n">box_radius</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 4) Return if the node is a leaf node.</span>
+    <span class="c1"># If there are fewer than min_pts_per_box elements in this node, then we do not split.</span>
+    <span class="k">if</span> <span class="n">idx_end</span> <span class="o">-</span> <span class="n">idx_start</span> <span class="o">&lt;=</span> <span class="n">min_pts_per_box</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+    <span class="c1"># 5) If the node is not a leaf, split!</span>
+    <span class="c1"># First, find which axis of the box is longest</span>
+    <span class="n">split_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">box_axis_length</span><span class="p">)</span>
+
+    <span class="c1"># Then identify which elements are on the left hand side of the box along that axis.</span>
+    <span class="n">split_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="n">split_d</span><span class="p">])</span>
+    <span class="n">is_left</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="n">split_d</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">split_val</span>
+
+    <span class="c1"># 6) Re-arrange indices.</span>
+    <span class="c1"># Since we&#39;re going to re-arrange indices, we need to save the relevant indices first.</span>
+    <span class="n">left_idxs</span> <span class="o">=</span> <span class="n">idx_view</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">is_left</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">right_idxs</span> <span class="o">=</span> <span class="n">idx_view</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">is_left</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">n_left</span> <span class="o">=</span> <span class="n">left_idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Then assign the left side indices to the beginning of our index block</span>
+    <span class="n">idx_view</span><span class="p">[:</span><span class="n">n_left</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_idxs</span>
+    <span class="c1"># And assign the right side indices to the end of our index block.</span>
+    <span class="n">idx_view</span><span class="p">[</span><span class="n">n_left</span><span class="p">:]</span> <span class="o">=</span> <span class="n">right_idxs</span>
+
+    <span class="c1"># 7) Create children!</span>
+    <span class="n">idx_split</span> <span class="o">=</span> <span class="n">idx_start</span> <span class="o">+</span> <span class="n">n_left</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">is_leaf</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># We recursively call build_tree_node here. The key difference between the left and right</span>
+    <span class="c1"># sides is that the left receives the index block [idx_start, idx_split) and the right</span>
+    <span class="c1"># receives the index block [idx_split, idx_end). Thus, we&#39;ve created a smaller, equivalent</span>
+    <span class="c1"># problem.</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">build_tree_node</span><span class="p">(</span>
+        <span class="n">all_pts</span><span class="p">,</span> <span class="n">all_radii</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="p">,</span> <span class="n">ordered_idxs</span><span class="p">,</span> <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_split</span>
+    <span class="p">)</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">build_tree_node</span><span class="p">(</span>
+        <span class="n">all_pts</span><span class="p">,</span> <span class="n">all_radii</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="p">,</span> <span class="n">ordered_idxs</span><span class="p">,</span> <span class="n">idx_split</span><span class="p">,</span> <span class="n">idx_end</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">node</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s actually build a tree!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">build_tree</span><span class="p">(</span><span class="n">surf_centroids</span><span class="p">,</span> <span class="n">element_radius</span><span class="p">,</span> <span class="n">min_pts_per_box</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;center =&quot;</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;radius =&quot;</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>center = [ 9.7656255e-07 -5.3710937e-05  0.0000000e+00]
+radius = 5700.6865
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point, my instinct is to check and make sure that the tree is actually constructed as expected. This is a quick function that recursively traverse the tree and checks that all the elements contained in a node are actually within the bounds of the node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_tree</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">idxs</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">idx_start</span> <span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">idx_end</span><span class="p">]</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">idxs</span><span class="p">]</span> <span class="o">-</span> <span class="n">node</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">radii</span><span class="p">[</span><span class="n">idxs</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dist</span> <span class="o">&gt;</span> <span class="n">node</span><span class="o">.</span><span class="n">radius</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">check_tree</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="n">check_tree</span><span class="p">(</span>
+            <span class="n">pts</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span>
+        <span class="p">)</span>
+
+
+<span class="n">check_tree</span><span class="p">(</span><span class="n">surf_centroids</span><span class="p">,</span> <span class="n">element_radius</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>And let’s plot the tree! I’m going to plot each level separately. Once again, this is a recursive tree traversal where a circle gets plotted for each node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="k">def</span> <span class="nf">plot_tree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">center</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">node</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plot_tree</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">plot_tree</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;level = </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plot_tree</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hmatrix_14_0.png" src="../_images/hmatrix_14_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="finding-node-pairs-that-we-can-approximate">
+<h2><span class="section-number">5.3. </span>Finding node pairs that we can approximate.<a class="headerlink" href="#finding-node-pairs-that-we-can-approximate" title="Permalink to this headline">¶</a></h2>
+<p>Having built the binary tree above, let’s use it for its intended purpose: determining which nodes are close and far from which other nodes.</p>
+<p>The technique I’m using here is called a dual tree traversal <span id="id1">[]</span>. The basic idea is to recursively traverse both the observation and source trees simultaneously. Whenever two nodes are sufficiently far away from each other, we assign those nodes to use an approximate calculation. When the nodes are too close and are leaf nodes, we use a direct calculation. And when the nodes are too close but are not leaf nodes, we choose the larger node and recurse to use its children.</p>
+<p>Let’s make the concept of “close” and “far” more concrete. First, since both nodes are modeled as spheres, it’s trivial to say whether the nodes intersect:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-71433f04-c2af-48e7-96ce-b6eec5a68adb">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-71433f04-c2af-48e7-96ce-b6eec5a68adb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathrm{intersection~if~ ~} \|c_2 - c_1\| &lt; r_1 + r_2
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(c_i\)</span> is the center of a node and <span class="math notranslate nohighlight">\(r_i\)</span> is the radius. But, to say two nodes are far from each other, lack of intersection is not sufficient. At the edge of the intersection bound, the two spheres would meet at a point while still not intersecting. As a result, it’s possible that two elements in those nodes are still extremely close. Nearby elements will result in a block matrix that has full rank and cannot be efficiently approximated by adaptive cross approximation.</p>
+<p>So, we want a slightly stronger criterion. How about just adding a safety factor, <span class="math notranslate nohighlight">\(S\)</span> where <span class="math notranslate nohighlight">\(S &gt; 1\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7b40fbac-2590-4682-9d41-33e007d48313">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-7b40fbac-2590-4682-9d41-33e007d48313" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathrm{far-field~if~ ~} \|c_2 - c_1\| &lt; S (r_1 + r_2)
+\end{equation}\]</div>
+<p>We’ll leave <span class="math notranslate nohighlight">\(S\)</span> as a parameter that can be chosen by the user. If a small value (close to 1) is chosen, that will allow more of the resulting matrix to be approximated but the individual approximated blocks will have higher rank. If a larger value is chosen, less of the matrix will be handled approximately but the approximated portions will all be very low rank. I set the default to 1.5 as a reasonable compromise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">):</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">center</span> <span class="o">-</span> <span class="n">src_node</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dist</span> <span class="o">&gt;</span> <span class="n">safety_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">src_node</span><span class="o">.</span><span class="n">radius</span><span class="p">):</span>
+        <span class="c1"># We&#39;re far away, use an approximate interaction</span>
+        <span class="n">approx_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">is_leaf</span> <span class="ow">and</span> <span class="n">src_node</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">:</span>
+        <span class="c1"># If we get here, then we can&#39;t split the nodes anymore but they are</span>
+        <span class="c1"># still close. That means we need to use a exact interaction.</span>
+        <span class="n">direct_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># We&#39;re close by, so we should recurse and use the child tree nodes.</span>
+        <span class="c1"># But which node should we recurse with?</span>
+        <span class="n">split_src</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">radius</span> <span class="o">&lt;</span> <span class="n">src_node</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">src_node</span><span class="o">.</span><span class="n">is_leaf</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">is_leaf</span>
+
+        <span class="k">if</span> <span class="n">split_src</span><span class="p">:</span>
+            <span class="n">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">)</span>
+            <span class="n">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">)</span>
+            <span class="n">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">safety_factor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+    <span class="n">direct_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">approx_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_traverse</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">safety_factor</span><span class="p">,</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">direct_list</span><span class="p">,</span> <span class="n">approx_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">direct</span><span class="p">,</span> <span class="n">approx</span> <span class="o">=</span> <span class="n">traverse</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So, now that we’ve built these interaction lists, let’s take a quick look at which nodes pairs show up in the direct interactions and which show up in the approximate interactions.</p>
+<p>I’m going to gloss over the code below, but the end result is that we plot:</p>
+<ul class="simple">
+<li><p>In <strong>black</strong>, the observation node.</p></li>
+<li><p>In <strong><span style="color:red">red</span></strong>, all the source nodes that interact in direct, exact form with the observation node.</p></li>
+<li><p>In <strong><span style="color:blue">blue</span></strong>, all the source nodes that interact in approximate form with the observation node.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Direct vs. Approximate&quot;</span><span class="p">)</span>
+    <span class="n">path_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+        <span class="n">path_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">left</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">path_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">target_obsn</span> <span class="ow">in</span> <span class="n">path_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">obsn</span><span class="p">,</span> <span class="n">srcn</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obsn</span> <span class="ow">is</span> <span class="n">target_obsn</span><span class="p">:</span>
+                <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="n">srcn</span><span class="o">.</span><span class="n">center</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">srcn</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span>
+                <span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">target_obsn</span> <span class="ow">in</span> <span class="n">path_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">obsn</span><span class="p">,</span> <span class="n">srcn</span> <span class="ow">in</span> <span class="n">approx</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obsn</span> <span class="ow">is</span> <span class="n">target_obsn</span><span class="p">:</span>
+                <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span>
+                    <span class="nb">tuple</span><span class="p">(</span><span class="n">srcn</span><span class="o">.</span><span class="n">center</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">srcn</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span>
+                <span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+    <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="n">target_obsn</span><span class="o">.</span><span class="n">center</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">target_obsn</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hmatrix_20_0.png" src="../_images/hmatrix_20_0.png" />
+</div>
+</div>
+<p>These figures make a few points:</p>
+<ul class="simple">
+<li><p>The nearest neighbor nodes interact directly. This is expected since we were hoping to operationalize the concept of “near-field”.</p></li>
+<li><p>As we get further and further away from the observation node, the size of the source nodes becomes larger.</p></li>
+<li><p>This second point can be rigorously elaborated on to derive the <span class="math notranslate nohighlight">\(O(n\log(n))\)</span> scaling of many hierarchical matrix operations.</p></li>
+</ul>
+</div>
+<div class="section" id="direct-matrix-blocks">
+<h2><span class="section-number">5.4. </span>Direct matrix blocks<a class="headerlink" href="#direct-matrix-blocks" title="Permalink to this headline">¶</a></h2>
+<p>This next step is less novel, but still necessary. Now that we’ve built both the direct and approximate interaction lists, we need to compute the actual matrices corresponding to each of those interactions.</p>
+<p>The direct blocks are more of less as expected and can be implemented with the <code class="docutils literal notranslate"><span class="pre">cutde.disp_matrix</span></code> function that we’ve used several times already and as demonstrated below.</p>
+<p>However, each of these matrix blocks is quite small. So, doing them one at a time is inefficient and defeats the point of using a highly-parallelized GPU TDE implementation (<code class="docutils literal notranslate"><span class="pre">cutde</span></code>). Luckily, there’s a function designed just for this situation, <code class="docutils literal notranslate"><span class="pre">cutde.disp_block</span></code>. When we use <code class="docutils literal notranslate"><span class="pre">disp_block</span></code>, we can specify many contiguous sub-blocks of a larger matrix to be computed at once.</p>
+<p>To get more precise, we pass the full set of observation points and source triangles and then also pass a list of the start and end indices of the observation points we want to compute a matrix block and a list of the start and end indices of the source triangles for each block. Also note that the return value is a contiguous block of memory, <code class="docutils literal notranslate"><span class="pre">packed_blocks</span></code> containing all the blocks packed together. The <code class="docutils literal notranslate"><span class="pre">block_starts</span></code> array contains indices where each block’s entries start. The number of entries per block can be computed easily from the number of observation points and number of source triangles.</p>
+<p>I’ll time this section of code and then also compare with the runtime of computing each block separately.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">for</span> <span class="n">timing_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">tree_tri_pts</span> <span class="o">=</span> <span class="n">surf_tri_pts</span><span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">tree_obs_pts</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tree_tri_pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="p">)</span>
+    <span class="n">direct_obs_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">idx_start</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">])</span>
+    <span class="n">direct_obs_ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">idx_end</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">])</span>
+    <span class="n">direct_src_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idx_start</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">])</span>
+    <span class="n">direct_src_ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idx_end</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">])</span>
+
+    <span class="n">direct_packed_blocks</span><span class="p">,</span> <span class="n">direct_block_starts</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_block</span><span class="p">(</span>
+        <span class="n">tree_obs_pts</span><span class="p">,</span>
+        <span class="n">tree_tri_pts</span><span class="p">,</span>
+        <span class="n">direct_obs_starts</span><span class="p">,</span>
+        <span class="n">direct_obs_ends</span><span class="p">,</span>
+        <span class="n">direct_src_starts</span><span class="p">,</span>
+        <span class="n">direct_src_ends</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">direct_block_starts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># We can&#39;t forget to rotate the source dimension into x-y-z instead of</span>
+        <span class="c1"># the strike-dip-tensile coordinate system.</span>
+        <span class="c1"># First, unpack the block into a (N, 3, M, 3) array.</span>
+        <span class="n">DD</span> <span class="o">=</span> <span class="n">direct_packed_blocks</span><span class="p">[</span>
+            <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">direct_obs_ends</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">direct_obs_starts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="mi">3</span><span class="p">,</span>
+                <span class="n">direct_src_ends</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">direct_src_starts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">DD</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">DD</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">DD</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">DD</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="n">direct_packed_blocks</span><span class="p">[</span>
+            <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">DD</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">timing_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 0.194 secs
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">direct_block</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+    <span class="n">src_tri_pts</span> <span class="o">=</span> <span class="n">tree_tri_pts</span><span class="p">[</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="p">:</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">obs_tri_pts</span> <span class="o">=</span> <span class="n">tree_tri_pts</span><span class="p">[</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="p">:</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">obs_pts</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">obs_tri_pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">offset</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="p">)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">M</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">M</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+    <span class="k">return</span> <span class="n">M</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
+
+
+<span class="k">for</span> <span class="n">timing_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">direct_blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">direct_block</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">direct</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">timing_iter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>runtime 2.81 secs
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">cutde.disp_blocks</span></code> version is about 15x faster. Below, we quickly check that both these implementations give exactly the same output, increasing my confidence that either one is correct.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">packed_err</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+        <span class="n">direct_blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="o">-</span> <span class="n">direct_packed_blocks</span><span class="p">[</span><span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">direct_block_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">direct_blocks</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">packed_err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="approximating-a-far-field-matrix-block">
+<h2><span class="section-number">5.5. </span>Approximating a far-field matrix block<a class="headerlink" href="#approximating-a-far-field-matrix-block" title="Permalink to this headline">¶</a></h2>
+<p>For the approximate blocks, the code is a bit more involved. But, it’s basically just a wrapper around the <code class="docutils literal notranslate"><span class="pre">ACA_plus</span></code> from the last section. I’ll add comments inline with the code to explain what’s going on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aca</span> <span class="kn">import</span> <span class="n">ACA_plus</span><span class="p">,</span> <span class="n">SVD_recompress</span>
+
+
+<span class="k">def</span> <span class="nf">approx_block</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="c1"># Determine the source and observation points. This is slightly simplified</span>
+    <span class="c1"># from the general case because we are computing the self-interaction of a</span>
+    <span class="c1"># set of triangles with the centroids of those triangles. In a more general</span>
+    <span class="c1"># case, the source triangles might be completely different from the</span>
+    <span class="c1"># observation points.</span>
+    <span class="n">src_tri_pts</span> <span class="o">=</span> <span class="n">tree_tri_pts</span><span class="p">[</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="p">:</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span><span class="p">]</span>
+    <span class="n">obs_tri_pts</span> <span class="o">=</span> <span class="n">tree_tri_pts</span><span class="p">[</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="p">:</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span><span class="p">]</span>
+    <span class="n">obs_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">obs_tri_pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">offset</span><span class="p">])</span>
+
+    <span class="c1"># We need to pass a row calculation and a column calculation function to the</span>
+    <span class="c1"># ACA_plus algorithm. The get_cols function will be basically identical</span>
+    <span class="c1"># to the get_rows function so I&#39;ll just cover the rows version.</span>
+    <span class="k">def</span> <span class="nf">get_rows</span><span class="p">(</span><span class="n">Istart</span><span class="p">,</span> <span class="n">Iend</span><span class="p">):</span>
+        <span class="c1"># Istart and Iend are row indices for the matrix block under consideration.</span>
+        <span class="c1"># But, we need to calculate in terms of observation point indices, not matrix row</span>
+        <span class="c1"># indices. So, we divide by three.</span>
+        <span class="c1"># This add a touch of complexity because, for example, if we want only a single matrix row,</span>
+        <span class="c1"># we&#39;ll end up calculating all the rows for a single observation point. Thus, a few lines</span>
+        <span class="c1"># below, we filter out the extra rows.</span>
+        <span class="n">obs_idx_start</span> <span class="o">=</span> <span class="n">Istart</span> <span class="o">//</span> <span class="mi">3</span>
+        <span class="n">obs_idx_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">Iend</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Calculate the rows!</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">[</span><span class="n">obs_idx_start</span><span class="p">:</span><span class="n">obs_idx_end</span><span class="p">],</span> <span class="n">src_tri_pts</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+
+        <span class="c1"># Reshape the returned array and filter out the extra rows.</span>
+        <span class="n">n_rows_computed</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">obs_idx_end</span> <span class="o">-</span> <span class="n">obs_idx_start</span><span class="p">)</span>
+        <span class="n">rows2d</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_rows_computed</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">local_start</span> <span class="o">=</span> <span class="n">Istart</span> <span class="o">%</span> <span class="mi">3</span>
+        <span class="n">local_end</span> <span class="o">=</span> <span class="n">local_start</span> <span class="o">+</span> <span class="n">Iend</span> <span class="o">-</span> <span class="n">Istart</span>
+        <span class="n">filter_out_extra</span> <span class="o">=</span> <span class="n">rows2d</span><span class="p">[</span><span class="n">local_start</span><span class="p">:</span><span class="n">local_end</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">filter_out_extra</span>
+
+    <span class="k">def</span> <span class="nf">get_cols</span><span class="p">(</span><span class="n">Jstart</span><span class="p">,</span> <span class="n">Jend</span><span class="p">):</span>
+        <span class="n">src_idx_start</span> <span class="o">=</span> <span class="n">Jstart</span> <span class="o">//</span> <span class="mi">3</span>
+        <span class="n">src_idx_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">Jend</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="p">[</span><span class="n">src_idx_start</span><span class="p">:</span><span class="n">src_idx_end</span><span class="p">],</span> <span class="mf">0.25</span><span class="p">)</span>
+        <span class="n">n_cols_computed</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">src_idx_end</span> <span class="o">-</span> <span class="n">src_idx_start</span><span class="p">)</span>
+        <span class="n">cols2d</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_cols_computed</span><span class="p">))</span>
+
+        <span class="n">local_start</span> <span class="o">=</span> <span class="n">Jstart</span> <span class="o">%</span> <span class="mi">3</span>
+        <span class="n">local_end</span> <span class="o">=</span> <span class="n">local_start</span> <span class="o">+</span> <span class="n">Jend</span> <span class="o">-</span> <span class="n">Jstart</span>
+        <span class="n">filter_out_extra</span> <span class="o">=</span> <span class="n">cols2d</span><span class="p">[:,</span> <span class="n">local_start</span><span class="p">:</span><span class="n">local_end</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">filter_out_extra</span>
+
+    <span class="n">n_rows</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">n_cols</span> <span class="o">=</span> <span class="n">src_tri_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+
+    <span class="c1"># Call the ACA_plus algorithm.</span>
+    <span class="c1"># Here, we&#39;re using eps / 50.0 to give a safety factor on the accuracy of the</span>
+    <span class="c1"># approximation. Then, the SVD_recompress step in the next line reduces the</span>
+    <span class="c1"># approximation to be more efficient.</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">ACA_plus</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">get_rows</span><span class="p">,</span> <span class="n">get_cols</span><span class="p">,</span> <span class="n">eps</span> <span class="o">/</span> <span class="mf">50.0</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD</span> <span class="o">=</span> <span class="n">SVD_recompress</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD</span>
+
+    <span class="c1"># Rotate out of the TDE coordinate system and return the result!</span>
+    <span class="n">V_SVD_reshaped</span> <span class="o">=</span> <span class="n">V_SVD</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+    <span class="k">return</span> <span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD_reshaped</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And let’s try out this new code! It’s simple to compute the same block with both the <code class="docutils literal notranslate"><span class="pre">approx_block</span></code> and the <code class="docutils literal notranslate"><span class="pre">direct_block</span></code> functions and compare the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">approx_block</span><span class="p">(</span><span class="n">approx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">approx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">true</span> <span class="o">=</span> <span class="n">direct_block</span><span class="p">(</span><span class="n">approx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">approx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">U</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pivot row=  53, pivot col=  43, step size=3.035e-03, tolerance=2.000e-06
+pivot row=  51, pivot col=  44, step size=3.053e-03, tolerance=2.000e-06
+pivot row=  17, pivot col=  21, step size=5.227e-04, tolerance=2.000e-06
+pivot row=  34, pivot col=   5, step size=6.141e-04, tolerance=2.000e-06
+pivot row=  36, pivot col=  62, step size=1.189e-04, tolerance=2.000e-06
+pivot row=  38, pivot col=  61, step size=1.307e-04, tolerance=2.000e-06
+pivot row=   5, pivot col=   1, step size=3.315e-05, tolerance=2.000e-06
+pivot row=  15, pivot col=  17, step size=2.705e-05, tolerance=2.000e-06
+pivot row=  35, pivot col=   0, step size=6.409e-06, tolerance=2.000e-06
+pivot row=  52, pivot col=  23, step size=8.353e-06, tolerance=2.000e-06
+pivot row=  37, pivot col=  53, step size=1.680e-06, tolerance=2.000e-06
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:78: UserWarning: The obs_pts input array has Fortran ordering. Converting to C ordering. This may be expensive.
+  warnings.warn(
+/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:69: UserWarning: The tris input array has type float32 but needs to be converted to dtype float64. Converting tris to float64 may be expensive.
+  warnings.warn(
+/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:69: UserWarning: The tris input array has type float32 but needs to be converted to dtype float64. Converting tris to float64 may be expensive.
+  warnings.warn(
+/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:78: UserWarning: The obs_pts input array has Fortran ordering. Converting to C ordering. This may be expensive.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(54, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As requested, the Frobenius norm of the approximation error is slightly lower than <code class="docutils literal notranslate"><span class="pre">1e-4</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="n">true</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.584566994359383e-05
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="block-tolerance">
+<h2><span class="section-number">5.6. </span>Block tolerance<a class="headerlink" href="#block-tolerance" title="Permalink to this headline">¶</a></h2>
+<p>Great, now we have the infrastructure necessary for approximate far-field matrix blocks. But, there’s one last thing to cover before constructing the full H-matrix. How do we translate a global matrix approximation tolerance into a local block-wise tolerance?</p>
+<p>Given a large dense BEM matrix and the desire to approximate that matrix using H-matrix techniques, we’ll presumably have some tolerance, <span class="math notranslate nohighlight">\(\varepsilon\)</span> that is acceptable. For H-matrices, the tolerance is a relative constraint on the Frobenius norm difference between the approximate matrix and the true matrix:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-99b89e1f-6e4a-42f3-b121-7a38281c64dd">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-99b89e1f-6e4a-42f3-b121-7a38281c64dd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\|E\|_{F} \leq \varepsilon \|B\|_{F}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(E\)</span> is the error matrix and <span class="math notranslate nohighlight">\(B\)</span> is the matrix we want to approximate.</p>
+<p>That full-matrix tolerance needs to be translated into a tolerance that is used for each approximated block. On an intuitive level, a good option is to assign each block an error budget that is proportional to what percent of the entries of the full matrix that block makes up. In other words, we require that for a block with error <span class="math notranslate nohighlight">\(E_i\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a623fca6-be1e-4dbf-b03e-aa444bdeeb23">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-a623fca6-be1e-4dbf-b03e-aa444bdeeb23" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\|E_i\|_F \leq \varepsilon \sqrt{\frac{m_i n_i}{MN}} \|B\|_F
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(n_i\)</span> are the number of rows and columns for the block and <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are the number of rows and columns of the full matrix.</p>
+<p>The <span id="id2"></span> bradley paper works through the details of this approach.</p>
+<p>It’s important to always be clear about whether we’re talking about a relative error or an absolute error. In the <code class="docutils literal notranslate"><span class="pre">ACA_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">SVD_recompress</span></code> implementations, the error is specified in absolute terms. But, here the error is a relative error in terms of <span class="math notranslate nohighlight">\(\|B\|_F\)</span>, the Frobenius norm of the full matrix.</p>
+<p>In order to implement block-wise error tolerance, the only remaining puzzle is how to calculate <span class="math notranslate nohighlight">\(\|B\|_F\)</span> itself. This actually turns out to be pretty simple: we can just sample several rows at random from the full matrix and compute a statistical estimate of the matrix norm. Let’s do it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">row_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">surf_centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span>
+    <span class="n">surf_centroids</span><span class="p">[</span><span class="n">row_idxs</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]),</span> <span class="n">surf_tri_pts</span><span class="p">,</span> <span class="mf">0.25</span>
+<span class="p">)</span>
+<span class="n">sample</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20, 3, 5000, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, with <a class="reference external" href="https://en.wikipedia.org/wiki/Jackknife_resampling">jackknife resampling</a>, we can also recover a standard deviation for the norm estimate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_full_entries</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">frob2_ests</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_full_entries</span> <span class="o">/</span> <span class="n">sample</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">frob2_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">frob2_ests</span><span class="p">)</span>
+
+<span class="n">jack_replicates</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">jack_replicates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n_samples</span> <span class="o">*</span> <span class="n">frob2_mean</span> <span class="o">-</span> <span class="n">frob2_ests</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">jack_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jack_replicates</span><span class="p">)</span>
+<span class="n">jack_stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">jack_replicates</span> <span class="o">-</span> <span class="n">jack_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|B|_F^2 =&quot;</span><span class="p">,</span> <span class="n">frob2_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;standard deviation&quot;</span><span class="p">,</span> <span class="n">jack_stddev</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|B|_F^2 = 3805.066718948906
+standard deviation 0.10520567808363768
+</pre></div>
+</div>
+</div>
+</div>
+<p>And finally, because we want to upper bound the error, it’s okay to have a slight underestimate of <span class="math notranslate nohighlight">\(\|B\|_F\)</span>. So, a fun trick is just to subtract twice the estimate standard deviation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">safe_frob2_est</span> <span class="o">=</span> <span class="n">frob2_mean</span> <span class="o">-</span> <span class="n">jack_stddev</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="n">safe_frob2_est</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3804.8563075927386
+</pre></div>
+</div>
+</div>
+</div>
+<p>A quick comparison shows that our estimate of the norm is reasonable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_frob2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">full_mat</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">true_frob2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3804.0732
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we can compute the tolerance for each block and plot two histograms:</p>
+<ol class="simple">
+<li><p>A histogram of the number of blocks at each tolerance level.</p></li>
+<li><p>A histogram of the total number of matrix entries at each tolerance level.</p></li>
+</ol>
+<p>This emphasizes that a looser tolerance is being applied to the larger blocks. That’s great because it reduces the computational effort.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_entries_per_block</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">-</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span><span class="p">)</span>
+        <span class="o">*</span> <span class="mi">3</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">-</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span><span class="p">)</span>
+        <span class="o">*</span> <span class="mi">3</span>
+        <span class="k">for</span> <span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span> <span class="ow">in</span> <span class="n">approx</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">safe_frob_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">safe_frob2_est</span><span class="p">)</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">block_tolerances</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_entries_per_block</span> <span class="o">/</span> <span class="n">n_full_entries</span><span class="p">)</span> <span class="o">*</span> <span class="n">safe_frob_est</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">block_tolerances</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(</span><span class="se">\\</span><span class="s2">textrm</span><span class="si">{tolerance}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;number of blocks&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">block_tolerances</span><span class="p">),</span> <span class="n">weights</span><span class="o">=</span><span class="n">n_entries_per_block</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(</span><span class="se">\\</span><span class="s2">textrm</span><span class="si">{tolerance}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;number of entries&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hmatrix_41_0.png" src="../_images/hmatrix_41_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="faster-approximate-blocks-on-gpus-with-cutde">
+<h2><span class="section-number">5.7. </span>Faster approximate blocks on GPUs with <code class="docutils literal notranslate"><span class="pre">cutde</span></code><a class="headerlink" href="#faster-approximate-blocks-on-gpus-with-cutde" title="Permalink to this headline">¶</a></h2>
+<p>Given the previous approximation code and the block-wise error tolerance, you’d think we’re ready to go for building the entire approximate portion of the H-matrix. And that’s true. But, even for a fairly small problem like the one we’re dealing with here, the Python implementation of the <code class="docutils literal notranslate"><span class="pre">ACA_plus</span></code> function is quite slow and would take several minutes to build all 4333 approximate blocks. So, instead, I implemented a GPU-optimized version in <code class="docutils literal notranslate"><span class="pre">cutde</span></code> with the <code class="docutils literal notranslate"><span class="pre">cutde.disp_aca</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4581
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, let’s get a sense of the original Python performance by running only the first 100 blocks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">approx_blocks</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">approx</span><span class="p">[:</span><span class="mi">100</span><span class="p">]):</span>
+    <span class="n">n_entries</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">-</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span><span class="p">)</span>
+        <span class="o">*</span> <span class="mi">3</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">-</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span><span class="p">)</span>
+        <span class="o">*</span> <span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">approx_block</span><span class="p">(</span><span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">approx_blocks</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:78: UserWarning: The obs_pts input array has Fortran ordering. Converting to C ordering. This may be expensive.
+  warnings.warn(
+/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:69: UserWarning: The tris input array has type float32 but needs to be converted to dtype float64. Converting tris to float64 may be expensive.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.36 s, sys: 552 ms, total: 2.91 s
+Wall time: 2.91 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>And since, if you haven’t noticed already, I really like checking things, let’s look at the Frobenius norm error between these approximations and the corresponding exact calculation. These are all below the requested tolerances.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">approx_blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">true</span> <span class="o">=</span> <span class="n">direct_block</span><span class="p">(</span><span class="n">approx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">approx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="n">true</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">error</span> <span class="o">&lt;</span> <span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;All good! Error less than tolerance: </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All good! Error less than tolerance: 1.81e-05 &lt; 2.4e-05
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we’ll do essentially the same thing as the <code class="docutils literal notranslate"><span class="pre">approx_block</span></code> function above except we’ll run for all the blocks simultaneously using <code class="docutils literal notranslate"><span class="pre">cutde.disp_aca</span></code>.</p>
+<p>The SVD recompression is not optimized beyond the version from before, but it requires much less time than ACA+. It would probably be possible to reduce the runtime of the SVD recompression by 5-20x using a parallel or GPU-optimized version. However, it’s not currently slow enough to justify that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">approx_obs_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">idx_start</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">approx</span><span class="p">])</span>
+<span class="n">approx_obs_ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">idx_end</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">approx</span><span class="p">])</span>
+<span class="n">approx_src_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idx_start</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">approx</span><span class="p">])</span>
+<span class="n">approx_src_ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idx_end</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">approx</span><span class="p">])</span>
+
+<span class="n">n_rows</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">approx_obs_ends</span> <span class="o">-</span> <span class="n">approx_obs_starts</span><span class="p">)</span>
+<span class="n">n_cols</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">approx_src_ends</span> <span class="o">-</span> <span class="n">approx_src_starts</span><span class="p">)</span>
+<span class="n">max_iter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+<span class="n">approx_blocks_gpu_aca</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_aca</span><span class="p">(</span>
+    <span class="n">tree_obs_pts</span><span class="p">,</span>
+    <span class="n">tree_tri_pts</span><span class="p">,</span>
+    <span class="n">approx_obs_starts</span><span class="p">,</span>
+    <span class="n">approx_obs_ends</span><span class="p">,</span>
+    <span class="n">approx_src_starts</span><span class="p">,</span>
+    <span class="n">approx_src_ends</span><span class="p">,</span>
+    <span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">block_tolerances</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">approx_blocks_gpu</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="ow">in</span> <span class="n">approx_blocks_gpu_aca</span><span class="p">:</span>
+    <span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD</span> <span class="o">=</span> <span class="n">SVD_recompress</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">approx_blocks_gpu</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD</span><span class="p">))</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Rotate out of the TDE coordinate system.</span>
+    <span class="n">V_SVD_reshaped</span> <span class="o">=</span> <span class="n">V_SVD</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">V_SVD_reshaped</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+    <span class="n">approx_blocks_gpu</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">U_SVD</span><span class="p">,</span> <span class="n">V_SVD_reshaped</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">V_SVD</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.23 s, sys: 1.14 s, total: 4.37 s
+Wall time: 2.72 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great! It seems that this implementation is about 43x faster per block because it built all the blocks in the same time that the Python implementation built just 100.</p>
+<p>And a quick check to make sure the results match for the first ten blocks. I’m actually giving a factor of two extra tolerance because these tolerances are fairly small in comparison to single precision floating point epsilon.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">Upy</span><span class="p">,</span> <span class="n">Vpy</span> <span class="o">=</span> <span class="n">approx_blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">Ugpu</span><span class="p">,</span> <span class="n">Vgpu</span> <span class="o">=</span> <span class="n">approx_blocks_gpu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">est1</span> <span class="o">=</span> <span class="n">Upy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vpy</span><span class="p">)</span>
+    <span class="n">est2</span> <span class="o">=</span> <span class="n">Ugpu</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vgpu</span><span class="p">)</span>
+    <span class="n">truth</span> <span class="o">=</span> <span class="n">direct_block</span><span class="p">(</span><span class="o">*</span><span class="n">approx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="n">est1_v_est2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">est1</span> <span class="o">-</span> <span class="n">est2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">est2_v_truth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">est2</span> <span class="o">-</span> <span class="n">truth</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">est1_v_est2</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">est2_v_truth</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">block_tolerances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>I’ll also pack these blocks similar to how the direct blocks are packed into a single array. This will make for more efficient access later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">approx_max_rank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">U</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">approx_blocks_gpu</span><span class="p">])</span>
+<span class="n">UVflattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">V</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">U</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span> <span class="k">for</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="ow">in</span> <span class="n">approx_blocks_gpu</span><span class="p">]</span>
+<span class="n">approx_block_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">UVflattened</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+<span class="n">approx_block_starts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">approx_block_starts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">UVflattened</span><span class="p">])</span>
+<span class="n">approx_packed_blocks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">UVflattened</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wow! We’ve finally built our full H-matrix! Since the whole point of this adventure has been to sparsify a dense matrix, let’s see how much less memory the H-matrix uses. For this problem, the H-matrix uses about 1/9th the memory as the dense version. But, since the H-matrix scales almost linearly and the dense version scales quadratically, this compression will rapidly increase for larger problems. In the next TDE section, we’ll build a much bigger H-matrix and deal with a problem that would be infeasible to handle without compression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">approx_nbytes</span> <span class="o">=</span> <span class="n">approx_packed_blocks</span><span class="o">.</span><span class="n">nbytes</span>
+<span class="n">direct_nbytes</span> <span class="o">=</span> <span class="n">direct_packed_blocks</span><span class="o">.</span><span class="n">nbytes</span>
+<span class="n">hmatrix_nbytes</span> <span class="o">=</span> <span class="n">approx_nbytes</span> <span class="o">+</span> <span class="n">direct_nbytes</span>
+<span class="n">dense_nbytes</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_tris</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dense size = </span><span class="si">{</span><span class="n">dense_nbytes</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hmatrix size = </span><span class="si">{</span><span class="n">hmatrix_nbytes</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;direct size = </span><span class="si">{</span><span class="n">direct_nbytes</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;approx size = </span><span class="si">{</span><span class="n">approx_nbytes</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;compression factor = </span><span class="si">{</span><span class="n">dense_nbytes</span> <span class="o">/</span> <span class="n">hmatrix_nbytes</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">X smaller&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dense size = 0.9 GB
+hmatrix size = 0.0982 GB
+direct size = 0.0638 GB
+approx size = 0.0344 GB
+compression factor = 9.17X smaller
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="a-matrix-vector-product">
+<h2><span class="section-number">5.8. </span>A matrix-vector product<a class="headerlink" href="#a-matrix-vector-product" title="Permalink to this headline">¶</a></h2>
+<p>We’re not just trying to reduce memory usage. I’d also like to see reduced runtime. So, the final step here is to actually use the matrix! Let’s run a quick matrix-vector product as a performance and accuracy demonstration.</p>
+<p>First, the correct answer, using the <code class="docutils literal notranslate"><span class="pre">full_mat</span></code> that we built way back at the beginning of this section.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cols</span> <span class="o">=</span> <span class="n">n_rows</span> <span class="o">=</span> <span class="n">surf_tri_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_cols</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">x_tree</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">full_mat2d</span> <span class="o">=</span> <span class="n">full_mat</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">))</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">full_mat2d</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a fair performance comparison with the numpy matrix-vector product, we need our own parallelized and compiled block-wise matrix-vector product. So, I’ll use Cython to implement some optimized block-wise matrix-vector operations. I think it’s sort of out-of-scope to launch into a Cython tutorial here, but this could be a fun chunk of code to learn from since it’s short and sweet. Here a few good introductions to Cython:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cython.readthedocs.io/en/latest/src/tutorial/cython_tutorial.html">Basic Cython Tutorial</a></p></li>
+<li><p><a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html#memoryviews">Typed memoryviews are super helpful for interacting with numpy</a></p></li>
+<li><p><a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/numpy_tutorial.html">More info for numpy &lt;–&gt; Cython interoperation</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> cython
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">cython</span> --compile-args=-fopenmp --link-args=-fopenmp --verbose
+#cython: boundscheck=False, wraparound=False
+import numpy as np
+from cython.parallel import prange
+cimport cython
+cimport openmp
+
+# Cython doesn&#39;t support OpenMP atomic operations so we very briefly drop 
+# into C here.
+cdef extern from *:
+    &quot;&quot;&quot;
+    void omp_atomic_add(float* x, float y) {
+        #pragma omp atomic
+        *x += y;
+    }
+    &quot;&quot;&quot;
+    void omp_atomic_add(float* x, float y) nogil
+
+cdef void single_block_dot(long n_rows, long n_cols,  
+                           float* packed_blocks, float* x, 
+                           float* y) nogil:
+    cdef int row_start
+    cdef int i, j
+    cdef float out_v
+    for i in range(n_rows):
+        row_start = i * n_cols
+        out_v = 0
+        for j in range(n_cols):
+            out_v += packed_blocks[row_start + j] * x[j]
+        # Since the outer block loop is parallelized, it&#39;s possible
+        # for two threads to update the same data at the same time. So,
+        # use a safe atomic operation.
+        omp_atomic_add(&amp;y[i], out_v)
+
+def direct_dot(long[::1] obs_start, long[::1] obs_end, 
+              long[::1] src_start, long[::1] src_end, 
+              float[::1] packed_blocks, long[::1] block_starts, 
+              float[::1] x_tree):
+    cdef int k
+    cdef int block_obs_start, block_src_start
+    cdef int block_obs_end, block_src_end
+    cdef int block_start, n_rows, n_cols
+    cdef y_tree_arr = np.zeros(x_tree.shape[0], dtype=np.float32)
+    cdef float[::1] y_tree = y_tree_arr
+    
+    for k in prange(obs_start.shape[0], nogil=True):
+        single_block_dot(
+            obs_end[k] * 3 - obs_start[k] * 3, 
+            src_end[k] * 3 - src_start[k] * 3, 
+            &amp;packed_blocks[block_starts[k]], &amp;x_tree[src_start[k] * 3], 
+            &amp;y_tree[obs_start[k] * 3]
+        )
+    return y_tree_arr
+
+cdef float* get_ptr_from_array(X):
+    cdef float[::, ::1] X_view = X
+    cdef float* X_ptr = &amp;X_view[0, 0]
+    return X_ptr
+
+def approx_dot(long[::1] obs_start, long[::1] obs_end, 
+               long[::1] src_start, long[::1] src_end, 
+               float[::1] packed_blocks, long[::1] block_starts,
+               long max_rank,
+               float[::1] x_tree):
+    
+    cdef y_tree_arr = np.zeros(x_tree.shape[0], dtype=np.float32)
+    cdef float[::1] y_tree = y_tree_arr
+    
+    cdef int n_threads = openmp.omp_get_max_threads()
+    cdef temp_buffer = np.empty(n_threads * max_rank, dtype=np.float32)
+    cdef float[::1] temp_buffer_view = temp_buffer
+    
+    cdef int thread_id
+    cdef int i, k, n_entries, n_cols, n_rows, rank
+    cdef float* thread_buffer_ptr
+    cdef float* U_ptr
+    cdef float* V_ptr
+    
+    for k in prange(obs_start.shape[0], nogil=True):
+        
+        n_entries = block_starts[k+1] - block_starts[k]
+        n_rows = (obs_end[k] - obs_start[k]) * 3
+        n_cols = (src_end[k] - src_start[k]) * 3
+        rank = n_entries // (n_cols + n_rows)
+        
+        V_ptr = &amp;packed_blocks[block_starts[k]]
+        U_ptr = &amp;V_ptr[n_cols * rank]
+        
+        thread_id = openmp.omp_get_thread_num()
+        thread_buffer_ptr = &amp;temp_buffer_view[thread_id * max_rank]
+        for i in range(rank):
+            thread_buffer_ptr[i] = 0.0
+        
+        single_block_dot(
+            rank, n_cols, 
+            V_ptr, &amp;x_tree[src_start[k] * 3], 
+            thread_buffer_ptr
+        )
+        single_block_dot(
+            n_rows, rank, 
+            U_ptr, thread_buffer_ptr,
+            &amp;y_tree[obs_start[k] * 3]
+        )
+    return y_tree_arr
+</pre></div>
+</div>
+</div>
+</div>
+<p>And I’ll quickly check that both these functions work the way I expect. They should produce the same output as a manual Python loop over the blocks. And they do!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_direct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_rows</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">direct</span><span class="p">)):</span>
+    <span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span> <span class="o">=</span> <span class="n">direct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">x_chunk</span> <span class="o">=</span> <span class="n">x_tree</span><span class="p">[</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">y_chunk</span> <span class="o">=</span> <span class="n">direct_blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_chunk</span><span class="p">)</span>
+    <span class="n">y_direct</span><span class="p">[</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y_chunk</span>
+
+<span class="n">y_direct2</span> <span class="o">=</span> <span class="n">direct_dot</span><span class="p">(</span>
+    <span class="n">direct_obs_starts</span><span class="p">,</span>
+    <span class="n">direct_obs_ends</span><span class="p">,</span>
+    <span class="n">direct_src_starts</span><span class="p">,</span>
+    <span class="n">direct_src_ends</span><span class="p">,</span>
+    <span class="n">direct_packed_blocks</span><span class="p">,</span>
+    <span class="n">direct_block_starts</span><span class="p">,</span>
+    <span class="n">x_tree</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_direct2</span> <span class="o">-</span> <span class="n">y_direct</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.708992153406143e-07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_approx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_rows</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">approx_blocks_gpu</span><span class="p">)):</span>
+    <span class="n">obs_node</span><span class="p">,</span> <span class="n">src_node</span> <span class="o">=</span> <span class="n">approx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">x_chunk</span> <span class="o">=</span> <span class="n">x_tree</span><span class="p">[</span><span class="n">src_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">src_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">approx_blocks_gpu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">y_chunk</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_chunk</span><span class="p">))</span>
+    <span class="n">y_approx</span><span class="p">[</span><span class="n">obs_node</span><span class="o">.</span><span class="n">idx_start</span> <span class="o">*</span> <span class="mi">3</span> <span class="p">:</span> <span class="n">obs_node</span><span class="o">.</span><span class="n">idx_end</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y_chunk</span>
+
+<span class="n">y_approx2</span> <span class="o">=</span> <span class="n">approx_dot</span><span class="p">(</span>
+    <span class="n">approx_obs_starts</span><span class="p">,</span>
+    <span class="n">approx_obs_ends</span><span class="p">,</span>
+    <span class="n">approx_src_starts</span><span class="p">,</span>
+    <span class="n">approx_src_ends</span><span class="p">,</span>
+    <span class="n">approx_packed_blocks</span><span class="p">,</span>
+    <span class="n">approx_block_starts</span><span class="p">,</span>
+    <span class="n">approx_max_rank</span><span class="p">,</span>
+    <span class="n">x_tree</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_approx</span> <span class="o">-</span> <span class="n">y_approx2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.34867911785841e-08
+</pre></div>
+</div>
+</div>
+</div>
+<p>Putting all the pieces together for an H-matrix matrix-vector product results in:</p>
+<ol class="simple">
+<li><p>Convert inputs into “tree ordering”.</p></li>
+<li><p>Calculate exact/direct blocks.</p></li>
+<li><p>Calculate the far-field approximate blocks.</p></li>
+<li><p>Sum the two and convert back into the “input ordering”.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hmatrix_dot</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Use tree.ordered_idxs to convert from the input</span>
+    <span class="c1"># ordering to the tree ordering.</span>
+    <span class="n">x_tree</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">y_direct</span> <span class="o">=</span> <span class="n">direct_dot</span><span class="p">(</span>
+        <span class="n">direct_obs_starts</span><span class="p">,</span>
+        <span class="n">direct_obs_ends</span><span class="p">,</span>
+        <span class="n">direct_src_starts</span><span class="p">,</span>
+        <span class="n">direct_src_ends</span><span class="p">,</span>
+        <span class="n">direct_packed_blocks</span><span class="p">,</span>
+        <span class="n">direct_block_starts</span><span class="p">,</span>
+        <span class="n">x_tree</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">y_approx</span> <span class="o">=</span> <span class="n">approx_dot</span><span class="p">(</span>
+        <span class="n">approx_obs_starts</span><span class="p">,</span>
+        <span class="n">approx_obs_ends</span><span class="p">,</span>
+        <span class="n">approx_src_starts</span><span class="p">,</span>
+        <span class="n">approx_src_ends</span><span class="p">,</span>
+        <span class="n">approx_packed_blocks</span><span class="p">,</span>
+        <span class="n">approx_block_starts</span><span class="p">,</span>
+        <span class="n">approx_max_rank</span><span class="p">,</span>
+        <span class="n">x_tree</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Convert back from the tree ordering into the input ordering.</span>
+    <span class="n">y_hmatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_rows</span><span class="p">)</span>
+    <span class="n">y_hmatrix</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))[</span><span class="n">tree</span><span class="o">.</span><span class="n">ordered_idxs</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_approx</span> <span class="o">+</span> <span class="n">y_direct</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">y_hmatrix</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And, the relative <span class="math notranslate nohighlight">\(L^2\)</span> and <span class="math notranslate nohighlight">\(L^{\infty}\)</span> errors look great!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hmatrix</span> <span class="o">=</span> <span class="n">hmatrix_dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">l2_rel_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_hmatrix</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_true</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">linf_rel_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_hmatrix</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L2 error: &quot;</span><span class="p">,</span> <span class="n">l2_rel_error</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Linf error: &quot;</span><span class="p">,</span> <span class="n">linf_rel_error</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L2 error:  0.007833145080236994
+Linf error:  0.017134746769055426
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">full_mat2d</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20.5 ms ± 93.2 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it
+<span class="n">y_matrix</span> <span class="o">=</span> <span class="n">hmatrix_dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.82 ms ± 53.6 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>And that’s it! The H-matrix implementation works, is using 9x less memory and is running 4x faster. I’ll leaving a full application of these tools for the next section.</p>
+<p>A quick performance note: Even thought the H-matrix vector product is faster and uses less memory, this comparison is a bit unfair to the H-matrix algorithm for two reasons:</p>
+<ol class="simple">
+<li><p>This is a pretty small problem for using H-matrices. If we had ten times as many elements, the H-matrix implementations would be a slam dunk!</p></li>
+<li><p>The BLAS implementation behind the numpy matrix-vector product has been optimized to the hilt. On my machine, it’s using OpenBLAS which should be achieving something near the peak possible performance for a dense matrix-vector. On the other hand, the  Cython code above is not optimized to that level. Many improvements are possible – explicit vectorization (AVX, AVX-512), loop unrolling, removing the atomic operations, arranging the memory better etc, etc, etc. There’s probably another factor of 2-3x on the table. So, the fact that, despite this disadvantage, the H-matrix implementation is several times faster than the dense matrix-vector product is super exciting!</p></li>
+</ol>
+</div>
+<div class="section" id="potential-extensions">
+<h2><span class="section-number">5.9. </span>Potential extensions<a class="headerlink" href="#potential-extensions" title="Permalink to this headline">¶</a></h2>
+<p>There are a lot of improvements that we could make here:</p>
+<ul class="simple">
+<li><p>Moving the matrix-vector production evaluation onto the GPU. Dense matrix-vector products are perfect for GPUs and would likely run several times faster than the parallel CPU version here. However, I wanted to have a fair comparison with the CPU dense matrix-vector product here. This might be a good section to add in here later!</p></li>
+<li><p>Performance optimization of the SVD recompression.</p></li>
+<li><p>There are many other <span class="math notranslate nohighlight">\(O(n)\)</span> sparsification methods for these types of problems.</p>
+<ul>
+<li><p>The fast multipole method is extremely fast and effective.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{H}^2\)</span> methods are an extension of H-matrices and further improve both memory usage and runtime.</p></li>
+</ul>
+</li>
+<li><p>There’s plenty of room for improvement in the tree construction to do a better job deciding which blocks can be approximated.</p></li>
+<li><p>It’s possible to perform efficient LU decomposition of an H-matrix <span id="id3">[]</span>. That would be super useful for problems where we’re solving many problems using the same left hand side matrix (e.g. time dependent problem).</p></li>
+<li><p>And many more!</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./tdes"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="low_rank.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>Low rank approximation of BEM matrices with adaptive cross approximation (ACA).</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../c1qbx/part1_nearfield.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Computing boundary integrals with quadrature by expansion (QBX).</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By T. Ben Thompson<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1000 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7. Quasidynamic earthquake cycles on two faults &#8212; Integral equation tutorials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/patch.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tbenthompson.com/book/c1qbx/part7_qd_two_faults.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)" href="part8_thrust_qd.html" />
+    <link rel="prev" title="6. Quasidynamic earthquake cycles: antiplane" href="part6_qd.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The TDE sequence: triangular dislocation elements
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_tdes.html">
+   1. Using TDEs to build a fault model with topography.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/sa_geometry.html">
+   2. A fault and topography mesh of the South America subduction zone.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/free_matvec.html">
+   3. Minimizing memory usage: a matrix-free iterative solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/low_rank.html">
+   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/hmatrix.html">
+   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The QBX sequence: quadrature by expansion
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="part1_nearfield.html">
+   1. Computing boundary integrals with quadrature by expansion (QBX).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part2_screw_dislocation.html">
+   2. QBX examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part3_surface_intersection.html">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part5_viscoelastic.html">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Back matter
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../thanks.html">
+   Thanks!
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/c1qbx/part7_qd_two_faults.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   7.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-a-multi-fault-system">
+   7.2. Loading a multi-fault system
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-and-state-friction">
+   7.3. Rate and state friction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quasidynamic-earthquake-cycle-derivatives">
+   7.4. Quasidynamic earthquake cycle derivatives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrating-through-time">
+   7.5. Integrating through time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-the-results">
+   7.6. Plotting the results
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="quasidynamic-earthquake-cycles-on-two-faults">
+<h1><span class="section-number">7. </span>Quasidynamic earthquake cycles on two faults<a class="headerlink" href="#quasidynamic-earthquake-cycles-on-two-faults" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2><span class="section-number">7.1. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Much like the last section, we simulate quasidynamic rupture evolution but this time on two faults, one of which is curved.</p></li>
+<li><p>Most of the code here follows almost exactly from <span class="xref myst">the previous section on strike-slip/antiplane earthquake cycles</span>.</p></li>
+<li><p>Realistic tectonic loading is a challenge when there is more than one fault.</p></li>
+<li><p>The boundary integral approach used here is barely more complex with two faults than with one fault.</p></li>
+</ul>
+</div>
+<div class="section" id="loading-a-multi-fault-system">
+<h2><span class="section-number">7.2. </span>Loading a multi-fault system<a class="headerlink" href="#loading-a-multi-fault-system" title="Permalink to this headline">¶</a></h2>
+<p>In the single fault system from the last section, we were able to gloss over loading by using a slip deficit or backslip formulation. Because the physical system is invariant with respect to a rigid body displacement, any tectonic motion that has already been fully accomodated by fault slip can be ignored. Put differently, in a single fault system with a purely elastic rheology, the stresses from tectonic motion can be equivalently described by backwards slip on the fault.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-85d147cd-97c6-4838-8351-d7484cba2f79">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-85d147cd-97c6-4838-8351-d7484cba2f79" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u_{\textrm{total}} = u_{\textrm{loading}} + u_{\textrm{fault}}
+\end{equation}\]</div>
+<p>There are a number of different options for loading a fault system:</p>
+<ul class="simple">
+<li><p><strong>backslip</strong>: as discussed, we simply apply a backwards slip rate to account for distant plate motion. Once the stresses from this backwards slip accumulate, the fault slips forward.</p></li>
+<li><p><strong>farfield displacement</strong>: apply a constant velocity boundary condition at a distance from the fault.</p></li>
+<li><p><strong>stress</strong>: Either on a lower boundary of the domain or on distant side boundaries, apply a constant traction/stress loading rate.</p></li>
+<li><p><strong>block model</strong>: this is a more advanced version of backslip loading where each fault-bounded subregion of the domain has its own block rotation/motion rate. These rates are assumed to be the long term slip rate. A corresponding kinematic slip deficit is applied to each fault.</p></li>
+</ul>
+<p>Here, I do something a bit like the block model solution by just applying a backslip of 31 mm of loading per year (1 nm of loading per second) to both faults equally. This would model a real-world situation with a plate boundary that has 62 mm per year of strike-slip motion. Exactly 50% of that motion is accomodated by each of the two faults.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tectosaur2</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">gauss_rule</span><span class="p">,</span>
+    <span class="n">integrate_term</span><span class="p">,</span>
+    <span class="n">panelize_symbolic_surface</span><span class="p">,</span>
+    <span class="n">concat_meshes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">tectosaur2.laplace2d</span> <span class="kn">import</span> <span class="n">double_layer</span><span class="p">,</span> <span class="n">hypersingular</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shear_modulus</span> <span class="o">=</span> <span class="mf">3.2e10</span>
+
+<span class="n">quad_rule</span> <span class="o">=</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+
+<span class="n">fault_bottom</span> <span class="o">=</span> <span class="mi">40000</span>
+<span class="n">fault1</span> <span class="o">=</span> <span class="n">panelize_symbolic_surface</span><span class="p">(</span>
+    <span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="mi">5000</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fault_bottom</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">n_panels</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+
+<span class="n">fault2_x</span> <span class="o">=</span> <span class="mi">5000</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="mi">10000</span> <span class="o">+</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">5000</span> <span class="o">-</span> <span class="mi">5000</span><span class="p">)</span>
+<span class="n">fault2</span> <span class="o">=</span> <span class="n">panelize_symbolic_surface</span><span class="p">(</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">fault2_x</span><span class="p">,</span> <span class="n">fault_bottom</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">n_panels</span><span class="o">=</span><span class="mi">200</span> 
+<span class="p">)</span>
+<span class="n">faults</span> <span class="o">=</span> <span class="n">concat_meshes</span><span class="p">((</span><span class="n">fault1</span><span class="p">,</span> <span class="n">fault2</span><span class="p">))</span>
+
+<span class="n">surf_half_L</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">free</span> <span class="o">=</span> <span class="n">panelize_symbolic_surface</span><span class="p">(</span>
+    <span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
+    <span class="n">quad_rule</span><span class="p">,</span>
+    <span class="n">n_panels</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The free surface mesh has </span><span class="si">{</span><span class="n">free</span><span class="o">.</span><span class="n">n_panels</span><span class="si">}</span><span class="s2"> panels with a total of </span><span class="si">{</span><span class="n">free</span><span class="o">.</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> points.&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The fault mesh has </span><span class="si">{</span><span class="n">faults</span><span class="o">.</span><span class="n">n_panels</span><span class="si">}</span><span class="s2"> panels with a total of </span><span class="si">{</span><span class="n">faults</span><span class="o">.</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> points.&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The free surface mesh has 200 panels with a total of 1000 points.
+The fault mesh has 400 panels with a total of 2000 points.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault1</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">fault1</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault2</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">fault2</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x ~ \mathrm{(km)}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$y ~ \mathrm{(km)}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;scaled&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part7_qd_two_faults_5_0.png" src="../_images/part7_qd_two_faults_5_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">singularities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="p">(</span><span class="n">free_disp_to_free_disp</span><span class="p">,</span> <span class="n">fault_slip_to_free_disp</span><span class="p">),</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">double_layer</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">faults</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span> <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">fault_slip_to_free_disp</span> <span class="o">=</span> <span class="n">fault_slip_to_free_disp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">free_disp_solve_mat</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">free_disp_to_free_disp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">free_disp_to_free_disp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">free_disp_to_fault_stress</span><span class="p">,</span> <span class="n">fault_slip_to_fault_stress</span><span class="p">),</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">hypersingular</span><span class="p">,</span>
+    <span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span>
+    <span class="n">free</span><span class="p">,</span>
+    <span class="n">faults</span><span class="p">,</span>
+    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+    <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span>
+    <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fault_slip_to_fault_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
+<span class="n">free_disp_to_fault_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
+
+<span class="n">fault_slip_to_fault_traction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+    <span class="n">fault_slip_to_fault_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">faults</span><span class="o">.</span><span class="n">normals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">free_disp_to_fault_traction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+    <span class="n">free_disp_to_fault_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">faults</span><span class="o">.</span><span class="n">normals</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/tbent/Dropbox/active/eq/tectosaur2/tectosaur2/integrate.py:208: UserWarning: Some expanded integrals reached maximum expansion order. These integrals may be inaccurate.
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="o">-</span><span class="n">fault_slip_to_fault_traction</span>
+<span class="n">B</span> <span class="o">=</span> <span class="o">-</span><span class="n">free_disp_to_fault_traction</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">fault_slip_to_free_disp</span>
+<span class="n">Dinv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">free_disp_solve_mat</span><span class="p">)</span>
+
+<span class="n">total_fault_slip_to_fault_traction</span> <span class="o">=</span> <span class="n">A</span> <span class="o">-</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Dinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analytical_sd</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="o">-</span><span class="n">fault_bottom</span> <span class="o">/</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">numerical_sd</span> <span class="o">=</span> <span class="n">Dinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="o">-</span><span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rp</span> <span class="o">=</span> <span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">analytical_ft</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">shear_modulus</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fault_bottom</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">fault_bottom</span><span class="p">)))</span>
+<span class="n">numerical_ft</span> <span class="o">=</span> <span class="n">total_fault_slip_to_fault_traction</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Stress&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">numerical_ft</span><span class="p">)),</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="n">fault_bottom</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\mathrm{depth ~~ (m)}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">numerical_sd</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x ~~ \mathrm{(m)}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part7_qd_two_faults_9_0.png" src="../_images/part7_qd_two_faults_9_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="rate-and-state-friction">
+<h2><span class="section-number">7.3. </span>Rate and state friction<a class="headerlink" href="#rate-and-state-friction" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">siay</span> <span class="o">=</span> <span class="mi">31556952</span> <span class="c1"># seconds in a year</span>
+<span class="n">density</span> <span class="o">=</span> <span class="mi">2670</span>  <span class="c1"># rock density (kg/m^3)</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">shear_modulus</span> <span class="o">/</span> <span class="n">density</span><span class="p">)</span>  <span class="c1"># Shear wave speed (m/s)</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">cs</span><span class="p">)</span>  <span class="c1"># The radiation damping coefficient (kg / (m^2 * s))</span>
+<span class="n">Vp</span> <span class="o">=</span> <span class="mf">1e-9</span>  <span class="c1"># Rate of plate motion</span>
+<span class="n">sigma_n</span> <span class="o">=</span> <span class="mf">50e6</span>  <span class="c1"># Normal stress (Pa)</span>
+
+<span class="c1"># parameters describing &quot;a&quot;, the coefficient of the direct velocity strengthening effect</span>
+<span class="n">a0</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">amax</span> <span class="o">=</span> <span class="mf">0.025</span>
+<span class="n">fy</span> <span class="o">=</span> <span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">H</span> <span class="o">=</span> <span class="mi">15000</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">fp_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">fy</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">H</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fy</span> <span class="o">&gt;</span> <span class="o">-</span><span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="n">h</span><span class="p">),</span> <span class="n">a0</span> <span class="o">+</span> <span class="p">(</span><span class="n">amax</span> <span class="o">-</span> <span class="n">a0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">fy</span> <span class="o">+</span> <span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="n">amax</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># state-based velocity weakening effect</span>
+<span class="n">fp_b</span> <span class="o">=</span> <span class="mf">0.015</span>
+
+<span class="c1"># state evolution length scale (m)</span>
+<span class="n">fp_Dc</span> <span class="o">=</span> <span class="mf">0.008</span>
+
+<span class="c1"># baseline coefficient of friction</span>
+<span class="n">fp_f0</span> <span class="o">=</span> <span class="mf">0.6</span>
+
+<span class="c1"># if V = V0 and at steady state, then f = f0, units are m/s</span>
+<span class="n">fp_V0</span> <span class="o">=</span> <span class="mf">1e-6</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">fy</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">fy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fp_b</span><span class="p">),</span> <span class="n">fy</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part7_qd_two_faults_12_0.png" src="../_images/part7_qd_two_faults_12_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The regularized form of the aging law.</span>
+<span class="k">def</span> <span class="nf">aging_law</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fp_b</span> <span class="o">*</span> <span class="n">fp_V0</span> <span class="o">/</span> <span class="n">fp_Dc</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">fp_f0</span> <span class="o">-</span> <span class="n">state</span><span class="p">)</span> <span class="o">/</span> <span class="n">fp_b</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">fp_V0</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">qd_equation</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">shear_stress</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="c1"># The regularized rate and state friction equation</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">sigma_n</span> <span class="o">*</span> <span class="n">fp_a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsinh</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fp_V0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">state</span> <span class="o">/</span> <span class="n">fp_a</span><span class="p">))</span>
+
+    <span class="c1"># The full shear stress balance:</span>
+    <span class="k">return</span> <span class="n">shear_stress</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">V</span> <span class="o">-</span> <span class="n">F</span>
+
+<span class="k">def</span> <span class="nf">qd_equation_dV</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="c1"># First calculate the derivative of the friction law with respect to velocity</span>
+    <span class="c1"># This is helpful for equation solving using Newton&#39;s method</span>
+    <span class="n">expsa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">state</span> <span class="o">/</span> <span class="n">fp_a</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="p">(</span><span class="n">V</span> <span class="o">*</span> <span class="n">expsa</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fp_V0</span><span class="p">)</span>
+    <span class="n">dFdV</span> <span class="o">=</span> <span class="n">fp_a</span> <span class="o">*</span> <span class="n">expsa</span> <span class="o">*</span> <span class="n">sigma_n</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fp_V0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">Q</span> <span class="o">*</span> <span class="n">Q</span><span class="p">))</span>
+
+    <span class="c1"># The derivative of the full shear stress balance.</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">eta</span> <span class="o">-</span> <span class="n">dFdV</span>
+
+
+<span class="k">def</span> <span class="nf">solve_friction</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">shear</span><span class="p">,</span> <span class="n">V_old</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V_old</span>
+    <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">150</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+        <span class="c1"># Newton&#39;s method step!</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">qd_equation</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">shear</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">dfdv</span> <span class="o">=</span> <span class="n">qd_equation_dV</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">f</span> <span class="o">/</span> <span class="n">dfdv</span>
+
+        <span class="c1"># We know that slip velocity should not be negative so any step that</span>
+        <span class="c1"># would lead to negative slip velocities is &quot;bad&quot;. In those cases, we</span>
+        <span class="c1"># cut the step size in half iteratively until the step is no longer</span>
+        <span class="c1"># bad. This is a backtracking line search.</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">bad</span> <span class="o">=</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="n">V</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">bad</span><span class="p">):</span>
+                <span class="n">step</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Take the step and check if everything has converged.</span>
+        <span class="n">Vn</span> <span class="o">=</span> <span class="n">V</span> <span class="o">-</span> <span class="n">step</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="o">/</span> <span class="n">Vn</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">Vn</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">max_iter</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Failed to converge.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Return the solution and the number of iterations required.</span>
+    <span class="k">return</span> <span class="n">Vn</span><span class="p">,</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">fm</span> <span class="ow">in</span> <span class="p">[</span><span class="n">fault1</span><span class="p">,</span> <span class="n">fault2</span><span class="p">]:</span>
+    <span class="n">mesh_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">fm</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])))</span>
+    <span class="n">Lb</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">fp_Dc</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_n</span> <span class="o">*</span> <span class="n">fp_b</span><span class="p">)</span>
+    <span class="n">hstar</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">fp_Dc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_n</span> <span class="o">*</span> <span class="p">(</span><span class="n">fp_b</span> <span class="o">-</span> <span class="n">fp_a</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mesh_L</span><span class="p">,</span> <span class="n">Lb</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">hstar</span><span class="p">[</span><span class="n">hstar</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>53.84693101057201 341.3333333333333 3216.990877275949
+53.84693101057201 341.3333333333333 3216.990877275949
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="quasidynamic-earthquake-cycle-derivatives">
+<h2><span class="section-number">7.4. </span>Quasidynamic earthquake cycle derivatives<a class="headerlink" href="#quasidynamic-earthquake-cycle-derivatives" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="n">init_state_scalar</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">S</span><span class="p">:</span> <span class="n">aging_law</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">Vp</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span> <span class="mf">0.7</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">init_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">init_state_scalar</span><span class="p">)</span>
+<span class="n">tau_amax</span> <span class="o">=</span> <span class="o">-</span><span class="n">qd_equation</span><span class="p">(</span><span class="n">amax</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Vp</span><span class="p">,</span> <span class="n">init_state_scalar</span><span class="p">)</span>
+
+<span class="n">init_traction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">tau_amax</span><span class="p">)</span>
+<span class="n">init_slip_deficit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">n_pts</span><span class="p">)</span>
+<span class="n">init_conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">init_slip_deficit</span><span class="p">,</span> <span class="n">init_state</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SystemState</span><span class="p">:</span>
+
+    <span class="n">V_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">Vp</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Separate the slip_deficit and state sub components of the</span>
+        <span class="c1"># time integration state.</span>
+        <span class="n">slip_deficit</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="n">init_slip_deficit</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">init_slip_deficit</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:]</span>
+
+        <span class="c1"># If the state values are bad, then the adaptive integrator probably</span>
+        <span class="c1"># took a bad step.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">((</span><span class="n">state</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">state</span> <span class="o">&gt;</span> <span class="mf">2.0</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># The big three lines solving for quasistatic shear stress, slip rate</span>
+        <span class="c1"># and state evolution</span>
+        <span class="n">tau_qs</span> <span class="o">=</span> <span class="n">init_traction</span> <span class="o">-</span> <span class="n">total_fault_slip_to_fault_traction</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_deficit</span><span class="p">)</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">solve_friction</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">tau_qs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">V_old</span><span class="p">,</span> <span class="n">state</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dstatedt</span> <span class="o">=</span> <span class="n">aging_law</span><span class="p">(</span><span class="n">fp_a</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">V</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V_old</span> <span class="o">=</span> <span class="n">V</span>
+
+        <span class="n">slip_deficit_rate</span> <span class="o">=</span> <span class="n">Vp</span> <span class="o">-</span> <span class="n">V</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">slip_deficit</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">tau_qs</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">slip_deficit_rate</span><span class="p">,</span> <span class="n">dstatedt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">out</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+
+
+<span class="k">def</span> <span class="nf">plot_system_state</span><span class="p">(</span><span class="n">SS</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is just a helper function that creates some rough plots of the</span>
+<span class="sd">    current state to help with debugging&quot;&quot;&quot;</span>
+    <span class="n">slip_deficit</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">tau_qs</span><span class="p">,</span> <span class="n">slip_deficit_rate</span><span class="p">,</span> <span class="n">dstatedt</span> <span class="o">=</span> <span class="n">SS</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;slip&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">slip_deficit</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;tau qs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">tau_qs</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;slip rate&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">slip_deficit_rate</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;dstatedt&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">faults</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dstatedt</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">calc_derivatives</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This helper function calculates the system state and then extracts the</span>
+<span class="sd">    relevant derivatives that the integrator needs. It also intentionally</span>
+<span class="sd">    returns infinite derivatives when the `y` vector provided by the integrator</span>
+<span class="sd">    is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">state</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="n">derivatives</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">derivatives</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="integrating-through-time">
+<h2><span class="section-number">7.5. </span>Integrating through time<a class="headerlink" href="#integrating-through-time" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">RK45</span>
+
+<span class="c1"># We use a 5th order adaptive Runge Kutta method and pass the derivative function to it</span>
+<span class="c1"># the relative tolerance will be 1e-11 to make sure that even</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">SystemState</span><span class="p">()</span>
+<span class="n">derivs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">calc_derivatives</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">RK45</span>
+<span class="n">atol</span> <span class="o">=</span> <span class="n">Vp</span> <span class="o">*</span> <span class="mf">1e-6</span>
+<span class="n">rtol</span> <span class="o">=</span> <span class="mf">1e-11</span>
+<span class="n">rk</span> <span class="o">=</span> <span class="n">integrator</span><span class="p">(</span><span class="n">derivs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">init_conditions</span><span class="p">,</span> <span class="mf">1e50</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span>
+
+<span class="c1"># Set the initial time step to one day.</span>
+<span class="n">rk</span><span class="o">.</span><span class="n">h_abs</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
+
+<span class="c1"># Integrate for 1000 years.</span>
+<span class="n">max_T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">siay</span>
+
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">t_history</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">init_conditions</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+
+    <span class="c1"># Take a time step and store the result</span>
+    <span class="k">if</span> <span class="n">rk</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;TIME STEPPING FAILED&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="n">t_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rk</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">y_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rk</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># Print the time every 5000 steps</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step=</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, time=</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">/</span> <span class="n">siay</span><span class="si">}</span><span class="s2"> yrs, step=</span><span class="si">{</span><span class="p">(</span><span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">t_history</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">siay</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="n">max_T</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="n">y_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_history</span><span class="p">)</span>
+<span class="n">t_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step=0, time=0.002737907006988508 yrs, step=0.002737907006988508
+step=5000, time=161.2388012289919 yrs, step=6.068323795478569e-11
+step=10000, time=161.238801483585 yrs, step=3.200375945922213e-11
+step=15000, time=177.06735503165402 yrs, step=0.05782401363757997
+step=20000, time=187.60702659014385 yrs, step=8.29256996752649e-11
+step=25000, time=187.6070269264095 yrs, step=2.786049654906221e-10
+step=30000, time=213.4153146695212 yrs, step=1.3348499105890855e-10
+step=35000, time=229.49165911338014 yrs, step=1.8458825569115088e-10
+step=40000, time=298.5155537603046 yrs, step=1.1030568652139828e-10
+step=45000, time=298.51555399934733 yrs, step=3.251751197178755e-11
+step=50000, time=298.5168884817506 yrs, step=6.51359998844683e-06
+step=55000, time=323.01280183052285 yrs, step=1.2281707123916784e-10
+step=60000, time=323.01280207887106 yrs, step=3.3484575524851865e-11
+step=65000, time=323.2817940109216 yrs, step=0.001729718400292269
+step=70000, time=351.52626665410605 yrs, step=1.0785478482910092e-08
+step=75000, time=368.9516542294202 yrs, step=1.2976784052681758e-10
+step=80000, time=368.951654876993 yrs, step=6.515590688770813e-11
+step=85000, time=428.9915445603336 yrs, step=0.0014206634043130257
+step=90000, time=446.2939275656298 yrs, step=6.588120455250637e-11
+step=95000, time=446.29392801977554 yrs, step=9.456068304806992e-10
+step=100000, time=469.8994523682489 yrs, step=1.0256917809688377e-10
+step=105000, time=469.89945268723017 yrs, step=5.1798341561007304e-11
+step=110000, time=469.9812354270467 yrs, step=0.00034767164051762437
+step=115000, time=500.90614938849876 yrs, step=1.439715864624497e-10
+step=120000, time=573.9064649517662 yrs, step=1.424001081887202e-10
+step=125000, time=573.9064651906277 yrs, step=2.5022769435539118e-11
+step=130000, time=597.5674917048766 yrs, step=0.0012973735857483035
+step=135000, time=597.6230358626846 yrs, step=5.391379308333549e-11
+step=140000, time=597.6230366893858 yrs, step=4.587749495737104e-09
+step=145000, time=625.2112327038584 yrs, step=1.1906969997104363e-10
+step=150000, time=642.3455004578122 yrs, step=1.2898210138995284e-10
+step=155000, time=704.8417989867936 yrs, step=0.003113930973116129
+step=160000, time=716.3612963754118 yrs, step=2.9978970144993726e-11
+step=165000, time=716.3612966987445 yrs, step=3.9843018386249724e-10
+step=170000, time=743.0069768079197 yrs, step=1.6222491102653862e-10
+step=175000, time=743.0069772376432 yrs, step=4.6660816435353134e-11
+step=180000, time=743.0070823319467 yrs, step=6.836717438689674e-07
+step=185000, time=772.4229461837367 yrs, step=1.1205848921132735e-10
+step=190000, time=790.5550252030326 yrs, step=9.598105764163313e-11
+step=195000, time=790.5550257931098 yrs, step=9.694812119469745e-11
+step=200000, time=790.5770082962302 yrs, step=0.00011880289499414454
+step=205000, time=843.4093589520743 yrs, step=1.3986156636192637e-10
+step=210000, time=843.4093595399053 yrs, step=5.7540281407326665e-11
+step=215000, time=865.8601485323139 yrs, step=4.5113514750450234e-10
+step=220000, time=903.1263077569464 yrs, step=1.2438854951289735e-10
+step=225000, time=903.1263082887026 yrs, step=8.413452911659529e-11
+step=230000, time=927.4523165504868 yrs, step=0.008045238903279458
+step=235000, time=947.0642174585033 yrs, step=1.7528026899290684e-11
+step=240000, time=947.0685830652857 yrs, step=1.768826485736451e-05
+step=245000, time=972.5636479272499 yrs, step=4.078590535048743e-10
+step=250000, time=988.09794803525 yrs, step=8.195863612220059e-11
+step=255000, time=988.0979484325295 yrs, step=2.7077779485800782e-11
+CPU times: user 2h 15min 3s, sys: 36min 52s, total: 2h 51min 55s
+Wall time: 1h 48min 42s
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plotting-the-results">
+<h2><span class="section-number">7.6. </span>Plotting the results<a class="headerlink" href="#plotting-the-results" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">derivs_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y_history</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t_history</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">max_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">derivs_history</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_history</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">siay</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">max_vel</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t ~~ \mathrm{(yrs)}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">(V)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part7_qd_two_faults_21_0.png" src="../_images/part7_qd_two_faults_21_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">fm</span> <span class="o">=</span> <span class="n">fault1</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">fault2</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">last_plt_t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
+    <span class="n">last_plt_slip</span> <span class="o">=</span> <span class="n">init_slip_deficit</span>
+    <span class="n">event_times</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_history</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y_history</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t_history</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">slip_deficit_full</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="n">init_slip_deficit</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">fault1_sd</span> <span class="o">=</span> <span class="n">slip_deficit_full</span><span class="p">[:</span><span class="n">fault1</span><span class="o">.</span><span class="n">n_pts</span><span class="p">]</span>
+        <span class="n">fault2_sd</span> <span class="o">=</span> <span class="n">slip_deficit_full</span><span class="p">[</span><span class="n">fault1</span><span class="o">.</span><span class="n">n_pts</span><span class="p">:]</span>
+        <span class="n">slip_deficit</span> <span class="o">=</span> <span class="n">fault1_sd</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">fault2_sd</span>
+        <span class="n">should_plot</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Plot a red line every three second if the slip rate is over 0.1 mm/s.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">max_vel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.0001</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">-</span> <span class="n">last_plt_t</span> <span class="o">&gt;</span> <span class="mi">3</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">event_times</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">-</span> <span class="n">event_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">siay</span><span class="p">:</span>
+                <span class="n">event_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">should_plot</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+
+        <span class="c1"># Plot a blue line every fifteen years during the interseismic period</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">-</span> <span class="n">last_plt_t</span> <span class="o">&gt;</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">siay</span><span class="p">:</span>
+            <span class="n">should_plot</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span>
+
+        <span class="k">if</span> <span class="n">should_plot</span><span class="p">:</span>
+            <span class="c1"># Convert from slip deficit to slip:</span>
+            <span class="n">slip</span> <span class="o">=</span> <span class="o">-</span><span class="n">slip_deficit</span> <span class="o">+</span> <span class="n">Vp</span> <span class="o">*</span> <span class="n">t</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">slip</span><span class="p">,</span> <span class="n">fm</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="n">color</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">last_plt_t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">last_plt_slip</span> <span class="o">=</span> <span class="n">slip</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">last_plt_slip</span><span class="p">)])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\textrm{z (km)}$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\textrm{slip (m)}$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;halfspace.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part7_qd_two_faults_22_0.png" src="../_images/part7_qd_two_faults_22_0.png" />
+<img alt="../_images/part7_qd_two_faults_22_1.png" src="../_images/part7_qd_two_faults_22_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./c1qbx"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="part6_qd.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">6. </span>Quasidynamic earthquake cycles: antiplane</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="part8_thrust_qd.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>[DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By T. Ben Thompson<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
