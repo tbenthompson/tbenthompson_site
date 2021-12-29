@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations &#8212; Boundary integral tutorials</title>
+    <title>2. QBX examples for the Laplace equation: fun with screw dislocations &#8212; Integral equation tutorials</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,15 +23,16 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/patch.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -40,26 +41,38 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tbenthompson.com/book/c1qbx/part2_screw_dislocation.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. [Draft] A strike slip fault underneath topography." href="part3_topo_solver.html" />
-    <link rel="prev" title="1. Near-field evaluation via quadrature by expansion (QBX)." href="part1_nearfield.html" />
+    <link rel="next" title="3. Slip on an infinite strike slip fault in an elastic half space" href="part3_surface_intersection.html" />
+    <link rel="prev" title="1. Computing boundary integrals with quadrature by expansion (QBX)." href="part1_nearfield.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
     
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -76,18 +89,31 @@
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
-      <h1 class="site-logo" id="site-title">Boundary integral tutorials</h1>
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../intro.html">
-   Boundary integral method tutorials
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The problem space
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fault_problems.html">
+   1. Problems in earthquake science
   </a>
  </li>
 </ul>
@@ -98,28 +124,8 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/sa_tdes.html">
-   1. Using TDEs to build a fault model with topography.
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/sa_geometry.html">
-   2. A fault and topography mesh of the South America subduction zone.
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/free_matvec.html">
-   3. Minimizing memory usage: a matrix-free iterative solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/low_rank.html">
-   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../tdes/hmatrix.html">
-   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="../tdes/part5_hmatrix.html">
+   1. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -131,17 +137,59 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="part1_nearfield.html">
-   1. Near-field evaluation via quadrature by expansion (QBX).
+   1. Computing boundary integrals with quadrature by expansion (QBX).
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+   2. QBX examples for the Laplace equation: fun with screw dislocations
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="part3_topo_solver.html">
-   3. [Draft] A strike slip fault underneath topography.
+  <a class="reference internal" href="part3_surface_intersection.html">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part5_viscoelastic.html">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part7_qd_two_faults.html">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
   </a>
  </li>
 </ul>
@@ -196,14 +244,11 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/c1qbx/part2_screw_dislocation.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/c1qbx/part2_screw_dislocation.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/c1qbx/part2_screw_dislocation.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -211,22 +256,6 @@
 </div>
 
             <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/tbenthompson/BIE_book"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/tbenthompson/BIE_book/issues/new?title=Issue%20on%20page%20%2Fc1qbx/part2_screw_dislocation.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
 
             <!-- Full screen (wrap in <a> to have style consistency -->
 
@@ -237,23 +266,6 @@
 
             <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="false/v2/gh/tbenthompson/BIE_book/master?urlpath=tree/c1qbx/part2_screw_dislocation.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
         </div>
 
         <!-- Table of contents -->
@@ -262,51 +274,66 @@
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
             </div>
-            <nav id="bd-toc-nav">
+            <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   2.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#antiplane-shear">
-   2.1. Antiplane shear
+   2.2. Antiplane shear
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#meshing-a-symbolic-surface">
+   2.3. Meshing a symbolic surface
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#barycentric-lagrange-interpolation">
-   2.2. Barycentric Lagrange interpolation
+   2.4. Barycentric Lagrange interpolation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#hypersingular-stress-integrals">
-   2.3. Hypersingular stress integrals
+   2.5. Hypersingular stress integrals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#general-purpose-interior-evaluation">
+   2.6. General purpose interior evaluation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#displacement-from-a-line-source">
-   2.4. Displacement from a line source
+   2.7. Displacement from a line source
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#stress-from-a-line-source">
-   2.5. Stress from a line source
+   2.8. Stress from a line source
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#displacement-from-an-arc-source">
-   2.6. Displacement from an arc source
+   2.9. Displacement from an arc source
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#stress-from-an-arc-source">
-   2.7. Stress from an arc source
+   2.10. Stress from an arc source
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#displacement-from-a-challenging-wavy-source">
-   2.8. Displacement from a challenging wavy source
+   2.11. Displacement from a challenging wavy source
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#stress-from-a-challenging-wavy-source">
-   2.9. Stress from a challenging wavy source
+   2.12. Stress from a challenging wavy source
   </a>
  </li>
 </ul>
@@ -320,29 +347,31 @@
         
               <div>
                 
-  <div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
+  <div class="tex2jax_ignore mathjax_ignore section" id="qbx-examples-for-the-laplace-equation-fun-with-screw-dislocations">
+<h1><span class="section-number">2. </span>QBX examples for the Laplace equation: fun with screw dislocations<a class="headerlink" href="#qbx-examples-for-the-laplace-equation-fun-with-screw-dislocations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2><span class="section-number">2.1. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>In the last section, I introduced the basic concepts behind quadrature by expansion, put together a simple implementation, demonstrated that it works well and then finished by demonstrating <code class="docutils literal notranslate"><span class="pre">tectosaur2.integrate_term</span></code> as a more robust and complete implementation. This time, we’ll use <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> to make some pretty pictures that might have some physical meaning.</p>
+<ul class="simple">
+<li><p>We’ll introduce the connection between 2D “antiplane” elasticity and the Laplace equation</p></li>
+<li><p>We’ll look at generic handling of symbolic parametrized surfaces.</p></li>
+<li><p>I’ll introduce barycentric Lagrange interpolation as one of our core numerical tools.</p></li>
+<li><p>The hypersingular integral will provide stress</p></li>
+</ul>
 </div>
-</div>
-</div>
-<div class="section" id="more-quadrature-by-expansion-qbx-examples-for-the-laplace-equation-fun-with-screw-dislocations">
-<h1><span class="section-number">2. </span>More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations<a class="headerlink" href="#more-quadrature-by-expansion-qbx-examples-for-the-laplace-equation-fun-with-screw-dislocations" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="antiplane-shear">
-<h2><span class="section-number">2.1. </span>Antiplane shear<a class="headerlink" href="#antiplane-shear" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.2. </span>Antiplane shear<a class="headerlink" href="#antiplane-shear" title="Permalink to this headline">¶</a></h2>
 <p>A basic result in linear elastic earthquake modeling is the representation of displacement from slip on an infinitely long strike-slip fault. Because the fault is infinitely long, all displacements is fault parallel. Suppose we’re looking at a cross-section in the <span class="math notranslate nohighlight">\(x,y\)</span> plane with all displacement occuring in the <span class="math notranslate nohighlight">\(z\)</span> direction. Then the displacement vector is <span class="math notranslate nohighlight">\(\mathbf{u} = (0, 0, u_z)\)</span>. And the strain state is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f16b6ea0-6e39-4558-8880-26fd07efe4c1">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-f16b6ea0-6e39-4558-8880-26fd07efe4c1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d563e422-300f-46c9-9438-b7880a803ca0">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-d563e422-300f-46c9-9438-b7880a803ca0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \boldsymbol{\varepsilon} = \begin{bmatrix}
 0 &amp; 0 &amp; \epsilon_{13} \\
 0 &amp; 0 &amp; \epsilon_{23}\\
  \epsilon_{13}    &amp;    \epsilon_{23}      &amp; 0\end{bmatrix}
 \end{equation}\]</div>
 <p>This special state is called “antiplane shear”. We can simplify the equations of linear elasticity to be in terms of a vector strain, <span class="math notranslate nohighlight">\(\epsilon_z = (\epsilon_{xz}, \epsilon_{yz})\)</span> and vector stress, <span class="math notranslate nohighlight">\(\sigma_z = (2\mu\epsilon_{xz}, 2\mu\epsilon_{yz})\)</span>. Combined with Newtons law, we get the result that <span class="math notranslate nohighlight">\(u_z\)</span> is a solution to the Laplace equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ba5520c1-1afb-4d1b-b515-5468ea25810e">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-ba5520c1-1afb-4d1b-b515-5468ea25810e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0feea07b-0c2e-4eee-94ce-d64821ba2b56">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-0feea07b-0c2e-4eee-94ce-d64821ba2b56" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \nabla^2 u_z = 0
 \end{equation}\]</div>
 <p>As a result, we can describe the elastic behavior of infinitely long strike-slip faults (aka a “screw dislocation”) in terms of solutions to the Laplace equation.</p>
@@ -352,36 +381,108 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format=&#39;retina&#39;
 </pre></div>
 </div>
 </div>
 </div>
-<p>I’ve moved the functions we wrote in the previous part into <code class="docutils literal notranslate"><span class="pre">common.py</span></code>. We’ll import them!</p>
+<p>There are three missing pieces before we’re ready to compute displacements and stresses from arbitrarily shaped faults:</p>
+<ol class="simple">
+<li><p>A mechanism for defining the fault mesh. We’re going to introduce some tools for creating a boundary mesh from a symbolically parameterized curve.</p></li>
+<li><p>Tools for interpolating on that fault mesh. This is actually entirely hidden inside the functions we’re using but it’s still nice to introduce since it’s conceptually very important.</p></li>
+<li><p>The hypersingular integral for computing stresses given fault slip. Previously, we’ve computed displacement given fault slip using the double layer potential. By analytically differentiating the double layer kernel, we can derive a new integral that computes stress!</p></li>
+</ol>
+</div>
+<div class="section" id="meshing-a-symbolic-surface">
+<h2><span class="section-number">2.3. </span>Meshing a symbolic surface<a class="headerlink" href="#meshing-a-symbolic-surface" title="Permalink to this headline">¶</a></h2>
+<p>In the last section, we integrated over a circle. Circles are simple so we didn’t need much in the way of mesh handling code! But now, we’re going to need a little bit more. In particular, it will be nice to separate our surface into several “panels”. Panels are analogous to elements in a finite element method but make it clear that we’re talking about a surface discretization and not a volumetric discretization.</p>
+<p>The main tool we’re going to use is the <code class="docutils literal notranslate"><span class="pre">tectosaur2.panelize_symbolic_surface</span></code> function. This function processes a set of symbolic surfaces into a form that is ready for integration. Internally, <code class="docutils literal notranslate"><span class="pre">panelize_symbolic_surface</span></code> segments the symbolic curve and then discretized it according to the quadrature rule we provide. The discretized points, normals and jacobians are computed and stored in the returned <code class="docutils literal notranslate"><span class="pre">PanelSurface</span></code> object.</p>
+<p>Let’s try this out with a simple curve:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-458e95b3-f562-4d3e-a06b-86a03af20d25">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-458e95b3-f562-4d3e-a06b-86a03af20d25" title="Permalink to this equation">¶</a></span>\[\begin{align}
+x &amp;= t\\
+y &amp;= \cos(t)
+\end{align}\]</div>
+<p>for <span class="math notranslate nohighlight">\(t \in [-1, 1]\)</span></p>
+<p>I’ll plot the surface along with the normal vectors. The normal vectors will be colored to show the determinant of the Jacobian. We can see that the Jacobian is slightly larger at the ends of the surface than the middle.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">common</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">tectosaur2</span> <span class="kn">import</span> <span class="n">panelize_symbolic_surface</span><span class="p">,</span> <span class="n">gauss_rule</span>
+
+<span class="c1"># The definition of the parameterized surface.</span>
+<span class="n">sp_t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp_t</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sp_t</span><span class="p">)</span>
+
+<span class="n">quad_rule</span> <span class="o">=</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">panelize_symbolic_surface</span><span class="p">(</span><span class="n">sp_t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">n_panels</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The surface has </span><span class="si">{</span><span class="n">S</span><span class="o">.</span><span class="n">n_panels</span><span class="si">}</span><span class="s2"> panels with </span><span class="si">{</span><span class="n">S</span><span class="o">.</span><span class="n">panel_order</span><span class="si">}</span><span class="s2"> quadrature points per panel and </span><span class="si">{</span><span class="n">S</span><span class="o">.</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> quadrature points total.&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">S</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">normals</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">jacobians</span><span class="p">,</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The surface has 4 panels with 8 quadrature points per panel and 32 quadrature points total.
+</pre></div>
+</div>
+<img alt="../_images/part2_screw_dislocation_7_1.png" src="../_images/part2_screw_dislocation_7_1.png" />
 </div>
 </div>
 </div>
 <div class="section" id="barycentric-lagrange-interpolation">
-<h2><span class="section-number">2.2. </span>Barycentric Lagrange interpolation<a class="headerlink" href="#barycentric-lagrange-interpolation" title="Permalink to this headline">¶</a></h2>
-<p>When we compute a boundary integral, there are two sources of error: the surface approximation error and the quadrature error. We’ve been focusing so far on the quadrature error because it can be reduced dramatically with better algorithms, especially in the singular or near-singular case. The surface approximation error is handled simply through using a higher resolution approximation to the surface – for example, represent a circle with 100 points instead of 50. However, below, it will be nice to be able to hold the surface approximation error constant while reducing the quadrature error to zero. But, in the integration techniques we have been using, the quadrature error and the surface error are inextricably linked. When we increase from using 50 to 100 points to integrate a function over a circle, we have been improving both the surface approximation and also using a more accurate quadrature rule.</p>
+<h2><span class="section-number">2.4. </span>Barycentric Lagrange interpolation<a class="headerlink" href="#barycentric-lagrange-interpolation" title="Permalink to this headline">¶</a></h2>
+<p>When we compute a boundary integral, there are two sources of error:</p>
+<ol class="simple">
+<li><p>the surface approximation error</p></li>
+<li><p>the quadrature error.</p></li>
+</ol>
+<p>We’ve been focusing so far on the quadrature error because it can be reduced dramatically with better algorithms, especially in the singular or near-singular case. The surface approximation error is handled simply through using a higher resolution approximation to the surface – for example, representing a circle with 100 points instead of 50. However, in the rest of this section it will be nice to be able to hold the surface approximation error constant while reducing the quadrature error to zero. But, in the integration techniques we have been using, the quadrature error and the surface error are inextricably linked. When we increase from using 50 to 100 points to integrate a function over a circle, we have been improving both the surface approximation and also using a more accurate quadrature rule.</p>
 <p>To separate the two components, we’ll interpolate points from a low order surface approximation in order to calculate the locations of quadrature points for a higher order integral approximation. To make the difference more concrete… Before, we would calculate new point locations for a circle by calculating <span class="math notranslate nohighlight">\((cos \theta, sin \theta)\)</span>. Now, we will calculate the new point from a polynomial interpolation of the <span class="math notranslate nohighlight">\(n\)</span> existing points <span class="math notranslate nohighlight">\(\sum_{i}^n c_i p_i(x)\)</span>. In some sense, this is also more realistic. In a real-world application, we normally have a data-derived surface representation that we can’t improve. On the other hand, even in that real world setting, we <em>can</em> add more quadrature points by interpolating on that surface. But adding more quadrature points won’t make the surface itself any more accurate.</p>
-<p>To do this, it’s going to be helpful to have some functions for polynomial interpolation! We’ll use the <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.BarycentricInterpolator</span></code> implementation of <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id179">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
-<p>Below is a little check to make sure our interpolation snippet is working correctly. We interpolate <span class="math notranslate nohighlight">\(sin(5x)\)</span> (plotted with a solid black line) on a grid of 7 points (blue dots) and plot the resulting approximate function (red dashes line). This isn’t a rigorous check, but it seems like it’s working! Convergence is very fast if we increase the interpolation order, but I’ve left out a demonstration of that.</p>
+<p>We won’t need to worry directly about interpolation since it’s handled internally to <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> but it’s a pretty fundamental component of the numerical methods being used here, so I figured it’d be good to introduce.</p>
+<p>We’re going to use <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id97">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
+<p>Since we’re integrating and interpolating functions on a finite interval, we’ll use a Gaussian quadrature rule for doing the quadrature. As a result, we will be interpolating from the Gauss-Legendre points.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">BarycentricInterpolator</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gauss_rule</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The n-point gauss quadrature rule on [-1, 1].</span>
+<span class="sd">    Returns tuple of (points, weights)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">a_band</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">a_band</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">:</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># noqa: E203</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig_banded</span><span class="p">(</span><span class="n">a_band</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Below is a little check to make sure our interpolation snippet is working correctly. We interpolate <span class="math notranslate nohighlight">\(sin(5x)\)</span> (plotted with a solid black line) on a grid of 7 points (blue dots) and plot the resulting approximate function (red dashes line). This isn’t a rigorous check, but it is working! Convergence is very fast if we increase the interpolation order, but I’ve left out a demonstration of that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.interpolate</span>
 
 <span class="c1"># First, form the interpolating polynomial</span>
-<span class="n">qx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">gauss_rule</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">qx</span><span class="p">,</span> <span class="n">qw</span> <span class="o">=</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">fqx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">qx</span><span class="p">)</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">qx</span><span class="p">,</span> <span class="n">fqx</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">qx</span><span class="p">,</span> <span class="n">fqx</span><span class="p">)</span>
 
 <span class="c1"># Then, evaluate the polynomial at a bunch of points for plotting.</span>
 <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
@@ -395,198 +496,126 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_8_0.png" src="../_images/part2_screw_dislocation_8_0.png" />
-</div>
-</div>
-<p>Let’s move this into a couple helper functions for interpolating functions and surface.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interp_fnc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">):</span>
-    <span class="n">I</span> <span class="o">=</span> <span class="n">BarycentricInterpolator</span><span class="p">(</span><span class="n">in_xhat</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">I</span><span class="p">(</span><span class="n">out_xhat</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">interp_surface</span><span class="p">(</span><span class="n">in_surf</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">):</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># So far, we&#39;ve defined surfaces as five element tuples consisting of:</span>
-    <span class="c1"># (x, y, normal_x, normal_y, jacobian)</span>
-    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">in_surf</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
-        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interp_fnc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_xhat</span><span class="p">,</span> <span class="n">out_xhat</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">out</span>
-</pre></div>
-</div>
+<img alt="../_images/part2_screw_dislocation_12_0.png" src="../_images/part2_screw_dislocation_12_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="hypersingular-stress-integrals">
-<h2><span class="section-number">2.3. </span>Hypersingular stress integrals<a class="headerlink" href="#hypersingular-stress-integrals" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.5. </span>Hypersingular stress integrals<a class="headerlink" href="#hypersingular-stress-integrals" title="Permalink to this headline">¶</a></h2>
+<p>Integrals as functions: I think it’s useful to think about the integrals in integral equations as functions accepting a certain input and producing a certain output. For example, the double layer integral accepts a potential input (and a set of observation points and a source surface mesh) and produces a potential as output. In comparison, the hypersingular integral accepts a potential input and produces a potential gradient as output. The input is the same, but the output has had an extra derivative applied. In terms of antiplane elasticity, potential is displacement and potential gradient is stress. The API of the <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> function is intended to closely match this integrals-as-functions concept where the three main parameters are the kernel function, the observation points and the source surface.</p>
 <p>The second missing piece is a set of tools for computing stresses in the volume given an input fault slip. Continuing in the antiplane strain setting, what we want is to compute the gradient of displacement times the shear modulus.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-02bc4179-7d3f-49ce-b5ca-ae9b229ca225">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-02bc4179-7d3f-49ce-b5ca-ae9b229ca225" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6a8d353f-57b3-44ce-85e0-773a8a644a26">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-6a8d353f-57b3-44ce-85e0-773a8a644a26" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 (\sigma_{xz}, \sigma_{yz}) = (\mu \frac{\partial \phi}{\partial x}, \mu \frac{\partial \phi}{\partial y})
 \end{equation}\]</div>
-<p>To simplify things a bit here, I’m going to just compute the first compute <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span>. This is equivalent to computing a traction with the normal vector equal to <span class="math notranslate nohighlight">\((1, 0)\)</span>.</p>
-<p>The hypersingular integral will computes <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span> for us given the source slip distribution. Since, we already built all the components of a QBX algorithm for the double layer case, we can now just write the naive integrator for a new kernel and everything works perfectly. In the cell below, I’ve implemented a naive integrator for the hypersingular integral.</p>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
-<p>As a reminder, By “naive integrator”, I just mean the non-QBX integration function that would be the equivalent of the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> function from the previous section.</p>
+<p>As a reminder, By “naive integrator”, I just mean the non-QBX integration function that would be the equivalent of the <code class="docutils literal notranslate"><span class="pre">double_layer_matrix</span></code> function from the previous section. This is equivalent to “directly” integrating the integral equation. (it might be good to be more consistent about these terms?)</p>
 </div>
-<p>Why is this kernel called “hypersingular”? Because the kernel behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r^2})\)</span> in 2D. (Add a foot note on weakly singular vs strongly singular vs hypersingular.). This makes the integral especially difficult for many traditional integration methods. As you’ll see below, this is not a barrier for QBX and we are able to calculate the integral extremely accurately even right on the surface.</p>
+<p>The hypersingular integral will computes <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{yz}\)</span> for us given the source slip distribution. Since, we already built all the components of a QBX algorithm for the double layer case, we can now just write the naive integrator for a new kernel and everything works perfectly. In the cell below, I’ve implemented a naive integrator for the hypersingular integral.</p>
+<p>Why is this kernel called “hypersingular”? Because the kernel behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r^2})\)</span> in 2D. This makes the integral especially difficult for many traditional integration methods. As you’ll see below, this is not a barrier for QBX and we are able to calculate the integral extremely accurately even right on the surface.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A quick summary of the common types of singular integrand behavior:</p>
+<ul class="simple">
+<li><p><strong>Weakly singular</strong>: the integrand behaves like <span class="math notranslate nohighlight">\(O(log(r))\)</span> in 2D. When we integrate a weakly singular integral over a surface, the integral is well-defined in the normal sense.</p></li>
+<li><p><strong>Strongly singular</strong>: The double layer potential is strongly singular. The integrand behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r})\)</span> in 2D. When we integrate a strongly singular integral over a surface, the integral must be defined in the Cauchy principal value sense. Otherwise, the integral is divergent (more or less equal to infinity). However, when the integral is computed as an interior limit, the value is well defined because no integral along the limiting path is ever actually singular.</p></li>
+<li><p><strong>Hypersingular</strong>: The integrand behaves like <span class="math notranslate nohighlight">\(O(\frac{1}{r^2})\)</span>. The integral is so divergent that it’s not even well-defined in the Cauchy principal value sense. Like strongly singular integrals, computing as an interior limit works out well.</p></li>
+</ul>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hypersingular_matrix</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">quad_rule</span><span class="p">,</span> <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">):</span>
-    <span class="n">srcx</span><span class="p">,</span> <span class="n">srcy</span><span class="p">,</span> <span class="n">srcnx</span><span class="p">,</span> <span class="n">srcny</span><span class="p">,</span> <span class="n">curve_jacobian</span> <span class="o">=</span> <span class="n">surface</span>
-
-    <span class="n">dx</span> <span class="o">=</span> <span class="n">obsx</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">srcx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">obsy</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">srcy</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hypersingular</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">src_pts</span><span class="p">,</span> <span class="n">src_normals</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">src_pts</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">src_pts</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="n">r2</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">**</span> <span class="mi">2</span>
 
-    <span class="n">A</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="n">srcnx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">srcny</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">/</span> <span class="n">r2</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r2</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="n">src_normals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">src_normals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">r2</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r2</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">obs_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="n">src_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
     <span class="c1"># The definition of the hypersingular kernel.</span>
     <span class="c1"># unscaled sigma_xz component</span>
-    <span class="n">out</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">srcnx</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dx</span>
+    <span class="n">out</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">src_normals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dx</span>
     <span class="c1"># unscaled sigma_xz component</span>
-    <span class="n">out</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">srcny</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dy</span>
+    <span class="n">out</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">src_normals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dy</span>
 
-    <span class="c1"># multiply by the scaling factor, jacobian and quadrature weights</span>
-    <span class="k">return</span> <span class="n">out</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="p">(</span><span class="n">curve_jacobian</span> <span class="o">*</span> <span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]))[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">out</span> <span class="o">*</span> <span class="n">C</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
-<p>By leaving out the shear modulus, I’m implicitly assuming that <span class="math notranslate nohighlight">\(\mu = 1\)</span>. You can just imagine that we’re solving a nondimensionalized version of the problem. This is quite common because scaling the displacement and stress to lie in a similar range of values can improve the numerical condition of some problems.</p>
+<p>By leaving out the shear modulus, I’m implicitly assuming that <span class="math notranslate nohighlight">\(\mu = 1\)</span>. You can just imagine that we’re solving a nondimensionalized version of the problem. This is quite common because scaling the displacement and stress to lie in a similar range of values can improve the numerical conditioning of some problems.</p>
 </div>
-<p>Finally, I’ll write a pretty big function that is going to produce nice figures for comparing QBX against a naive computation. The function is written to be independent of the surface and kernel function. It also accepts QBX parameters. As a reminder, <code class="docutils literal notranslate"><span class="pre">offset_mult</span></code> is a multiplier for how far off the surface the QBX expansion centers are placed. <code class="docutils literal notranslate"><span class="pre">kappa</span></code> is the upsampling rate in case we want to use a higher order quadrature for computing QBX coefficients than for representing the surface. And <code class="docutils literal notranslate"><span class="pre">qbx_p</span></code> is the order of the power series expansion. Please look through the function! Very little is new compared to section 1.</p>
+</div>
+<div class="section" id="general-purpose-interior-evaluation">
+<h2><span class="section-number">2.6. </span>General purpose interior evaluation<a class="headerlink" href="#general-purpose-interior-evaluation" title="Permalink to this headline">¶</a></h2>
+<p>Here, we’ll write a pretty big function that is going to produce nice figures for comparing QBX against a naive computation. The function is written to be independent of the surface and kernel function. Please look through the function! Very little is new compared to the previous section. We’re just applying the tools we’ve already built or used.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interior_eval</span><span class="p">(</span>
-    <span class="n">kernel</span><span class="p">,</span>
-    <span class="n">src_surface</span><span class="p">,</span>
-    <span class="n">src_quad_rule</span><span class="p">,</span>
-    <span class="n">src_slip</span><span class="p">,</span>
-    <span class="n">obsx</span><span class="p">,</span>
-    <span class="n">obsy</span><span class="p">,</span>
-    <span class="n">offset_mult</span><span class="p">,</span>
-    <span class="n">kappa</span><span class="p">,</span>
-    <span class="n">qbx_p</span><span class="p">,</span>
-    <span class="n">visualize_centers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="n">n_qbx</span> <span class="o">=</span> <span class="n">src_surface</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">kappa</span>
-    <span class="n">quad_rule_qbx</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">gauss_rule</span><span class="p">(</span><span class="n">n_qbx</span><span class="p">)</span>
-    <span class="n">surface_qbx</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">interp_surface</span><span class="p">(</span><span class="n">src_surface</span><span class="p">,</span> <span class="n">src_quad_rule</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quad_rule_qbx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">slip_qbx</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">interp_fnc</span><span class="p">(</span><span class="n">src_slip</span><span class="p">,</span> <span class="n">src_quad_rule</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quad_rule_qbx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">tectosaur2</span> <span class="kn">import</span> <span class="n">integrate_term</span><span class="p">,</span> <span class="n">pts_grid</span><span class="p">,</span> <span class="n">gauss_rule</span><span class="p">,</span> <span class="n">upsample</span>
+<span class="kn">from</span> <span class="nn">tectosaur2.laplace2d</span> <span class="kn">import</span> <span class="n">double_layer</span><span class="p">,</span> <span class="n">hypersingular</span>
+<span class="k">def</span> <span class="nf">qbx_example</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">surface</span><span class="p">,</span> <span class="n">n_panels</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
-    <span class="c1"># This is new! We&#39;ll have two sets of QBX expansion centers on each side</span>
-    <span class="c1"># of the surface. The direction parameter simply multiplies the surface</span>
-    <span class="c1"># offset. So, -1 put the expansion the same distance on the other side</span>
-    <span class="c1"># of the surface.</span>
-    <span class="n">qbx_center_x1</span><span class="p">,</span> <span class="n">qbx_center_y1</span><span class="p">,</span> <span class="n">qbx_r1</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">qbx_choose_centers</span><span class="p">(</span>
-        <span class="n">src_surface</span><span class="p">,</span> <span class="n">src_quad_rule</span><span class="p">,</span> <span class="n">mult</span><span class="o">=</span><span class="n">offset_mult</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="mf">1.0</span>
-    <span class="p">)</span>
-    <span class="n">qbx_center_x2</span><span class="p">,</span> <span class="n">qbx_center_y2</span><span class="p">,</span> <span class="n">qbx_r2</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">qbx_choose_centers</span><span class="p">(</span>
-        <span class="n">src_surface</span><span class="p">,</span> <span class="n">src_quad_rule</span><span class="p">,</span> <span class="n">mult</span><span class="o">=</span><span class="n">offset_mult</span><span class="p">,</span> <span class="n">direction</span><span class="o">=-</span><span class="mf">1.0</span>
-    <span class="p">)</span>
-    <span class="n">qbx_center_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">qbx_center_x1</span><span class="p">,</span> <span class="n">qbx_center_x2</span><span class="p">])</span>
-    <span class="n">qbx_center_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">qbx_center_y1</span><span class="p">,</span> <span class="n">qbx_center_y2</span><span class="p">])</span>
-    <span class="n">qbx_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">qbx_r1</span><span class="p">,</span> <span class="n">qbx_r2</span><span class="p">])</span>
-
-    <span class="k">if</span> <span class="n">visualize_centers</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_qbx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_qbx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">qbx_center_x</span><span class="p">,</span> <span class="n">qbx_center_y</span><span class="p">,</span> <span class="s2">&quot;r.&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="n">Qexpand</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">qbx_expand_matrix</span><span class="p">(</span>
-        <span class="n">kernel</span><span class="p">,</span>
-        <span class="n">surface_qbx</span><span class="p">,</span>
-        <span class="n">quad_rule_qbx</span><span class="p">,</span>
-        <span class="n">qbx_center_x</span><span class="p">,</span>
-        <span class="n">qbx_center_y</span><span class="p">,</span>
-        <span class="n">qbx_r</span><span class="p">,</span>
-        <span class="n">qbx_p</span><span class="o">=</span><span class="n">qbx_p</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">qbx_coeffs</span> <span class="o">=</span> <span class="n">Qexpand</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_qbx</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">qbx_interior_eval</span><span class="p">(</span>
-        <span class="n">kernel</span><span class="p">,</span>
-        <span class="n">src_surface</span><span class="p">,</span>
-        <span class="n">src_quad_rule</span><span class="p">,</span>
-        <span class="n">src_slip</span><span class="p">,</span>
-        <span class="n">obsx</span><span class="p">,</span>
-        <span class="n">obsy</span><span class="p">,</span>
-        <span class="n">qbx_center_x</span><span class="p">,</span>
-        <span class="n">qbx_center_y</span><span class="p">,</span>
-        <span class="n">qbx_r</span><span class="p">,</span>
-        <span class="n">qbx_coeffs</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">out</span>
-
-
-<span class="k">def</span> <span class="nf">qbx_example</span><span class="p">(</span>
-    <span class="n">kernel</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">offset_mult</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">qbx_p</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span>
-<span class="p">):</span>
     <span class="k">def</span> <span class="nf">slip_fnc</span><span class="p">(</span><span class="n">xhat</span><span class="p">):</span>
-        <span class="c1"># This must be zero at the endpoints!</span>
+        <span class="c1"># This must be zero at the endpoints for potential gradient to be finite.</span>
+        <span class="c1"># return np.ones_like(xhat)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">xhat</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span>
 
-    <span class="n">quad_rule_low</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">gauss_rule</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">surface_low</span> <span class="o">=</span> <span class="n">surface_fnc</span><span class="p">(</span><span class="n">quad_rule_low</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">slip_low</span> <span class="o">=</span> <span class="n">slip_fnc</span><span class="p">(</span><span class="n">surface_low</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">surface_low</span> <span class="o">=</span> <span class="n">panelize_symbolic_surface</span><span class="p">(</span><span class="o">*</span><span class="n">surface</span><span class="p">,</span> <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">n_panels</span><span class="o">=</span><span class="n">n_panels</span><span class="p">)</span>
+    <span class="n">slip_low</span> <span class="o">=</span> <span class="n">slip_fnc</span><span class="p">(</span><span class="n">surface_low</span><span class="o">.</span><span class="n">quad_pts</span><span class="p">)</span>
 
     <span class="n">nobs</span> <span class="o">=</span> <span class="mi">400</span>
     <span class="n">zoomx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
     <span class="n">zoomy</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomx</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
     <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomy</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
-    <span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+    <span class="n">obs_pts</span> <span class="o">=</span> <span class="n">pts_grid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
 
     <span class="n">low_vals</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">kernel</span><span class="p">(</span>
-            <span class="n">surface</span><span class="o">=</span><span class="n">surface_low</span><span class="p">,</span>
-            <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-            <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-            <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule_low</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_low</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">kernel</span><span class="o">.</span><span class="n">direct</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">surface_low</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_low</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
     <span class="p">)</span>
 
-    <span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span>
-    <span class="n">quad_rule_high</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">gauss_rule</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">surface_high</span> <span class="o">=</span> <span class="n">interp_surface</span><span class="p">(</span><span class="n">surface_low</span><span class="p">,</span> <span class="n">quad_rule_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quad_rule_high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">slip_high</span> <span class="o">=</span> <span class="n">interp_fnc</span><span class="p">(</span><span class="n">slip_low</span><span class="p">,</span> <span class="n">quad_rule_low</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quad_rule_high</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># This step is NEW! We&#39;re upsampling a surface by interpolating the data and</span>
+    <span class="c1"># surface discretization to a finer grid. This will help get better results</span>
+    <span class="c1"># out of the naive integrator.</span>
+    <span class="n">surface_high</span><span class="p">,</span> <span class="n">interp_mat</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="n">surface_low</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">slip_high</span> <span class="o">=</span> <span class="n">interp_mat</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_low</span><span class="p">)</span>
     <span class="n">high_vals</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">kernel</span><span class="p">(</span>
-            <span class="n">surface</span><span class="o">=</span><span class="n">surface_high</span><span class="p">,</span>
-            <span class="n">obsx</span><span class="o">=</span><span class="n">obsx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-            <span class="n">obsy</span><span class="o">=</span><span class="n">obsy</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-            <span class="n">quad_rule</span><span class="o">=</span><span class="n">quad_rule_high</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_high</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">kernel</span><span class="o">.</span><span class="n">direct</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">surface_high</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_high</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
     <span class="p">)</span>
 
-    <span class="n">qbx_vals</span> <span class="o">=</span> <span class="n">interior_eval</span><span class="p">(</span>
-        <span class="n">kernel</span><span class="p">,</span>
-        <span class="n">surface_low</span><span class="p">,</span>
-        <span class="n">quad_rule_low</span><span class="p">,</span>
-        <span class="n">slip_low</span><span class="p">,</span>
-        <span class="n">obsx</span><span class="p">,</span>
-        <span class="n">obsy</span><span class="p">,</span>
-        <span class="n">offset_mult</span><span class="p">,</span>
-        <span class="n">kappa</span><span class="p">,</span>
-        <span class="n">qbx_p</span><span class="p">,</span>
-        <span class="n">visualize_centers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">singularities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">surface</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">surface</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">surface</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">surface</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">qbx_vals</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">integrate_term</span><span class="p">(</span>
+            <span class="n">kernel</span><span class="p">,</span> <span class="n">obs_pts</span><span class="p">,</span> <span class="n">surface_low</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+        <span class="p">)[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip_low</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+    <span class="n">obsx</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+    <span class="n">obsy</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -602,12 +631,12 @@
         <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&quot;Accurate&quot; solution&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Upsampled naive solution&quot;</span><span class="p">)</span>
     <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">high_vals</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
         <span class="n">obsx</span><span class="p">,</span>
@@ -620,7 +649,7 @@
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
@@ -644,8 +673,8 @@
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(|\hat</span><span class="si">{u}</span><span class="s2"> - \hat</span><span class="si">{u}</span><span class="s2">_{</span><span class="se">\\</span><span class="s2">textrm</span><span class="si">{naive}</span><span class="s2">}|)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(|\hat</span><span class="si">{u}</span><span class="s2"> - \hat</span><span class="si">{u}</span><span class="s2">_{\textrm</span><span class="si">{naive}</span><span class="s2">}|)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -663,12 +692,12 @@
         <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&quot;Accurate&quot; solution&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Upsampled naive solution&quot;</span><span class="p">)</span>
     <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">obsx</span><span class="p">,</span> <span class="n">obsy</span><span class="p">,</span> <span class="n">high_vals</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
         <span class="n">obsx</span><span class="p">,</span>
@@ -681,12 +710,12 @@
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;QBX error&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Upsampled naive error&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
         <span class="n">logerror</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">qbx_vals</span> <span class="o">-</span> <span class="n">high_vals</span><span class="p">))</span>
@@ -705,8 +734,8 @@
         <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
-    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(|\hat</span><span class="si">{u}</span><span class="s2"> - \hat</span><span class="si">{u}</span><span class="s2">_{</span><span class="se">\\</span><span class="s2">textrm</span><span class="si">{QBX}</span><span class="s2">}|)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(|\hat</span><span class="si">{u}</span><span class="s2"> - \hat</span><span class="si">{u}</span><span class="s2">_{\textrm</span><span class="si">{QBX}</span><span class="s2">}|)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">surface_high</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">zoomx</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">zoomy</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -717,134 +746,97 @@
 </div>
 </div>
 <div class="section" id="displacement-from-a-line-source">
-<h2><span class="section-number">2.4. </span>Displacement from a line source<a class="headerlink" href="#displacement-from-a-line-source" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.7. </span>Displacement from a line source<a class="headerlink" href="#displacement-from-a-line-source" title="Permalink to this headline">¶</a></h2>
 <p>For the remainder of this part, we’ll compute displacements and stresses for a three simple geometries of increasing difficulty.</p>
 <p>For each plot, there will be a geometry summary that’s just a black line showing the location of the “fault” and red dots showing the location of the QBX expansions.</p>
 <p>Then, we’ll plot three solutions: the naive solution, a high accuracy naive solution (from 2000 points) and a QBX solution. We’ll also plot the <span class="math notranslate nohighlight">\(\log_{10}\)</span> error for both the naive and QBX solutions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-    <span class="c1"># Remember the surface tuple format is:</span>
-    <span class="c1"># (coord_x, coord_y, normal_x, normal_y, jacobian)</span>
-    <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">q</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">q</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">q</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-
-
-<span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">common</span><span class="o">.</span><span class="n">double_layer_matrix</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">offset_mult</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">15</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_17_0.png" src="../_images/part2_screw_dislocation_17_0.png" />
-<img alt="../_images/part2_screw_dislocation_17_1.png" src="../_images/part2_screw_dislocation_17_1.png" />
-</div>
-</div>
-</div>
-<div class="section" id="stress-from-a-line-source">
-<h2><span class="section-number">2.5. </span>Stress from a line source<a class="headerlink" href="#stress-from-a-line-source" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">hypersingular_matrix</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">offset_mult</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">15</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/part2_screw_dislocation_19_0.png" src="../_images/part2_screw_dislocation_19_0.png" />
-<img alt="../_images/part2_screw_dislocation_19_1.png" src="../_images/part2_screw_dislocation_19_1.png" />
-</div>
-</div>
-</div>
-<div class="section" id="displacement-from-an-arc-source">
-<h2><span class="section-number">2.6. </span>Displacement from an arc source<a class="headerlink" href="#displacement-from-an-arc-source" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">arc</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">q</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">y</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-
-
-<span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">common</span><span class="o">.</span><span class="n">double_layer_matrix</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="o">=</span><span class="n">arc</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">offset_mult</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">20</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span><span class="n">double_layer</span><span class="p">,</span> <span class="p">(</span><span class="n">sp_t</span><span class="p">,</span> <span class="n">sp_t</span><span class="p">,</span> <span class="mi">0</span><span class="o">*</span><span class="n">sp_t</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/part2_screw_dislocation_21_0.png" src="../_images/part2_screw_dislocation_21_0.png" />
-<img alt="../_images/part2_screw_dislocation_21_1.png" src="../_images/part2_screw_dislocation_21_1.png" />
 </div>
 </div>
 </div>
-<div class="section" id="stress-from-an-arc-source">
-<h2><span class="section-number">2.7. </span>Stress from an arc source<a class="headerlink" href="#stress-from-an-arc-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stress-from-a-line-source">
+<h2><span class="section-number">2.8. </span>Stress from a line source<a class="headerlink" href="#stress-from-a-line-source" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">hypersingular_matrix</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="o">=</span><span class="n">arc</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">offset_mult</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">20</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span><span class="n">hypersingular</span><span class="p">,</span> <span class="p">(</span><span class="n">sp_t</span><span class="p">,</span> <span class="n">sp_t</span><span class="p">,</span> <span class="mi">0</span><span class="o">*</span><span class="n">sp_t</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/part2_screw_dislocation_23_0.png" src="../_images/part2_screw_dislocation_23_0.png" />
-<img alt="../_images/part2_screw_dislocation_23_1.png" src="../_images/part2_screw_dislocation_23_1.png" />
 </div>
 </div>
 </div>
-<div class="section" id="displacement-from-a-challenging-wavy-source">
-<h2><span class="section-number">2.8. </span>Displacement from a challenging wavy source<a class="headerlink" href="#displacement-from-a-challenging-wavy-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="displacement-from-an-arc-source">
+<h2><span class="section-number">2.9. </span>Displacement from an arc source<a class="headerlink" href="#displacement-from-an-arc-source" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wavy</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">q</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-
-    <span class="n">dxdt</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">dydt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">ddt_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dxdt</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dydt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">dxdt</span> <span class="o">/=</span> <span class="n">ddt_norm</span>
-    <span class="n">dydt</span> <span class="o">/=</span> <span class="n">ddt_norm</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dydt</span><span class="p">,</span> <span class="o">-</span><span class="n">dxdt</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">ddt_norm</span>
-
-
-<span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">common</span><span class="o">.</span><span class="n">double_layer_matrix</span><span class="p">,</span>
-    <span class="n">surface_fnc</span><span class="o">=</span><span class="n">wavy</span><span class="p">,</span>
-    <span class="n">n</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
-    <span class="n">offset_mult</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
-    <span class="n">kappa</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">qbx_p</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sp_t</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+<span class="n">arc</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp_t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">qbx_example</span><span class="p">(</span><span class="n">double_layer</span><span class="p">,</span> <span class="n">arc</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/part2_screw_dislocation_25_0.png" src="../_images/part2_screw_dislocation_25_0.png" />
-<img alt="../_images/part2_screw_dislocation_25_1.png" src="../_images/part2_screw_dislocation_25_1.png" />
 </div>
 </div>
 </div>
-<div class="section" id="stress-from-a-challenging-wavy-source">
-<h2><span class="section-number">2.9. </span>Stress from a challenging wavy source<a class="headerlink" href="#stress-from-a-challenging-wavy-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stress-from-an-arc-source">
+<h2><span class="section-number">2.10. </span>Stress from an arc source<a class="headerlink" href="#stress-from-an-arc-source" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span>
-    <span class="n">hypersingular_matrix</span><span class="p">,</span> <span class="n">surface_fnc</span><span class="o">=</span><span class="n">wavy</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">offset_mult</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">qbx_p</span><span class="o">=</span><span class="mi">15</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span><span class="n">hypersingular</span><span class="p">,</span> <span class="n">arc</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/part2_screw_dislocation_27_0.png" src="../_images/part2_screw_dislocation_27_0.png" />
-<img alt="../_images/part2_screw_dislocation_27_1.png" src="../_images/part2_screw_dislocation_27_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="displacement-from-a-challenging-wavy-source">
+<h2><span class="section-number">2.11. </span>Displacement from a challenging wavy source<a class="headerlink" href="#displacement-from-a-challenging-wavy-source" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sp_t</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">sp_t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">wavy</span> <span class="o">=</span> <span class="p">(</span><span class="n">sp_t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span><span class="n">double_layer</span><span class="p">,</span> <span class="n">wavy</span><span class="p">,</span> <span class="n">n_panels</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part2_screw_dislocation_30_0.png" src="../_images/part2_screw_dislocation_30_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="stress-from-a-challenging-wavy-source">
+<h2><span class="section-number">2.12. </span>Stress from a challenging wavy source<a class="headerlink" href="#stress-from-a-challenging-wavy-source" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qbx_example</span><span class="p">(</span><span class="n">hypersingular</span><span class="p">,</span> <span class="n">wavy</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part2_screw_dislocation_32_0.png" src="../_images/part2_screw_dislocation_32_0.png" />
 </div>
 </div>
 </div>
@@ -873,16 +865,27 @@
               </div>
               
         
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="part1_nearfield.html" title="previous page"><span class="section-number">1. </span>Near-field evaluation via quadrature by expansion (QBX).</a>
-    <a class='right-next' id="next-link" href="part3_topo_solver.html" title="next page"><span class="section-number">3. </span>[Draft] A strike slip fault underneath topography.</a>
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="part1_nearfield.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Computing boundary integrals with quadrature by expansion (QBX).</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="part3_surface_intersection.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Slip on an infinite strike slip fault in an elastic half space</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
@@ -898,18 +901,7 @@
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-114592151-1', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>

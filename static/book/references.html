@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>References &#8212; Boundary integral tutorials</title>
+    <title>References &#8212; Integral equation tutorials</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,15 +23,16 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/patch.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -40,10 +41,9 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
@@ -54,10 +54,23 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Thanks!" href="thanks.html" />
-    <link rel="prev" title="3. [Draft] A strike slip fault underneath topography." href="c1qbx/part3_topo_solver.html" />
+    <link rel="prev" title="2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation" href="volumetric/part2_mms_circle.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
     
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -74,18 +87,31 @@
     <a class="navbar-brand text-wrap" href="index.html">
       
       
-      <h1 class="site-logo" id="site-title">Boundary integral tutorials</h1>
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Boundary integral method tutorials
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The problem space
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="fault_problems.html">
+   1. Problems in earthquake science
   </a>
  </li>
 </ul>
@@ -96,28 +122,13 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="tdes/sa_tdes.html">
-   1. Using TDEs to build a fault model with topography.
+  <a class="reference internal" href="tdes/part4_low_rank.html">
+   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="tdes/sa_geometry.html">
-   2. A fault and topography mesh of the South America subduction zone.
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tdes/free_matvec.html">
-   3. Minimizing memory usage: a matrix-free iterative solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tdes/low_rank.html">
-   4. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tdes/hmatrix.html">
-   5. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  <a class="reference internal" href="tdes/part5_hmatrix.html">
+   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
   </a>
  </li>
 </ul>
@@ -129,17 +140,59 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="c1qbx/part1_nearfield.html">
-   1. Near-field evaluation via quadrature by expansion (QBX).
+   1. Computing boundary integrals with quadrature by expansion (QBX).
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="c1qbx/part2_screw_dislocation.html">
-   2. More quadrature by expansion (QBX) examples for the Laplace equation: fun with screw dislocations
+   2. QBX examples for the Laplace equation: fun with screw dislocations
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="c1qbx/part3_topo_solver.html">
-   3. [Draft] A strike slip fault underneath topography.
+  <a class="reference internal" href="c1qbx/part3_surface_intersection.html">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c1qbx/part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c1qbx/part5_viscoelastic.html">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c1qbx/part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c1qbx/part7_qd_two_faults.html">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="c1qbx/part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
   </a>
  </li>
 </ul>
@@ -207,22 +260,6 @@
 
             <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/tbenthompson/BIE_book"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/tbenthompson/BIE_book/issues/new?title=Issue%20on%20page%20%2Freferences.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -245,89 +282,56 @@
         
               <div>
                 
-  <div class="section" id="references">
+  <div class="tex2jax_ignore mathjax_ignore section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
 <p id="id1"><dl class="citation">
-<dt class="label" id="id5"><span class="brackets">ASS19</span></dt>
-<dd><p>Sivaram Ambikasaran, Karan Raj Singh, and Shyam Sundar Sankaran. Hodlrlib: a library for hierarchical matrices. 2019. URL: <a class="reference external" href="https://zenodo.org/record/2561574">https://zenodo.org/record/2561574</a>, <a class="reference external" href="https://doi.org/10.5281/ZENODO.2561574">doi:10.5281/ZENODO.2561574</a>.</p>
+<dt class="label" id="id466"><span class="brackets">ASS19</span></dt>
+<dd><p>Sivaram Ambikasaran, Karan Raj Singh, and Shyam Sundar Sankaran. HODLRlib: A library for hierarchical matrices. 2019. <a class="reference external" href="https://doi.org/10.5281/ZENODO.2561574">doi:10.5281/ZENODO.2561574</a>.</p>
 </dd>
-<dt class="label" id="id10"><span class="brackets">AC17</span></dt>
-<dd><p>T. Askham and A.J. Cerfon. An adaptive fast multipole accelerated poisson solver for complex geometries. <em>Journal of Computational Physics</em>, 344:1–22, September 2017. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2017.04.063">https://doi.org/10.1016/j.jcp.2017.04.063</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2017.04.063">doi:10.1016/j.jcp.2017.04.063</a>.</p>
+<dt class="label" id="id32"><span class="brackets">AC17</span></dt>
+<dd><p>T. Askham and A.J. Cerfon. An adaptive fast multipole accelerated Poisson solver for complex geometries. <em>Journal of Computational Physics</em>, 344:1–22, September 2017. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2017.04.063">doi:10.1016/j.jcp.2017.04.063</a>.</p>
 </dd>
-<dt class="label" id="id171"><span class="brackets">BH86</span></dt>
-<dd><p>Josh Barnes and Piet Hut. A hierarchical o(n log n) force-calculation algorithm. <em>Nature</em>, 324(6096):446–449, December 1986. URL: <a class="reference external" href="https://doi.org/10.1038/324446a0">https://doi.org/10.1038/324446a0</a>, <a class="reference external" href="https://doi.org/10.1038/324446a0">doi:10.1038/324446a0</a>.</p>
+<dt class="label" id="id78"><span class="brackets">Beb05</span></dt>
+<dd><p>M. Bebendorf. Hierarchical LU Decomposition-based Preconditioners for BEM. <em>Computing</em>, 74(3):225–247, May 2005. <a class="reference external" href="https://doi.org/10.1007/s00607-004-0099-6">doi:10.1007/s00607-004-0099-6</a>.</p>
 </dd>
-<dt class="label" id="id172"><span class="brackets">BG97</span></dt>
-<dd><p>Rick Beatson and Leslie Greengard. A short course on fast multipole methods. <em>Wavelets, multilevel methods and elliptic PDEs</em>, 1:1–37, 1997.</p>
+<dt class="label" id="id97"><span class="brackets">BT04</span></dt>
+<dd><p>Jean-Paul Berrut and Lloyd N. Trefethen. Barycentric Lagrange Interpolation. <em>SIAM Review</em>, 46(3):501–517, January 2004. <a class="reference external" href="https://doi.org/10.1137/S0036144502417715">doi:10.1137/S0036144502417715</a>.</p>
 </dd>
-<dt class="label" id="id12"><span class="brackets">Beb04</span></dt>
-<dd><p>M. Bebendorf. Hierarchical LU decomposition-based preconditioners for BEM. <em>Computing</em>, 74(3):225–247, November 2004. URL: <a class="reference external" href="https://doi.org/10.1007/s00607-004-0099-6">https://doi.org/10.1007/s00607-004-0099-6</a>, <a class="reference external" href="https://doi.org/10.1007/s00607-004-0099-6">doi:10.1007/s00607-004-0099-6</a>.</p>
+<dt class="label" id="id105"><span class="brackets">BYZ04</span></dt>
+<dd><p>George Biros, Lexing Ying, and Denis Zorin. A fast solver for the Stokes equations with distributed forces in complex geometries. <em>Journal of Computational Physics</em>, 193(1):317–348, January 2004. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.08.011">doi:10.1016/j.jcp.2003.08.011</a>.</p>
 </dd>
-<dt class="label" id="id175"><span class="brackets">Beb00</span></dt>
-<dd><p>Mario Bebendorf. Approximation of boundary element matrices. <em>Numerische Mathematik</em>, 86(4):565–589, October 2000. URL: <a class="reference external" href="https://doi.org/10.1007/pl00005410">https://doi.org/10.1007/pl00005410</a>, <a class="reference external" href="https://doi.org/10.1007/pl00005410">doi:10.1007/pl00005410</a>.</p>
+<dt class="label" id="id209"><span class="brackets">CPD16</span></dt>
+<dd><p>Pieter Coulier, Hadi Pouransari, and Eric Darve. The inverse fast multipole method: using a fast approximate direct solver as a preconditioner for dense linear systems. <em>arXiv:1508.01835 [cs, math]</em>, February 2016. <a class="reference external" href="https://arxiv.org/abs/1508.01835">arXiv:1508.01835</a>.</p>
 </dd>
-<dt class="label" id="id170"><span class="brackets">Beb08</span></dt>
-<dd><p>Mario Bebendorf. <em>Hierarchical Matrices</em>. Springer Berlin Heidelberg, 2008. URL: <a class="reference external" href="https://doi.org/10.1007/978-3-540-77147-0_3">https://doi.org/10.1007/978-3-540-77147-0_3</a>, <a class="reference external" href="https://doi.org/10.1007/978-3-540-77147-0_3">doi:10.1007/978-3-540-77147-0_3</a>.</p>
+<dt class="label" id="id312"><span class="brackets">EG01</span></dt>
+<dd><p>Frank Ethridge and Leslie Greengard. A New Fast-Multipole Accelerated Poisson Solver in Two Dimensions. <em>SIAM Journal on Scientific Computing</em>, 23(3):741–760, January 2001. <a class="reference external" href="https://doi.org/10.1137/S1064827500369967">doi:10.1137/S1064827500369967</a>.</p>
 </dd>
-<dt class="label" id="id102"><span class="brackets">BR03</span></dt>
-<dd><p>Mario Bebendorf and Sergej Rjasanow. Adaptive low-rank approximation of collocation matrices. <em>Computing</em>, 70(1):1–24, 2003.</p>
+<dt class="label" id="id352"><span class="brackets">FLT18</span></dt>
+<dd><p>Fredrik Fryklund, Erik Lehto, and Anna-Karin Tornberg. Partition of unity extension of functions on complex domains. <em>Journal of Computational Physics</em>, 375:57–79, December 2018. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2018.08.012">doi:10.1016/j.jcp.2018.08.012</a>.</p>
 </dd>
-<dt class="label" id="id179"><span class="brackets">BT04</span></dt>
-<dd><p>Jean-Paul Berrut and Lloyd N. Trefethen. Barycentric lagrange interpolation. <em>SIAM Review</em>, 46(3):501–517, January 2004. URL: <a class="reference external" href="https://doi.org/10.1137/s0036144502417715">https://doi.org/10.1137/s0036144502417715</a>, <a class="reference external" href="https://doi.org/10.1137/s0036144502417715">doi:10.1137/s0036144502417715</a>.</p>
+<dt class="label" id="id407"><span class="brackets">GR87</span></dt>
+<dd><p>L Greengard and V Rokhlin. A fast algorithm for particle simulations. <em>Journal of Computational Physics</em>, 73(2):325–348, December 1987. <a class="reference external" href="https://doi.org/10.1016/0021-9991(87)90140-9">doi:10.1016/0021-9991(87)90140-9</a>.</p>
 </dd>
-<dt class="label" id="id9"><span class="brackets">BYZ04</span></dt>
-<dd><p>George Biros, Lexing Ying, and Denis Zorin. A fast solver for the stokes equations with distributed forces in complex geometries. <em>Journal of Computational Physics</em>, 193(1):317–348, January 2004. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.08.011">https://doi.org/10.1016/j.jcp.2003.08.011</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.08.011">doi:10.1016/j.jcp.2003.08.011</a>.</p>
+<dt class="label" id="id408"><span class="brackets">GGMR09</span></dt>
+<dd><p>Leslie Greengard, Denis Gueyffier, Per-Gunnar Martinsson, and Vladimir Rokhlin. Fast direct solvers for integral equations in complex three-dimensional domains. <em>Acta Numerica</em>, 18:243–275, May 2009. <a class="reference external" href="https://doi.org/10.1017/S0962492906410011">doi:10.1017/S0962492906410011</a>.</p>
 </dd>
-<dt class="label" id="id176"><span class="brackets">Bra11</span></dt>
-<dd><p>Andrew M. Bradley. H-matrix and block error tolerances. 2011. <a class="reference external" href="https://arxiv.org/abs/1110.2807">arXiv:1110.2807</a>.</p>
+<dt class="label" id="id557"><span class="brackets">KlocknerBGONeil13</span></dt>
+<dd><p>Andreas Klöckner, Alexander Barnett, Leslie Greengard, and Michael O'Neil. Quadrature by expansion: A new method for the evaluation of layer potentials. <em>Journal of Computational Physics</em>, 252:332–349, November 2013. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2013.06.027">doi:10.1016/j.jcp.2013.06.027</a>.</p>
 </dd>
-<dt class="label" id="id7"><span class="brackets">CPD17</span></dt>
-<dd><p>Pieter Coulier, Hadi Pouransari, and Eric Darve. The inverse fast multipole method: using a fast approximate direct solver as a preconditioner for dense linear systems. <em>SIAM Journal on Scientific Computing</em>, 39(3):A761–A796, January 2017. URL: <a class="reference external" href="https://doi.org/10.1137/15m1034477">https://doi.org/10.1137/15m1034477</a>, <a class="reference external" href="https://doi.org/10.1137/15m1034477">doi:10.1137/15m1034477</a>.</p>
+<dt class="label" id="id858"><span class="brackets">RBZ18</span></dt>
+<dd><p>Abtin Rahimian, Alex Barnett, and Denis Zorin. Ubiquitous evaluation of layer potentials using Quadrature by Kernel-Independent Expansion. <em>BIT Numerical Mathematics</em>, 58(2):423–456, June 2018. <a class="reference external" href="https://doi.org/10.1007/s10543-017-0689-2">doi:10.1007/s10543-017-0689-2</a>.</p>
 </dd>
-<dt class="label" id="id8"><span class="brackets">EG01</span></dt>
-<dd><p>Frank Ethridge and Leslie Greengard. A new fast-multipole accelerated poisson solver in two dimensions. <em>SIAM Journal on Scientific Computing</em>, 23(3):741–760, January 2001. URL: <a class="reference external" href="https://doi.org/10.1137/s1064827500369967">https://doi.org/10.1137/s1064827500369967</a>, <a class="reference external" href="https://doi.org/10.1137/s1064827500369967">doi:10.1137/s1064827500369967</a>.</p>
+<dt class="label" id="id952"><span class="brackets">Seg00</span></dt>
+<dd><p>Paul Segall. <em>Earthquake and Volcano Deformation</em>. Princeton University Press, Sun, 01/24/2010 - 12:00. ISBN 978-0-691-13302-7.</p>
 </dd>
-<dt class="label" id="id11"><span class="brackets">FLT18</span></dt>
-<dd><p>Fredrik Fryklund, Erik Lehto, and Anna-Karin Tornberg. Partition of unity extension of functions on complex domains. <em>Journal of Computational Physics</em>, 375:57–79, December 2018. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2018.08.012">https://doi.org/10.1016/j.jcp.2018.08.012</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2018.08.012">doi:10.1016/j.jcp.2018.08.012</a>.</p>
+<dt class="label" id="id1083"><span class="brackets">WKlockner19</span></dt>
+<dd><p>Matt Wala and Andreas Klöckner. A Fast Algorithm for Quadrature by Expansion in Three Dimensions. <em>Journal of Computational Physics</em>, 388:655–689, July 2019. <a class="reference external" href="https://arxiv.org/abs/1805.06106">arXiv:1805.06106</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2019.03.024">doi:10.1016/j.jcp.2019.03.024</a>.</p>
 </dd>
-<dt class="label" id="id174"><span class="brackets">Gra04</span></dt>
-<dd><p>L. Grasedyck. Adaptive recompression of -matrices for BEM. <em>Computing</em>, 74(3):205–223, December 2004. URL: <a class="reference external" href="https://doi.org/10.1007/s00607-004-0103-1">https://doi.org/10.1007/s00607-004-0103-1</a>, <a class="reference external" href="https://doi.org/10.1007/s00607-004-0103-1">doi:10.1007/s00607-004-0103-1</a>.</p>
+<dt class="label" id="id1156"><span class="brackets">YBZ04</span></dt>
+<dd><p>Lexing Ying, George Biros, and Denis Zorin. A kernel-independent adaptive fast multipole algorithm in two and three dimensions. <em>Journal of Computational Physics</em>, 196(2):591–626, May 2004. <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.11.021">doi:10.1016/j.jcp.2003.11.021</a>.</p>
 </dd>
-<dt class="label" id="id4"><span class="brackets">GR87</span></dt>
-<dd><p>L Greengard and V Rokhlin. A fast algorithm for particle simulations. <em>Journal of Computational Physics</em>, 73(2):325–348, December 1987. URL: <a class="reference external" href="https://doi.org/10.1016/0021-9991(87)90140-9">https://doi.org/10.1016/0021-9991(87)90140-9</a>, <a class="reference external" href="https://doi.org/10.1016/0021-9991(87)90140-9">doi:10.1016/0021-9991(87)90140-9</a>.</p>
-</dd>
-<dt class="label" id="id6"><span class="brackets">GGMR09</span></dt>
-<dd><p>Leslie Greengard, Denis Gueyffier, Per-Gunnar Martinsson, and Vladimir Rokhlin. Fast direct solvers for integral equations in complex three-dimensional domains. <em>Acta Numerica</em>, 18:243–275, May 2009. URL: <a class="reference external" href="https://doi.org/10.1017/s0962492906410011">https://doi.org/10.1017/s0962492906410011</a>, <a class="reference external" href="https://doi.org/10.1017/s0962492906410011">doi:10.1017/s0962492906410011</a>.</p>
-</dd>
-<dt class="label" id="id173"><span class="brackets">HMT11</span></dt>
-<dd><p>N. Halko, P. G. Martinsson, and J. A. Tropp. Finding structure with randomness: probabilistic algorithms for constructing approximate matrix decompositions. <em>SIAM Review</em>, 53(2):217–288, January 2011. URL: <a class="reference external" href="https://doi.org/10.1137/090771806">https://doi.org/10.1137/090771806</a>, <a class="reference external" href="https://doi.org/10.1137/090771806">doi:10.1137/090771806</a>.</p>
-</dd>
-<dt class="label" id="id2"><span class="brackets">KlocknerBGONeil13</span></dt>
-<dd><p>Andreas Klöckner, Alexander Barnett, Leslie Greengard, and Michael O'Neil. Quadrature by expansion: a new method for the evaluation of layer potentials. <em>Journal of Computational Physics</em>, 252:332–349, November 2013. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2013.06.027">https://doi.org/10.1016/j.jcp.2013.06.027</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2013.06.027">doi:10.1016/j.jcp.2013.06.027</a>.</p>
-</dd>
-<dt class="label" id="id113"><span class="brackets">NW15</span></dt>
-<dd><p>Mehdi Nikkhoo and Thomas R Walter. Triangular dislocation: an analytical, artefact-free solution. <em>Geophysical Journal International</em>, 201(2):1119–1141, 2015.</p>
-</dd>
-<dt class="label" id="id140"><span class="brackets">Oka92</span></dt>
-<dd><p>Y Okada. Internal deformation due to shear and tensile faults in a half-space. <em>Bulletin of the Seismological Society of America</em>, 82(2):1018–1040, 1992. URL: <a class="reference external" href="http://www.bssaonline.org/content/82/2/1018.short">http://www.bssaonline.org/content/82/2/1018.short</a>.</p>
-</dd>
-<dt class="label" id="id178"><span class="brackets">RBZ17</span></dt>
-<dd><p>Abtin Rahimian, Alex Barnett, and Denis Zorin. Ubiquitous evaluation of layer potentials using quadrature by kernel-independent expansion. <em>BIT Numerical Mathematics</em>, 58(2):423–456, November 2017. URL: <a class="reference external" href="https://doi.org/10.1007/s10543-017-0689-2">https://doi.org/10.1007/s10543-017-0689-2</a>, <a class="reference external" href="https://doi.org/10.1007/s10543-017-0689-2">doi:10.1007/s10543-017-0689-2</a>.</p>
-</dd>
-<dt class="label" id="id169"><span class="brackets">SS86</span></dt>
-<dd><p>Youcef Saad and Martin H. Schultz. GMRES: a generalized minimal residual algorithm for solving nonsymmetric linear systems. <em>SIAM Journal on Scientific and Statistical Computing</em>, 7(3):856–869, July 1986. URL: <a class="reference external" href="https://doi.org/10.1137/0907058">https://doi.org/10.1137/0907058</a>, <a class="reference external" href="https://doi.org/10.1137/0907058">doi:10.1137/0907058</a>.</p>
-</dd>
-<dt class="label" id="id132"><span class="brackets">SPG08</span></dt>
-<dd><p>Alok Sutradhar, Glaucio H. Paulino, and Leonard J. Gray. <em>Symmetric Galerkin Boundary Element Method</em>. Springer, 2008.</p>
-</dd>
-<dt class="label" id="id177"><span class="brackets">WKlockner19</span></dt>
-<dd><p>Matt Wala and Andreas Klöckner. A fast algorithm for quadrature by expansion in three dimensions. <em>Journal of Computational Physics</em>, 388:655–689, July 2019. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2019.03.024">https://doi.org/10.1016/j.jcp.2019.03.024</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2019.03.024">doi:10.1016/j.jcp.2019.03.024</a>.</p>
-</dd>
-<dt class="label" id="id3"><span class="brackets">YBZ04</span></dt>
-<dd><p>Lexing Ying, George Biros, and Denis Zorin. A kernel-independent adaptive fast multipole algorithm in two and three dimensions. <em>Journal of Computational Physics</em>, 196(2):591–626, May 2004. URL: <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.11.021">https://doi.org/10.1016/j.jcp.2003.11.021</a>, <a class="reference external" href="https://doi.org/10.1016/j.jcp.2003.11.021">doi:10.1016/j.jcp.2003.11.021</a>.</p>
-</dd>
-<dt class="label" id="id167"><span class="brackets">Yok13</span></dt>
-<dd><p>Rio Yokota. An fmm based on dual tree traversal for many-core architectures. <em>Journal of Algorithms &amp; Computational Technology</em>, 7(3):301–324, 2013.</p>
+<dt class="label" id="id6"><span class="brackets">afKlintebergT18</span></dt>
+<dd><p>Ludvig af Klinteberg and Anna-Karin Tornberg. Adaptive Quadrature by Expansion for Layer Potential Evaluation in Two Dimensions. <em>SIAM Journal on Scientific Computing</em>, 40(3):A1225–A1249, January 2018. <a class="reference external" href="https://doi.org/10.1137/17M1121615">doi:10.1137/17M1121615</a>.</p>
 </dd>
 </dl>
 </p>
@@ -356,16 +360,27 @@
               </div>
               
         
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="c1qbx/part3_topo_solver.html" title="previous page"><span class="section-number">3. </span>[Draft] A strike slip fault underneath topography.</a>
-    <a class='right-next' id="next-link" href="thanks.html" title="next page">Thanks!</a>
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="volumetric/part2_mms_circle.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>[DRAFT] Method of manufactured solutions (MMS) for the Poisson equation</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="thanks.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Thanks!</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
@@ -381,18 +396,7 @@
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-114592151-1', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>

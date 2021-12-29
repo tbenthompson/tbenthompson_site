@@ -1,0 +1,1027 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. Viscoelasticity &#8212; Integral equation tutorials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/patch.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tbenthompson.com/book/c1qbx/part5_viscoelastic.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. Quasidynamic earthquake cycles: antiplane" href="part6_qd.html" />
+    <link rel="prev" title="4. Topography" href="part4_topography.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-114592151-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Integral equation tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Integral equation tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The problem space
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fault_problems.html">
+   1. Problems in earthquake science
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The TDE sequence: triangular dislocation elements
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/part4_low_rank.html">
+   1. Low rank approximation of BEM matrices with adaptive cross approximation (ACA).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tdes/part5_hmatrix.html">
+   2. GPU-accelerated hierarchical matrices for triangular dislocation elements.
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The QBX sequence: quadrature by expansion
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="part1_nearfield.html">
+   1. Computing boundary integrals with quadrature by expansion (QBX).
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part2_screw_dislocation.html">
+   2. QBX examples for the Laplace equation: fun with screw dislocations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part3_surface_intersection.html">
+   3. Slip on an infinite strike slip fault in an elastic half space
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part4_topography.html">
+   4. Topography
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. Viscoelasticity
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part6_qd.html">
+   6. Quasidynamic earthquake cycles: antiplane
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part7_qd_two_faults.html">
+   7. Quasidynamic earthquake cycles on two faults
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="part8_thrust_qd.html">
+   8. [DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  The volumetric sequence: beyond boundaries
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part1_solve_circle.html">
+   1. [DRAFT] Solving a Dirichlet problem on a circle.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../volumetric/part2_mms_circle.html">
+   2. [DRAFT] Method of manufactured solutions (MMS) for the Poisson equation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Back matter
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../thanks.html">
+   Thanks!
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/c1qbx/part5_viscoelastic.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   5.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-layered-viscoelastic-pde">
+   5.2. A layered viscoelastic PDE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#viscoelastic-boundary-integral-equation">
+   5.3. Viscoelastic boundary integral equation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   5.4. Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-against-the-analytic-solution">
+   5.5. Comparison against the analytic solution.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interior-evaluation-and-visualization">
+   5.6. Interior evaluation and visualization
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="viscoelasticity">
+<h1><span class="section-number">5. </span>Viscoelasticity<a class="headerlink" href="#viscoelasticity" title="Permalink to this headline">¶</a></h1>
+<p><strong>This is really cool. There’s a simple boundary integral equation for layered linear viscoelasticity. I started working through the math thinking that I’d need to handle a volumetric term, but then I realized that the volumetric term reduces to just a boundary integral for the special case of layered viscoelasticity.</strong></p>
+<div class="section" id="summary">
+<h2><span class="section-number">5.1. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Deriving the PDE and integral equation for a layered linear viscoelastic domain. The viscoelastic boundary will be a sort of stressing source term.</p></li>
+<li><p>Discretizing the resulting visocelastic integral equation by building the integral terms. This will require introducing the single layer and the adjoint double layer integrals in order to compute displacement given a known stress.</p></li>
+<li><p>Time stepping over a few hundred years of viscoelastic evolution after an earthquake.</p></li>
+</ul>
+</div>
+<div class="section" id="a-layered-viscoelastic-pde">
+<h2><span class="section-number">5.2. </span>A layered viscoelastic PDE<a class="headerlink" href="#a-layered-viscoelastic-pde" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start from the constitutive equation for a Maxwell viscoelastic rheology in antiplane strain:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-447c26f2-a112-4e3a-8caa-b3d812ea4e95">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-447c26f2-a112-4e3a-8caa-b3d812ea4e95" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\dot{\vec{\sigma}} &amp;= 2\mu\dot{\vec{\epsilon}} - \frac{\mu}{\eta}\vec{\sigma}
+\end{align}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{\sigma} = (\sigma_{xz}, \sigma_{yz})\)</span> is the vector stress in the antiplane setting, <span class="math notranslate nohighlight">\(\mu\)</span> is the shear modulus and <span class="math notranslate nohighlight">\(\eta\)</span> is the viscosity.</p>
+<p>And the definition of strain, again in the antiplane setting:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-85c86cd3-2698-405f-835e-b9fa6a0f961e">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-85c86cd3-2698-405f-835e-b9fa6a0f961e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{\epsilon} = \frac{1}{2}\nabla u
+\end{equation}\]</div>
+<p>And Newton’s law making a quasistatic assumption that the momentum term is negligible:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a721d6be-acb3-49e8-8678-7ed5af8332f1">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-a721d6be-acb3-49e8-8678-7ed5af8332f1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\nabla \cdot \vec{\sigma} = 0
+\end{equation}\]</div>
+<p>Inserting the Maxwell constitutive equation into the time derivative of Newton’s law and then applying the definition of strain, we get:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-01472b41-a4f1-495e-860e-86097bc133ba">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-01472b41-a4f1-495e-860e-86097bc133ba" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\nabla \cdot (2\mu\dot{\vec{\epsilon}} - \frac{\mu}{\eta}\vec{\sigma}) = 0\\
+2\mu \nabla^2 \dot{u} = \nabla \cdot (\frac{\mu}{\eta}\vec{\sigma})
+\end{align}\]</div>
+<p>Let’s explore that right hand side a bit more. If we apply the product rule, we get one term that depends on the gradient of the material properties and another term that depends on the divergence of stress. However we’ve already assumed that the divergence of stress is zero so that term drops out.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-13110dc5-f312-4f67-b5e4-1c964d3d9360">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-13110dc5-f312-4f67-b5e4-1c964d3d9360" title="Permalink to this equation">¶</a></span>\[\begin{align}
+\nabla \cdot (\frac{\mu}{\eta}\vec{\sigma}) &amp;= \nabla (\frac{\mu}{\eta}) \cdot \vec{\sigma} + \frac{\mu}{\eta} (\nabla \cdot \vec{\sigma})\\
+&amp;= \nabla (\frac{\mu}{\eta}) \cdot \vec{\sigma}
+\end{align}\]</div>
+<p>Conceptually, this is pretty interesting and tells us that viscosity only influences the displacement solution through its spatial variation. Critically for us, in a layered halfspace model, that spatial variation only occurs on a single or small number of surfaces separating the layers.</p>
+<p>Consider the figure below: a classic layered Maxwell viscoelastic half space where <span class="math notranslate nohighlight">\(\mu\)</span> is constant and <span class="math notranslate nohighlight">\(\eta\)</span> varies only as a step function across the elastic/viscoelastic boundary. As a result, the term that includes a viscosity divergence will simplify to:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9ddf7071-8d05-424d-9e86-b84303afe3e9">
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-9ddf7071-8d05-424d-9e86-b84303afe3e9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\nabla (\frac{\mu}{\eta}) = (0, -\delta(y=D) \frac{\mu}{\eta_V})
+\end{equation}\]</div>
+<p>The negative is because inverse viscosity decreases in the positive y direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;text.usetex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format=&#39;retina&#39;
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span> <span class="o">+</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">eta = </span><span class="se">\\</span><span class="s2">infty$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">eta = </span><span class="se">\\</span><span class="s2">eta_V$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;$t = 0$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="s2">&quot;$y = D$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">),</span> <span class="mf">0.10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">),</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">),</span> <span class="mf">0.10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;layered_ve.pdf&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part5_viscoelastic_3_0.png" src="../_images/part5_viscoelastic_3_0.png" />
+</div>
+</div>
+<p>So, the final equation we’d like to solve is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7374c99c-ee24-4706-9fb6-f1ed337a5efe">
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-7374c99c-ee24-4706-9fb6-f1ed337a5efe" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+2\mu \nabla^2 \frac{\partial u}{\partial t} = -\delta(y=D) \frac{\mu}{\eta_V} \sigma_y 
+\end{equation}\]</div>
+<p>In some situations, it can be more convenient to consider the equation in terms of the displacement rather than the velocity:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3372b9ff-f5d2-4c37-8fc9-a82fa631103c">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-3372b9ff-f5d2-4c37-8fc9-a82fa631103c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+2\mu \nabla^2 u = -\delta(y=D) \frac{\mu}{\eta_V} \int_{0}^{T} \sigma_y dt
+\end{equation}\]</div>
+<p>Now, how do we solve this? The key is relate this equation back to the governing PDE for linear elasticity with a body force term:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-dbf01568-cfff-4e42-94aa-cf3ca94ef097">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-dbf01568-cfff-4e42-94aa-cf3ca94ef097" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+2\mu\nabla^2u + f = 0
+\end{equation}\]</div>
+<p>The two equations take the same form if we assign:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bd608fd6-7b1c-491e-925f-f2302add76c3">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-bd608fd6-7b1c-491e-925f-f2302add76c3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+f = \delta(y=D) \frac{\mu}{\eta_V} \int_{0}^{T} \sigma_y dt
+\end{equation}\]</div>
+<p>So, any numerical method that can solve linear elastic problems with a body force can, with appropriate care, solve our layered viscoelastic problem.</p>
+</div>
+<div class="section" id="viscoelastic-boundary-integral-equation">
+<h2><span class="section-number">5.3. </span>Viscoelastic boundary integral equation<a class="headerlink" href="#viscoelastic-boundary-integral-equation" title="Permalink to this headline">¶</a></h2>
+<p>So, now that we’ve developed this layered viscoelastic PDE, lets’ transform it into integral form! Applying Somigliana’s identity to the linear elastic problem with an arbitrary body force on our geometry, we get:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3c1d23f9-a1d1-44ca-ac9a-b9872a682b86">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-3c1d23f9-a1d1-44ca-ac9a-b9872a682b86" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(\mathbf{p}) = -\int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{\Omega} G(\mathbf{p},\mathbf{q}) f(\mathbf{q}) d\mathbf{q}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is the observation point, <span class="math notranslate nohighlight">\(u\)</span> is the displacement, <span class="math notranslate nohighlight">\(s\)</span> is the slip on the fault, <span class="math notranslate nohighlight">\(H\)</span> is the free surface, <span class="math notranslate nohighlight">\(F\)</span> is the fault surface, <span class="math notranslate nohighlight">\(\Omega\)</span> is the whole domain, <span class="math notranslate nohighlight">\(G\)</span> is the fundamental solution of the Laplace equation, <span class="math notranslate nohighlight">\(\frac{\partial G}{\partial n_q}\)</span> is the kernel of the double layer potential.</p>
+<p>First off, this is <em>not</em> a boundary integral equation. There is a volumetric integral over the whole domain <span class="math notranslate nohighlight">\(\Omega\)</span>. But, substituting in the body force from above for <span class="math notranslate nohighlight">\(f(\mathbf{q})\)</span>, the fascinating thing is that the delta function means that the volume integral will reduce to a surface integral over the surface <span class="math notranslate nohighlight">\(V\)</span> that defines the boundary between the viscoelastic region and the elastic region. In our example, <span class="math notranslate nohighlight">\(V\)</span> is defined by <span class="math notranslate nohighlight">\(y=D\)</span>.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cacd6355-5703-4ae4-bc89-4fb41c26f67a">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-cacd6355-5703-4ae4-bc89-4fb41c26f67a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\int_{V} G(\mathbf{p},\mathbf{q}) f(\mathbf{q}) d\mathbf{q} = \frac{\mu}{\eta_V} \int_{V} G(\mathbf{p}, \mathbf{q}) \bigg[ \int_0^T \sigma_y(\mathbf{q}) dt \bigg] d\mathbf{q}
+\end{equation}\]</div>
+<p>So, the result is a purely boundary integral equation for the behavior of a fault in a Maxwell viscoelastic and elastic layered space.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-599665e7-26c9-4285-92a8-f6f905c04ce9">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-599665e7-26c9-4285-92a8-f6f905c04ce9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(\mathbf{p}) = -\int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{V} G(\mathbf{p}, \mathbf{q}) \bigg[\frac{\mu}{\eta_V} \int_0^T \sigma_y(\mathbf{q}) dt \bigg] d\mathbf{q}
+\end{equation}\]</div>
+<p>Assign <span class="math notranslate nohighlight">\(S\)</span> as the traction integral:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d49dbbae-66f3-41f8-91da-29c362bbce76">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-d49dbbae-66f3-41f8-91da-29c362bbce76" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+S(\mathbf{q}) = \frac{\mu}{\eta_V} \int_0^T \sigma_y(\mathbf{q}) dt
+\end{equation}\]</div>
+<p>This integral equation results in a fairly simple time stepping algorithm where, given <span class="math notranslate nohighlight">\(S^n\)</span>.</p>
+<ol class="simple">
+<li><p>Solve the BIE for <span class="math notranslate nohighlight">\(u\)</span>.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\frac{\partial S(\mathbf{q})}{\partial t} = \sigma_y(\mathbf{q})\)</span> for all <span class="math notranslate nohighlight">\(\mathbf{q} \in B\)</span>.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(S^{n+1}\)</span> according to the time integral.</p></li>
+<li><p>Repeat for the next time step.</p></li>
+</ol>
+</div>
+<div class="section" id="implementation">
+<h2><span class="section-number">5.4. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tectosaur2</span> <span class="kn">import</span> <span class="n">gauss_rule</span><span class="p">,</span> <span class="n">refine_surfaces</span><span class="p">,</span> <span class="n">integrate_term</span>
+<span class="kn">from</span> <span class="nn">tectosaur2.laplace2d</span> <span class="kn">import</span> <span class="n">single_layer</span><span class="p">,</span> <span class="n">double_layer</span><span class="p">,</span> <span class="n">adjoint_double_layer</span><span class="p">,</span> <span class="n">hypersingular</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we’ll set up the problem geometry. This will look pretty similar to our previous model with a fault in a halfspace. The difference is that we will have a second horizontal surface 20 km below the free surface. This surface will be called <code class="docutils literal notranslate"><span class="pre">VB</span></code>, short for “viscoelastic boundary”.</p>
+<p>I’ll also specify a <code class="docutils literal notranslate"><span class="pre">shear_modulus</span></code> (<span class="math notranslate nohighlight">\(\mu\)</span> in the math above) and <code class="docutils literal notranslate"><span class="pre">viscosity</span></code> (<span class="math notranslate nohighlight">\(\eta\)</span> in the math above).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">surf_half_L</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">visco_half_L</span> <span class="o">=</span> <span class="mi">800000</span>
+<span class="n">corner_resolution</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">fault_bottom</span> <span class="o">=</span> <span class="mi">15000</span>
+<span class="n">visco_depth</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">shear_modulus</span> <span class="o">=</span> <span class="mf">3e10</span>
+<span class="n">viscosity</span> <span class="o">=</span> <span class="mf">5e18</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+<span class="n">fault</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">VB</span> <span class="o">=</span> <span class="n">refine_surfaces</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">*</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fault_bottom</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span>  <span class="c1"># fault</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">t</span><span class="p">),</span>  <span class="c1"># free surface</span>
+        <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">*</span> <span class="n">visco_half_L</span><span class="p">,</span> <span class="o">-</span><span class="n">visco_depth</span> <span class="o">+</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">t</span><span class="p">),</span>  <span class="c1"># viscoelastic boundary</span>
+    <span class="p">],</span>
+    <span class="n">gauss_rule</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">fault</span><span class="o">.</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">VB</span><span class="o">.</span><span class="n">n_pts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6, 192, 156)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">VB</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">VB</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part5_viscoelastic_11_0.png" src="../_images/part5_viscoelastic_11_0.png" />
+</div>
+</div>
+<p>And we’ll compare against a series analytical solution originally from Nur and Mavko 1974. This can be derived from the elastic-viscoelastic correspondence principle and the Laplace transform. A good exposition in is the Segall 2008 textbook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
+
+
+<span class="k">def</span> <span class="nf">Fn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">D</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">analytic_to_surface</span><span class="p">(</span><span class="n">slip</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">t_R</span> <span class="o">=</span> <span class="n">viscosity</span> <span class="o">/</span> <span class="n">shear_modulus</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">slip</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">T1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">D</span> <span class="o">/</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">T2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+        <span class="n">m_factor</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">m_factor</span> <span class="o">+=</span> <span class="p">((</span><span class="n">t</span> <span class="o">/</span> <span class="n">t_R</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span><span class="p">))</span> <span class="o">/</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span>
+        <span class="n">n_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span> <span class="o">/</span> <span class="n">t_R</span><span class="p">)</span> <span class="o">*</span> <span class="n">m_factor</span>
+        <span class="n">T2</span> <span class="o">+=</span> <span class="n">n_factor</span> <span class="o">*</span> <span class="n">Fn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">C</span> <span class="o">*</span> <span class="p">(</span><span class="n">T1</span> <span class="o">+</span> <span class="n">T2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">analytic_soln</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">analytic_to_surface</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">fault_bottom</span><span class="p">,</span> <span class="n">visco_depth</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+
+<span class="n">siay</span> <span class="o">=</span> <span class="mi">31556952</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">siay</span><span class="p">,</span> <span class="mf">20.0</span> <span class="o">*</span> <span class="n">siay</span><span class="p">,</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">siay</span><span class="p">]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">,</span>
+        <span class="n">analytic_soln</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">),</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="o">/</span><span class="n">siay</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> years&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part5_viscoelastic_13_0.png" src="../_images/part5_viscoelastic_13_0.png" />
+</div>
+</div>
+<p>Next, in order to solve this problem, we’ll need to more boundary integral operators. Previously, we were computing displacements or stresses given a displacement (or slip) input with the double layer and hypersingular operators respectively. Now, because of the viscoelastic boundary where the field of interest is the stress, we need two new kernels. Here, we’ll introduce the single layer and adjoint double layer operators. We can think of these operators in terms of their inputs and outputs.</p>
+<ul class="simple">
+<li><p>single layer: traction input, displacement output <span class="math notranslate nohighlight">\(G(\mathbf{p}, \mathbf{q})\)</span></p></li>
+<li><p>double layer: displacement input, displacement output: <span class="math notranslate nohighlight">\(\frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q})\)</span></p></li>
+<li><p>adjoint double layer: traction input, stress output: <span class="math notranslate nohighlight">\(\frac{\partial G}{\partial n_p}(\mathbf{p}, \mathbf{q})\)</span></p></li>
+<li><p>hypersingular: displacement input, stress output: <span class="math notranslate nohighlight">\(\frac{\partial G}{\partial n_q \partial n_p}(\mathbf{p}, \mathbf{q})\)</span></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">([</span><span class="mf">0.5</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">([</span><span class="mf">0.5</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">Lx</span><span class="o">=</span><span class="mf">0.35</span>
+<span class="n">Ux</span><span class="o">=</span><span class="mf">0.85</span>
+<span class="n">Ly</span><span class="o">=</span><span class="mf">0.15</span>
+<span class="n">Uy</span> <span class="o">=</span> <span class="mf">0.65</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Uy</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\frac{\partial G}{\partial q}$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span><span class="n">Uy</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\frac</span><span class="si">{1}</span><span class="s1">{\mu}G$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ly</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\mu\frac{\partial^2 G}{\partial p \partial q}$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span><span class="n">Ly</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\frac{\partial G}{\partial p}$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span> <span class="o">-</span> <span class="mf">0.22</span><span class="p">,</span> <span class="n">Uy</span><span class="p">,</span> <span class="s1">&#39;$u$&#39;</span><span class="p">,</span>  <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span> <span class="o">-</span> <span class="mf">0.22</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span>  <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span> <span class="o">-</span> <span class="mf">0.22</span><span class="p">,</span> <span class="n">Uy</span><span class="p">,</span> <span class="s1">&#39;$u$&#39;</span><span class="p">,</span>  <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span> <span class="o">-</span> <span class="mf">0.22</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="s1">&#39;$\sigma$&#39;</span><span class="p">,</span>  <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Lx</span> <span class="o">-</span> <span class="mf">0.07</span><span class="p">,</span> <span class="n">Uy</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Lx</span> <span class="o">-</span> <span class="mf">0.07</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Ux</span> <span class="o">-</span> <span class="mf">0.07</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Ux</span> <span class="o">-</span> <span class="mf">0.07</span><span class="p">,</span> <span class="n">Uy</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Uy</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;$u$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;$u$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span> <span class="n">Uy</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;$t$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;$t$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Uy</span> <span class="o">+</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">+</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">+</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">Ux</span><span class="p">,</span> <span class="n">Uy</span> <span class="o">+</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part5_viscoelastic_16_0.png" src="../_images/part5_viscoelastic_16_0.png" />
+</div>
+</div>
+<p>There are two boundary integral equations that we need to compute the terms of:</p>
+<ol class="simple">
+<li><p>The equation to solve for free surface displacement given the fault slip and the traction integral <span class="math notranslate nohighlight">\(S(q)\)</span>. This was derived above from the Maxwell viscoelastic equations combined with Somigliana’s identity.</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight" id="equation-dc936a15-c22c-4490-bc6f-fbc0c3c0bae5">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-dc936a15-c22c-4490-bc6f-fbc0c3c0bae5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+u(\mathbf{p}) + \int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} = -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \frac{1}{\mu}\int_{V} G(\mathbf{p}, \mathbf{q}) S(\mathbf{q}) d\mathbf{q}
+\end{equation}\]</div>
+<p>I’ll note these terms as <code class="docutils literal notranslate"><span class="pre">{src_name}_to_free_disp</span></code>. We’ll construct the inverted left hand side matrix in <code class="docutils literal notranslate"><span class="pre">free_disp_solve_mat_inv</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">singularities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="o">-</span><span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">surf_half_L</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="n">visco_half_L</span><span class="p">,</span> <span class="o">-</span><span class="n">visco_depth</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">visco_half_L</span><span class="p">,</span> <span class="o">-</span><span class="n">visco_depth</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">fault_bottom</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="p">(</span>
+    <span class="n">free_disp_to_free_disp</span><span class="p">,</span>
+    <span class="n">fault_slip_to_free_disp</span>
+<span class="p">),</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">double_layer</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">fault</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span> <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">free_disp_to_free_disp</span> <span class="o">=</span> <span class="n">free_disp_to_free_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fault_slip_to_free_disp</span> <span class="o">=</span> <span class="n">fault_slip_to_free_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">VB_S_to_free_disp</span><span class="p">,</span> <span class="n">report</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span><span class="n">single_layer</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span> <span class="n">VB</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">,</span> <span class="n">return_report</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">VB_S_to_free_disp</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">shear_modulus</span><span class="p">)</span> <span class="o">*</span> <span class="n">VB_S_to_free_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">free_disp_solve_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">free_disp_to_free_disp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">free_disp_to_free_disp</span>
+<span class="n">free_disp_solve_mat_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">free_disp_solve_mat</span><span class="p">)</span>
+<span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">n_pts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="simple">
+<li><p>The equation to solve for the stress on the viscoelastic boundary surface. This is derived by simply taking a derivative with respect to the observation point locations and then applying the constitutive relationship. The terms here will be named <code class="docutils literal notranslate"><span class="pre">{src_name}_to_VB_stress</span></code> to indicate the input and output of the operator.</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight" id="equation-18182d56-7bf1-4ad0-bfd8-70b31823d44d">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-18182d56-7bf1-4ad0-bfd8-70b31823d44d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{\sigma}(\mathbf{p}) = -\mu\int_{H} \frac{\partial G}{\partial n_q \partial n_p}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\mu\int_{F} \frac{\partial G}{\partial n_q \partial n_p}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{V} \frac{\partial G}{\partial n_p} S(\mathbf{q})  d\mathbf{q}
+\end{equation}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">free_disp_to_VB_stress</span><span class="p">,</span> <span class="n">fault_slip_to_VB_stress</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">hypersingular</span><span class="p">,</span> <span class="n">VB</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">fault</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+<span class="p">)</span>
+<span class="n">free_disp_to_VB_syz</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">free_disp_to_VB_stress</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fault_slip_to_VB_syz</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">fault_slip_to_VB_stress</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">VB_S_to_VB_stress</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span><span class="n">adjoint_double_layer</span><span class="p">,</span> <span class="n">VB</span><span class="o">.</span><span class="n">pts</span><span class="p">,</span> <span class="n">VB</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span><span class="p">)</span>
+<span class="n">VB_S_to_VB_syz</span> <span class="o">=</span> <span class="n">VB_S_to_VB_stress</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To step through time, we follow the simple procedure laid out in the introduction:</p>
+<ol class="simple">
+<li><p>Solve for displacement on the free surface given the traction integral, <span class="math notranslate nohighlight">\(S^n\)</span>, and the slip, <span class="math notranslate nohighlight">\(s\)</span>. This involves using the first displacement integral equation described above.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\frac{\partial S(\mathbf{q})}{\partial t} = \sigma_y(\mathbf{q})\)</span>. This involves using the second traction integral equation above.</p></li>
+<li><p>Integrate in time to obtain <span class="math notranslate nohighlight">\(S^{n+1}\)</span>.</p></li>
+<li><p>Repeat for the next time step.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The slip does not change so these two integral terms can remain</span>
+<span class="c1"># outside the time stepping loop.</span>
+<span class="n">syz_fault</span> <span class="o">=</span> <span class="n">fault_slip_to_VB_syz</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+<span class="n">rhs_slip</span> <span class="o">=</span> <span class="o">-</span><span class="n">fault_slip_to_free_disp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+
+
+<span class="c1"># We&#39;ll integrate for 100 years of time in steps of 0.01 years. </span>
+<span class="c1"># siay is &quot;seconds in a year&quot;.</span>
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10001</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">siay</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># In the mathematical formulation, `traction_integral` was called &quot;S(q)&quot;. </span>
+<span class="n">traction_integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">VB</span><span class="o">.</span><span class="n">n_pts</span><span class="p">)</span>
+
+<span class="n">t_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">disp_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">S_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="c1"># Step 1) Solve for free surface displacement. </span>
+    <span class="c1"># The linear system here looks like:</span>
+    <span class="c1"># (I+A)*u = B*slip + C*traction_integral</span>
+    <span class="c1">#</span>
+    <span class="c1"># Glossary:</span>
+    <span class="c1"># free_disp_solve_mat_inv = (I+A)^{-1}</span>
+    <span class="c1"># rhs_slip = B*slip (pre-computed because slip isn&#39;t changing)</span>
+    <span class="c1"># VB_S_to_free_disp = C</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="n">rhs_slip</span> <span class="o">-</span> <span class="n">VB_S_to_free_disp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">traction_integral</span><span class="p">)</span>
+    <span class="n">free_disp</span> <span class="o">=</span> <span class="n">free_disp_solve_mat_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+
+    <span class="c1"># Store the current system state.</span>
+    <span class="n">t_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">disp_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">free_disp</span><span class="p">)</span>
+    <span class="n">S_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traction_integral</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># Step 2): Calculate viscoelastic boundary traction and then d[S]/dt</span>
+    <span class="c1"># The linear system here looks like:</span>
+    <span class="c1"># I*syz = A*u + B*slip + C*S</span>
+    <span class="c1"># </span>
+    <span class="c1"># Glossary:</span>
+    <span class="c1"># `syz_free` = A*u</span>
+    <span class="c1"># `syz_fault` = B*slip (pre-computed because slip isn&#39;t changing)</span>
+    <span class="c1"># `syz_VB` = C*S</span>
+    <span class="n">syz_free</span> <span class="o">=</span> <span class="n">free_disp_to_VB_syz</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">free_disp</span><span class="p">)</span>
+    <span class="n">syz_VB</span> <span class="o">=</span> <span class="n">VB_S_to_VB_syz</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">traction_integral</span><span class="p">)</span>
+
+    <span class="c1"># evaluating the boundary stress requires a multiple of two due to </span>
+    <span class="c1"># some esoteric boundary jump term issues</span>
+    <span class="n">syz</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">syz_free</span> <span class="o">+</span> <span class="n">syz_fault</span> <span class="o">+</span> <span class="n">syz_VB</span><span class="p">)</span>
+    <span class="n">dSdt</span> <span class="o">=</span> <span class="p">(</span><span class="n">shear_modulus</span> <span class="o">/</span> <span class="n">viscosity</span><span class="p">)</span> <span class="o">*</span> <span class="n">syz</span>
+
+    <span class="c1"># Step 3): Update S, simple forward Euler time step.</span>
+    <span class="n">traction_integral</span> <span class="o">+=</span> <span class="n">dSdt</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+<span class="n">t_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Numerically differentiate to obtain velocities.</span>
+<span class="n">velocity</span> <span class="o">=</span> <span class="n">siay</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">disp_history</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t_history</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="comparison-against-the-analytic-solution">
+<h2><span class="section-number">5.5. </span>Comparison against the analytic solution.<a class="headerlink" href="#comparison-against-the-analytic-solution" title="Permalink to this headline">¶</a></h2>
+<p>The first and second plots below show the numerical solution for displacement against the analytic solution. We can see that the error rises over time. I dug into the source of this error and its completely dominated by the error from truncating the infinite surfaces in the analytic problem into finite surfaces here. Compared to the purely elastic setting, the very farfield has a larger influence on the solution. Even so, we’re getting five digits of accuracy for small <span class="math notranslate nohighlight">\(t\)</span> and about three digits for larger <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">disp_history</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;elastic&quot;</span><span class="p">)</span>
+<span class="n">steps_to_plt</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">25</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">steps_to_plt</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">disp_history</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; yrs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">analytic_soln</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t_history</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">color</span> <span class="o">+</span> <span class="s2">&quot;-.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;BIE = solid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x ~ \mathrm{(km)}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$u ~ \mathrm{(m)}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">yr</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">+</span> <span class="n">steps_to_plt</span><span class="p">:</span>
+    <span class="n">analytic</span> <span class="o">=</span> <span class="n">analytic_soln</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t_history</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">numerical</span> <span class="o">=</span> <span class="n">disp_history</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">analytic</span> <span class="o">-</span> <span class="n">numerical</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">)),</span> <span class="n">color</span> <span class="o">+</span> <span class="s2">&quot;-.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x ~ \mathrm{(km)}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">{|u_{\textrm</span><span class="si">{analytic}</span><span class="s2">} - u|} ~ \mathrm{(m)}$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">steps_to_plt</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">velocity</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; yrs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x ~ \mathrm{(km)}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$v ~ \mathrm{(m/s)}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_history</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">siay</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">velocity</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$t ~ (\textrm</span><span class="si">{yr}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">(\textrm{max velocity in m/yr})$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/mt/cmys2v_143q1kpcrdt5wcdyr0000gn/T/ipykernel_77574/1825642728.py:21: RuntimeWarning: divide by zero encountered in log10
+  plt.plot(X, np.log10(np.abs(diff)), color + &quot;-.&quot;)
+</pre></div>
+</div>
+<img alt="../_images/part5_viscoelastic_25_1.png" src="../_images/part5_viscoelastic_25_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="interior-evaluation-and-visualization">
+<h2><span class="section-number">5.6. </span>Interior evaluation and visualization<a class="headerlink" href="#interior-evaluation-and-visualization" title="Permalink to this headline">¶</a></h2>
+<p>Let’s choose a few points in time and look at the whole displacement and stress fields in the domain!</p>
+<p>I’ll choose a grid of points focused on the area around the fault. That’s the most interesting area!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tectosaur2.mesh</span> <span class="kn">import</span> <span class="n">pts_grid</span>
+<span class="n">nobs</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">zoomx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">15000</span><span class="p">,</span> <span class="mi">15000</span><span class="p">]</span>
+<span class="n">zoomy</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">31000</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">]</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomx</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">zoomy</span><span class="p">,</span> <span class="n">nobs</span><span class="p">)</span>
+<span class="n">obs_pts</span> <span class="o">=</span> <span class="n">pts_grid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+<span class="n">obsx</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+<span class="n">obsy</span> <span class="o">=</span> <span class="n">obs_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">nobs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>These integral terms come from the same pair of integral equations that used above to solve for displacement and the viscoelastic boundary traction. However, this time we input our grid of observation points instead and evaluate in the interior.</p>
+<p>I’ve also added a few handy functions that will make our plotting adventures easier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">free_disp_to_volume_disp</span><span class="p">,</span> <span class="n">fault_slip_to_volume_disp</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">double_layer</span><span class="p">,</span> <span class="n">obs_pts</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">fault</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+<span class="p">)</span>
+<span class="n">VB_S_to_volume_disp</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">single_layer</span><span class="p">,</span> <span class="n">obs_pts</span><span class="p">,</span> <span class="n">VB</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+<span class="p">)</span>
+<span class="n">VB_S_to_volume_disp</span> <span class="o">/=</span> <span class="n">shear_modulus</span>
+
+<span class="n">free_disp_to_volume_stress</span><span class="p">,</span> <span class="n">fault_slip_to_volume_stress</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">hypersingular</span><span class="p">,</span> <span class="n">obs_pts</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">fault</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+<span class="p">)</span>
+<span class="n">free_disp_to_volume_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
+<span class="n">fault_slip_to_volume_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
+<span class="n">VB_S_to_volume_stress</span> <span class="o">=</span> <span class="n">integrate_term</span><span class="p">(</span>
+    <span class="n">adjoint_double_layer</span><span class="p">,</span> <span class="n">obs_pts</span><span class="p">,</span> <span class="n">VB</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">singularities</span><span class="o">=</span><span class="n">singularities</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_volumetric_disp</span><span class="p">(</span><span class="n">free_disp</span><span class="p">,</span> <span class="n">slip</span><span class="p">,</span> <span class="n">stress_integral</span><span class="p">):</span>
+    <span class="n">disp_free</span> <span class="o">=</span> <span class="n">free_disp_to_volume_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">free_disp</span><span class="p">)</span>
+    <span class="n">disp_fault</span> <span class="o">=</span> <span class="n">fault_slip_to_volume_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+    <span class="n">disp_VB</span> <span class="o">=</span> <span class="n">VB_S_to_volume_disp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">stress_integral</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">disp_free</span> <span class="o">-</span> <span class="n">disp_fault</span> <span class="o">+</span> <span class="n">disp_VB</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_volumetric_stress</span><span class="p">(</span><span class="n">free_disp</span><span class="p">,</span> <span class="n">slip</span><span class="p">,</span> <span class="n">stress_integral</span><span class="p">):</span>
+    <span class="n">stress_free</span> <span class="o">=</span> <span class="n">free_disp_to_volume_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">free_disp</span><span class="p">)</span>
+    <span class="n">stress_fault</span> <span class="o">=</span> <span class="n">fault_slip_to_volume_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
+    <span class="n">stress_VB</span> <span class="o">=</span> <span class="n">VB_S_to_volume_stress</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">stress_integral</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">stress_free</span> <span class="o">-</span> <span class="n">stress_fault</span> <span class="o">+</span> <span class="n">stress_VB</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obsx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">simple_plot</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+    <span class="n">n_dims</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="n">cntf</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+            <span class="n">obsx</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">obsy</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">field</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">d</span><span class="p">],</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+            <span class="n">obsx</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span>
+            <span class="n">obsy</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span>
+            <span class="n">field</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">d</span><span class="p">],</span>
+            <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+            <span class="n">linestyles</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+            <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">free</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">fault</span><span class="o">.</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cntf</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;scaled&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">zoomx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">zoomx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">zoomy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">zoomy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great, now we get to make some really fun figures! I’m going to plot the state of the system at four different points in time: 0 years (the initial conditions), 1 year, 5 years and 20 years. At each point in time, there will be four columns and three rows of figures. The first row will show displacements, the second row will show <span class="math notranslate nohighlight">\(\sigma_{xz}\)</span> and the third row will show <span class="math notranslate nohighlight">\(\sigma_{yz}\)</span>. The columns are showing subcomponents of the solution:</p>
+<ul class="simple">
+<li><p>The first column shows the displacement and stress induced by the surface displacement field <em>alone</em>. To be precise, we are plotting the integral <span class="math notranslate nohighlight">\(-\int_{H} \frac{\partial G(p, q)}{\partial p} u(q) dq\)</span></p></li>
+<li><p>The second column shows the displacement and stress induced by the fault dislocation *alone: <span class="math notranslate nohighlight">\(-\int_{F} \frac{\partial G(p, q)}{\partial p} s(q) dq\)</span></p></li>
+<li><p>The third column shows the displacement and stress induced by the viscoelastic boundary traction: <span class="math notranslate nohighlight">\(-\int_{V} G(p, q) S(q) dq\)</span></p></li>
+<li><p>The fourth column shows the total solution which is the sum of the first three columns.</p></li>
+</ul>
+<p>There are a bunch of interesting features to note:</p>
+<ul class="simple">
+<li><p>In the initial conditions, the viscoelastic boundary terms are all zero. This makes sense!</p></li>
+<li><p>The fault slip column is constant in time because the slip is not changing.</p></li>
+<li><p>As the surface displacement spreads outwards from the fault, the displacements increase deeper and farther from the fault.</p></li>
+<li><p>In year 5, in the total solution column, a small kink in the displacement field contours is visible at the viscoelastic boundary. This is to be expected from the jump in stress. A stress jump will lead to a jump in strain which is equivalent to a change in displacement derivative, causing the kink.</p></li>
+<li><p>By year 20, the viscous layer has mostly relaxed in the nearfield. The displacement and stress are indistinguishable from zero in the plots.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tectosaur2.nb_config</span> <span class="kn">import</span> <span class="n">scale_features</span>
+<span class="n">scale_features</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t_idx</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]:</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t = </span><span class="si">{</span><span class="n">t_history</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span><span class="o">/</span><span class="n">siay</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> years&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">terms</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]):</span>
+    <span class="c1"># for i, terms in enumerate([(1, 0, 0)]):#, (0, 1, 0), (0, 0, 1), (1,1,1)]):</span>
+        <span class="n">disp</span> <span class="o">=</span> <span class="n">get_volumetric_disp</span><span class="p">(</span>
+            <span class="n">terms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">disp_history</span><span class="p">[</span><span class="n">t_idx</span><span class="p">],</span> <span class="n">terms</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">slip</span><span class="p">,</span> <span class="n">terms</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_history</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s1">&#39;surface displacement&#39;</span><span class="p">,</span> <span class="s1">&#39;fault slip&#39;</span><span class="p">,</span> <span class="s1">&#39;viscoelastic stress&#39;</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">simple_plot</span><span class="p">(</span><span class="n">disp</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u ~~ \mathrm{(m)}$&#39;</span><span class="p">)</span>
+        
+
+        <span class="n">stress</span> <span class="o">=</span> <span class="n">get_volumetric_stress</span><span class="p">(</span>
+            <span class="n">terms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">disp_history</span><span class="p">[</span><span class="n">t_idx</span><span class="p">],</span> <span class="n">terms</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">slip</span><span class="p">,</span> <span class="n">terms</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_history</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">+</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">simple_plot</span><span class="p">(</span><span class="n">stress</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma_</span><span class="si">{xz}</span><span class="s1"> ~~ \mathrm{(MPa)}$&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="o">+</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">simple_plot</span><span class="p">(</span><span class="n">stress</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma_</span><span class="si">{yz}</span><span class="s1"> ~~ \mathrm{(MPa)}$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/mt/cmys2v_143q1kpcrdt5wcdyr0000gn/T/ipykernel_77574/3214398869.py:22: UserWarning: No contour levels were found within the data range.
+  plt.contour(
+/var/folders/mt/cmys2v_143q1kpcrdt5wcdyr0000gn/T/ipykernel_77574/3214398869.py:22: UserWarning: No contour levels were found within the data range.
+  plt.contour(
+/var/folders/mt/cmys2v_143q1kpcrdt5wcdyr0000gn/T/ipykernel_77574/3214398869.py:22: UserWarning: No contour levels were found within the data range.
+  plt.contour(
+</pre></div>
+</div>
+<img alt="../_images/part5_viscoelastic_33_1.png" src="../_images/part5_viscoelastic_33_1.png" />
+<img alt="../_images/part5_viscoelastic_33_2.png" src="../_images/part5_viscoelastic_33_2.png" />
+<img alt="../_images/part5_viscoelastic_33_3.png" src="../_images/part5_viscoelastic_33_3.png" />
+<img alt="../_images/part5_viscoelastic_33_4.png" src="../_images/part5_viscoelastic_33_4.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./c1qbx"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="part4_topography.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>Topography</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="part6_qd.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Quasidynamic earthquake cycles: antiplane</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By T. Ben Thompson<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
