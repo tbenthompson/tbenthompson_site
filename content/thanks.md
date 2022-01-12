@@ -1,6 +1,8 @@
 +++
-type = "thanks"
+type = "nonpost"
 +++
+
+## Your subscription is confirmed. 
 
 Thanks so much for subscribing! You should get an email confirming your subscription. 
 
