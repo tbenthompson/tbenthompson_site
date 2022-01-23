@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -259,7 +259,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -277,7 +277,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -322,7 +322,55 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>[DRAFT] Quasidynamic thrust fault earthquake cycles (plane strain)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   8.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-and-state-friction">
+   8.2. Rate and state friction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quasidynamic-earthquake-cycle-derivatives">
+   8.3. Quasidynamic earthquake cycle derivatives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrating-through-time">
+   8.4. Integrating through time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-the-results">
+   8.5. Plotting the results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-against-scec-seas-results">
+   8.6. Comparison against SCEC SEAS results
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <p><a class="reference external" href="https://strike.scec.org/cvws/seas/download/SEAS_BP3.pdf">SCEC BP3-QD</a> document is here.</p>
@@ -331,7 +379,7 @@
 <div class="section" id="summary">
 <h2><span class="section-number">8.1. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Most of the code here follows almost exactly from <span class="xref myst">the previous section on strike-slip/antiplane earthquake cycles</span>.</p></li>
+<li><p>Most of the code here follows almost exactly from <a class="reference internal" href="part6_qd.html"><span class="doc std std-doc">the previous section on strike-slip/antiplane earthquake cycles</span></a>.</p></li>
 <li><p>Since the fault motion is in the same plane as the fault normal vectors, we are no longer operating in an antiplane approximation. Instead, we use plane strain elasticity, a different 2D reduction of full 3D elasticity.</p></li>
 <li><p>One key difference is the vector nature of the displacement and the tensor nature of the stress. We must always make sure we are dealing with tractions on the correct surface.</p></li>
 <li><p>We construct a mesh, build our discrete boundary integral operators, step through time and then compare against other benchmark participants’ results.</p></li>
@@ -355,8 +403,6 @@
 <span class="n">fault_length</span> <span class="o">=</span> <span class="mi">40000</span>
 <span class="n">max_panel_length</span> <span class="o">=</span> <span class="mi">400</span>
 <span class="n">n_fault</span> <span class="o">=</span> <span class="mi">400</span>
-<span class="n">max_panel_length</span> <span class="o">=</span> <span class="mi">1600</span>
-<span class="n">n_fault</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">=</span> <span class="mf">3.2e10</span>
 <span class="n">nu</span> <span class="o">=</span> <span class="mf">0.25</span>
 
@@ -397,8 +443,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The free surface mesh has 218 panels with a total of 1308 points.
-The fault mesh has 100 panels with a total of 600 points.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The free surface mesh has 646 panels with a total of 3876 points.
+The fault mesh has 400 panels with a total of 2400 points.
 </pre></div>
 </div>
 </div>
@@ -444,7 +490,7 @@ The fault mesh has 100 panels with a total of 600 points.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/tbent/Dropbox/active/eq/tectosaur2/tectosaur2/integrate.py:201: UserWarning: Some integrals failed to converge during adaptive integration. This an indication of a problem in either the integration or the problem formulation.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/tbent/Dropbox/active/eq/tectosaur2/tectosaur2/integrate.py:204: UserWarning: Some integrals failed to converge during adaptive integration. This an indication of a problem in either the integration or the problem formulation.
   warnings.warn(
 </pre></div>
 </div>
@@ -478,6 +524,20 @@ The fault mesh has 100 panels with a total of 600 points.
 <span class="p">)</span>
 <span class="n">fault_slip_to_fault_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
 <span class="n">free_disp_to_fault_stress</span> <span class="o">*=</span> <span class="n">shear_modulus</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>We’re not achieving the tolerance we asked for!!</strong>
+Hypersingular integrals can be tricky but I think this is solvable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;integration_error&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.4504879515499894e-07
 </pre></div>
 </div>
 </div>
@@ -543,6 +603,9 @@ The fault mesh has 100 panels with a total of 600 points.
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/part8_thrust_qd_16_0.png" src="../_images/part8_thrust_qd_16_0.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -550,6 +613,11 @@ The fault mesh has 100 panels with a total of 600 points.
 <span class="n">Lb</span> <span class="o">=</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">mp</span><span class="o">.</span><span class="n">Dc</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_n0</span> <span class="o">*</span> <span class="n">mp</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
 <span class="n">hstar</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">shear_modulus</span> <span class="o">*</span> <span class="n">mp</span><span class="o">.</span><span class="n">Dc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma_n0</span> <span class="o">*</span> <span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span> <span class="n">mp</span><span class="o">.</span><span class="n">a</span><span class="p">))</span>
 <span class="n">mesh_L</span><span class="p">,</span> <span class="n">Lb</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">hstar</span><span class="p">[</span><span class="n">hstar</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(23.861918608330598, 341.3333333333333, 3216.990877275949)
 </pre></div>
 </div>
 </div>
@@ -765,7 +833,7 @@ The fault mesh has 100 panels with a total of 600 points.
 <span class="c1"># Integrate for 1000 years.</span>
 <span class="n">max_T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">siay</span>
 
-<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">500000</span>
 <span class="n">t_history</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">y_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">init_conditions</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
@@ -776,17 +844,58 @@ The fault mesh has 100 panels with a total of 600 points.
     <span class="n">y_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rk</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
     <span class="c1"># Print the time every 5000 steps</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;step=</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, time=</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">/</span> <span class="n">siay</span><span class="si">}</span><span class="s2"> yrs, step=</span><span class="si">{</span><span class="p">(</span><span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">t_history</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">siay</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="c1"># if i % 500 == 0:</span>
-    <span class="c1">#     print(f&quot;step={i}, time={rk.t / siay} yrs, step={(rk.t - t_history[-2]) / siay}&quot;)</span>
-    <span class="c1">#     plot_system_state(rk.t, state.calc(rk.t, rk.y))#, xlim=[-21000, -14000])</span>
 
     <span class="k">if</span> <span class="n">rk</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="n">max_T</span><span class="p">:</span>
         <span class="k">break</span>
 
 <span class="n">y_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_history</span><span class="p">)</span>
 <span class="n">t_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step=0, time=1.4616397558414107e-05 yrs, step=1.4616397558414107e-05
+step=5000, time=133.40079223999558 yrs, step=0.025598497379265003
+step=10000, time=176.14015294812103 yrs, step=5.998816102602071e-11
+step=15000, time=176.14015339898557 yrs, step=8.238172642666623e-11
+step=20000, time=176.14296040288025 yrs, step=2.1979783596630634e-05
+step=25000, time=263.1375647457368 yrs, step=0.0006967333900754272
+step=30000, time=263.2373556060858 yrs, step=5.5787478717397596e-11
+step=35000, time=263.23735589847996 yrs, step=1.6116718526537453e-10
+step=40000, time=314.8023513177958 yrs, step=0.030260419123390083
+step=45000, time=327.9773806823734 yrs, step=7.065608084576142e-11
+step=50000, time=327.97738099773073 yrs, step=3.294060227625318e-11
+step=55000, time=356.3693505901927 yrs, step=0.02798904784696968
+step=60000, time=414.56802731019104 yrs, step=4.732567262808485e-11
+step=65000, time=414.56802756651166 yrs, step=4.1885940142098087e-11
+step=70000, time=414.9294840754991 yrs, step=0.002112030610137971
+step=75000, time=479.28663934235965 yrs, step=5.784248876765926e-11
+step=80000, time=479.28663967884637 yrs, step=7.796949896581029e-11
+step=85000, time=479.2877011529307 yrs, step=8.501305135281465e-06
+step=90000, time=565.6498981880231 yrs, step=0.001480316487609428
+step=95000, time=565.8770021991605 yrs, step=5.4639090748133724e-11
+step=100000, time=565.877002481205 yrs, step=1.531586902165607e-10
+step=105000, time=614.5975778365752 yrs, step=0.029474945371490282
+step=110000, time=630.595404186933 yrs, step=6.22547162285152e-11
+step=115000, time=630.5954045063037 yrs, step=3.6990180904709996e-11
+step=120000, time=656.0166350083252 yrs, step=0.02921588740701827
+step=125000, time=717.1857705022477 yrs, step=4.0979318061100294e-11
+step=130000, time=717.1857707585524 yrs, step=5.234231480960598e-11
+step=135000, time=717.3785763542687 yrs, step=0.0010220541964367556
+step=140000, time=781.904169712801 yrs, step=6.805709754690108e-11
+step=145000, time=781.904170048407 yrs, step=7.603537185968166e-11
+step=150000, time=781.9045694275084 yrs, step=3.6081749206038533e-06
+step=155000, time=867.9930534924584 yrs, step=0.0034391542903144255
+step=160000, time=868.4945363826215 yrs, step=5.258408069787206e-11
+step=165000, time=868.4945366547215 yrs, step=1.5182897783109724e-10
+step=170000, time=914.161314434437 yrs, step=0.030127968410185897
+step=175000, time=933.2129355866244 yrs, step=7.228800059155745e-11
+step=180000, time=933.2129359097105 yrs, step=3.505605379858137e-11
+step=185000, time=955.611410869588 yrs, step=0.025085701504597362
+CPU times: user 5h 6min 33s, sys: 27min 1s, total: 5h 33min 35s
+Wall time: 1h 27min 50s
 </pre></div>
 </div>
 </div>
@@ -805,6 +914,9 @@ The fault mesh has 100 panels with a total of 600 points.
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part8_thrust_qd_27_0.png" src="../_images/part8_thrust_qd_27_0.png" />
 </div>
 </div>
 <p>And next, we’ll make the classic plot showing the spatial distribution of slip over time:</p>
@@ -854,6 +966,9 @@ The fault mesh has 100 panels with a total of 600 points.
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/part8_thrust_qd_29_0.png" src="../_images/part8_thrust_qd_29_0.png" />
+</div>
 </div>
 <p>And a plot of recurrence interval:</p>
 <div class="cell docutils container">
@@ -867,6 +982,9 @@ The fault mesh has 100 panels with a total of 600 points.
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/part8_thrust_qd_31_0.png" src="../_images/part8_thrust_qd_31_0.png" />
 </div>
 </div>
 </div>
@@ -921,6 +1039,11 @@ The fault mesh has 100 panels with a total of 600 points.
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>447
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -964,6 +1087,10 @@ The fault mesh has 100 panels with a total of 600 points.
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/part8_thrust_qd_38_0.png" src="../_images/part8_thrust_qd_38_0.png" />
+<img alt="../_images/part8_thrust_qd_38_1.png" src="../_images/part8_thrust_qd_38_1.png" />
+</div>
 </div>
 </div>
 </div>
@@ -990,8 +1117,8 @@ The fault mesh has 100 panels with a total of 600 points.
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part7_qd_two_faults.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1008,19 +1135,17 @@ The fault mesh has 100 panels with a total of 600 points.
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

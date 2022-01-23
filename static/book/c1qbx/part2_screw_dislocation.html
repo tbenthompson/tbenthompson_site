@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -354,7 +354,85 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>QBX examples for the Laplace equation: fun with screw dislocations</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   2.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#antiplane-shear">
+   2.2. Antiplane shear
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#meshing-a-symbolic-surface">
+   2.3. Meshing a symbolic surface
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#barycentric-lagrange-interpolation">
+   2.4. Barycentric Lagrange interpolation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hypersingular-stress-integrals">
+   2.5. Hypersingular stress integrals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#general-purpose-interior-evaluation">
+   2.6. General purpose interior evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#displacement-from-a-line-source">
+   2.7. Displacement from a line source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stress-from-a-line-source">
+   2.8. Stress from a line source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#displacement-from-an-arc-source">
+   2.9. Displacement from an arc source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stress-from-an-arc-source">
+   2.10. Stress from an arc source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#displacement-from-a-challenging-wavy-source">
+   2.11. Displacement from a challenging wavy source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stress-from-a-challenging-wavy-source">
+   2.12. Stress from a challenging wavy source
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="qbx-examples-for-the-laplace-equation-fun-with-screw-dislocations">
@@ -372,16 +450,16 @@
 <div class="section" id="antiplane-shear">
 <h2><span class="section-number">2.2. </span>Antiplane shear<a class="headerlink" href="#antiplane-shear" title="Permalink to this headline">¶</a></h2>
 <p>A basic result in linear elastic earthquake modeling is the representation of displacement from slip on an infinitely long strike-slip fault. Because the fault is infinitely long, all displacements is fault parallel. Suppose we’re looking at a cross-section in the <span class="math notranslate nohighlight">\(x,y\)</span> plane with all displacement occuring in the <span class="math notranslate nohighlight">\(z\)</span> direction. Then the displacement vector is <span class="math notranslate nohighlight">\(\mathbf{u} = (0, 0, u_z)\)</span>. And the strain state is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bf97153a-3f22-492b-8a06-0f2a9d7da347">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-bf97153a-3f22-492b-8a06-0f2a9d7da347" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-069009f9-3f1d-448e-b6b8-e30143580428">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-069009f9-3f1d-448e-b6b8-e30143580428" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \boldsymbol{\varepsilon} = \begin{bmatrix}
 0 &amp; 0 &amp; \epsilon_{13} \\
 0 &amp; 0 &amp; \epsilon_{23}\\
  \epsilon_{13}    &amp;    \epsilon_{23}      &amp; 0\end{bmatrix}
 \end{equation}\]</div>
 <p>This special state is called “antiplane shear”. We can simplify the equations of linear elasticity to be in terms of a vector strain, <span class="math notranslate nohighlight">\(\epsilon_z = (\epsilon_{xz}, \epsilon_{yz})\)</span> and vector stress, <span class="math notranslate nohighlight">\(\sigma_z = (2\mu\epsilon_{xz}, 2\mu\epsilon_{yz})\)</span>. Combined with Newtons law, we get the result that <span class="math notranslate nohighlight">\(u_z\)</span> is a solution to the Laplace equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5f32a3f0-9576-4735-b39d-c9b13b0c2364">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-5f32a3f0-9576-4735-b39d-c9b13b0c2364" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4f3ffebb-36dd-41e8-8f34-5a9c697971b6">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-4f3ffebb-36dd-41e8-8f34-5a9c697971b6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \nabla^2 u_z = 0
 \end{equation}\]</div>
 <p>As a result, we can describe the elastic behavior of infinitely long strike-slip faults (aka a “screw dislocation”) in terms of solutions to the Laplace equation.</p>
@@ -407,8 +485,8 @@
 <p>In the last section, we integrated over a circle. Circles are simple so we didn’t need much in the way of mesh handling code! But now, we’re going to need a little bit more. In particular, it will be nice to separate our surface into several “panels”. Panels are analogous to elements in a finite element method but make it clear that we’re talking about a surface discretization and not a volumetric discretization.</p>
 <p>The main tool we’re going to use is the <code class="docutils literal notranslate"><span class="pre">tectosaur2.panelize_symbolic_surface</span></code> function. This function processes a set of symbolic surfaces into a form that is ready for integration. Internally, <code class="docutils literal notranslate"><span class="pre">panelize_symbolic_surface</span></code> segments the symbolic curve and then discretized it according to the quadrature rule we provide. The discretized points, normals and jacobians are computed and stored in the returned <code class="docutils literal notranslate"><span class="pre">PanelSurface</span></code> object.</p>
 <p>Let’s try this out with a simple curve:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8eba5454-5966-4ecd-8fdc-cbd682ddabe9">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-8eba5454-5966-4ecd-8fdc-cbd682ddabe9" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-73fb5029-1686-4aad-9626-a98c6bda3492">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-73fb5029-1686-4aad-9626-a98c6bda3492" title="Permalink to this equation">¶</a></span>\[\begin{align}
 x &amp;= t\\
 y &amp;= \cos(t)
 \end{align}\]</div>
@@ -465,7 +543,7 @@ y &amp;= \cos(t)
 <p>We’ve been focusing so far on the quadrature error because it can be reduced dramatically with better algorithms, especially in the singular or near-singular case. The surface approximation error is handled simply through using a higher resolution approximation to the surface – for example, representing a circle with 100 points instead of 50. However, in the rest of this section it will be nice to be able to hold the surface approximation error constant while reducing the quadrature error to zero. But, in the integration techniques we have been using, the quadrature error and the surface error are inextricably linked. When we increase from using 50 to 100 points to integrate a function over a circle, we have been improving both the surface approximation and also using a more accurate quadrature rule.</p>
 <p>To separate the two components, we’ll interpolate points from a low order surface approximation in order to calculate the locations of quadrature points for a higher order integral approximation. To make the difference more concrete… Before, we would calculate new point locations for a circle by calculating <span class="math notranslate nohighlight">\((cos \theta, sin \theta)\)</span>. Now, we will calculate the new point from a polynomial interpolation of the <span class="math notranslate nohighlight">\(n\)</span> existing points <span class="math notranslate nohighlight">\(\sum_{i}^n c_i p_i(x)\)</span>. In some sense, this is also more realistic. In a real-world application, we normally have a data-derived surface representation that we can’t improve. On the other hand, even in that real world setting, we <em>can</em> add more quadrature points by interpolating on that surface. But adding more quadrature points won’t make the surface itself any more accurate.</p>
 <p>We won’t need to worry directly about interpolation since it’s handled internally to <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> but it’s a pretty fundamental component of the numerical methods being used here, so I figured it’d be good to introduce.</p>
-<p>We’re going to use <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id97">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
+<p>We’re going to use <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/barycentric.pdf">barycentric Lagrange interpolation</a><span id="id1">[<a class="reference internal" href="../references.html#id104">Berrut and Trefethen, 2004</a>]</span>. I strongly recommend that paper if you’ve never run into barycentric Lagrange interpolation before!</p>
 <p>Since we’re integrating and interpolating functions on a finite interval, we’ll use a Gaussian quadrature rule for doing the quadrature. As a result, we will be interpolating from the Gauss-Legendre points.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -514,8 +592,8 @@ y &amp;= \cos(t)
 <h2><span class="section-number">2.5. </span>Hypersingular stress integrals<a class="headerlink" href="#hypersingular-stress-integrals" title="Permalink to this headline">¶</a></h2>
 <p>Integrals as functions: I think it’s useful to think about the integrals in integral equations as functions accepting a certain input and producing a certain output. For example, the double layer integral accepts a potential input (and a set of observation points and a source surface mesh) and produces a potential as output. In comparison, the hypersingular integral accepts a potential input and produces a potential gradient as output. The input is the same, but the output has had an extra derivative applied. In terms of antiplane elasticity, potential is displacement and potential gradient is stress. The API of the <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> function is intended to closely match this integrals-as-functions concept where the three main parameters are the kernel function, the observation points and the source surface.</p>
 <p>The second missing piece is a set of tools for computing stresses in the volume given an input fault slip. Continuing in the antiplane strain setting, what we want is to compute the gradient of displacement times the shear modulus.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-21268678-f795-48be-ac6c-7ae512470bd7">
-<span class="eqno">(2.4)<a class="headerlink" href="#equation-21268678-f795-48be-ac6c-7ae512470bd7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4ef9d6ea-cd6e-47e0-a63f-6ec4a2688532">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-4ef9d6ea-cd6e-47e0-a63f-6ec4a2688532" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 (\sigma_{xz}, \sigma_{yz}) = (\mu \frac{\partial \phi}{\partial x}, \mu \frac{\partial \phi}{\partial y})
 \end{equation}\]</div>
 <div class="margin sidebar">
@@ -874,8 +952,8 @@ y &amp;= \cos(t)
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part1_nearfield.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -892,19 +970,17 @@ y &amp;= \cos(t)
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

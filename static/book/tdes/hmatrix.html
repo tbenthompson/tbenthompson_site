@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -344,7 +344,75 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>GPU-accelerated hierarchical matrices for triangular dislocation elements.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-tree-data-structure">
+   5.1. The tree data structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-the-tree">
+   5.2. Building the tree
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-node-pairs-that-we-can-approximate">
+   5.3. Finding node pairs that we can approximate.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#direct-matrix-blocks">
+   5.4. Direct matrix blocks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#approximating-a-far-field-matrix-block">
+   5.5. Approximating a far-field matrix block
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#block-tolerance">
+   5.6. Block tolerance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#faster-approximate-blocks-on-gpus-with-cutde">
+   5.7. Faster approximate blocks on GPUs with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     cutde
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-matrix-vector-product">
+   5.8. A matrix-vector product
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#potential-extensions">
+   5.9. Potential extensions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="gpu-accelerated-hierarchical-matrices-for-triangular-dislocation-elements">
@@ -626,16 +694,16 @@ radius = 5700.6865
 <div class="section" id="finding-node-pairs-that-we-can-approximate">
 <h2><span class="section-number">5.3. </span>Finding node pairs that we can approximate.<a class="headerlink" href="#finding-node-pairs-that-we-can-approximate" title="Permalink to this headline">¶</a></h2>
 <p>Having built the binary tree above, let’s use it for its intended purpose: determining which nodes are close and far from which other nodes.</p>
-<p>The technique I’m using here is called a dual tree traversal <span id="id1">[]</span>. The basic idea is to recursively traverse both the observation and source trees simultaneously. Whenever two nodes are sufficiently far away from each other, we assign those nodes to use an approximate calculation. When the nodes are too close and are leaf nodes, we use a direct calculation. And when the nodes are too close but are not leaf nodes, we choose the larger node and recurse to use its children.</p>
+<p>The technique I’m using here is called a dual tree traversal <span id="id1">[<a class="reference internal" href="../references.html#id1174">Yokota, 2012</a>]</span>. The basic idea is to recursively traverse both the observation and source trees simultaneously. Whenever two nodes are sufficiently far away from each other, we assign those nodes to use an approximate calculation. When the nodes are too close and are leaf nodes, we use a direct calculation. And when the nodes are too close but are not leaf nodes, we choose the larger node and recurse to use its children.</p>
 <p>Let’s make the concept of “close” and “far” more concrete. First, since both nodes are modeled as spheres, it’s trivial to say whether the nodes intersect:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-71433f04-c2af-48e7-96ce-b6eec5a68adb">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-71433f04-c2af-48e7-96ce-b6eec5a68adb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-240f9cc6-890e-4629-a168-16eaa25086e5">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-240f9cc6-890e-4629-a168-16eaa25086e5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{intersection~if~ ~} \|c_2 - c_1\| &lt; r_1 + r_2
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(c_i\)</span> is the center of a node and <span class="math notranslate nohighlight">\(r_i\)</span> is the radius. But, to say two nodes are far from each other, lack of intersection is not sufficient. At the edge of the intersection bound, the two spheres would meet at a point while still not intersecting. As a result, it’s possible that two elements in those nodes are still extremely close. Nearby elements will result in a block matrix that has full rank and cannot be efficiently approximated by adaptive cross approximation.</p>
 <p>So, we want a slightly stronger criterion. How about just adding a safety factor, <span class="math notranslate nohighlight">\(S\)</span> where <span class="math notranslate nohighlight">\(S &gt; 1\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7b40fbac-2590-4682-9d41-33e007d48313">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-7b40fbac-2590-4682-9d41-33e007d48313" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-37e3f7f5-e403-4ce5-979d-706401537f3f">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-37e3f7f5-e403-4ce5-979d-706401537f3f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mathrm{far-field~if~ ~} \|c_2 - c_1\| &lt; S (r_1 + r_2)
 \end{equation}\]</div>
 <p>We’ll leave <span class="math notranslate nohighlight">\(S\)</span> as a parameter that can be chosen by the user. If a small value (close to 1) is chosen, that will allow more of the resulting matrix to be approximated but the individual approximated blocks will have higher rank. If a larger value is chosen, less of the matrix will be handled approximately but the approximated portions will all be very low rank. I set the default to 1.5 as a reasonable compromise.</p>
@@ -905,9 +973,9 @@ radius = 5700.6865
         <span class="n">src_idx_start</span> <span class="o">=</span> <span class="n">Jstart</span> <span class="o">//</span> <span class="mi">3</span>
         <span class="n">src_idx_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">Jend</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="p">[</span><span class="n">src_idx_start</span><span class="p">:</span><span class="n">src_idx_end</span><span class="p">],</span> <span class="mf">0.25</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">obs_pts</span><span class="p">,</span> <span class="n">src_tri_pts</span><span class="p">[</span><span class="n">src_idx_start</span><span class="p">:</span><span class="n">src_idx_end</span><span class="p">],</span> <span class="mf">0.25</span><span class="p">)</span>
         <span class="n">n_cols_computed</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">src_idx_end</span> <span class="o">-</span> <span class="n">src_idx_start</span><span class="p">)</span>
-        <span class="n">cols2d</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_cols_computed</span><span class="p">))</span>
+        <span class="n">cols2d</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_cols_computed</span><span class="p">))</span>
 
         <span class="n">local_start</span> <span class="o">=</span> <span class="n">Jstart</span> <span class="o">%</span> <span class="mi">3</span>
         <span class="n">local_end</span> <span class="o">=</span> <span class="n">local_start</span> <span class="o">+</span> <span class="n">Jend</span> <span class="o">-</span> <span class="n">Jstart</span>
@@ -993,18 +1061,18 @@ pivot row=  37, pivot col=  53, step size=1.680e-06, tolerance=2.000e-06
 <h2><span class="section-number">5.6. </span>Block tolerance<a class="headerlink" href="#block-tolerance" title="Permalink to this headline">¶</a></h2>
 <p>Great, now we have the infrastructure necessary for approximate far-field matrix blocks. But, there’s one last thing to cover before constructing the full H-matrix. How do we translate a global matrix approximation tolerance into a local block-wise tolerance?</p>
 <p>Given a large dense BEM matrix and the desire to approximate that matrix using H-matrix techniques, we’ll presumably have some tolerance, <span class="math notranslate nohighlight">\(\varepsilon\)</span> that is acceptable. For H-matrices, the tolerance is a relative constraint on the Frobenius norm difference between the approximate matrix and the true matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-99b89e1f-6e4a-42f3-b121-7a38281c64dd">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-99b89e1f-6e4a-42f3-b121-7a38281c64dd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-dd301941-814e-41e8-8cee-04e1e8d856a3">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-dd301941-814e-41e8-8cee-04e1e8d856a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E\|_{F} \leq \varepsilon \|B\|_{F}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(E\)</span> is the error matrix and <span class="math notranslate nohighlight">\(B\)</span> is the matrix we want to approximate.</p>
 <p>That full-matrix tolerance needs to be translated into a tolerance that is used for each approximated block. On an intuitive level, a good option is to assign each block an error budget that is proportional to what percent of the entries of the full matrix that block makes up. In other words, we require that for a block with error <span class="math notranslate nohighlight">\(E_i\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a623fca6-be1e-4dbf-b03e-aa444bdeeb23">
-<span class="eqno">(5.4)<a class="headerlink" href="#equation-a623fca6-be1e-4dbf-b03e-aa444bdeeb23" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ea836004-e5c9-4e3e-863c-c0115f932489">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-ea836004-e5c9-4e3e-863c-c0115f932489" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|E_i\|_F \leq \varepsilon \sqrt{\frac{m_i n_i}{MN}} \|B\|_F
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(n_i\)</span> are the number of rows and columns for the block and <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are the number of rows and columns of the full matrix.</p>
-<p>The <span id="id2"></span> bradley paper works through the details of this approach.</p>
+<p>The <span id="id2">Bradley [<a class="reference internal" href="../references.html#id133">2011</a>]</span> paper works through the details of this approach.</p>
 <p>It’s important to always be clear about whether we’re talking about a relative error or an absolute error. In the <code class="docutils literal notranslate"><span class="pre">ACA_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">SVD_recompress</span></code> implementations, the error is specified in absolute terms. But, here the error is a relative error in terms of <span class="math notranslate nohighlight">\(\|B\|_F\)</span>, the Frobenius norm of the full matrix.</p>
 <p>In order to implement block-wise error tolerance, the only remaining puzzle is how to calculate <span class="math notranslate nohighlight">\(\|B\|_F\)</span> itself. This actually turns out to be pretty simple: we can just sample several rows at random from the full matrix and compute a statistical estimate of the matrix norm. Let’s do it:</p>
 <div class="cell docutils container">
@@ -1605,7 +1673,7 @@ Linf error:  0.017134746769055426
 </ul>
 </li>
 <li><p>There’s plenty of room for improvement in the tree construction to do a better job deciding which blocks can be approximated.</p></li>
-<li><p>It’s possible to perform efficient LU decomposition of an H-matrix <span id="id3">[]</span>. That would be super useful for problems where we’re solving many problems using the same left hand side matrix (e.g. time dependent problem).</p></li>
+<li><p>It’s possible to perform efficient LU decomposition of an H-matrix <span id="id3">[<a class="reference internal" href="../references.html#id84">Bebendorf, 2005</a>]</span>. That would be super useful for problems where we’re solving many problems using the same left hand side matrix (e.g. time dependent problem).</p></li>
 <li><p>And many more!</p></li>
 </ul>
 </div>
@@ -1633,8 +1701,8 @@ Linf error:  0.017134746769055426
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="low_rank.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1651,19 +1719,17 @@ Linf error:  0.017134746769055426
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

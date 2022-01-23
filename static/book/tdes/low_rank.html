@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -331,13 +331,68 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Low rank approximation of BEM matrices with adaptive cross approximation (ACA).</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#near-field-vs-far-field">
+   4.1. Near-field vs far-field
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#approximation-with-the-singular-value-decomposition-svd">
+   4.2. Approximation with the singular value decomposition (SVD)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adaptive-cross-approximation-aca">
+   4.3. Adaptive cross approximation (ACA)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#aca-and-aca-the-details">
+     4.3.1. ACA and ACA+, the details
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementing-aca">
+     4.3.2. Implementing ACA+
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#aca-is-accurate-and-efficient">
+   4.4. ACA+ is accurate and efficient
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svd-recompression">
+   4.5. SVD Recompression
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="low-rank-approximation-of-bem-matrices-with-adaptive-cross-approximation-aca">
 <h1><span class="section-number">4. </span>Low rank approximation of BEM matrices with adaptive cross approximation (ACA).<a class="headerlink" href="#low-rank-approximation-of-bem-matrices-with-adaptive-cross-approximation-aca" title="Permalink to this headline">¶</a></h1>
 <p>In the last section, I demonstrated how to avoid constructing the full dense BEM matrix by regenerating matrix entries whenever they are needed. This can be helpful for reducing memory costs and, in some situations, actually results in a faster solver too. But, it still suffers from the fundamental problem of having to work with a dense matrix where each matrix-vector product is an <span class="math notranslate nohighlight">\(O(n^2)\)</span> operation. Ultimately, for boundary integral methods to be a useful technology, we need to avoid working with dense matrices entirely.</p>
-<p>So, here, I’ll be demonstrating how the off-diagonal blocks of a BEM matrix can be dramatically compressed via a low-rank approximation. The result will be <span class="math notranslate nohighlight">\(O(n\log n)\)</span> or <span class="math notranslate nohighlight">\(O(n)\)</span> solution methods that can scale up to millions of elements. Hierarchical matrices (aka H-matrices,<span id="id1">[]</span>), tree-codes <span id="id2">[]</span>, fast multipole methods (FMM, <span id="id3">[]</span>) and several other techniques all make use of this basic concept. I’d argue these linear or log-linear methods are the largest distinguishing factor between “basic” BEM approaches from “advanced” or “modern” BEM approaches. So, let’s dive into a tour of low rank matrices! The tools we build here will form the core of the hierarchical matrix (H-matrix) implementation in the next section.</p>
+<p>So, here, I’ll be demonstrating how the off-diagonal blocks of a BEM matrix can be dramatically compressed via a low-rank approximation. The result will be <span class="math notranslate nohighlight">\(O(n\log n)\)</span> or <span class="math notranslate nohighlight">\(O(n)\)</span> solution methods that can scale up to millions of elements. Hierarchical matrices (aka H-matrices,<span id="id1">[<a class="reference internal" href="../references.html#id85">Bebendorf, 2008</a>]</span>), tree-codes <span id="id2">[<a class="reference internal" href="../references.html#id62">Barnes and Hut, 1986</a>]</span>, fast multipole methods (FMM, <span id="id3">[<a class="reference internal" href="../references.html#id77">Beatson and Greengard, 1997</a>]</span>) and several other techniques all make use of this basic concept. I’d argue these linear or log-linear methods are the largest distinguishing factor between “basic” BEM approaches from “advanced” or “modern” BEM approaches. So, let’s dive into a tour of low rank matrices! The tools we build here will form the core of the hierarchical matrix (H-matrix) implementation in the next section.</p>
 <p>To start out, let’s generate, yet again, a simple self-interaction matrix for a free surface. For simplicity, I just used a triangulated planar rectangle rather than anything realistic. I hid these cells since the code is nothing new.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
@@ -515,18 +570,18 @@
 </div>
 </div>
 <p>To continue, it’s useful to define what the relevant metric for the matrix approximation that we’re going to do. A useful norm is the Frobenius norm because it depends only on the matrix entries and for a matrix <span class="math notranslate nohighlight">\(M \in \mathbb{R}^{n x m}\)</span> is defined as:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-db5623c4-44c7-4b52-a88e-9f3740f2c5fc">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-db5623c4-44c7-4b52-a88e-9f3740f2c5fc" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-834d0da4-6b72-4bfa-8a27-b3fd8c3bf4c2">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-834d0da4-6b72-4bfa-8a27-b3fd8c3bf4c2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|M\|_F = \sqrt{\sum_{i,j}^{m,n} M_{ij}^2}
 \end{equation}\]</div>
 <p>An important fact is that the Frobenius norm of a matrix is the root of the sum of the square of the singular values. That is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9521f6c-bbd9-4553-9350-3f852a8f7069">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-a9521f6c-bbd9-4553-9350-3f852a8f7069" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-87a1000e-9253-42e0-8849-69426a6c3a4d">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-87a1000e-9253-42e0-8849-69426a6c3a4d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \|M\|_F = \sqrt{\sum_{k}^{min(m,n)} \sigma_k^2}
 \end{equation}\]</div>
 <p>So, what if we want to approximate a matrix with a particular tolerance, <span class="math notranslate nohighlight">\(\epsilon\)</span> in terms of the Frobenius norm? One way to do it will be to compute the SVD and then find the lowest index <span class="math notranslate nohighlight">\(K\)</span> for which the constraint is true:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-16dbff0c-4138-459a-9600-eb1221de7eaa">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-16dbff0c-4138-459a-9600-eb1221de7eaa" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3df6f7c7-1345-4985-af9c-22610c2715ad">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-3df6f7c7-1345-4985-af9c-22610c2715ad" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \sqrt{\sum_{k=1}^K \sigma_k^2} - \|M\|_F = \sqrt{\sum_{k=K}^{min(m,n)} \sigma_k^2} &lt; \epsilon
 \end{equation}\]</div>
 <p>The middle sum from <span class="math notranslate nohighlight">\(K\)</span> to the number of rows/columns is essentially a measure of how important the dropped singular values are. So we want that sum to be smaller than our tolerance! The actual implementation below is surprisingly simple.</p>
@@ -746,18 +801,18 @@ Frobenius(M-UV)  = 8.902174079271246e-09
 </div>
 <div class="section" id="adaptive-cross-approximation-aca">
 <h2><span class="section-number">4.3. </span>Adaptive cross approximation (ACA)<a class="headerlink" href="#adaptive-cross-approximation-aca" title="Permalink to this headline">¶</a></h2>
-<p>So, we’ve managed to create an extremely efficient approximation of our off-diagonal matrix block by using the SVD. That’s definitely useful for computing fast matrix-vector products or even for computing a LU decomposition. But, it still suffers from the need to compute the entire matrix block in the first place, an <span class="math notranslate nohighlight">\(O(n^2)\)</span> operation! If we’re going to be throwing all that information away immediately after computing the SVD, is there a way to avoid computing the dense matrix block in the first place? There are several solutions to this problem like randomized SVDs <span id="id4">[]</span>, but the most useful solution for our setting is the adaptive cross approximation (ACA) method <span id="id5">[]</span>. These algorithms depending on the ability to compute arbitrary individual matrix entries without computing the entire matrix. By making certain assumptions about the structure of a matrix, we can be confident that an accurate approximation can be constructed from just a few rows and columns.</p>
-<p>The basic idea of ACA is to approximate a matrix with a rank 1 outer product of one row and one column of that same matrix. And then iteratively use this process to construct an approximation of arbitrary precision. Ideally, at each step, we will choose the best fitting row and column. After the first iteration, we are no longer trying to approximate the original matrix, but instead we approximate the residual matrix formed by the difference between the original matrix and the current approximation matrix. Eventually, given certain matrix properties that have been proven true for BEM problem  <span id="id6">[]</span>, the procedure will converge.</p>
+<p>So, we’ve managed to create an extremely efficient approximation of our off-diagonal matrix block by using the SVD. That’s definitely useful for computing fast matrix-vector products or even for computing a LU decomposition. But, it still suffers from the need to compute the entire matrix block in the first place, an <span class="math notranslate nohighlight">\(O(n^2)\)</span> operation! If we’re going to be throwing all that information away immediately after computing the SVD, is there a way to avoid computing the dense matrix block in the first place? There are several solutions to this problem like randomized SVDs <span id="id4">[<a class="reference internal" href="../references.html#id440">Halko <em>et al.</em>, 2010</a>]</span>, but the most useful solution for our setting is the adaptive cross approximation (ACA) method <span id="id5">[<a class="reference internal" href="../references.html#id81">Bebendorf and Rjasanow, 2003</a>, <a class="reference internal" href="../references.html#id82">Bebendorf, 2000</a>]</span>. These algorithms depending on the ability to compute arbitrary individual matrix entries without computing the entire matrix. By making certain assumptions about the structure of a matrix, we can be confident that an accurate approximation can be constructed from just a few rows and columns.</p>
+<p>The basic idea of ACA is to approximate a matrix with a rank 1 outer product of one row and one column of that same matrix. And then iteratively use this process to construct an approximation of arbitrary precision. Ideally, at each step, we will choose the best fitting row and column. After the first iteration, we are no longer trying to approximate the original matrix, but instead we approximate the residual matrix formed by the difference between the original matrix and the current approximation matrix. Eventually, given certain matrix properties that have been proven true for BEM problem  <span id="id6">[<a class="reference internal" href="../references.html#id81">Bebendorf and Rjasanow, 2003</a>]</span>, the procedure will converge.</p>
 <p>For the sake of real-world usage, the description above will be sufficient for understanding what’s going on. But, if you want to dive into a detailed description and implementation of the method, see below! Otherwise, skip over the next two sub-sections.</p>
 <div class="section" id="aca-and-aca-the-details">
 <h3><span class="section-number">4.3.1. </span>ACA and ACA+, the details<a class="headerlink" href="#aca-and-aca-the-details" title="Permalink to this headline">¶</a></h3>
-<p>The simple version, runs like (following <span id="id7"></span>):</p>
+<p>The simple version, runs like (following <span id="id7">Grasedyck [<a class="reference internal" href="../references.html#id406">2005</a>]</span>):</p>
 <p><strong>ACA with full pivoting</strong>: Given a matrix <span class="math notranslate nohighlight">\(M \in \mathbb{R}^{n x m}\)</span>, we’ll construct an approximation like <span class="math notranslate nohighlight">\(\sum_{k}^{r} u_k v_k^T\)</span>. The task will be to construct the row and column vectors <span class="math notranslate nohighlight">\(u_k\)</span> and <span class="math notranslate nohighlight">\(v_k\)</span> on each iteration such that the Frobenius norm error eventually converges. To do that, the key will be to iteratively form rank-1 approximations to the residual matrix. The residual matrix is the matrix forming the difference between <span class="math notranslate nohighlight">\(M\)</span> and the current approximation and can be written as <span class="math notranslate nohighlight">\(R_{ij} = M_{ij} - \sum_{k}^{r} u_{kj} v_{ki}\)</span> representing the entry-wise difference between the target matrix and the current approximation. The goal will be to have <span class="math notranslate nohighlight">\(R\)</span> satisfy <span class="math notranslate nohighlight">\(\|R\|_2 &lt; \epsilon\)</span> where <span class="math notranslate nohighlight">\(\epsilon\)</span> is a user-specified accuracy parameter. To do this, during each iteration:</p>
 <ol>
 <li><p>Determine a “pivot” <span class="math notranslate nohighlight">\((i^*, j^*)\)</span> as the indices that maximize <span class="math notranslate nohighlight">\(R_{ij}\)</span>. Intuitively, the largest rows and columns are going to be most “important”.</p></li>
 <li><p>Assign a new rank-1 component of the approximation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0251a4a3-1544-4316-bdba-e0e2d83383cc">
-<span class="eqno">(4.4)<a class="headerlink" href="#equation-0251a4a3-1544-4316-bdba-e0e2d83383cc" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-80516195-c96f-49ab-9116-d9a106ac8d1d">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-80516195-c96f-49ab-9116-d9a106ac8d1d" title="Permalink to this equation">¶</a></span>\[\begin{align}
     u_{kj} &amp;= R_{i^*,j} / R_{i^*,j^*} \\
     v_{ki} &amp;= R_{i,j^*}
     \end{align}\]</div>
@@ -774,8 +829,8 @@ Frobenius(M-UV)  = 8.902174079271246e-09
 <li><p>If <span class="math notranslate nohighlight">\(R_{i_{\mathrm{ref}}, j^*} &gt; R_{i^*, j_{\mathrm{ref}}}\)</span> then, we compute the column corresponding to <span class="math notranslate nohighlight">\(j^*\)</span> or if the opposite is true, we compute the row corresponding to <span class="math notranslate nohighlight">\(i^*\)</span>. Essentially, we are determining here whether we should pivot first based on the row or the column.</p></li>
 <li><p>If we pivoted based on column, we should now have computed a new residual column <span class="math notranslate nohighlight">\(R_{i,j^*} = M_{i,j^*} - \sum_{k}^{r} u_{kj^*} v_{ki}\)</span>. Find the missing pivot index now by maximizing <span class="math notranslate nohighlight">\(R_{i,j^*}\)</span> to get <span class="math notranslate nohighlight">\(i^*\)</span>. Or if we pivoted on the row, we will have a new residual row <span class="math notranslate nohighlight">\(R_{i^*,j} = M_{i^*,j} - \sum_{k}^{r} u_{kj} v_{ki^*}\)</span> and we maximize <span class="math notranslate nohighlight">\(R_{i^*,j}\)</span> to get <span class="math notranslate nohighlight">\(j^*\)</span>. The idea here is to finish the pivot operation from step 2 by pivoting in the dimension that we have not considered yet. At each step, we are essentially trying to find the largest residual matrix element out of all the entries we have seen so far with the goal of getting as close as possible to the full pivoting algorithm without actually needing to calculate all the residual matrix elements. Why am I referring to the identification of the largest entries as “pivoting”? This is by analogy to various matrix operations like LU decomposition where the numerical stability is best when the largest entries are handled first. ACA can also be reframed as an iterative triangular decomposition of a matrix. Before moving on, note how we calculate the residual row (column) here by computing the original matrix row and then subtracting the row (column) of the current approximation. This is critical since it means that we’re only compunting a single row or column of the original matrix.</p></li>
 <li><p>Next, just like in the full pivoting algorithm, assign:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-689664b2-8c5a-4d22-87ee-871aaa4c878c">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-689664b2-8c5a-4d22-87ee-871aaa4c878c" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-880eb617-58a6-4418-aa0f-75a73af45aac">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-880eb617-58a6-4418-aa0f-75a73af45aac" title="Permalink to this equation">¶</a></span>\[\begin{align}
     u_{kj} &amp;= R_{i^*,j} / R_{i^*,j^*} \\
     v_{ki} &amp;= R_{i,j^*}
     \end{align}\]</div>
@@ -1184,24 +1239,24 @@ frob error(M-UV) = 4.3695129771496895e-10
 <p>In some sense, the approximation we built with ACA is too good. Most of the time, we’re getting Frobenius errors much lower than we asked for. But there’s some inconsistency in the output error. This inconsistency is why we asked for <code class="docutils literal notranslate"><span class="pre">eps/50.0</span></code> as the convergence criterion. However, we would ideally want an algorithm that <em>juuust barely</em> meets the tolerance condition. Unfortunately that’s quite difficult when the algorithm is stuck with limited information about the matrix under consideration. So, in this final section I’ll demonstrate a simple post-processing method that will reduce the size/cost of the approximation to more precisely fit the requested tolerance.</p>
 <p>The basic idea is quite simple: just do another compression of the ACA approximation matrices with the singular value decomposition. We wanted to avoid doing an SVD on the original full-size matrix block, but now that we have constructed a reduced expression, it can be worthwhile to do the extra effort to reduce it even further with an exact SVD.</p>
 <p>How do we do that? I’ve already built an approximation that looks like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-01d5fdce-5137-4abf-a3bd-2214bf798ab6">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-01d5fdce-5137-4abf-a3bd-2214bf798ab6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7f2b1bb7-7931-4902-b27c-b78baea7a7fc">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-7f2b1bb7-7931-4902-b27c-b78baea7a7fc" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 M \approx UV^T
 \end{equation}\]</div>
 <p>Basically <span class="math notranslate nohighlight">\(V^T\)</span> maps from a high-dimensional space to a low-dimensional space and then <span class="math notranslate nohighlight">\(U\)</span> maps back from the low-dimensional space to the high-dimensional space. So, let’s first extract the low-dimensional operation. To do that, perform a QR decomposition on both <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>. Then we have:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8c4a689a-519f-4914-9839-e61dd39cea39">
-<span class="eqno">(4.7)<a class="headerlink" href="#equation-8c4a689a-519f-4914-9839-e61dd39cea39" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-90a5ffa1-3eea-4cf0-9d2a-63f07b1dee31">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-90a5ffa1-3eea-4cf0-9d2a-63f07b1dee31" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 UV^T = Q_UR_UR_V^TQ_V^T
 \end{equation}\]</div>
 <p>One way of thinking about this is that <span class="math notranslate nohighlight">\(Q_V^T\)</span> and <span class="math notranslate nohighlight">\(Q_U\)</span> are just rotations now and <span class="math notranslate nohighlight">\(R_UR_V^T\)</span> is a square matrix in the low-dimensional subspace that is performing the non-rotational action of <span class="math notranslate nohighlight">\(M\)</span>.</p>
 <p>Now, take the SVD of that small action matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-496a7a70-2801-45d5-80c9-50e8c111b86a">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-496a7a70-2801-45d5-80c9-50e8c111b86a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f45bbde2-2f5c-42ea-9102-fb02e3f4eeac">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-f45bbde2-2f5c-42ea-9102-fb02e3f4eeac" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 R_UR_V^T = W \Sigma Z^T
 \end{equation}\]</div>
 <p>And we’ll filter on the singular values in <span class="math notranslate nohighlight">\(\Sigma\)</span> to reduce the rank of the matrix just like we did before with the full SVD. That’s it! To reconstruct the approximation, we just need:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e62f2eba-470d-472b-b7b1-46971a8edcdf">
-<span class="eqno">(4.9)<a class="headerlink" href="#equation-e62f2eba-470d-472b-b7b1-46971a8edcdf" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f136c724-5eb5-40de-b9d7-101f0db269c5">
+<span class="eqno">(4.9)<a class="headerlink" href="#equation-f136c724-5eb5-40de-b9d7-101f0db269c5" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \overline{U} &amp;= Q_UW\Sigma \\
 \overline{V} &amp;= ZQ_V \\
 M &amp;\approx \overline{U}\overline{V}^T
@@ -1447,8 +1502,8 @@ frob error(M-UV) = 8.910902539999634e-09
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="free_matvec.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1465,19 +1520,17 @@ frob error(M-UV) = 8.910902539999634e-09
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

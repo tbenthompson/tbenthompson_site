@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -328,7 +328,59 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Slip on an infinite strike slip fault in an elastic half space</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#constructing-the-mesh">
+   3.1. Constructing the mesh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solving-for-surface-displacement">
+   3.2. Solving for surface displacement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation">
+     3.2.1. Implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#details-on-singularities">
+       3.2.1.1. Details on singularities
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interior-evaluation-of-displacement-and-stress">
+   3.3. Interior evaluation of displacement and stress.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tools-for-debugging-the-integration-algorithm">
+   3.4. Tools for debugging the integration algorithm
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="slip-on-an-infinite-strike-slip-fault-in-an-elastic-half-space">
@@ -359,7 +411,7 @@
 </div>
 <div class="section" id="constructing-the-mesh">
 <h2><span class="section-number">3.1. </span>Constructing the mesh<a class="headerlink" href="#constructing-the-mesh" title="Permalink to this headline">¶</a></h2>
-<p>Step one is to set up the geometry that we will be modeling. To do this, we use the <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> function. <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> adaptively refines the specified surfaces into “panels” that follow a careful set of rules designed to guarantee that our numerical integration operations are accurate based on the “stage-1” rules layed out in section 3 of <span id="id3">Wala and Klöckner [<a class="reference internal" href="../references.html#id1083">2019</a>]</span>. It takes as arguments:</p>
+<p>Step one is to set up the geometry that we will be modeling. To do this, we use the <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> function. <code class="docutils literal notranslate"><span class="pre">refine_surfaces</span></code> adaptively refines the specified surfaces into “panels” that follow a careful set of rules designed to guarantee that our numerical integration operations are accurate based on the “stage-1” rules layed out in section 3 of <span id="id3">Wala and Klöckner [<a class="reference internal" href="../references.html#id1095">2019</a>]</span>. It takes as arguments:</p>
 <ul class="simple">
 <li><p>A list of surfaces. Here, we will be specifying the surfaces symbolically using <code class="docutils literal notranslate"><span class="pre">sympy</span></code>. The variables <span class="math notranslate nohighlight">\(t\)</span> is implicitly assumed to vary in <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
 <ul>
@@ -433,8 +485,8 @@ The fault mesh has 8 panels with a total of 64 points.
 <h2><span class="section-number">3.2. </span>Solving for surface displacement<a class="headerlink" href="#solving-for-surface-displacement" title="Permalink to this headline">¶</a></h2>
 <p>The first step in solving the problem is to calculate the surface displacement given unit slip on the fault. To do this, we are going to invert the relevant integral equation.</p>
 <p>The governing integral equation here is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bcf078e8-4d45-4603-8fb9-313699a374d1">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-bcf078e8-4d45-4603-8fb9-313699a374d1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8dea63dc-2a96-4bdf-af80-8f1f37de29f4">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-8dea63dc-2a96-4bdf-af80-8f1f37de29f4" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\int_{S} \frac{\partial G(x, y)}{\partial y} u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(G(x, y)\)</span> is the fundamental solution of the Laplace equation, <span class="math notranslate nohighlight">\(u_z(y)\)</span> is the slip at point <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\Omega\)</span> is the domain of interest (the Earth!) and <span class="math notranslate nohighlight">\(\partial \Omega\)</span> is the boundary of the domain (the free surface <strong>and</strong> the fault) and <span class="math notranslate nohighlight">\(u(x)\)</span> is the displacement that we would like to calculate. Finally, <span class="math notranslate nohighlight">\(x\)</span> is restricted to lie in the interior of the domain.</p>
@@ -445,14 +497,14 @@ u_z(x) = -\int_{S} \frac{\partial G(x, y)}{\partial y} u_z(y) dy  ~~~~~~~~~~~~~ 
 <li><p>Take the limit as <span class="math notranslate nohighlight">\(x\)</span> approaches the free surface.</p></li>
 </ol>
 <p>The result is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-090ff334-4f6d-47f8-8c41-2ed5a213f534">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-090ff334-4f6d-47f8-8c41-2ed5a213f534" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7a004161-1f45-4f70-8158-f3dc2f99263f">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-7a004161-1f45-4f70-8158-f3dc2f99263f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\lim_{\hat{x} \to x}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in H
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(H\)</span> is the free surface, <span class="math notranslate nohighlight">\(F\)</span> is the fault, <span class="math notranslate nohighlight">\(\Delta u_z(y)\)</span> is fault slip.</p>
 <p>In partially discretized form where we’ve decomposed the displacement and slip fields into basis functions, the resulting linear system will look like:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-796af158-92bd-4ef1-ae0f-99961b0f22aa">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-796af158-92bd-4ef1-ae0f-99961b0f22aa" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-738c3590-1d5e-404d-839c-f9156070f9f0">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-738c3590-1d5e-404d-839c-f9156070f9f0" title="Permalink to this equation">¶</a></span>\[\begin{align}
 u_i = -A_{ij}u_j - B_{ij}(\Delta u)_j \\
 
 A_{ik} = \lim_{\hat{x} \to x_i}\int_{H} \frac{\partial G(\hat{x}, y)}{\partial y} \psi_k(y) dy \\
@@ -463,8 +515,8 @@ u(x) = \sum_{i} u_i \psi_i(x)\\
 \Delta u(x) = \sum_{i} (\Delta u)_i \phi_i(x)\\
 \end{align}\]</div>
 <p>Since we want to calculate the unknown surface displacement <span class="math notranslate nohighlight">\(u_i\)</span> from the known slip <span class="math notranslate nohighlight">\((\Delta u)_j\)</span>, we can rearrange the linear system to:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b6a771c-4870-41f4-b1b3-2d0a4cd7d715">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-6b6a771c-4870-41f4-b1b3-2d0a4cd7d715" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-819eb3bb-4e21-43f8-b4c2-1e00c66b1469">
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-819eb3bb-4e21-43f8-b4c2-1e00c66b1469" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 (I + A_{ij})u_j = -B_{ij}(\Delta u)_j
 \end{equation}\]</div>
 <p>The remaining task is to compute the matrices <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and then invert the left hand side of this linear system.</p>
@@ -536,9 +588,9 @@ Wall time: 924 ms
 </div>
 </div>
 </div>
-<p>Not too much code! Now that we’ve solved for surface displacement, let’s check against the classic arctan screw dislocation solution! That solution <span id="id4">[<a class="reference internal" href="../references.html#id952">Segall, Sun, 01/24/2010 - 12:00</a>]</span> is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2cfebf22-ff37-4a1e-b258-9200e9307cdf">
-<span class="eqno">(3.6)<a class="headerlink" href="#equation-2cfebf22-ff37-4a1e-b258-9200e9307cdf" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<p>Not too much code! Now that we’ve solved for surface displacement, let’s check against the classic arctan screw dislocation solution! That solution <span id="id4">[<a class="reference internal" href="../references.html#id964">Segall, 2010</a>]</span> is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bb011bf2-4b8e-4d3d-93ce-648d7e1bf9f3">
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-bb011bf2-4b8e-4d3d-93ce-648d7e1bf9f3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z = \frac{-s}{2\pi}\bigg[\tan^{-1}(\frac{x}{y + d_1}) - \tan^{-1}(\frac{x}{y - d_1}) - \tan^{-1}(\frac{x}{y + d_2}) + \tan^{-1}(\frac{x}{y - d_2}) \bigg]
 \end{equation}\]</div>
 <p>I’ll make two plots. One will show the nearfield displacement and accuracy. The other will show the (very) farfield displacement and accuracy. We’re getting 14 digits of accuracy in the nearfield, almost machine precision and 10-11 digits in the farfield. This is from solving the integral equation with ~200 eighth order panels and in less than half a second of runtime!</p>
@@ -597,8 +649,8 @@ u_z = \frac{-s}{2\pi}\bigg[\tan^{-1}(\frac{x}{y + d_1}) - \tan^{-1}(\frac{x}{y -
 </div>
 </div>
 <p>Next, we’ll build the relevant integral equation matrices. To calculate displacement, we’ll return to the original integral equation and basically just directly integrate it using <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-85e64e99-1900-4904-a970-442b91bb23f8">
-<span class="eqno">(3.7)<a class="headerlink" href="#equation-85e64e99-1900-4904-a970-442b91bb23f8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4f8916e1-3968-4605-9aa4-02812bb224a9">
+<span class="eqno">(3.8)<a class="headerlink" href="#equation-4f8916e1-3968-4605-9aa4-02812bb224a9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_z(x) = -\int_{H} \frac{\partial G(x, y)}{\partial y} u_z(y) dy -\int_{F} \frac{\partial G(x, y)}{\partial y} \Delta u_z(y) dy  ~~~~~~~~~~~~~ \forall x \in \Omega / \partial\Omega
 \end{equation}\]</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">integrate_term</span></code> call will hopefully look very familiar. Except for the list of observation points, it’s exactly the same as the call from solving for surface displacement. After constructing the matrices, we will multiply them by surface displacement and slip respectively to compute interior displacement.</p>
@@ -619,8 +671,8 @@ u_z(x) = -\int_{H} \frac{\partial G(x, y)}{\partial y} u_z(y) dy -\int_{F} \frac
 </div>
 </div>
 <p>Calculating stress requires computing the derivatives of the displacement. Numerical differentiation is notoriously error prone, so instead, we’ll analytically differentiate the integral equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-30226f17-3c3a-4b82-9da0-82d277010abd">
-<span class="eqno">(3.8)<a class="headerlink" href="#equation-30226f17-3c3a-4b82-9da0-82d277010abd" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2b733a1e-aefc-470b-bc09-b2f982c23bb9">
+<span class="eqno">(3.9)<a class="headerlink" href="#equation-2b733a1e-aefc-470b-bc09-b2f982c23bb9" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \sigma_{1z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_1 \partial \textbf{y}} \Delta u_z(y) dy\bigg] \\
 \sigma_{2z}(x) = \mu\bigg[-\int_{H} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} u_z(y) dy -\int_{F} \frac{\partial^2 G(x, y)}{\partial x_2 \partial \textbf{y}} \Delta u_z(y)\bigg] dy
 \end{align}\]</div>
@@ -883,8 +935,8 @@ maximum number of subsets required by adaptive integration:  104
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part2_screw_dislocation.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -901,19 +953,17 @@ maximum number of subsets required by adaptive integration:  104
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

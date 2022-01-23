@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -343,7 +343,74 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Computing boundary integrals with quadrature by expansion (QBX).</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   1.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#near-field-evaluation-for-boundary-integrals">
+   1.2. Near-field evaluation for boundary integrals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-qbx">
+   1.3. What is QBX?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#qbx-via-complex-power-series">
+   1.4. QBX via complex power series
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     1.4.1. Summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementing-qbx-for-the-double-layer-potential-on-a-circle">
+   1.5. Implementing QBX for the double layer potential on a circle
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#demonstrating-the-problem">
+     1.5.1. Demonstrating the problem
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#accurate-near-field-evaluation">
+     1.5.2. Accurate near-field evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#general-purpose-qbx-implementation">
+   1.6. General-purpose QBX implementation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="computing-boundary-integrals-with-quadrature-by-expansion-qbx">
@@ -360,9 +427,9 @@
 </div>
 <div class="section" id="near-field-evaluation-for-boundary-integrals">
 <h2><span class="section-number">1.2. </span>Near-field evaluation for boundary integrals<a class="headerlink" href="#near-field-evaluation-for-boundary-integrals" title="Permalink to this headline">¶</a></h2>
-<p>Suppose that we’re modeling a fault as a infinitesimally thin surface. And there’s some slip on that surface. And we want to calculate how much displacement that slip has caused near the fault. A common approach is to use <span class="xref myst">triangular or rectangular dislocation elements</span>  but that would limit us to constant slip per element, which leads to stress singularities and unhappiness. So, let’s back off to a fully general mathematical description. This type of surface integral is at the core of a boundary integral method:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-43792a05-8229-4cc5-bd2b-f43f4ee76cfb">
-<span class="eqno">(1.14)<a class="headerlink" href="#equation-43792a05-8229-4cc5-bd2b-f43f4ee76cfb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<p>Suppose that we’re modeling a fault as a infinitesimally thin surface. And there’s some slip on that surface. And we want to calculate how much displacement that slip has caused near the fault. A common approach is to use <a class="reference internal" href="../tdes/sa_tdes.html"><span class="doc std std-doc">triangular or rectangular dislocation elements</span></a>  but that would limit us to constant slip per element, which leads to stress singularities and unhappiness. So, let’s back off to a fully general mathematical description. This type of surface integral is at the core of a boundary integral method:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1d763885-6101-4aea-8a69-7077c5f25109">
+<span class="eqno">(1.14)<a class="headerlink" href="#equation-1d763885-6101-4aea-8a69-7077c5f25109" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(\mathbf{p}) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> is normally a fundamental solution to a PDE or the derivative thereof.</p>
@@ -374,16 +441,16 @@ u(\mathbf{p}) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
 <h2><span class="section-number">1.3. </span>What is QBX?<a class="headerlink" href="#what-is-qbx" title="Permalink to this headline">¶</a></h2>
 <p>A robust and general solution to nearfield evaluation is a method called quadrature by expansion (<strong>QBX</strong>). The exciting thing about QBX is that we can indirectly compute our boundary integral for observation points (<span class="math notranslate nohighlight">\(p\)</span>) that are very close to or even directly on the boundary while only <em>directly</em> evaluating the integrals for points that are far from the boundary. The basic idea is to form an approximation for <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> “centered” at a point <span class="math notranslate nohighlight">\(\mathbf{c}\)</span> away from <span class="math notranslate nohighlight">\(S\)</span> and then use that proxy to extrapolate to points that are close to <span class="math notranslate nohighlight">\(S\)</span>. There are several versions of QBX depending on the type of proxy used:</p>
 <ul class="simple">
-<li><p>The <a class="reference external" href="https://arxiv.org/abs/1207.4461">original QBX paper</a><span id="id1">[<a class="reference internal" href="../references.html#id557">Klöckner <em>et al.</em>, 2013</a>]</span> uses a separation of variables technique for the Helmholtz equation to form a series expansion in terms of Hankel functions and Bessel functions. This works for other PDEs if some separation of variables techniques are known. With Poisson and elasticity, we use a complex variable formulation in 2D and spherical harmonic expansions in 3D.</p></li>
-<li><p>The <a class="reference external" href="https://arxiv.org/abs/1612.00977">quadrature by kernel-independent expansion (QBKIX) paper</a><span id="id2">[<a class="reference internal" href="../references.html#id858">Rahimian <em>et al.</em>, 2018</a>]</span> forms a proxy set of point sources which replace the original integral locally arounding the expansion point <span class="math notranslate nohighlight">\(c\)</span>. This approach is “kernel-independent” since it will work well for most functions <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> even if the functions are complex enough that analytical techniques like separation of variables are too difficult.</p></li>
-<li><p>The <a class="reference external" href="https://arxiv.org/pdf/1805.06106.pdf">GIGAQBX algorithm</a><span id="id3">[<a class="reference internal" href="../references.html#id1083">Wala and Klöckner, 2019</a>]</span> derives rigorous error and runtime bounds for QBX combined with the fast multipole method when the same expansion centers are used for both the near and far-field.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/abs/1207.4461">original QBX paper</a><span id="id1">[<a class="reference internal" href="../references.html#id565">Klöckner <em>et al.</em>, 2013</a>]</span> uses a separation of variables technique for the Helmholtz equation to form a series expansion in terms of Hankel functions and Bessel functions. This works for other PDEs if some separation of variables techniques are known. With Poisson and elasticity, we use a complex variable formulation in 2D and spherical harmonic expansions in 3D.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/abs/1612.00977">quadrature by kernel-independent expansion (QBKIX) paper</a><span id="id2">[<a class="reference internal" href="../references.html#id868">Rahimian <em>et al.</em>, 2018</a>]</span> forms a proxy set of point sources which replace the original integral locally arounding the expansion point <span class="math notranslate nohighlight">\(c\)</span>. This approach is “kernel-independent” since it will work well for most functions <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span> even if the functions are complex enough that analytical techniques like separation of variables are too difficult.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/pdf/1805.06106.pdf">GIGAQBX algorithm</a><span id="id3">[<a class="reference internal" href="../references.html#id1095">Wala and Klöckner, 2019</a>]</span> derives rigorous error and runtime bounds for QBX combined with the fast multipole method when the same expansion centers are used for both the near and far-field.</p></li>
 </ul>
 <p>There are several other approaches. All share the share basic ideas but differ in design decisions like whether to apply QBX to only the near-field integrals (“local” QBX) or apply QBX to all the integrals (“global” QBX).</p>
 <p>Ultimately, QBX works because even though the surface integral may be singular, <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> is normally a smooth function. Approximating <span class="math notranslate nohighlight">\(u(p)\)</span> directly provides a sort of backdoor around the singularities in <span class="math notranslate nohighlight">\(K(\mathbf{p},\mathbf{q})\)</span>. And, QBX methods are generally efficient because <span class="math notranslate nohighlight">\(c\)</span> is far enough away from <span class="math notranslate nohighlight">\(S\)</span> that the computation of the expansion is fairly cheap.</p>
 </div>
 <div class="section" id="qbx-via-complex-power-series">
 <h2><span class="section-number">1.4. </span>QBX via complex power series<a class="headerlink" href="#qbx-via-complex-power-series" title="Permalink to this headline">¶</a></h2>
-<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id32">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions.</p>
+<p>Here, I’ll focus specifically on a version of <a class="reference external" href="https://arxiv.org/abs/1610.00823">QBX introduced here in section 5.3</a><span id="id4">[<a class="reference internal" href="../references.html#id34">Askham and Cerfon, 2017</a>]</span> that expands the solution in terms of a complex power series and works well for the Poisson equation and for elasticity in two dimensions.</p>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>Even though this particular form of expansion is less popular than others, I think it’s a nice introduction to QBX because the method is somewhat independent of the kernel and can be implemented and explained entirely in terms of the off-surface potential values. For a straight-forward introduction to more standard expansion methods for the 2D Laplace equations, I would recommend section 2.4 of <span id="id5">af Klinteberg and Tornberg [<a class="reference internal" href="../references.html#id6">2018</a>]</span></p>
@@ -395,13 +462,13 @@ u(\mathbf{p}) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
 <li><p>the expansion center, <span class="math notranslate nohighlight">\(c\)</span> and the expansion radius, <span class="math notranslate nohighlight">\(r\)</span>. The expansion radius is the maximum distance from <span class="math notranslate nohighlight">\(c\)</span> where the expansion is valid.</p></li>
 </ul>
 <p>To expand, we re-write the observation point into the complex plane. The observation point becomes <span class="math notranslate nohighlight">\(\hat{p} = p_x + ip_y\)</span> and the expansion center becomes <span class="math notranslate nohighlight">\(\hat{c} = c_x + ic_y\)</span>. The expansion center is a distance <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(S\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-56e14337-1e61-4d84-ade0-d1f304677c29">
-<span class="eqno">(1.15)<a class="headerlink" href="#equation-56e14337-1e61-4d84-ade0-d1f304677c29" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4e92d438-2f74-405a-8858-bacb674afa9d">
+<span class="eqno">(1.15)<a class="headerlink" href="#equation-4e92d438-2f74-405a-8858-bacb674afa9d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{p} - \hat{c})^l\big)
 \end{equation}\]</div>
 <p>Then, the expansion coefficients (<span class="math notranslate nohighlight">\(\alpha\)</span>) are computed by computing a clever integral of <span class="math notranslate nohighlight">\(u(\mathbf{p})\)</span> around a circle with radius <span class="math notranslate nohighlight">\(\delta r\)</span> centered at <span class="math notranslate nohighlight">\(\mathbf{c}\)</span>. For <span class="math notranslate nohighlight">\(l &gt; 0\)</span>, the integral we compute is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-627c620a-c745-4271-8d01-a8ee0b93ad23">
-<span class="eqno">(1.16)<a class="headerlink" href="#equation-627c620a-c745-4271-8d01-a8ee0b93ad23" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-20a7f55b-0bb8-4be5-8e9c-f7c969fb0820">
+<span class="eqno">(1.16)<a class="headerlink" href="#equation-20a7f55b-0bb8-4be5-8e9c-f7c969fb0820" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \alpha_l = \frac{1}{\pi (\delta r)^l}\int_{0}^{2\pi} u(\mathbf{c} + \delta r(cos \theta, sin \theta)) e^{-il\theta} d\theta
 \end{equation}\]</div>
 <p>and for <span class="math notranslate nohighlight">\(l=0\)</span>, we simply divide the above integral by two. The values of <span class="math notranslate nohighlight">\(u\)</span> will be computed “directly” by just using a simple quadrature rule on the original surface integral. We’ll normally use Gaussian quadrature, but in the first example below, we’ll actually use the trapezoidal rule because the trapezoidal rule is extremely accurate and efficient for periodic integrands.</p>
@@ -439,16 +506,16 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{p} - \hat{c})^l\big)
 </ol>
 </li>
 </ul>
-<div class="margin sidebar">
-<p class="sidebar-title"></p>
-<p>How easily do these double layer potential calculations extend to 2D plane-strain elasticity? Super easily. In fact, basically nothing needs to change except that we do everything four times, once for each component of the 2x2 tensor form of the equations! Extension to 3D elasticity is even more involved from a software and computational standpoint, but also does not require major algorithmic changes. On the other hand, oscillatory Green’s functions of the Helmholtz equation might require some re-engineering.</p>
-</div>
 </div>
 </div>
 <div class="section" id="implementing-qbx-for-the-double-layer-potential-on-a-circle">
 <h2><span class="section-number">1.5. </span>Implementing QBX for the double layer potential on a circle<a class="headerlink" href="#implementing-qbx-for-the-double-layer-potential-on-a-circle" title="Permalink to this headline">¶</a></h2>
 <p>Great, let’s put together a simple implementation for the Laplace double layer potential! The double layer potential is one of the fundamental objects of potential theory and, physically, is the integral that computes the electric or magnetic potential due to a dipolar surface. Or, the integral that computes the displacement due to an earthquake under the assumption of antiplane strain.</p>
 <p>First, we’ll set up a few useful functions. We’ll create a source surface/mesh out of circle evaluated the nodes of a trapezoidal quadrature rule.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>How easily do these double layer potential calculations extend to 2D plane-strain elasticity? Super easily. In fact, basically nothing needs to change except that we do everything four times, once for each component of the 2x2 tensor form of the equations! Extension to 3D elasticity is even more involved from a software and computational standpoint, but also does not require major algorithmic changes. On the other hand, oscillatory Green’s functions of the Helmholtz equation might require some re-engineering.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -530,18 +597,18 @@ u(x) = Re\big(\sum_{l=0}^{p} \alpha_l(\hat{p} - \hat{c})^l\big)
 <p class="sidebar-title"></p>
 <p>What is the distinction between the “double layer <strong>potential</strong>” and the “double layer <strong>kernel</strong>”? The potential is the full integral <span class="math notranslate nohighlight">\(\int_S K(\mathbf{p}, \mathbf{q}) \phi dS\)</span> whereas the kernel is just the function <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span>. Authors vary in how precise they distinguish these two things.</p>
 </div>
-<div class="amsmath math notranslate nohighlight" id="equation-b6edea99-43e9-49e6-99c4-4e06b79d945d">
-<span class="eqno">(1.17)<a class="headerlink" href="#equation-b6edea99-43e9-49e6-99c4-4e06b79d945d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7b938b8c-415a-4da3-9c2b-207b74365479">
+<span class="eqno">(1.17)<a class="headerlink" href="#equation-7b938b8c-415a-4da3-9c2b-207b74365479" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(\mathbf{p}) = \int_{S} K(\mathbf{p}, \mathbf{q}) \phi(\mathbf{q}) d\mathbf{q}
 \end{equation}\]</div>
 <p>Discretizing the integral for many observation points indexed by <span class="math notranslate nohighlight">\(i\)</span> and for many quadrature source points indexed by <span class="math notranslate nohighlight">\(j\)</span>, the result is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fba9c610-6bee-4dcd-8510-df9c58e2ed55">
-<span class="eqno">(1.18)<a class="headerlink" href="#equation-fba9c610-6bee-4dcd-8510-df9c58e2ed55" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4f53e9ea-4b26-481f-a7a0-47099c28967d">
+<span class="eqno">(1.18)<a class="headerlink" href="#equation-4f53e9ea-4b26-481f-a7a0-47099c28967d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_i = \sum_j w_j K(\mathbf{p}_i, \mathbf{q}_j) \phi(\mathbf{q}_j)
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(w_j\)</span> are the quadrature weights. This can be written in matrix form:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-89e73ced-1cf7-4249-bc9a-ad991df4e05a">
-<span class="eqno">(1.19)<a class="headerlink" href="#equation-89e73ced-1cf7-4249-bc9a-ad991df4e05a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e3210547-fca0-4c0a-98de-1fc2fcac9dd5">
+<span class="eqno">(1.19)<a class="headerlink" href="#equation-e3210547-fca0-4c0a-98de-1fc2fcac9dd5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \textbf{u} = \textbf{A} \textbf{b}
 \end{equation}\]</div>
 <p>The matrix of interest is <span class="math notranslate nohighlight">\(A_{ij} = w_j * K(\mathbf{p}_i, \mathbf{q}_j)\)</span>. The function below computes that matrix for <span class="math notranslate nohighlight">\(K(\mathbf{p}, \mathbf{q})\)</span>.</p>
@@ -1115,8 +1182,8 @@ The 2000 point quadrature error is -2.115193695305107
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="../tdes/hmatrix.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1133,19 +1200,17 @@ The 2000 point quadrature error is -2.115193695305107
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

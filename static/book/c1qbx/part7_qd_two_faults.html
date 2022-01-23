@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -324,7 +324,55 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Quasidynamic earthquake cycles on two faults</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   7.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-a-multi-fault-system">
+   7.2. Loading a multi-fault system
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-and-state-friction">
+   7.3. Rate and state friction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quasidynamic-earthquake-cycle-derivatives">
+   7.4. Quasidynamic earthquake cycle derivatives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrating-through-time">
+   7.5. Integrating through time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-the-results">
+   7.6. Plotting the results
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="quasidynamic-earthquake-cycles-on-two-faults">
@@ -333,7 +381,7 @@
 <h2><span class="section-number">7.1. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Much like the last section, we simulate quasidynamic rupture evolution but this time on two faults, one of which is curved.</p></li>
-<li><p>Most of the code here follows almost exactly from <span class="xref myst">the previous section on strike-slip/antiplane earthquake cycles</span>.</p></li>
+<li><p>Most of the code here follows almost exactly from <a class="reference internal" href="part6_qd.html"><span class="doc std std-doc">the previous section on strike-slip/antiplane earthquake cycles</span></a>.</p></li>
 <li><p>Realistic tectonic loading is a challenge when there is more than one fault.</p></li>
 <li><p>The boundary integral approach used here is barely more complex with two faults than with one fault.</p></li>
 </ul>
@@ -341,8 +389,8 @@
 <div class="section" id="loading-a-multi-fault-system">
 <h2><span class="section-number">7.2. </span>Loading a multi-fault system<a class="headerlink" href="#loading-a-multi-fault-system" title="Permalink to this headline">¶</a></h2>
 <p>In the single fault system from the last section, we were able to gloss over loading by using a slip deficit or backslip formulation. Because the physical system is invariant with respect to a rigid body displacement, any tectonic motion that has already been fully accomodated by fault slip can be ignored. Put differently, in a single fault system with a purely elastic rheology, the stresses from tectonic motion can be equivalently described by backwards slip on the fault.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-85d147cd-97c6-4838-8351-d7484cba2f79">
-<span class="eqno">(7.1)<a class="headerlink" href="#equation-85d147cd-97c6-4838-8351-d7484cba2f79" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8b23482d-99cb-4706-95a1-e24ad3cdc1aa">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-8b23482d-99cb-4706-95a1-e24ad3cdc1aa" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u_{\textrm{total}} = u_{\textrm{loading}} + u_{\textrm{fault}}
 \end{equation}\]</div>
 <p>There are a number of different options for loading a fault system:</p>
@@ -957,8 +1005,8 @@ Wall time: 1h 48min 42s
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part6_qd.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -975,19 +1023,17 @@ Wall time: 1h 48min 42s
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -334,7 +334,65 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Quasidynamic earthquake cycles: antiplane</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   6.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setting-up-the-geometry">
+   6.2. Setting up the geometry.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solving-for-fault-traction-given-fault-slip">
+   6.3. Solving for fault traction given fault slip
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-and-state-friction">
+   6.4. Rate and state friction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quasidynamic-earthquake-cycle-derivatives">
+   6.5. Quasidynamic earthquake cycle derivatives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrating-through-time">
+   6.6. Integrating through time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-the-results">
+   6.7. Plotting the results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-against-scec-seas-results">
+   6.8. Comparison against SCEC SEAS results
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="quasidynamic-earthquake-cycles-antiplane">
@@ -476,14 +534,14 @@ The fault mesh has 400 panels with a total of 2000 points.
 </pre></div>
 </div>
 <p>we can write the full system:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3133c21c-82c0-4ec1-ba7a-a9a1627ef912">
-<span class="eqno">(6.1)<a class="headerlink" href="#equation-3133c21c-82c0-4ec1-ba7a-a9a1627ef912" title="Permalink to this equation">¶</a></span>\[\begin{bmatrix}
+<div class="amsmath math notranslate nohighlight" id="equation-3e9969e4-e7af-4924-9c07-3aa8286d060a">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-3e9969e4-e7af-4924-9c07-3aa8286d060a" title="Permalink to this equation">¶</a></span>\[\begin{bmatrix}
    A &amp; B \\
    C &amp; D
 \end{bmatrix}\]</div>
 <p>The second equation expands to the same linear system that we used before to solve for surface displacement: <span class="math notranslate nohighlight">\(u = -D^{-1}Cs\)</span>. Plugging that in, we get:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-13f2f0dc-facd-4e71-b3ee-20dba572baf1">
-<span class="eqno">(6.2)<a class="headerlink" href="#equation-13f2f0dc-facd-4e71-b3ee-20dba572baf1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-dc81ff97-61fa-43be-93e2-057f3899211b">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-dc81ff97-61fa-43be-93e2-057f3899211b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 t = As - BD^{-1}Cs = (A - BD^{-1}C)s
 \end{equation}\]</div>
 <p>Thus, our goal matrix operator is <span class="math notranslate nohighlight">\(A - BD^{-1}C\)</span> and we will name this <code class="docutils literal notranslate"><span class="pre">total_fault_slip_to_fault_traction</span></code>. You might recognize this as the <a class="reference external" href="https://en.wikipedia.org/wiki/Schur_complement">Schur complement</a> of the matrix system above. We performed one of step of block matrix Gaussian elimination!</p>
@@ -620,20 +678,20 @@ t = As - BD^{-1}Cs = (A - BD^{-1}C)s
 </div>
 </div>
 <p>First, a Python implementation of the quasidynamic shear stress equations. There are two components to a standard definition of rate and state friction:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ba511d45-3bc5-4910-b808-9d4327c70c33">
-<span class="eqno">(6.3)<a class="headerlink" href="#equation-ba511d45-3bc5-4910-b808-9d4327c70c33" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8fe4b931-406a-4dda-b0fd-b6953a976e0f">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-8fe4b931-406a-4dda-b0fd-b6953a976e0f" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \tau_{qd} = F(V, \theta)\\
 \frac{d\theta}{dt} = G(V, \theta)
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(F(V, \theta)\)</span> is the strength of friction, depending on slip rate and state and <span class="math notranslate nohighlight">\(G(V, \theta)\)</span> gives the state evolution. For <span class="math notranslate nohighlight">\(G\)</span>, we will use the aging law, given by the <code class="docutils literal notranslate"><span class="pre">aging_law</span></code> function below.</p>
 <p>We also need to relate the quasidynamic shear stress to the quasistatic shear stress:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f7d16226-87f8-4f19-a723-1e700a30c56c">
-<span class="eqno">(6.4)<a class="headerlink" href="#equation-f7d16226-87f8-4f19-a723-1e700a30c56c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e541555b-291c-48e4-9b90-fc2b8899da8c">
+<span class="eqno">(6.4)<a class="headerlink" href="#equation-e541555b-291c-48e4-9b90-fc2b8899da8c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \tau_{qd} = \tau_{qs} - \eta * V
 \end{equation}\]</div>
 <p>which results in the full quasidynamic stress balance equation:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5c661539-6956-43fd-8ec0-213f9bce52eb">
-<span class="eqno">(6.5)<a class="headerlink" href="#equation-5c661539-6956-43fd-8ec0-213f9bce52eb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ff6b6ccf-a7b2-4c42-9e85-9f64bc3158bb">
+<span class="eqno">(6.5)<a class="headerlink" href="#equation-ff6b6ccf-a7b2-4c42-9e85-9f64bc3158bb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \tau_{qs} - \eta * V - F(V, \theta) = 0
 \end{equation}\]</div>
 <p>The specific form we use here is  implemented below in the <code class="docutils literal notranslate"><span class="pre">qd_equation</span></code> function.</p>
@@ -1159,8 +1217,8 @@ Wall time: 1h 15min 56s
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part5_viscoelastic.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1177,19 +1235,17 @@ Wall time: 1h 15min 56s
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

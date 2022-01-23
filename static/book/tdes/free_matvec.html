@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -314,7 +314,45 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Minimizing memory usage: a matrix-free iterative solver</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-deal-with-dense-bem-matrices">
+   3.1. How to deal with dense BEM matrices?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-demonstration-on-a-large-mesh">
+   3.2. A demonstration on a large mesh.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#iterative-linear-solution">
+   3.3. Iterative linear solution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#performance-and-convergence">
+   3.4. Performance and convergence
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="minimizing-memory-usage-a-matrix-free-iterative-solver">
@@ -335,7 +373,8 @@
 <p>To get started, I’ll just copy the code to set up the linear system for the South America problem from the previous section. But, as a twist, I’ll going to use a mesh with several times more elements. This surface mesh has 28,388 elements. As a result, the matrix would have 3x that many rows and columns and would require 58 GB of memory to store. That’s still small enough that it could be stored on a medium sized workstation. But, it’s too big for my personal computer!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cutde</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cutde.fullspace</span> <span class="k">as</span> <span class="nn">FS</span>
+<span class="kn">import</span> <span class="nn">cutde.geometry</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Transformer</span>
@@ -379,18 +418,19 @@
 <span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="n">surf_tri_pts_xyz</span> <span class="o">=</span> <span class="n">surf_pts_xyz</span><span class="p">[</span><span class="n">surf_tris</span><span class="p">]</span>
-<span class="n">surf_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">surf_tri_pts_xyz</span><span class="p">)</span>
+<span class="n">surf_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">surf_tri_pts_xyz</span><span class="p">)</span>
 
 <span class="n">fault_centers_lonlat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fault_pts_lonlat</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">fault_lonlat_to_xyz_T</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">compute_projection_transforms</span><span class="p">(</span>
+<span class="n">fault_lonlat_to_xyz_T</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">compute_projection_transforms</span><span class="p">(</span>
     <span class="n">fault_centers_lonlat</span><span class="p">,</span> <span class="n">transformer</span>
 <span class="p">)</span>
 
 <span class="n">fault_tri_pts_xyz</span> <span class="o">=</span> <span class="n">fault_pts_xyz</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">]</span>
-<span class="n">fault_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">fault_tri_pts_xyz</span><span class="p">)</span>
+<span class="c1"># Compute the transformation from spherical xyz coordinates (the &quot;EFCS&quot; - Earth fixed coordinate system)</span>
+<span class="n">fault_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">fault_tri_pts_xyz</span><span class="p">)</span>
 
 <span class="n">fault_tri_pts_lonlat</span> <span class="o">=</span> <span class="n">fault_pts_lonlat</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">]</span>
-<span class="n">fault_tdcs2_to_lonlat_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">fault_tri_pts_lonlat</span><span class="p">)</span>
+<span class="n">fault_tdcs2_to_lonlat_R</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">compute_efcs_to_tdcs_rotations</span><span class="p">(</span><span class="n">fault_tri_pts_lonlat</span><span class="p">)</span>
 
 <span class="n">strike_lonlat</span> <span class="o">=</span> <span class="n">fault_tdcs2_to_lonlat_R</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
 <span class="n">dip_lonlat</span> <span class="o">=</span> <span class="n">fault_tdcs2_to_lonlat_R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
@@ -400,29 +440,28 @@
 <span class="n">dip_xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fault_lonlat_to_xyz_T</span> <span class="o">*</span> <span class="n">dip_lonlat</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">dip_xyz</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dip_xyz</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
 
-<span class="n">ft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
 <span class="c1"># The normal vectors for each triangle are the third rows of the XYZ-&gt;TDCS rotation matrices.</span>
 <span class="n">Vnormal</span> <span class="o">=</span> <span class="n">surf_xyz_to_tdcs_R</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>
 <span class="n">surf_centers_xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">surf_tri_pts_xyz</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">surf_tri_pts_xyz_conv</span> <span class="o">=</span> <span class="n">surf_tri_pts_xyz</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+<span class="n">surf_tri_pts_xyz_conv</span> <span class="o">=</span> <span class="n">surf_tri_pts_xyz</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
 <span class="c1"># The rotation matrix from TDCS to XYZ is the transpose of XYZ to TDCS.</span>
 <span class="c1"># The inverse of a rotation matrix is its transpose.</span>
-<span class="n">surf_tdcs_to_xyz_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">surf_xyz_to_tdcs_R</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+<span class="n">surf_tdcs_to_xyz_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">surf_xyz_to_tdcs_R</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>Proceeding like the previous section, the next step would be to construct our surface to surface left hand side matrix. But, instead, I’m just going to compute the action of that matrix without ever storing the entire matrix. Essentially, each matrix entry will be recomputed whenever it is needed. The <code class="docutils literal notranslate"><span class="pre">cutde.disp_free</span></code> and <code class="docutils literal notranslate"><span class="pre">cutde.strain_free</span></code> were written for this purpose.</p>
 <p>First, let’s check that the <code class="docutils literal notranslate"><span class="pre">cutde.disp_free</span></code> matrix free TDE computation is doing what I said it does. That is, it should be computing a matrix vector product. Since our problem is too big to generate the full matrix in memory, I’ll just use the first 100 elements for this test.</p>
-<p>First, I’ll compute the matrix form. This should look familiar! I multiply the matrix by a random slip vector.</p>
+<p>First, I’ll compute the full in-memory matrix subset. This should look familiar! Then, I multiply the matrix by a random slip vector.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_centers</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_centers_xyz</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">Vnormal</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
-<span class="n">mat</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">test_centers</span><span class="p">,</span> <span class="n">surf_tri_pts_xyz_conv</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_centers</span> <span class="o">=</span> <span class="p">(</span><span class="n">surf_centers_xyz</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">Vnormal</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">FS</span><span class="o">.</span><span class="n">disp_matrix</span><span class="p">(</span><span class="n">test_centers</span><span class="p">,</span> <span class="n">surf_tri_pts_xyz_conv</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
     <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+<span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 <span class="n">correct_disp</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">slip</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -431,7 +470,7 @@
 <p>And now the matrix free version. Note that the slip is passed to the <code class="docutils literal notranslate"><span class="pre">disp_free</span></code> function. This makes sense since it is required for a matrix-vector product even though it is not required to construct the matrix with <code class="docutils literal notranslate"><span class="pre">cutde.disp_matrix</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_disp</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_disp</span> <span class="o">=</span> <span class="n">FS</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
     <span class="n">test_centers</span><span class="p">,</span> <span class="n">surf_tri_pts_xyz_conv</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">slip</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="mf">0.25</span>
 <span class="p">)</span>
 </pre></div>
@@ -447,7 +486,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 4.4703484e-08, -1.7881393e-07, -5.4389238e-07], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 6.5565109e-07, -4.7683716e-07, -2.1606684e-07], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -459,17 +498,30 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2.9506162e-07, 1.2218952e-06)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2.8643137e-07, 1.0877848e-06)
 </pre></div>
 </div>
 </div>
 </div>
-<p>Okay, now that I’ve shown that <code class="docutils literal notranslate"><span class="pre">cutde.disp_free</span></code> is trustworthy, let’s construct the full action of the left-hand side matrix. We need to transform all the rotation and extrapolation steps into a form that makes sense in an “on the fly” setting where we’re not storing a matrix.</p>
+<p>Okay, now that I’ve shown that <code class="docutils literal notranslate"><span class="pre">cutde.disp_free</span></code> is trustworthy, let’s construct a function that computes matrix vector products of the (not in memory) left-hand side matrix.</p>
+<p>To start, recall the linear system that we are solving from the last section:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b2a1e659-d261-47df-9026-2b7c7ebe90fb">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-b2a1e659-d261-47df-9026-2b7c7ebe90fb" title="Permalink to this equation">¶</a></span>\[\begin{align}
+Ax &amp;= b\\
+A_{ij}&amp;=\delta_{ij} + \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, H_j, 1)\\
+b_i&amp;=\sum_j \mathrm{TDE}_{\mathrm{disp}}(\overline{H_i}, F_j, \Delta u_j)\\
+x&amp;=u_j
+\end{align}\]</div>
+<p>where <span class="math notranslate nohighlight">\(H_i\)</span> is a free surface TDE, <span class="math notranslate nohighlight">\(\overline{H_i}\)</span> is the centroid of that TDE, <span class="math notranslate nohighlight">\(F_j\)</span> is a fault TDE, <span class="math notranslate nohighlight">\(\Delta u_j\)</span> is the imposed slip field and <span class="math notranslate nohighlight">\(x=u_j\)</span> is the unknown surface displacement field.</p>
+<p>Implicitly, in the construction of that left hand side matrix, there are a number of rotations embedded in the TDE operations. There’s also an extrapolation step that we introduced in the last section that allows for safely evaluated at observation points that are directly on the source TDE. We need to transform all those rotation and extrapolation steps into a form that makes sense in an “on the fly” setting where we’re not storing a matrix. The <code class="docutils literal notranslate"><span class="pre">matvec</span></code> function does exactly this.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">offsets</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-<span class="n">offset_centers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">surf_centers_xyz</span> <span class="o">-</span> <span class="n">off</span> <span class="o">*</span> <span class="n">Vnormal</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span> <span class="k">for</span> <span class="n">off</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">]</span>
-<span class="n">surf_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">surf_xyz_to_tdcs_R</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+<span class="n">offset_centers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">surf_centers_xyz</span> <span class="o">-</span> <span class="n">off</span> <span class="o">*</span> <span class="n">Vnormal</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="k">for</span> <span class="n">off</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">]</span>
+
+<span class="c1"># The matrix that will rotate from (x, y, z) into </span>
+<span class="c1"># the TDCS (triangular dislocation coordinate system)</span>
+<span class="n">surf_xyz_to_tdcs_R</span> <span class="o">=</span> <span class="n">surf_xyz_to_tdcs_R</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
 <span class="c1"># The extrapolate to the boundary step looked like:</span>
 <span class="c1"># lhs = 2 * eps_mats[1] - eps_mats[0]</span>
@@ -478,22 +530,28 @@
 <span class="n">extrapolation_mult</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">matvec</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="c1"># Step 1) Rotate slip into the TDE-centric coordinate system.</span>
-    <span class="n">slip_xyz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
-    <span class="n">slip_tdcs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">surf_xyz_to_tdcs_R</span> <span class="o">*</span> <span class="n">slip_xyz</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">matvec</span><span class="p">(</span><span class="n">disp_xyz_flattened</span><span class="p">):</span>
+    <span class="c1"># Step 0) Unflatten the (x,y,z) coordinate displacement vector.</span>
+    <span class="n">disp_xyz</span> <span class="o">=</span> <span class="n">disp_xyz_flattened</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+
+    <span class="c1"># Step 1) Rotate displacement into the TDCS (triangular dislocation coordinate system).</span>
+    <span class="n">disp_tdcs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">surf_xyz_to_tdcs_R</span> <span class="o">*</span> <span class="n">disp_xyz</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="p">)</span>
+
     <span class="c1"># Step 2) Compute the two point extrapolation to the boundary.</span>
+    <span class="c1"># Recall from the previous section that this two point extrapolation</span>
+    <span class="c1"># allow us to calculate for observation points that lie right on a TDE</span>
+    <span class="c1"># without worrying about numerical inaccuracies. </span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">offset_centers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">off</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">offsets</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">+=</span> <span class="n">extrapolation_mult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
-            <span class="n">offset_centers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">surf_tri_pts_xyz_conv</span><span class="p">,</span> <span class="n">slip_tdcs</span><span class="p">,</span> <span class="mf">0.25</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)):</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">extrapolation_mult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">FS</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
+            <span class="n">offset_centers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">surf_tri_pts_xyz_conv</span><span class="p">,</span> <span class="n">disp_tdcs</span><span class="p">,</span> <span class="mf">0.25</span>
         <span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="c1"># Step 3) Don&#39;t forget the diagonal Identity matrix term!</span>
-    <span class="n">out</span> <span class="o">+=</span> <span class="n">x</span>
+    <span class="n">out</span> <span class="o">+=</span> <span class="n">disp_xyz_flattened</span>
     <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
@@ -507,16 +565,17 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.16 s, sys: 0 ns, total: 8.16 s
-Wall time: 8.16 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5min 27s, sys: 7.21 s, total: 5min 34s
+Wall time: 55.4 s
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.07595471,  0.14888829,  0.00571918, ...,  0.11337244,  0.06799013,  0.37440816], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.15508433,  0.21774934,  0.0313065 , ...,  0.02519985,
+        0.26969355, -0.00616684], dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
-<p>Great! We computed a matrix-free matrix-vector product! This little snippet below will demonstrate that the memory usage is still well under 1 GB proving that we’re not storing a matrix anywhere.</p>
+<p>Great! We computed a matrix-free matrix-vector product! Unfortunately, it’s a bit slow, but that’s an unsurprising consequence of running an <span class="math notranslate nohighlight">\(O(n^2)\)</span> algorithm for a large value of <span class="math notranslate nohighlight">\(n\)</span>. The nice thing is that we’re able to do this <em>at all</em> by not storing the matrix at any point. This little snippet below will demonstrate that the memory usage is still well under 1 GB proving that we’re not storing a matrix anywhere.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">psutil</span>
@@ -527,7 +586,7 @@ Wall time: 8.16 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.178192384
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.146767872
 </pre></div>
 </div>
 </div>
@@ -536,26 +595,18 @@ Wall time: 8.16 s
 <div class="section" id="iterative-linear-solution">
 <h2><span class="section-number">3.3. </span>Iterative linear solution<a class="headerlink" href="#iterative-linear-solution" title="Permalink to this headline">¶</a></h2>
 <p>Okay, so how do we use this matrix-vector product to solve the linear system? Because the entire matrix is never in memory, direct solvers like LU decomposition or Cholesky decomposition are no longer an option. But, iterative linear solvers are still an option. The <a class="reference external" href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient (CG) method</a> is a well-known example of an iterative solver. However, CG requires a symmetric positive definite matrix. Because our columns come from integrals over elements but our rows come from observation points, there is an inherent asymmetry to the boundary element matrices we are producing here. <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_minimal_residual_method">GMRES</a> is an iterative linear solver that tolerates asymmetry. It’s specifically a type of <a class="reference external" href="https://en.wikipedia.org/wiki/Krylov_subspace">“Krylov subspace”</a> iterative linear solver and as such requires only the set of vectors:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-13042beb-b8ea-4007-93e8-22db3911d2a1">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-13042beb-b8ea-4007-93e8-22db3911d2a1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e7eb9c7c-7d84-4641-9737-6a7ca5a47ac0">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-e7eb9c7c-7d84-4641-9737-6a7ca5a47ac0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \{b, Ab, A^2b, ..., A^nb\}
 \end{equation}\]</div>
 <p>As such, only having an implementation of the matrix vector product <span class="math notranslate nohighlight">\(Ab\)</span> is required since the later iterates can be computed with multiple matrix vector product. For example, <span class="math notranslate nohighlight">\(A^2b = A(Ab)\)</span>.</p>
-<p>To start, we compute the right-hand side which is nothing new or fancy.</p>
+<p>Returning to our linear system above, the right hand side is the amount of displacement at the free surface caused by slip on the fault and can be precomputed because it is only a vector (and thus doesn’t require much memory) and will not change during our linear solve.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fault_xyz_to_tdcs_R</span> <span class="o">*</span> <span class="n">dip_xyz</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">rhs</span> <span class="o">=</span> <span class="n">cutde</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
-    <span class="n">surf_centers_xyz</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">),</span> <span class="n">fault_pts_xyz</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ft</span><span class="p">),</span> <span class="n">slip</span><span class="p">,</span> <span class="mf">0.25</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fault_xyz_to_tdcs_R</span> <span class="o">*</span> <span class="n">dip_xyz</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="n">FS</span><span class="o">.</span><span class="n">disp_free</span><span class="p">(</span>
+    <span class="n">surf_centers_xyz</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">fault_pts_xyz</span><span class="p">[</span><span class="n">fault_tris</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">slip</span><span class="p">,</span> <span class="mf">0.25</span>
 <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:69: UserWarning: The slips input array has type float64 but needs to be converted to dtype float32. Converting slips to float32 may be expensive.
-  warnings.warn(
-/home/tbent/Dropbox/active/eq/cutde/cutde/fullspace.py:78: UserWarning: The slips input array has Fortran ordering. Converting to C ordering. This may be expensive.
-  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -572,10 +623,10 @@ Wall time: 8.16 s
 <span class="c1"># The matrix vector product function that serves as the &quot;backend&quot; for the LinearOperator.</span>
 <span class="c1"># This is just a handy wrapper around matvec to track the number of matrix-vector products</span>
 <span class="c1"># used during the linear solve process.</span>
-<span class="k">def</span> <span class="nf">M</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">M</span><span class="p">(</span><span class="n">disp_xyz_flattened</span><span class="p">):</span>
     <span class="n">M</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">matvec</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">matvec</span><span class="p">(</span><span class="n">disp_xyz_flattened</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n_matvec&quot;</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span> <span class="s2">&quot;took&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span>
 
@@ -600,7 +651,7 @@ Wall time: 8.16 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>26.985018
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>26.986288
 </pre></div>
 </div>
 </div>
@@ -676,8 +727,8 @@ n_matvec 7 took 8.234569311141968
 </div>
 <div class="section" id="performance-and-convergence">
 <h2><span class="section-number">3.4. </span>Performance and convergence<a class="headerlink" href="#performance-and-convergence" title="Permalink to this headline">¶</a></h2>
-<p>An important thing to note about the solution above is that only a few matrix-vector products are required to get to a high-level of accuracy. GMRES (and many other iterative linear and nonlinear optimization algorithms) converges at a rate proportional to the condition number of the matrix <span id="id1">[]</span>. So in order to productively use an iterative linear solver, we need to have a matrix with a small condition number. It turns out that these free surface self-interaction matrices have condition numbers that are very close to 1.0, meaning that all the eigenvalues are very similar in magnitude. As a result, a highly accurate solution with GMRES requires less than ten matrix-vector products even for very large matrices.</p>
-<p>Because of this dependence on the condition number, in the worst case, iterative solvers are not faster than a direct solver. However, suppose that we need only 10 matrix-vector products. Then, the runtime is approximately <span class="math notranslate nohighlight">\(10(2n^2)\)</span> because each matrix-vector product requires <span class="math notranslate nohighlight">\(2n^2\)</span> operations (one multiplication and one addition per matrix entry). As a result, GMRES is solving the problem in <span class="math notranslate nohighlight">\(O(n^2)\)</span> instead of the <span class="math notranslate nohighlight">\(O(n^3)\)</span> asymptotic runtime of direct methods like LU decomposition. So, in addition to requiring less memory, the matrix free method here forced us into actually using a faster linear solver. Of course, LU decomposition comes out ahead again if we need to solve many linear systems with the same left hand side and different right hand sides. That is not the case here but would be relevant for many other problems (e.g. problems involving time stepping).</p>
+<p>An important thing to note about the solution above is that only a few matrix-vector products are required to get to a high-level of accuracy. GMRES (and many other iterative linear and nonlinear optimization algorithms) converges at a rate proportional to the condition number of the matrix <span id="id1">[<a class="reference internal" href="../references.html#id923">Saad and Schultz, 1986</a>]</span>. So in order to productively use an iterative linear solver, we need to have a matrix with a small condition number. It turns out that these free surface self-interaction matrices have condition numbers that are very close to 1.0, meaning that all the eigenvalues are very similar in magnitude. As a result, a highly accurate solution with GMRES requires less than ten matrix-vector products even for very large matrices.</p>
+<p>Because of this dependence on the condition number, in the worst case, iterative solvers are not faster than a direct solver. However, suppose that we need only 10 matrix-vector products. Then, the runtime is approximately <span class="math notranslate nohighlight">\(10(2n^2)\)</span> because each matrix-vector product requires <span class="math notranslate nohighlight">\(2n^2\)</span> operations (one multiplication and one addition per matrix entry). As a result, GMRES is solving the problem in <span class="math notranslate nohighlight">\(O(n^2)\)</span> instead of the <span class="math notranslate nohighlight">\(O(n^3)\)</span> asymptotic runtime of direct methods like LU decomposition. <strong>So, in addition to requiring less memory, the matrix free method here forced us into actually using a faster linear solver.</strong> Of course, LU decomposition comes out ahead again if we need to solve many linear systems with the same left hand side and different right hand sides. That is not the case here but would be relevant for many other problems (e.g. problems involving time stepping).</p>
 <p>The mess of code below builds a few figures that demonstrate these points regarding performance and accuracy as a function of the number of elements.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -958,8 +1009,8 @@ n_matvec 7 took 8.234569311141968
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="sa_geometry.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -976,19 +1027,17 @@ n_matvec 7 took 8.234569311141968
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

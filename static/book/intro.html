@@ -42,9 +42,7 @@
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -260,7 +258,7 @@
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -278,7 +276,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -308,7 +306,40 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Integral equation tutorials</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="integral-equation-tutorials">
@@ -319,12 +350,12 @@
 <p>Boundary integral methods are powerful tools for solving PDEs. They are particular useful in settings where the object of interest is itself a boundary, for example an earthquake fault surface.</p>
 <p>Over the last few decades, the key parts of a general-purpose boundary integral equation (BIE) solver have come together:</p>
 <ul class="simple">
-<li><p>Quadrature by expansion <span id="id1">[<a class="reference internal" href="references.html#id557">Klöckner <em>et al.</em>, 2013</a>]</span> provides a robust approach for numerically calculating singular integrals.</p></li>
-<li><p>The fast multipole method <span id="id2">[<a class="reference internal" href="references.html#id407">Greengard and Rokhlin, 1987</a>, <a class="reference internal" href="references.html#id1156">Ying <em>et al.</em>, 2004</a>]</span> provides a efficient technique for calculating superficially dense matrix-vector products.</p></li>
-<li><p>Direct hierarchical inverse methods <span id="id3">[<a class="reference internal" href="references.html#id466">Ambikasaran <em>et al.</em>, 2019</a>, <a class="reference internal" href="references.html#id78">Bebendorf, 2005</a>, <a class="reference internal" href="references.html#id209">Coulier <em>et al.</em>, 2016</a>, <a class="reference internal" href="references.html#id408">Greengard <em>et al.</em>, 2009</a>]</span> allow for <span class="math notranslate nohighlight">\(O(n)\)</span> inversion of the superficially dense BIE matrices.</p></li>
-<li><p>Embedded boundary methods <span id="id4">[<a class="reference internal" href="references.html#id105">Biros <em>et al.</em>, 2004</a>, <a class="reference internal" href="references.html#id312">Ethridge and Greengard, 2001</a>]</span> allow for handling body forces and nonlinearities. Smooth function extension methods <span id="id5">[<a class="reference internal" href="references.html#id352">Fryklund <em>et al.</em>, 2018</a>]</span> make this approach accurate.</p></li>
+<li><p>Quadrature by expansion <span id="id1">[<a class="reference internal" href="references.html#id565">Klöckner <em>et al.</em>, 2013</a>]</span> provides a robust approach for numerically calculating singular integrals.</p></li>
+<li><p>The fast multipole method <span id="id2">[<a class="reference internal" href="references.html#id415">Greengard and Rokhlin, 1987</a>, <a class="reference internal" href="references.html#id1168">Ying <em>et al.</em>, 2004</a>]</span> provides a efficient technique for calculating superficially dense matrix-vector products.</p></li>
+<li><p>Direct hierarchical inverse methods <span id="id3">[<a class="reference internal" href="references.html#id474">Ambikasaran <em>et al.</em>, 2019</a>, <a class="reference internal" href="references.html#id84">Bebendorf, 2005</a>, <a class="reference internal" href="references.html#id217">Coulier <em>et al.</em>, 2016</a>, <a class="reference internal" href="references.html#id416">Greengard <em>et al.</em>, 2009</a>]</span> allow for <span class="math notranslate nohighlight">\(O(n)\)</span> inversion of the superficially dense BIE matrices.</p></li>
+<li><p>Embedded boundary methods <span id="id4">[<a class="reference internal" href="references.html#id113">Biros <em>et al.</em>, 2004</a>, <a class="reference internal" href="references.html#id320">Ethridge and Greengard, 2001</a>]</span> allow for handling body forces and nonlinearities. Smooth function extension methods <span id="id5">[<a class="reference internal" href="references.html#id360">Fryklund <em>et al.</em>, 2018</a>]</span> make this approach accurate.</p></li>
 </ul>
-<p>However, these methods have not become mainstream yet. Recent papers have combined most of these methods <span id="id6">[<a class="reference internal" href="references.html#id32">Askham and Cerfon, 2017</a>]</span> but none of these papers have provided source much less a detailed explanation of how to build a practical implementation.</p>
+<p>However, these methods have not become mainstream yet. Recent papers have combined most of these methods <span id="id6">[<a class="reference internal" href="references.html#id34">Askham and Cerfon, 2017</a>]</span> but none of these papers have provided source much less a detailed explanation of how to build a practical implementation.</p>
 <p>This “book” will walk through implementing each of these methods in practical applications. Most of the applications will be to earthquake science problems, however there will be other examples where it makes more sense.</p>
 <p>At the moment, there are three sequences:</p>
 <ol class="simple">
@@ -355,7 +386,7 @@
 <li><p><strong>Python skills</strong>: particularly standard scientific Python tools like <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>. A lot of the code here is vectorized because it allows me to communicate the ideas more concisely while also having reasonably fast code. If you feel that your Python or numpy skills are weak, the tutorials here could be a decent way to learn if you are willing to invest some time into understand. You might consider downloading the notebooks and running them yourself to explore.</p></li>
 <li><p><strong>Applied math skills</strong>: multi-variable calculus, basic partial differential equations, numerical linear algebra. Do you know what it means to “Use an LU decomposition to solve the linear system resulting from a finite difference discretization of the Poisson equation?” I’ll try to provide references when I’m discussing more technical topics.</p></li>
 </ul>
-<p>It will also be helpful but not necessary to have some familiarity with earthquake and crustal deformation modeling because many of the examples are drawn from that field. Earthquake and Volcano deformation by Segall <span id="id7">[<a class="reference internal" href="references.html#id952">Segall, Sun, 01/24/2010 - 12:00</a>]</span> is a good introduction and reference.</p>
+<p>It will also be helpful but not necessary to have some familiarity with earthquake and crustal deformation modeling because many of the examples are drawn from that field. Earthquake and Volcano deformation by Segall <span id="id7">[<a class="reference internal" href="references.html#id964">Segall, 2010</a>]</span> is a good introduction and reference.</p>
 </div>
 <div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
@@ -395,8 +426,8 @@
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'>
     <a class='right-next' id="next-link" href="tdes/sa_tdes.html" title="next page">
     <div class="prev-next-info">
@@ -406,19 +437,17 @@
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 

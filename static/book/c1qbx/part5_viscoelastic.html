@@ -42,7 +42,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -261,7 +261,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -279,7 +279,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -324,7 +324,55 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Viscoelasticity</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   5.1. Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-layered-viscoelastic-pde">
+   5.2. A layered viscoelastic PDE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#viscoelastic-boundary-integral-equation">
+   5.3. Viscoelastic boundary integral equation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   5.4. Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-against-the-analytic-solution">
+   5.5. Comparison against the analytic solution.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interior-evaluation-and-visualization">
+   5.6. Interior evaluation and visualization
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="viscoelasticity">
@@ -341,37 +389,37 @@
 <div class="section" id="a-layered-viscoelastic-pde">
 <h2><span class="section-number">5.2. </span>A layered viscoelastic PDE<a class="headerlink" href="#a-layered-viscoelastic-pde" title="Permalink to this headline">¶</a></h2>
 <p>Let’s start from the constitutive equation for a Maxwell viscoelastic rheology in antiplane strain:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef4ee6bc-614b-45e4-bd27-c4e71b41a7c5">
-<span class="eqno">(5.5)<a class="headerlink" href="#equation-ef4ee6bc-614b-45e4-bd27-c4e71b41a7c5" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4c37088f-0199-4475-bddf-732fd9dbcebb">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-4c37088f-0199-4475-bddf-732fd9dbcebb" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \dot{\vec{\sigma}} &amp;= 2\mu\dot{\vec{\epsilon}} - \frac{\mu}{\eta}\vec{\sigma}
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\vec{\sigma} = (\sigma_{xz}, \sigma_{yz})\)</span> is the vector stress in the antiplane setting, <span class="math notranslate nohighlight">\(\mu\)</span> is the shear modulus and <span class="math notranslate nohighlight">\(\eta\)</span> is the viscosity.</p>
 <p>And the definition of strain, again in the antiplane setting:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c8712a88-f206-4daf-91b8-02ecfd0c5961">
-<span class="eqno">(5.6)<a class="headerlink" href="#equation-c8712a88-f206-4daf-91b8-02ecfd0c5961" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-84685855-893a-4b29-9e35-39379f342c3a">
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-84685855-893a-4b29-9e35-39379f342c3a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{\epsilon} = \frac{1}{2}\nabla u
 \end{equation}\]</div>
 <p>And Newton’s law making a quasistatic assumption that the momentum term is negligible:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-600be781-d8f2-4775-8df3-b8866f2708e8">
-<span class="eqno">(5.7)<a class="headerlink" href="#equation-600be781-d8f2-4775-8df3-b8866f2708e8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8e33c2c9-b030-4f23-9846-380373e5de56">
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-8e33c2c9-b030-4f23-9846-380373e5de56" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \nabla \cdot \vec{\sigma} = 0
 \end{equation}\]</div>
 <p>Inserting the Maxwell constitutive equation into the time derivative of Newton’s law and then applying the definition of strain, we get:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9a2c24c6-a8ae-4c98-b20a-f6df4792bb18">
-<span class="eqno">(5.8)<a class="headerlink" href="#equation-9a2c24c6-a8ae-4c98-b20a-f6df4792bb18" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1b583351-3d0e-4f0f-a2b6-a54bae6380ba">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-1b583351-3d0e-4f0f-a2b6-a54bae6380ba" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \nabla \cdot (2\mu\dot{\vec{\epsilon}} - \frac{\mu}{\eta}\vec{\sigma}) = 0\\
 2\mu \nabla^2 \dot{u} = \nabla \cdot (\frac{\mu}{\eta}\vec{\sigma})
 \end{align}\]</div>
 <p>Let’s explore that right hand side a bit more. If we apply the product rule, we get one term that depends on the gradient of the material properties and another term that depends on the divergence of stress. However we’ve already assumed that the divergence of stress is zero so that term drops out.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1ddef081-418e-46c9-9827-2ff7998d9712">
-<span class="eqno">(5.9)<a class="headerlink" href="#equation-1ddef081-418e-46c9-9827-2ff7998d9712" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e3ee58d0-7a83-4f07-b128-025dd5444f2c">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-e3ee58d0-7a83-4f07-b128-025dd5444f2c" title="Permalink to this equation">¶</a></span>\[\begin{align}
 \nabla \cdot (\frac{\mu}{\eta}\vec{\sigma}) &amp;= \nabla (\frac{\mu}{\eta}) \cdot \vec{\sigma} + \frac{\mu}{\eta} (\nabla \cdot \vec{\sigma})\\
 &amp;= \nabla (\frac{\mu}{\eta}) \cdot \vec{\sigma}
 \end{align}\]</div>
 <p>Conceptually, this is pretty interesting and tells us that viscosity only influences the displacement solution through its spatial variation. Critically for us, in a layered halfspace model, that spatial variation only occurs on a single or small number of surfaces separating the layers.</p>
 <p>Consider the figure below: a classic layered Maxwell viscoelastic half space where <span class="math notranslate nohighlight">\(\mu\)</span> is constant and <span class="math notranslate nohighlight">\(\eta\)</span> varies only as a step function across the elastic/viscoelastic boundary. As a result, the term that includes a viscosity divergence will simplify to:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a95992c4-1bfb-4c68-ad89-a79c9d319e1d">
-<span class="eqno">(5.10)<a class="headerlink" href="#equation-a95992c4-1bfb-4c68-ad89-a79c9d319e1d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b0e94694-246e-437d-8462-c503ecde5003">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-b0e94694-246e-437d-8462-c503ecde5003" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \nabla (\frac{\mu}{\eta}) = (0, -\delta(y=D) \frac{\mu}{\eta_V})
 \end{equation}\]</div>
 <p>The negative is because inverse viscosity decreases in the positive y direction.</p>
@@ -412,23 +460,23 @@
 </div>
 </div>
 <p>So, the final equation we’d like to solve is:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d31d4a08-7a5c-4354-a927-d55990e3ba0e">
-<span class="eqno">(5.11)<a class="headerlink" href="#equation-d31d4a08-7a5c-4354-a927-d55990e3ba0e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6c0aca26-7f6c-4dd8-b12a-6ea50a30f9cb">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-6c0aca26-7f6c-4dd8-b12a-6ea50a30f9cb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 2\mu \nabla^2 \frac{\partial u}{\partial t} = -\delta(y=D) \frac{\mu}{\eta_V} \sigma_y 
 \end{equation}\]</div>
 <p>In some situations, it can be more convenient to consider the equation in terms of the displacement rather than the velocity:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07f98ff9-0a37-468f-bfa8-986f42dc9330">
-<span class="eqno">(5.12)<a class="headerlink" href="#equation-07f98ff9-0a37-468f-bfa8-986f42dc9330" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-50b9aff0-4a9e-45d7-85b4-b049259f0a1b">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-50b9aff0-4a9e-45d7-85b4-b049259f0a1b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 2\mu \nabla^2 u = -\delta(y=D) \frac{\mu}{\eta_V} \int_{0}^{T} \sigma_y dt
 \end{equation}\]</div>
 <p>Now, how do we solve this? The key is relate this equation back to the governing PDE for linear elasticity with a body force term:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-678279a5-afea-4bdd-8d2f-e08c95e02435">
-<span class="eqno">(5.13)<a class="headerlink" href="#equation-678279a5-afea-4bdd-8d2f-e08c95e02435" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-90ddc47f-0bee-473d-bb2a-a20e57b09738">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-90ddc47f-0bee-473d-bb2a-a20e57b09738" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 2\mu\nabla^2u + f = 0
 \end{equation}\]</div>
 <p>The two equations take the same form if we assign:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c116c9b4-0810-4a7a-9d29-dc0bfe788804">
-<span class="eqno">(5.14)<a class="headerlink" href="#equation-c116c9b4-0810-4a7a-9d29-dc0bfe788804" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-109b12d1-8334-4051-bbe0-e94b3b0acb85">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-109b12d1-8334-4051-bbe0-e94b3b0acb85" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 f = \delta(y=D) \frac{\mu}{\eta_V} \int_{0}^{T} \sigma_y dt
 \end{equation}\]</div>
 <p>So, any numerical method that can solve linear elastic problems with a body force can, with appropriate care, solve our layered viscoelastic problem.</p>
@@ -436,24 +484,24 @@ f = \delta(y=D) \frac{\mu}{\eta_V} \int_{0}^{T} \sigma_y dt
 <div class="section" id="viscoelastic-boundary-integral-equation">
 <h2><span class="section-number">5.3. </span>Viscoelastic boundary integral equation<a class="headerlink" href="#viscoelastic-boundary-integral-equation" title="Permalink to this headline">¶</a></h2>
 <p>So, now that we’ve developed this layered viscoelastic PDE, lets’ transform it into integral form! Applying Somigliana’s identity to the linear elastic problem with an arbitrary body force on our geometry, we get:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-471ba4e1-90d7-473c-8311-de587803db4a">
-<span class="eqno">(5.15)<a class="headerlink" href="#equation-471ba4e1-90d7-473c-8311-de587803db4a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-37ab30f5-2a8a-4956-ab72-4a61095cf636">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-37ab30f5-2a8a-4956-ab72-4a61095cf636" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(\mathbf{p}) = -\int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{\Omega} G(\mathbf{p},\mathbf{q}) f(\mathbf{q}) d\mathbf{q}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is the observation point, <span class="math notranslate nohighlight">\(u\)</span> is the displacement, <span class="math notranslate nohighlight">\(s\)</span> is the slip on the fault, <span class="math notranslate nohighlight">\(H\)</span> is the free surface, <span class="math notranslate nohighlight">\(F\)</span> is the fault surface, <span class="math notranslate nohighlight">\(\Omega\)</span> is the whole domain, <span class="math notranslate nohighlight">\(G\)</span> is the fundamental solution of the Laplace equation, <span class="math notranslate nohighlight">\(\frac{\partial G}{\partial n_q}\)</span> is the kernel of the double layer potential.</p>
 <p>First off, this is <em>not</em> a boundary integral equation. There is a volumetric integral over the whole domain <span class="math notranslate nohighlight">\(\Omega\)</span>. But, substituting in the body force from above for <span class="math notranslate nohighlight">\(f(\mathbf{q})\)</span>, the fascinating thing is that the delta function means that the volume integral will reduce to a surface integral over the surface <span class="math notranslate nohighlight">\(V\)</span> that defines the boundary between the viscoelastic region and the elastic region. In our example, <span class="math notranslate nohighlight">\(V\)</span> is defined by <span class="math notranslate nohighlight">\(y=D\)</span>.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d108af76-bfb7-4049-81c3-b4a8418330d3">
-<span class="eqno">(5.16)<a class="headerlink" href="#equation-d108af76-bfb7-4049-81c3-b4a8418330d3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3f77b9f5-6c10-4028-9ae0-f558555d8de6">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-3f77b9f5-6c10-4028-9ae0-f558555d8de6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \int_{V} G(\mathbf{p},\mathbf{q}) f(\mathbf{q}) d\mathbf{q} = \frac{\mu}{\eta_V} \int_{V} G(\mathbf{p}, \mathbf{q}) \bigg[ \int_0^T \sigma_y(\mathbf{q}) dt \bigg] d\mathbf{q}
 \end{equation}\]</div>
 <p>So, the result is a purely boundary integral equation for the behavior of a fault in a Maxwell viscoelastic and elastic layered space.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b44b67d-43fe-4ab1-a5ac-fe133d0abcf6">
-<span class="eqno">(5.17)<a class="headerlink" href="#equation-6b44b67d-43fe-4ab1-a5ac-fe133d0abcf6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-00b03ead-233f-405e-bd6f-15ca553a2d45">
+<span class="eqno">(5.17)<a class="headerlink" href="#equation-00b03ead-233f-405e-bd6f-15ca553a2d45" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(\mathbf{p}) = -\int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{V} G(\mathbf{p}, \mathbf{q}) \bigg[\frac{\mu}{\eta_V} \int_0^T \sigma_y(\mathbf{q}) dt \bigg] d\mathbf{q}
 \end{equation}\]</div>
 <p>Assign <span class="math notranslate nohighlight">\(S\)</span> as the traction integral:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c9842980-1762-41e6-95e0-68b2b92e168e">
-<span class="eqno">(5.18)<a class="headerlink" href="#equation-c9842980-1762-41e6-95e0-68b2b92e168e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b234107f-18e1-401f-a74d-2885b7825438">
+<span class="eqno">(5.18)<a class="headerlink" href="#equation-b234107f-18e1-401f-a74d-2885b7825438" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 S(\mathbf{q}) = \frac{\mu}{\eta_V} \int_0^T \sigma_y(\mathbf{q}) dt
 \end{equation}\]</div>
 <p>This integral equation results in a fairly simple time stepping algorithm where, given <span class="math notranslate nohighlight">\(S^n\)</span>.</p>
@@ -622,8 +670,8 @@ S(\mathbf{q}) = \frac{\mu}{\eta_V} \int_0^T \sigma_y(\mathbf{q}) dt
 <ol class="simple">
 <li><p>The equation to solve for free surface displacement given the fault slip and the traction integral <span class="math notranslate nohighlight">\(S(q)\)</span>. This was derived above from the Maxwell viscoelastic equations combined with Somigliana’s identity.</p></li>
 </ol>
-<div class="amsmath math notranslate nohighlight" id="equation-b33dcf0b-d5c9-422c-b72e-7918aff19521">
-<span class="eqno">(5.19)<a class="headerlink" href="#equation-b33dcf0b-d5c9-422c-b72e-7918aff19521" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b38fbc5f-5524-4019-be96-4fd6118ed94f">
+<span class="eqno">(5.19)<a class="headerlink" href="#equation-b38fbc5f-5524-4019-be96-4fd6118ed94f" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 u(\mathbf{p}) + \int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} = -\int_{F} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \frac{1}{\mu}\int_{V} G(\mathbf{p}, \mathbf{q}) S(\mathbf{q}) d\mathbf{q}
 \end{equation}\]</div>
 <p>I’ll note these terms as <code class="docutils literal notranslate"><span class="pre">{src_name}_to_free_disp</span></code>. We’ll construct the inverted left hand side matrix in <code class="docutils literal notranslate"><span class="pre">free_disp_solve_mat_inv</span></code>.</p>
@@ -659,8 +707,8 @@ u(\mathbf{p}) + \int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q})
 <ol class="simple">
 <li><p>The equation to solve for the stress on the viscoelastic boundary surface. This is derived by simply taking a derivative with respect to the observation point locations and then applying the constitutive relationship. The terms here will be named <code class="docutils literal notranslate"><span class="pre">{src_name}_to_VB_stress</span></code> to indicate the input and output of the operator.</p></li>
 </ol>
-<div class="amsmath math notranslate nohighlight" id="equation-057f61ff-0573-4281-87d8-f240e5815da2">
-<span class="eqno">(5.20)<a class="headerlink" href="#equation-057f61ff-0573-4281-87d8-f240e5815da2" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-48d69f88-e2da-4b05-9cdf-57801ac23c03">
+<span class="eqno">(5.20)<a class="headerlink" href="#equation-48d69f88-e2da-4b05-9cdf-57801ac23c03" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \vec{\sigma}(\mathbf{p}) = -\mu\int_{H} \frac{\partial G}{\partial n_q \partial n_p}(\mathbf{p}, \mathbf{q}) u(\mathbf{q}) d\mathbf{q} -\mu\int_{F} \frac{\partial G}{\partial n_q \partial n_p}(\mathbf{p}, \mathbf{q}) s(\mathbf{q}) d\mathbf{q} + \int_{V} \frac{\partial G}{\partial n_p} S(\mathbf{q})  d\mathbf{q}
 \end{equation}\]</div>
 <div class="cell docutils container">
@@ -989,8 +1037,8 @@ u(\mathbf{p}) + \int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q})
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="part4_topography.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -1007,19 +1055,17 @@ u(\mathbf{p}) + \int_{H} \frac{\partial G}{\partial n_q}(\mathbf{p}, \mathbf{q})
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By T. Ben Thompson<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By T. Ben Thompson<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
 </main>
 
 
