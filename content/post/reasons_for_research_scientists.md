@@ -6,7 +6,7 @@ date=2022-01-07
 
 <sub>Ideally, this will be a living document. I just hit publish on this because I'm impulsive but it probably needs some serious editing. This was last updated on 1/7/2022.</sub>
 
-In most research settings, research scientists are the central characters. In industrial research, experienced research scientists and engineers are well paid and prestigious. In national labs, the main career path is as a research scientist. But in academia, research scientists are few and far between. In many fields, a faculty-as-manager paradigm dominates and he most experienced scientists are engaged in the management responsibilities of the modern professor. Instead, most research is executed on by graduate students. 
+In most research settings, research scientists are the central characters. In industrial research, experienced research scientists and engineers are well paid and prestigious. In national labs, the main career path is as a research scientist. But in academia, research scientists are few and far between. In many fields, a faculty-as-manager paradigm dominates and the most experienced scientists are engaged in the management responsibilities of the modern professor. Instead, most research is executed on by graduate students. 
 
 There are [a lot of difficult questions](https://www.worksinprogress.co/issue/we-dont-know-how-to-fix-science/) about how we structure science. This doesn't seem like one of those difficult questions. This seems obviously bad and I'd like to do what I can to fix it. I would love to hear arguments to the contrary. Most arguments I've heard focus on the coordination problems or the history of the system rather than any fundamental reason that the system *should* work this way.
 
