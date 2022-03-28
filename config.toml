@@ -16,5 +16,8 @@ pygmentsUseClasses            = true
 [taxonomies]
 tag = "tags"
 
-[markup.goldmark.renderer]
-unsafe = true
+[markup.goldmark]
+    [markup.goldmark.extensions]
+      footnote = true
+    [markup.goldmark.renderer]
+      unsafe = true

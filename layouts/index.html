@@ -7,7 +7,7 @@
 {{- partial "subscribe.html" . -}}
 
 <b>Recent posts</b> • <a href="/post">all posts</a> • <a href="/post/index.xml">rss</a>
-  {{- range ( where site.RegularPages "Section" "post" | first 10 ) }}
+  {{- range ( where site.RegularPages "Section" "post") }}
   <div>
   <span>
     <i>
