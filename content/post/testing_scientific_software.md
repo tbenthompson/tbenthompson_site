@@ -11,8 +11,8 @@ The fundamental problem with testing and debugging scientific software is that w
 3. Treasure correct code and use version control. Don't lose your treasure.
 4. Use existing correct code to maximum value because it means you can check intermediate values that would otherwise be untestable. 
 5. Hunt the internet for existing correct code. But don't trust it. 
-7. Add one feature at a time.
-8. Define "one feature" as narrowly as possible. 
+7. Add one feature at a time.[^1]
+8. Define "one feature" as narrowly as possible.[^2]
 9. Edges cases shouldn't be an after thought. Sometimes solving an edge case can be informative about the common case.
 11. It's okay to spend a couple hours just thinking about how to design a test problem that tests only one new feature. 
 12. Any time you can, compare with an analytical solution.
@@ -71,3 +71,8 @@ The fundamental problem with testing and debugging scientific software is that w
 - [Strategies for unit testing and test-driven development](https://scicomp.stackexchange.com/questions/8481/strategies-for-unit-testing-and-test-driven-development)
 - [Why We Don't Teach Testing (Even Though We'd Like To)](https://software-carpentry.org/blog/2014/10/why-we-dont-teach-testing.html)
 - [Spinning Up as a Deep RL Reseacher (A great high-level summary of how to do effective research in Reinforcement Learning)](https://spinningup.openai.com/en/latest/spinningup/spinningup.html)
+- [Design for testability](https://blog.nelhage.com/2016/03/design-for-testability/)
+
+
+[^1]: We should try to find the smallest testable unit of code. For example, when writing a fast multipole method implementation, you could start by writing code for a 3x3 subdivision of the domain with only source approximation. This would test the source-side approximation code in isolation. Then, you write the target-side approximation code separately and test that. Then, you move to a tree structure and test that component separately. 
+[^2]: As an aside, I think most test driven development (TDD) advice is insane, particularly when applied to code for numerical methods. TDD focuses on tiny, (almost?) meaningless tests. In most numerical methods work, a unit of testable work is often an entire solution to a particular physical problem, perhaps including convergence tests. It's perfectly fine and maybe even good to write that "test" before writing the implementation of the numerical method. I do it often. But, that sometimes still means that I have several hundred lines of code that I need to write before I can see if the test passes or even runs at all. The problem isn't really in the spirit of TDD, but in the focus in books and examples on tiny increments of work and on *requiring* the tests to be written first.
