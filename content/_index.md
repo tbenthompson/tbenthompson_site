@@ -8,3 +8,5 @@ Other things that excite me that I don't write about here: growing plants, runni
 You can reach me by email at [t.ben.thompson@gmail.com](mailto:t.ben.thompson@gmail.com)
 
 I'm excited to talk to you about all sorts of stuff. Also let me know if [you want to work together](/whatido).
+
+I've recently co-founded [Confirm Solutions](https://www.confirmsol.org).
