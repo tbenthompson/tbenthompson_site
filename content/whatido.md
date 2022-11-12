@@ -24,6 +24,8 @@ Conversion notes:
 * This is a partial selection. Check to make sure intra-doc links work.
 ----->
 
+[update 11/12/2022: I wrote this last winter when I was looking for a new project. It worked! I've recently co-founded [Confirm Solutions](https://www.confirmsol.org). But that also means that I'm not avaiable for new projects anymore. I've left this up because I think it's still a good summary. If you're interested in working with us at Confirm, please get in touch!]
+
 
 We could work together! Please [get in touch.](mailto:t.ben.thompson@gmail.com) I have a more formal resume [here](https://tbenthompson.com/resume.pdf).
 
