@@ -2,42 +2,24 @@
 type="nonpost"
 +++
 
-<!-----
 
-Yay, no errors, warnings, or alerts!
+## Join us at Confirm Labs!
 
-Conversion time: 0.415 seconds.
+[Confirm Labs](https://www.confirmlabs.org) is a new research lab focused on AI interpretability. It's just me and Mike Sklar at the moment in June 2023. Please get in touch if you'd like to work with us. We'd like close collaborators. We're also planning to add a third team member soon. We're particularly interested in people with strong software engineering and math skills who are really excited about working closely with us.
 
+## A past version of this page
 
-Using this Markdown file:
-
-1. Paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-
-* Docs to Markdown version 1.0β33
-* Wed Jan 12 2022 06:27:32 GMT-0800 (PST)
-* Source doc: workwithme
-* This is a partial selection. Check to make sure intra-doc links work.
------>
-
-[update 11/12/2022: I wrote this last winter when I was looking for a new project. It worked! I've recently co-founded [Confirm Solutions](https://www.confirmsol.org). But that also means that I'm not avaiable for new projects anymore. I've left this up because I think it's still a good summary. If you're interested in working with us at Confirm, please get in touch!]
-
+<sub>**frozen in early 2022**: Even though I'm not actively looking for new projects at the moment, I left this up here because it still reflects the things I care about in my career and it serves as an informal resume.</sub>
 
 We could work together! Please [get in touch.](mailto:t.ben.thompson@gmail.com) I have a more formal resume [here](https://tbenthompson.com/resume.pdf).
 
 **What I’m looking for**
 
-I’m primarily looking for _close_ collaborations with friendly people on _exciting_ and _important_ research problems or scientific software projects. To be more specific, I’d like to be working together (in person or remotely) on a regular basis for several hours. I don’t work well talking briefly once a month. I find enthusiasm infectious so if you’re excited I probably will be too. What does “important” mean?  I enjoy discussing questions of where there is the most value to be gained in research. But, I’m also quite critical in this regard when it comes to investing months of my time, but much less critical if it’s just a few days or weeks of helping out. For example, I’ve worked on earthquake science for my entire PhD but I still wrote [this thread](https://twitter.com/tbenthompson/status/1435663857117237248) on whether earthquake science is a particularly valuable thing to work on. I’ve written some more about my work preferences in [Maintaining Momentum.](https://tbenthompson.com/post/maintaining_momentum/)
+I’m primarily looking for _close_ collaborations with friendly people on _exciting_ and _important_ research problems or scientific software projects. To be more specific, I’d like to be working together (in person or remotely) on a regular basis for several hours. I don’t work well talking briefly once a month. I find enthusiasm infectious so if you’re excited I probably will be too. What does “important” mean?  I enjoy discussing questions of where there is the most value to be gained in research. But, I’m also quite critical in this regard when it comes to investing months of my time, but much less critical if it’s just a few days or weeks of helping out. I’ve written some more about my work preferences in [Maintaining Momentum](https://tbenthompson.com/post/maintaining_momentum/).
 
 I am interested in academic or industry research engineering career options doing very compelling work (AI, biotech, fusion, etc).
 
 Things that I’ve recently worked on: 
-
-
 
 * At [QuantCo](https://quantco.com): Automated e-commerce pricing and forecasting.
 * At [QuantCo](https://quantco.com): [Generalized linear modeling software](https://glum.readthedocs.io/en/latest/) and [supporting computational infrastructure](https://github.com/Quantco/tabmat).
@@ -49,19 +31,17 @@ Things that I’ve recently worked on:
 
 Examples of things I’ve recently considered getting involved in:
 
-
-
 * Fusion simulation research.
 * Ultrasound brain imaging.
 * Adaptive experimentation methods and software.
 * Earthquake prevention.
+* Artificial intelligence.
 
 **End products that I’d be excited about:**
 
-
-
+* Things that people care about!
 * New discoveries!
-* Open-source scientific software
+* Open-source scientific software.
 * Quality tutorials and explanations of difficult topics on the methodological frontier.
 
 **I'm good at and excited about:**
