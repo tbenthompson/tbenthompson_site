@@ -11,10 +11,8 @@ A big list of topics that excite me and I write about here: artificial intellige
 
 Other things that excite me that I don't write about here: growing plants, running, mountains, my dog, the time I jacked up my house by a quarter inch.
 
-<hr>
-<div class="container has-text-centered">
+<div class="container">
     <div class="accounts">
           <a href="/resume.pdf">Resume</a> &nbsp/&nbsp <a href="https://scholar.google.com/citations?user=ED9oDz8AAAAJ&hl=en">Google Scholar</a> &nbsp/&nbsp <a href="https://github.com/tbenthompson">GitHub</a> &nbsp/&nbsp <a href="https://www.linkedin.com/in/ben-thompson-645292125/">LinkedIn</a> &nbsp/&nbsp <a href="https://twitter.com/tbenthompson">Twitter</a> &nbsp/&nbsp <a href="mailto:t.ben.thompson@gmail.com">Email</a>
     </div>
 </div>
-<hr>

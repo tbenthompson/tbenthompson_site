@@ -14,3 +14,13 @@ a:hover, a:visited, a:link, a:active
 body {
     font-size: 0.9em;
 }
+
+footer {
+    padding: 0px;
+    text-align: left;
+}
+
+.accounts {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
