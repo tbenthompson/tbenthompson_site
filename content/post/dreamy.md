@@ -3,7 +3,7 @@ title="Fluent dreaming for language models (AI interpretability method)"
 date=2024-02-06
 +++
 
-I recently posted a paper on fluent dreaming for language models! [arXiv link.](https://arxiv.org/abs/2402.01702) 
+My coworkers at Confirm Labs and I recently posted a paper on fluent dreaming for language models! [arXiv link.](https://arxiv.org/abs/2402.01702) 
 We have a [companion page here demonstrating the code](https://confirmlabs.org/posts/dreamy.html). We also have [a demo Colab notebook here](https://colab.research.google.com/drive/1B0dM7du91BUkT7tSICXjKL7lrBAEdSa-?usp=sharing).
 
 Dreaming, aka "feature visualization," is a interpretability approach popularized by DeepDream that involves optimizing the input of a neural network to maximize an internal feature like a neuron's activation. We adapt dreaming to language models.
