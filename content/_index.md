@@ -3,7 +3,7 @@
 
 Hi, my name is Ben Thompson.
 
-I'm currently working on AI adversarial attacks and AI interpretability at [Confirm Labs](https://www.confirmlabs.org)!
+I'm currently working on [AI interpretability at Anthropic.](https://transformer-circuits.pub) Previously, I was a co-founder of [Confirm Labs](https://www.confirmlabs.org) working on AI adversarial robustness and interpretability.
 
 I'm excited to talk to you about all sorts of stuff. And let me know if [you want to work together](/whatido).
 

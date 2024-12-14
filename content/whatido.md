@@ -2,11 +2,6 @@
 type="nonpost"
 +++
 
-
-## Join us at Confirm Labs!
-
-[Confirm Labs](https://www.confirmlabs.org) is a new research lab focused on AI interpretability. It's just me and Mike Sklar at the moment in June 2023. Please get in touch if you'd like to work with us. We'd like close collaborators. We're also planning to add a third team member soon. We're particularly interested in people with strong software engineering and math skills who are really excited about working closely with us.
-
 ## A past version of this page
 
 <sub>**frozen in early 2022**: Even though I'm not actively looking for new projects at the moment, I left this up here because it still reflects the things I care about in my career and it serves as an informal resume.</sub>
@@ -19,7 +14,7 @@ I’m primarily looking for _close_ collaborations with friendly people on _exci
 
 I am interested in academic or industry research engineering career options doing very compelling work (AI, biotech, fusion, etc).
 
-Things that I’ve recently worked on: 
+Things that I’ve recently worked on:
 
 * At [QuantCo](https://quantco.com): Automated e-commerce pricing and forecasting.
 * At [QuantCo](https://quantco.com): [Generalized linear modeling software](https://glum.readthedocs.io/en/latest/) and [supporting computational infrastructure](https://github.com/Quantco/tabmat).
@@ -48,12 +43,12 @@ Examples of things I’ve recently considered getting involved in:
 
 1. **Performance engineering and high performance computing.** I make code fast, whether that is designing/implementing practical and efficient algorithms, parallelizing and distributing code, or moving it to a GPU.
 
-2. **Algorithms and computational methods:** Nonlinear optimization, linear algebra, numerical analysis, probability, computational methods for PDEs. I’ve done a particularly large amount of work on computational methods for partial differential equations working with integral equations, finite difference, and discontinuous Galerkin methods focused on earthquake problems. 
+2. **Algorithms and computational methods:** Nonlinear optimization, linear algebra, numerical analysis, probability, computational methods for PDEs. I’ve done a particularly large amount of work on computational methods for partial differential equations working with integral equations, finite difference, and discontinuous Galerkin methods focused on earthquake problems.
 
-3. **Numerical optimization and statistical software tools.** At QuantCo, I worked on statistical tool development projects oriented towards econometric estimation and on second order optimization methods applied to mixed neural net/boosted tree methods. 
+3. **Numerical optimization and statistical software tools.** At QuantCo, I worked on statistical tool development projects oriented towards econometric estimation and on second order optimization methods applied to mixed neural net/boosted tree methods.
 
 4. **Software engineering** for all of the above and more: Maintainability, automation, focusing on user needs, understandable code, avoiding over-engineering, collaborative development. As much as I can, I try to turn my work into useful open source software. As far as specific tools, I'm an expert in Python, C++ and CUDA but I'm good enough in a lot of other settings (Julia, Matlab, Rust, Fortran, R, shell, devops, databases, etc).
 
-5. **Being reasonable.** I’m easy to work with and my co-workers say they really like working with me! 
+5. **Being reasonable.** I’m easy to work with and my co-workers say they really like working with me!
 
-Overall, I suspect I could be very effective in adjacent domains to those I’ve mentioned and in most of computational science. I have enough scaffolding for a lot of algorithms and computation that it probably won't take long to get up to speed. I find it generally takes just a few days to get passably good in a new tool or language. 
+Overall, I suspect I could be very effective in adjacent domains to those I’ve mentioned and in most of computational science. I have enough scaffolding for a lot of algorithms and computation that it probably won't take long to get up to speed. I find it generally takes just a few days to get passably good in a new tool or language.
