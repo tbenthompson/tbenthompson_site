@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben & Kelly - Wedding Celebration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #70b1e0; /* Sky blue primary color */
+            --secondary-color: #8a9e8d; /* Sage green complement */
+            --accent-color: #4682b4; /* Steel blue for accents */
+            --text-color: #4a4a4a;
+            --light-color: #f2f7fb; /* Light blue tint for backgrounds */
+            --font-main: 'Montserrat', sans-serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-secondary);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #fff;
+            scroll-padding-top: 40px; /* Add scroll padding for anchor links */
+        }
+        
+        /* Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-main);
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 400;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        /* Add this CSS to add padding to sections for better scrolling */
+        section:not(.hero) {
+            padding-top: 8rem;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+        }
+        
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-family: var(--font-secondary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            /* Mountain backdrop image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-family: var(--font-secondary);
+            font-size: 4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .date-location {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #c59662;
+            transform: translateY(-2px);
+        }
+        
+        /* Our Story Section */
+        .our-story {
+            background-color: white;
+            text-align: center;
+            padding-bottom: 6rem; /* Reduced padding */
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        
+        /* Timeline Items */
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            text-align: left;
+        }
+        
+        /* Left and Right Positioning */
+        .timeline-item.left {
+            left: 0;
+        }
+        
+        .timeline-item.right {
+            left: 50%;
+        }
+        
+        /* Create alternating vertical spacing with significant overlap in both directions */
+        /* First item (start with no offset) */
+        .timeline-item:nth-child(1) {
+            margin-bottom: -200px;
+        }
+        
+        /* Second item (overlap with first, from right to left) */
+        .timeline-item:nth-child(2) {
+            margin-top: -100px;
+            margin-bottom: -200px;
+        }
+        
+        /* Third item (overlap with second, from left to right) */
+        .timeline-item:nth-child(3) {
+            margin-top: -100px;
+            margin-bottom: -200px;
+        }
+        
+        /* Fourth item (overlap with third, from right to left) */
+        .timeline-item:nth-child(4) {
+            margin-top: -100px;
+            margin-bottom: -200px;
+        }
+        
+        /* Fifth item (overlap with fourth, from left to right) */
+        .timeline-item:nth-child(5) {
+            margin-top: -100px;
+            margin-bottom: -200px;
+        }
+        
+        /* Sixth item (overlap with fifth, from right to left) */
+        .timeline-item:nth-child(6) {
+            margin-top: -100px;
+            margin-bottom: 0;
+        }
+        
+        /* Timeline Dots/Circles */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px; /* Smaller circle for better alignment */
+            height: 16px;
+            background-color: white;
+            border: 4px solid var(--accent-color);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 2;
+        }
+        
+        /* Position the dots exactly on the center line */
+        .left::after {
+            right: -12px; /* Adjusted to align with center line */
+        }
+        
+        .right::after {
+            left: -12px; /* Adjusted to align with center line */
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure proper stacking */
+            z-index: 1; /* Above the line but below the dots */
+        }
+        
+        /* Add timeline photo styles */
+        .timeline-photo {
+            width: 100%;
+            height: 150px;
+            background-position: center;
+            background-size: cover;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .date {
+            font-style: italic;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* Event Details Section */
+        .event-details {
+            background-color: var(--light-color);
+            text-align: center;
+        }
+        
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card:nth-child(1) .card-img {
+            background: url('https://images.unsplash.com/photo-1522447984233-657d56a333f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Ceremony image - flowers */
+        }
+        
+        .card:nth-child(2) .card-img {
+            background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Reception image - elegant setting */
+        }
+        
+        .card:nth-child(3) .card-img {
+            background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Accommodations image - hotel */
+        }
+        
+        .card-content {
+            padding: 2rem;
+        }
+        
+        .card h3 {
+            color: var(--accent-color);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* Travel Information Section */
+        .travel {
+            background-color: white;
+            text-align: center;
+        }
+        
+        .travel-tips {
+            max-width: 800px;
+            margin: 3rem auto;
+            text-align: left;
+            background-color: var(--light-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .travel-tips ul {
+            padding-left: 1.5rem;
+        }
+        
+        .travel-tips li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .map-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .map {
+            margin-top: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Travel card images */
+        .travel .card:nth-child(1) .card-img {
+            background: url('https://images.unsplash.com/photo-1542296332-2e4473faf563?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Airport/flying image */
+        }
+        
+        .travel .card:nth-child(2) .card-img {
+            background: url('https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Mountain road image */
+        }
+        
+        .travel .card:nth-child(3) .card-img {
+            background: url('https://images.unsplash.com/photo-1548274606-bcb031b1a6c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            /* Salida downtown image */
+        }
+        
+        /* RSVP Section */
+        .rsvp {
+            background-color: white;
+            text-align: center;
+        }
+        
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: var(--font-secondary);
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #c59662;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background-color: var(--light-color);
+            text-align: center;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            background: url('/api/placeholder/300/300') center/cover no-repeat;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Gallery grid images */
+        .gallery-item:nth-child(1) {
+            background: url('https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Mountain wildflowers */
+        }
+        
+        .gallery-item:nth-child(2) {
+            background: url('https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Mountain vista */
+        }
+        
+        .gallery-item:nth-child(3) {
+            background: url('https://images.unsplash.com/photo-1554203576-3b0c9c6c3b9f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Pink peonies */
+        }
+        
+        .gallery-item:nth-child(4) {
+            background: url('https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Couple in mountains */
+        }
+        
+        .gallery-item:nth-child(5) {
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Dusty pink roses */
+        }
+        
+        .gallery-item:nth-child(6) {
+            background: url('https://images.unsplash.com/photo-1464278533981-50106e6176b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Mountain lake */
+        }
+        
+        .gallery-item:nth-child(7) {
+            background: url('https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Flower arrangement */
+        }
+        
+        .gallery-item:nth-child(8) {
+            background: url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            /* Mountain sunset */
+        }
+        
+        /* Registry Section */
+        .registry {
+            background-color: white;
+            text-align: center;
+        }
+        
+        .registry-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .registry-logo {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            max-width: 150px;
+        }
+        
+        .registry-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background-color: var(--light-color);
+        }
+        
+        .faq-container {
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .faq h2 {
+            text-align: left;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 1rem;
+        }
+        
+        .faq-question {
+            font-family: var(--font-main);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 1rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 0;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1rem;
+        }
+        
+        .faq-answer.show {
+            max-height: 500px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            color: var(--secondary-color);
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer p {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 80%;
+            max-height: 80%;
+        }
+        
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .navbar .container {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+            
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .right {
+                left: 0;
+            }
+            
+            .left::after, .right::after {
+                left: 20px;
+            }
+        }
+        
+        /* Add these styles to your CSS section */
+        .card.full-width {
+            flex: 1 1 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .card.full-width .card-img {
+            width: 40%;
+            height: 100%;
+            min-height: 250px;
+            background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            /* Mountain retreat panorama */
+        }
+        
+        .card.full-width .card-content {
+            width: 60%;
+            padding: 3rem;
+            text-align: left;
+        }
+        
+        @media (max-width: 768px) {
+            .card.full-width {
+                flex-direction: column;
+            }
+            
+            .card.full-width .card-img {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .card.full-width .card-content {
+                width: 100%;
+                padding: 2rem;
+                text-align: center;
+            }
+        }
+        
+        /* Add this CSS for the double-width card */
+        .card.double-width {
+            flex: 2 1 600px;
+            max-width: 700px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="logo">Ben & Kelly</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#event-details">Event Details</a></li>
+                <li><a href="#travel">Travel</a></li>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#rsvp">RSVP</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Ben & Kelly</h1>
+            <p class="date-location">Saturday, June 6, 2026 • Salida, Colorado</p>
+            <a href="#rsvp" class="btn">RSVP</a>
+        </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section class="event-details" id="event-details">
+        <div class="container">
+            <h2>Event Details</h2>
+            
+            <div class="cards">
+                <div class="card full-width">
+                    <div class="card-img wide-img" style="background: url('https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Wedding</h3>
+                        <p><b>4pm, June 6, 2026.</b></p>
+                        <br>
+                        <p><b>Blue Coyote Ranch, Salida, Colorado.</b></p>
+                        <br>
+                        <p>Dinner and dancing to follow.</p>
+                    </div>
+                </div>
+                
+                
+                <div class="card full-width">
+                    <div class="card-img wide-img" style="background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h3>Mountain Retreat</h3>
+                        <p> We'll stay at the Blue Coyote Ranch from Thursday to Monday (June 4-8). We know that many of you would enjoy spending time in this beautiful area - and we will treasure our time with you. </p>
+                        <br>
+                        <p> The ranch is set up for extended stays in modern lodge/cabins with full kitchens and good internet. We hope you'll join us to explore the mountains, WFH with a view, share meals by the fire, or hang out in the hot tub. </p>
+                        <br>
+                        <p> <i>Additional activities, including post-wedding brunch on Sunday June 7, to be discussed closer to the date.</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Information Section -->
+    <section class="travel" id="travel">
+        <div class="container">
+            <h2>Travel Information</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-img"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3>Flying Into Denver</h3>
+                        <p> The closest major airport is Denver International Airport (DIA), a 3 hour drive from Salida. DIA is a United/Frontier hub with direct flights from most major cities. We recommend renting a car at the airport, or arranging a carpool with other guests (we'll connect carpoolers after the RSVP deadline). </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3>Driving 3h to Salida</h3>
+                        <p> The drive takes about 2.5h from Denver and 3h from DIA/Boulder (plan buffer time for traffic on Friday/Sunday evenings). The direct route, US-285-S, is highly scenic. If you have an extra hour or more, detour over Guanella Pass, a spectacular drive above treeline with plentiful hike and photo stops. </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <h3>Lodging</h3>
+                        <p> We have reserved the entire property for the weekend, and recommend you allow us to arrange your rooms. </p>
+                            <br>
+                            <p>More information is available on the <a href="https://www.bluecoyoteranch.com/accommodations" target="_blank">Blue Coyote Ranch website</a>. Detailed options are presented in the RSVP form. </p>
+                    </div>
+                </div>
+
+            <div class="travel-tips">
+                <h3>Local Activities</h3>
+                <ul>
+                    <li>Check out nearby Salida, a charming mountain town with good restaurants, waterfront views, and art galleries.</li>
+                    <li>Hike the half mile trail around the ranch, or up a 14er (Mt. Shavano). </li>
+                    <li>Raft the Arkansas River through town.</li>
+                    <li>Backcountry ski at Monarch Pass (snow permitting).</li>
+                    <li>Day trip to Great Sand Dunes National Park, Kelly's favorite sand and water playground.</li>
+                    <li>Relax at Valley View Hot Springs (a magical place with naked hippies) or Mt. Princeton Resort (a more traditional hot spring spa).</li>
+                </ul>
+                <h3>Weather</h3>
+                    <p>June weather in Salida is typically sunny during the day (70-85°F) and cool in the evenings (45-55°F). Brief afternoon thunderstorms are common, and the sun at high elevation is intense. Bring layers, sunglasses, and a sun hat.</p>
+            </div>
+            
+            <div class="map-container">
+                <h3>Map to Venue</h3>
+                <div class="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4247.7916753236195!2d-105.98843902328697!3d38.514815569186254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x871517974d3b83c7%3A0x6c3b653174b3b8e4!2sBlue%20Coyote%20Ranch%20Hotel%20%26%20Events!5e1!3m2!1sen!2sus!4v1747110389145!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <h2>Our Story</h2>
+
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                        <h3>Parallel paths</h3>
+                        <div class="date">2010-2020</div>
+                        <p> We both majored in Geology at MIT, and did separate field projects under the same professor (Ben in Mongolia, and Kelly in Ladakh). We both spent many winter weekends in the White Mountains (Ben setting trail running records, Kelly leading trips with MITOC). After graduation, we both pursued PhDs funded by the DOE CSGF (Ben modeled earthquakes, Kelly studied snow). Our relationship began to grow after we both made our separate ways to Colorado (Ben in 2023, Kelly in 2015). </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1529417305485-480f579e7578?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                        <h3>First Date</h3>
+                        <div class="date">February 2, 2020</div>
+                        <p> After a few weeks of back-and-forth (aka, strategic pursuit by Ben) we had our first date at Copper Mountain, Colorado. Skiing turned into kissing in the woods, then dinner, then an endless flow of late-night conversation that has never really stopped.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                        <h3>Moved In Together</h3>
+                        <div class="date">June 1, 2022</div>
+                        <p> We moved in together on an extended work trip to SF in Fall 2023. Life was unexpectedly hard - Ben started an intense new job, Kelly got pneumonia, and Wish Dogg rejected the city in favor of a strange shower fixation - but our relationship stayed easy. Two months later we moved into our current home in Boulder, Colorado, where we have been delightfully happy.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                        <h3>The Proposal</h3>
+                        <div class="date">December 24, 2024</div>
+                        <p> (For Ben to write)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2>Gallery</h2>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="rsvp" id="rsvp">
+        <div class="container">
+            <h2>RSVP</h2>
+            <p>RSVPs are welcome as soon as you know your plans. Formal invitations and deadline will follow.</p>
+            
+            <div class="rsvp-form">
+                <!-- Google Form embed -->
+                <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" 
+                        width="100%" 
+                        height="800" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0">
+                    Loading…
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">What should I wear to the wedding?</div>
+                    <div class="faq-answer">Cocktail/garden party attire. The ceremony will be outdoors, so we recommend practical shoes suitable for grass and gravel paths, and a light jacket. </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is there parking available at Blue Coyote Ranch?</div>
+                    <div class="faq-answer">Yes, Blue Coyote Ranch has ample on-site parking for all guests.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Are children welcome?</div>
+                    <div class="faq-answer">Children are enthusiastically welcomed.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Are pets welcome?</div>
+                    <div class="faq-answer">Dogs are warmly welcomed, though unfortunately the ranch is not suitable for other pets. The Blue Coyote has an off-leash area where Wish had a great time chasing rabbits. Overnight guests will be asked to cover a $25/day pet fee.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Will the ceremony be indoors or outdoors?</div>
+                    <div class="faq-answer">The ceremony will be held outdoors at Blue Coyote Ranch with a beautiful mountain backdrop, weather permitting. In case of inclement weather, we have a reception tent, and nearby indoor gathering space in the lodge.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Will I get altitude sick?</div>
+                    <div class="faq-answer">Salida sits at 7,000 feet elevation. In our experience, the large majority of visitors can ascend to this directly from sea level without trouble. Sensitive individuals may wish to arrive in Denver a day early to acclimate, or take Diamox.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What if a 3h drive into the Colorado mountains is not my thing?</div>
+                    <div class="faq-answer">We love the Colorado mountains and love to spend time in them with friends and family, but we understand that a mountain retreat 3h from Denver is not the right fit for everyone or every season of life. Please do not undertake travel you won't enjoy. We can find other ways to honor our connection.</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registry Section -->
+    <section class="registry" id="registry">
+        <div class="container">
+            <h2>Registry</h2>
+            <p>Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, we will provide registry information closer to the date.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h2>Ben & Kelly</h2>
+            <p>We can't wait to celebrate with you!</p>
+            
+            <p>&copy; Ben & Kelly's Wedding, June 6, 2026</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="Gallery Image">
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                navLinks.classList.remove('active');
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                
+                question.classList.toggle('active');
+                answer.classList.toggle('show');
+            });
+        });
+        
+        // RSVP Form Conditional Fields
+        const attendingSelect = document.getElementById('attending');
+        const guestCountGroup = document.getElementById('guest-count-group');
+        
+        attendingSelect.addEventListener('change', () => {
+            if (attendingSelect.value === 'yes') {
+                guestCountGroup.style.display = 'block';
+            } else {
+                guestCountGroup.style.display = 'none';
+            }
+        });
+        
+        // Gallery Modal
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.querySelector('.modal');
+        const modalImg = document.querySelector('.modal-content img');
+        const closeModal = document.querySelector('.close-modal');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImg.src = item.getAttribute('data-src');
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Form Submission
+        const rsvpForm = document.getElementById('rsvp-form');
+        
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to a server
+            // For now, we'll just show an alert
+            alert('Thank you for your RSVP! We look forward to celebrating with you.');
+            rsvpForm.reset();
+        });
+    </script>
+</body>
+</html>
+        
