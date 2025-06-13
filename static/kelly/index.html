@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ben & Kelly - Wedding Celebration</title>
+    <title>Kelly & Ben - Wedding Celebration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base Styles */
@@ -125,7 +125,7 @@
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
-                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            url('./proposal-yes.jpg') center/cover no-repeat;
             /* Mountain backdrop image */
             display: flex;
             align-items: center;
@@ -180,7 +180,7 @@
         
         .timeline {
             position: relative;
-            max-width: 800px;
+            width: 75%;
             margin: 3rem auto;
             padding-bottom: 2rem;
         }
@@ -202,6 +202,7 @@
             position: relative;
             width: 50%;
             text-align: left;
+            margin-bottom: 2rem;
         }
         
         /* Left and Right Positioning */
@@ -213,40 +214,15 @@
             left: 50%;
         }
         
-        /* Create alternating vertical spacing with significant overlap in both directions */
-        /* First item (start with no offset) */
-        .timeline-item:nth-child(1) {
-            margin-bottom: -200px;
-        }
-        
-        /* Second item (overlap with first, from right to left) */
-        .timeline-item:nth-child(2) {
-            margin-top: -100px;
-            margin-bottom: -200px;
-        }
-        
-        /* Third item (overlap with second, from left to right) */
-        .timeline-item:nth-child(3) {
-            margin-top: -100px;
-            margin-bottom: -200px;
-        }
-        
-        /* Fourth item (overlap with third, from right to left) */
-        .timeline-item:nth-child(4) {
-            margin-top: -100px;
-            margin-bottom: -200px;
-        }
-        
-        /* Fifth item (overlap with fourth, from left to right) */
-        .timeline-item:nth-child(5) {
-            margin-top: -100px;
-            margin-bottom: -200px;
-        }
-        
-        /* Sixth item (overlap with fifth, from right to left) */
+        /* Remove overlap margins for side-by-side layout */
+        .timeline-item:nth-child(1),
+        .timeline-item:nth-child(2),
+        .timeline-item:nth-child(3),
+        .timeline-item:nth-child(4),
+        .timeline-item:nth-child(5),
         .timeline-item:nth-child(6) {
-            margin-top: -100px;
-            margin-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 2rem;
         }
         
         /* Timeline Dots/Circles */
@@ -271,28 +247,37 @@
             left: -12px; /* Adjusted to align with center line */
         }
         
+        /* Make timeline content wider */
         .timeline-content {
             padding: 20px;
             background-color: white;
             border-radius: 6px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Ensure proper stacking */
-            z-index: 1; /* Above the line but below the dots */
+            position: relative;
+            z-index: 1;
+            width: 80%;
+            max-width: none;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
         
-        /* Add timeline photo styles */
         .timeline-photo {
-            width: 100%;
-            height: 150px;
-            background-position: center;
+            width: 225px;
+            height: 300px; /* 4/3 aspect ratio */
+            background-position: center top;
             background-size: cover;
-            border-radius: 6px 6px 0 0;
-            margin-bottom: 15px;
+            border-radius: 6px;
+            flex-shrink: 0;
         }
         
-        .timeline-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
+        .timeline-text {
+            flex: 1;
+        }
+        
+        .timeline-text h3 {
+            margin-top: 0;
         }
         
         .date {
@@ -471,66 +456,68 @@
             text-align: center;
         }
         
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+        .gallery-rotator {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 300px;
+            max-height: 90vh;
+            overflow: hidden;
             margin-top: 3rem;
         }
         
-        .gallery-item {
-            height: 250px;
-            background: url('/api/placeholder/300/300') center/cover no-repeat;
-            border-radius: 8px;
-            overflow: hidden;
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--accent-color);
             cursor: pointer;
-            transition: all 0.3s ease;
         }
         
-        .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        .gallery-arrow.left {
+            left: 10px;
         }
         
-        /* Gallery grid images */
-        .gallery-item:nth-child(1) {
-            background: url('https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Mountain wildflowers */
+        .gallery-arrow.right {
+            right: 10px;
         }
         
-        .gallery-item:nth-child(2) {
-            background: url('https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Mountain vista */
+        .gallery-rotator-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
         
-        .gallery-item:nth-child(3) {
-            background: url('https://images.unsplash.com/photo-1554203576-3b0c9c6c3b9f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Pink peonies */
+        .gallery-rotator-image {
+            display: none;
         }
         
-        .gallery-item:nth-child(4) {
-            background: url('https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Couple in mountains */
+        .gallery-rotator-img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
         }
         
-        .gallery-item:nth-child(5) {
-            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Dusty pink roses */
-        }
-        
-        .gallery-item:nth-child(6) {
-            background: url('https://images.unsplash.com/photo-1464278533981-50106e6176b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Mountain lake */
-        }
-        
-        .gallery-item:nth-child(7) {
-            background: url('https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Flower arrangement */
-        }
-        
-        .gallery-item:nth-child(8) {
-            background: url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            /* Mountain sunset */
+        .gallery-rotator-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
         }
         
         /* Registry Section */
@@ -743,22 +730,28 @@
                 z-index: 1001;
             }
             
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
+            .timeline {
                 width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
+                padding: 0;
             }
-            
-            .right {
+            .timeline-item,
+            .timeline-item.left,
+            .timeline-item.right {
+                width: 100%;
                 left: 0;
+                margin-bottom: 2rem;
             }
-            
-            .left::after, .right::after {
-                left: 20px;
+            .timeline-content {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                margin: 0;
+                padding: 10px;
+            }
+            .timeline-photo {
+                width: 100%;
+                height: 200px;
+                margin-bottom: 1rem;
             }
         }
         
@@ -775,7 +768,7 @@
             width: 40%;
             height: 100%;
             min-height: 250px;
-            background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            background: url('kelly-bats.jpeg') center/cover no-repeat;
             /* Mountain retreat panorama */
         }
         
@@ -813,13 +806,13 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="#home" class="logo">Ben & Kelly</a>
+            <a href="#home" class="logo">Kelly & Ben</a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#event-details">Event Details</a></li>
                 <li><a href="#travel">Travel</a></li>
                 <li><a href="#our-story">Our Story</a></li>
-                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#photos">Photos</a></li>
                 <li><a href="#rsvp">RSVP</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
@@ -832,7 +825,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Ben & Kelly</h1>
+            <h1>Kelly & Ben</h1>
             <p class="date-location">Saturday, June 6, 2026 • Salida, Colorado</p>
             <a href="#rsvp" class="btn">RSVP</a>
         </div>
@@ -845,13 +838,13 @@
             
             <div class="cards">
                 <div class="card full-width">
-                    <div class="card-img wide-img" style="background: url('./idaho-ski-cute.jpeg') center/cover no-repeat;"></div>
+                    <div class="card-img wide-img" style="background: url('./will-you-marry-me.jpg') center/cover no-repeat;"></div>
                     <div class="card-content">
                         <div class="card-icon">
                             <i class="fas fa-heart"></i>
                         </div>
                         <h3>Wedding</h3>
-                        <p><b>4pm, June 6, 2026.</b></p>
+                        <p><b>4pm, Saturday June 6, 2026.</b></p>
                         <br>
                         <p><b>Blue Coyote Ranch, Salida, Colorado.</b></p>
                         <br>
@@ -861,7 +854,7 @@
                 
                 
                 <div class="card full-width">
-                    <div class="card-img wide-img" style="background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;"></div>
+                    <div class="card-img wide-img" style="background: url('./blue-coyote-view.png') center/cover no-repeat;"></div>
                     <div class="card-content">
                         <div class="card-icon">
                             <i class="fas fa-mountain"></i>
@@ -869,9 +862,16 @@
                         <h3>Mountain Retreat</h3>
                         <p> We'll stay at the Blue Coyote Ranch from Thursday to Monday (June 4-8). We know that many of you would enjoy spending time in this beautiful area - and we will treasure our time with you. </p>
                         <br>
-                        <p> The ranch is set up for extended stays in modern lodge/cabins with full kitchens and good internet. We hope you'll join us to explore the mountains, WFH with a view, share meals by the fire, or hang out in the hot tub. </p>
+                        <p> We've reserved the property for the weekend, with room to accommodate most guests in modern lodge/cabins with full kitchens and good internet. We hope you'll join us to explore the mountains, WFH with a view, or hang out in the hot tub. </p>
                         <br>
-                        <p> <i>Additional activities, including post-wedding brunch on Sunday June 7, to be discussed closer to the date.</i></p>
+                        <p> <i>Additional activities to be planned closer to the date.</i></p>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <h3>Venue Location</h3>
+                    <div class="map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4247.7916753236195!2d-105.98843902328697!3d38.514815569186254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x871517974d3b83c7%3A0x6c3b653174b3b8e4!2sBlue%20Coyote%20Ranch%20Hotel%20%26%20Events!5e1!3m2!1sen!2sus!4v1747110389145!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -891,7 +891,7 @@
                             <i class="fas fa-plane"></i>
                         </div>
                         <h3>Flying Into Denver</h3>
-                        <p> The closest major airport is Denver International Airport (DIA), a 3 hour drive from Salida. DIA is a United/Frontier hub with direct flights from most major cities. We recommend renting a car at the airport, or arranging a carpool with other guests (we'll connect carpoolers after the RSVP deadline). </p>
+                        <p> Denver International Airport (DIA) is the nearest major airport, with direct flights from most major cities. We recommend renting a car at the airport, or arranging a carpool with other guests (we'll connect carpoolers near the date). </p>
                     </div>
                 </div>
                 
@@ -902,7 +902,10 @@
                             <i class="fas fa-car"></i>
                         </div>
                         <h3>Driving 3h to Salida</h3>
-                        <p> The drive takes about 2.5h from Denver and 3h from DIA/Boulder (plan buffer time for traffic on Friday/Sunday evenings). The direct route, US-285-S, is highly scenic. If you have an extra hour or more, detour over Guanella Pass, a spectacular drive above treeline with plentiful hike and photo stops. </p>
+                        <p> The drive takes about 2.5h from Denver and 3h from DIA/Boulder (plus traffic on Friday/Sunday evenings). The direct route, US-285-S, is highly scenic. 
+                            <br>
+                            <br>
+                            If you have an extra hour, detour over Guanella Pass: a spectacular road that goes high above treeline with great hike and photo stops. </p>
                     </div>
                 </div>
                 
@@ -913,74 +916,77 @@
                             <i class="fas fa-bed"></i>
                         </div>
                         <h3>Lodging</h3>
-                        <p> We have reserved the entire property for the weekend, and recommend you allow us to arrange your rooms. </p>
+                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/accommodations" target="_blank">Blue Coyote Ranch website</a>. Rooms and payment will be arranged through the venue closer to the date; early interest can be indicated in the RSVP form.
                             <br>
-                            <p>More information is available on the <a href="https://www.bluecoyoteranch.com/accommodations" target="_blank">Blue Coyote Ranch website</a>. Detailed options are presented in the RSVP form. </p>
+                            <br>    
+                            Additional lodging options are available in Salida, 5-10 minutes away. 
+                        </p>
                     </div>
                 </div>
 
             <div class="travel-tips">
-                <h3>Local Activities</h3>
+                <h3>Nearby Activities</h3>
                 <ul>
-                    <li>Check out nearby Salida, a charming mountain town with good restaurants, waterfront views, and art galleries.</li>
-                    <li>Hike the half mile trail around the ranch, or up a 14er (Mt. Shavano). </li>
-                    <li>Raft the Arkansas River through town.</li>
-                    <li>Backcountry ski at Monarch Pass (snow permitting).</li>
-                    <li>Day trip to Great Sand Dunes National Park, Kelly's favorite sand and water playground.</li>
-                    <li>Relax at Valley View Hot Springs (a magical place with naked hippies) or Mt. Princeton Resort (a more traditional hot spring spa).</li>
+                    <li>Check out the art galleries and eat on the riverfront in downtown Salida</li>
+                    <li>Take a 1/2 mi nature walk around the ranch</li>
+                    <li>Hike up to 14,000 ft on Mt. Shavano</li>
+                    <li>Tube down the Arkansas River</li>
+                    <li>Backcountry ski at Monarch Pass</li>
+                    <li>Play in the sand at Great Sand Dunes National Park</li>
+                    <li>See Colorado's largest bat colony take flight from Valley View</li>
+                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton Resort (spa vibe).</li>
                 </ul>
-                <h3>Weather</h3>
-                    <p>June weather in Salida is typically sunny during the day (70-85°F) and cool in the evenings (45-55°F). Brief afternoon thunderstorms are common, and the sun at high elevation is intense. Bring layers, sunglasses, and a sun hat.</p>
-            </div>
-            
-            <div class="map-container">
-                <h3>Map to Venue</h3>
-                <div class="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4247.7916753236195!2d-105.98843902328697!3d38.514815569186254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x871517974d3b83c7%3A0x6c3b653174b3b8e4!2sBlue%20Coyote%20Ranch%20Hotel%20%26%20Events!5e1!3m2!1sen!2sus!4v1747110389145!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- Our Story Section -->
     <section class="our-story" id="our-story">
-        <div class="container">
+        <div class="container" style="max-width: 100%; padding: 0 2rem;">
             <h2>Our Story</h2>
 
             <div class="timeline">
                 <div class="timeline-item left">
                     <div class="timeline-content">
-                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
-                        <h3>Parallel paths</h3>
-                        <div class="date">2010-2020</div>
-                        <p> We both majored in Geology at MIT, and did separate field projects under the same professor (Ben in Mongolia, and Kelly in Ladakh). We both spent many winter weekends in the White Mountains (Ben setting trail running records, Kelly leading trips with MITOC). After graduation, we both pursued PhDs funded by the DOE CSGF (Ben modeled earthquakes, Kelly studied snow). Our relationship began to grow after we both made our separate ways to Colorado (Ben in 2023, Kelly in 2015). </p>
+                        <div class="timeline-photo" style="background-image: url('eldorado-peak.jpeg');"></div>
+                        <div class="timeline-text">
+                            <h3>Parallel paths</h3>
+                            <div class="date">2010-2023</div>
+                            <p> We both majored in Geology at MIT, and did separate field projects under the same professor (Ben in Mongolia, Kelly in India). After graduation, we both pursued PhDs funded by the DOE CSGF (Ben modeled earthquakes, Kelly studied snow), and spent weekends in the mountains (Ben setting trail running records in the White Mountains, Kelly skiing and hiking in Colorado). Our relationship began to grow after Ben moved to Colorado in 2023. </p>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="timeline-item right">
                     <div class="timeline-content">
-                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1529417305485-480f579e7578?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
-                        <h3>First Date</h3>
-                        <div class="date">February 2, 2020</div>
-                        <p> After a few weeks of back-and-forth (aka, strategic pursuit by Ben) we had our first date at Copper Mountain, Colorado. Skiing turned into kissing in the woods, then dinner, then an endless flow of late-night conversation that has never really stopped.</p>
+                        <div class="timeline-photo" style="background-image: url('idaho-ski-cute.jpeg');"></div>
+                        <div class="timeline-text">
+                            <h3>First Date</h3>
+                            <div class="date">December 10, 2023</div>
+                            <p> After a few weeks of back-and-forth (aka, strategic pursuit by Ben) we had our first date at Copper Mountain, Colorado. Skiing turned into kissing in the woods, then dinner, then an endless flow of laughter and conversation that hasn't stopped.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="timeline-item left">
                     <div class="timeline-content">
-                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
-                        <h3>Moved In Together</h3>
-                        <div class="date">June 1, 2022</div>
-                        <p> We moved in together on an extended work trip to SF in Fall 2023. Life was unexpectedly hard - Ben started an intense new job, Kelly got pneumonia, and Wish Dogg rejected the city in favor of a strange shower fixation - but our relationship stayed easy. Two months later we moved into our current home in Boulder, Colorado, where we have been delightfully happy.</p>
+                        <div class="timeline-photo" style="background-image: url('shower-dinosaur.heic');"></div>
+                        <div class="timeline-text">
+                            <h3>Moved In Together</h3>
+                            <div class="date">October 15, 2024</div>
+                            <p> We moved in together on an extended work trip to SF in Fall 2023. Life was unexpectedly hard - Ben started an intense new job, Kelly got pneumonia, and Wish Dogg rejected the city in favor of a strange shower fixation - but our relationship stayed easy. Two months later we moved into our current home in Boulder, Colorado, where we have been delightfully happy.</p>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="timeline-item right">
                     <div class="timeline-content">
-                        <div class="timeline-photo" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
-                        <h3>The Proposal</h3>
-                        <div class="date">December 24, 2024</div>
-                        <p> (For Ben to write)</p>
+                        <div class="timeline-photo" style="background-image: url('proposal.jpg');"></div>
+                        <div class="timeline-text">
+                            <h3>The Proposal</h3>
+                            <div class="date">March 15, 2025</div>
+                            <p></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -988,20 +994,81 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
+    <section class="gallery" id="photos">
         <div class="container">
-            <h2>Gallery</h2>
+            <h2>Photos & Memories</h2>
 
-            <div class="gallery-grid">
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
-                <div class="gallery-item" data-src="/api/placeholder/800/600"></div>
+            <div class="gallery-rotator">
+                <div class="gallery-rotator-image-container">
+                    <img class="gallery-rotator-img" src="bear-peak-selfie.jpeg" alt="bear-peak-selfie">
+                    <div class="gallery-rotator-caption">bear-peak-selfie</div>
+                </div>
+                <button class="gallery-arrow right">&#8594;</button>
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const galleryImages = [
+                        {src: 'cat-looking-at-photos.jpeg', caption: 'Just before we started dating, Ben took amazing photos of Kelly and Cat for Christmas cards, 2023...'},
+                        {src: 'ben-christmas-rainbow.jpg', caption: '...Kelly liked that Ben wasn\'t afraid to be silly for photos...'},  
+                        {src: 'kelly-legs.jpg', caption: '...and Ben liked that Kelly has cold tolerance.'},     
+                        //{src: 'eldorado-peak.jpeg', caption: 'Early date to scramble up Eldorado Peak, CO.'},  
+                        {src: 'kelliana-jones.jpeg', caption: 'A month in, we went backpacking in the remote Maze District of Canyonlands NP. We crossed the Colorado River in a pool toy (thx Tanya for paddles) and didn\'t see another person for 3 days.'},
+                        {src: 'kelly-ben-canyonlands.jpeg', caption: 'On that trip, Ben found a strange Kelly creature...'},
+                        {src: 'kelly-books.jpeg', caption: '...and brought the strange creature home.'},
+                        {src: 'kelly-wish-stare.jpeg', caption: 'Kelly realized that getting serious about Ben would require befriending Wish...'},  
+                        {src: 'ben-cuddles-wish.jpeg', caption: '...and Ben realized that he had to make Wish feel at home in Kelly\'s apartment.'},
+                        {src: 'bear-peak-selfie.jpeg', caption: 'Bear Peak selfie (Ben\'s favorite trail)'},
+                        {src: 'ice-climbing.jpeg', caption: 'Learning to ice climb in Ouray with Goody'},
+                        {src: 'kelly-goody-ben.jpeg', caption: 'Visiting the Black Canyon on the drive home'},
+                        {src: 'giant-bubble.jpg', caption: 'Ben was inspired by a bubble show with Jen in SF, and recreated it at home (Photo by Anna)'},
+                        {src: 'cosgriff-summit.jpeg', caption: 'Ben and Kelly take a wrong turn, hike up the wrong mountain, and have an epic adventure'},
+                        {src: 'kelly-roof-ski.jpeg', caption: 'Kelly jumps off the roof on an epic ski hut trip with Jamie'},
+                        {src: 'big-flakes.jpeg', caption: 'Huge snowflakes on a trip to visit Greg and Leah in Pocatello. This trip was the one time in Kelly\'s consulting life that she flew 13h for a weekend'},
+                        {src: 'totality.jpeg', caption: 'Total eclipse in Ohio with Ben\'s parents'},
+                        {src: 'kelly-lt.jpeg', caption: 'Kelly discusses birds with Lyke Thompson'},
+                        {src: 'ski-eats.jpeg', caption: 'Ben is the snackmaster'},
+                        {src: 'kelly-wish-rocks.jpeg', caption: 'Kelly finds a cliff that Wish won\'t go down'},
+                        {src: 'kelly-jamie-ski.jpeg', caption: 'Skinning up to the Continental Divide with Jamie...'},
+                        {src: 'kelly-julien-ski.jpeg', caption: '...and up again on another trip with Julian'},
+                        {src: 'kelly-licks-icicle.jpeg', caption: 'Kelly licks icicle'},
+                        {src: 'kelly-sneaky-elf.jpeg', caption: 'Car camping (with a cloak) above treeline on Guanella Pass'},
+                        {src: 'kelly-dad-flatirons.jpg', caption: 'Greg Kochanski comes to visit and hike in Colorado'},
+                        {src: 'kitchen-kb-wide-angle.jpeg', caption: 'Playing with a wide-angle lens in our new shared kitchen'},
+                        {src: 'sand-dunes-lt-mst.jpeg', caption: 'Lyke and Marjorie Thompson visit Colorado'},
+                        {src: 'iceland-waterfall-chomp.jpeg', caption: 'Ben and Kelly go to Iceland with Emily'},
+                        {src: 'iceland-waterfall-jumphug.jpeg', caption: 'Ben and Kelly go to Iceland with Emily'},
+                        {src: 'iceland-cute.jpg', caption: 'Hiking around a glacial lagoon (photo by Emily)'},
+                        {src: 'pfiffner.jpg', caption: 'Exploring the most remote parts of the Front Range on a Pfiffner traverse with Goody'},
+                        {src: 'kelly-extremely-bashful.jpeg', caption: 'Ben accidentally took a photo of Kelly a few minutes before she proposed'},
+                        {src: 'proposal-yes.jpg', caption: 'Ben said yes!'},
+                        {src: 'kissing-with-friends.jpeg', caption: 'Night out in Boulder with Tim, Leah, and Greg (photographer)'},
+                        {src: 'snowy-kb-flatirons.jpeg', caption: 'Kelly has taken up trail running to keep up with Ben (photo by Greg)'},
+                        {src: 'snowy-kbw-flatirons.jpeg', caption: 'Wish remains speediest (photo by Greg)'},
+                        {src: 'living-room.jpeg', caption: 'A happy evening in our new home (photo by Greg)'}
+                    ];
+                    
+                    let galleryIndex = 0;
+                    const gallery = document.querySelector('.gallery-rotator');
+                    const rotatorImg = gallery.querySelector('.gallery-rotator-img');
+                    const rotatorCaption = gallery.querySelector('.gallery-rotator-caption');
+                    const rightArrow = gallery.querySelector('.gallery-arrow.right');
+
+                    // Function to update the gallery display
+                    function updateGallery() {
+                        rotatorImg.src = galleryImages[galleryIndex].src;
+                        rotatorImg.alt = galleryImages[galleryIndex].caption;
+                        rotatorCaption.textContent = galleryImages[galleryIndex].caption;
+                    }
+
+                    // Initialize with first image
+                    updateGallery();
+
+                    rightArrow.addEventListener('click', function() {
+                        galleryIndex = (galleryIndex + 1) % galleryImages.length;
+                        updateGallery();
+                    });
+                });
+            </script>
         </div>
     </section>
 
@@ -1009,11 +1076,11 @@
     <section class="rsvp" id="rsvp">
         <div class="container">
             <h2>RSVP</h2>
-            <p>RSVPs are welcome as soon as you know your plans. Formal invitations and deadline will follow.</p>
+            <p>Formal invitations and RSVP deadline will follow in 2026. Early RSVPs are welcome as soon as you know your plans.</p>
             
             <div class="rsvp-form">
                 <!-- Google Form embed -->
-                <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" 
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfEnogtGAix7R6XyTmUoaRjFkYAIFF07NNKwUOviX6rxI_wwA/viewform?usp=share_link&ouid=114931624159287126777" 
                         width="100%" 
                         height="800" 
                         frameborder="0" 
@@ -1028,19 +1095,12 @@
     <!-- FAQ Section -->
     <section class="faq" id="faq">
         <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            
-            <div class="faq-container">
+            <h2>Frequently Asked Questions</h2>   
                 <div class="faq-item">
                     <div class="faq-question">What should I wear to the wedding?</div>
-                    <div class="faq-answer">Cocktail/garden party attire. The ceremony will be outdoors, so we recommend practical shoes suitable for grass and gravel paths, and a light jacket. </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Is there parking available at Blue Coyote Ranch?</div>
-                    <div class="faq-answer">Yes, Blue Coyote Ranch has ample on-site parking for all guests.</div>
-                </div>
-                
+                    <div class="faq-answer">Cocktail/garden party attire. The ceremony will be outdoors, so we recommend sunglasses, a light jacket, and shoes suitable for grass and gravel. </div>
+                </div>    
+
                 <div class="faq-item">
                     <div class="faq-question">Are children welcome?</div>
                     <div class="faq-answer">Children are enthusiastically welcomed.</div>
@@ -1048,22 +1108,29 @@
                 
                 <div class="faq-item">
                     <div class="faq-question">Are pets welcome?</div>
-                    <div class="faq-answer">Dogs are warmly welcomed, though unfortunately the ranch is not suitable for other pets. The Blue Coyote has an off-leash area where Wish had a great time chasing rabbits. Overnight guests will be asked to cover a $25/day pet fee.</div>
+                    <div class="faq-answer">Dogs are warmly welcomed, and the Blue Coyote has an off-leash area where Wish had a great time chasing rabbits. Overnight guests will be asked to cover a $25/day dog fee. 
+                        <br>
+                        <br>
+                        Unfortunately, the ranch is not suitable for other pets.</div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question">Will the ceremony be indoors or outdoors?</div>
-                    <div class="faq-answer">The ceremony will be held outdoors at Blue Coyote Ranch with a beautiful mountain backdrop, weather permitting. In case of inclement weather, we have a reception tent, and nearby indoor gathering space in the lodge.</div>
+                    <div class="faq-question">What is the weather like?</div>
+                    <div class="faq-answer"> June in Salida is typically warm and sunny during the day (70-85°F) and cool in the evenings (45-55°F). Brief afternoon thunderstorms are common, and the high-elevation sun is intense. Bring layers, sunglasses, and a sun hat. Hikers will likely find snow at higher elevations.</div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question">Will I get altitude sick?</div>
-                    <div class="faq-answer">Salida sits at 7,000 feet elevation. In our experience, the large majority of visitors can ascend to this directly from sea level without trouble. Sensitive individuals may wish to arrive in Denver a day early to acclimate, or take Diamox.</div>
+                    <div class="faq-answer">In our experience, the large majority of visitors can ascend directly to Salida's elevation (7,000 ft) with no symptoms. Sensitive individuals may experience mild headaches or shortness of breath, which can be relieved with painkillers or Diamox.
+                    </div>
                 </div>
-
+                <div class="faq-item">
+                    <div class="faq-question">Can I park at the venue?</div>
+                    <div class="faq-answer">Yes, Blue Coyote Ranch has on-site parking for all guests.</div>
+                </div>
                 <div class="faq-item">
                     <div class="faq-question">What if a 3h drive into the Colorado mountains is not my thing?</div>
-                    <div class="faq-answer">We love the Colorado mountains and love to spend time in them with friends and family, but we understand that a mountain retreat 3h from Denver is not the right fit for everyone or every season of life. Please do not undertake travel you won't enjoy. We can find other ways to honor our connection.</div>
+                    <div class="faq-answer">That's OK! We love the Colorado mountains and love to spend time in them with friends and family, but we understand that a mountain retreat 3h from Denver is not the right fit for everyone or every season of life. Please do not undertake travel you won't enjoy. We can find other ways to honor our connection.</div>
                 </div>
                 </div>
             </div>
@@ -1081,10 +1148,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <h2>Ben & Kelly</h2>
-            <p>We can't wait to celebrate with you!</p>
-            
-            <p>&copy; Ben & Kelly's Wedding, June 6, 2026</p>
+            <p>&copy; Kelly & Ben's Wedding, June 6, 2026</p>
         </div>
     </footer>
 
@@ -1159,10 +1223,13 @@
         const modalImg = document.querySelector('.modal-content img');
         const closeModal = document.querySelector('.close-modal');
         
+        // Gallery item click handler
         galleryItems.forEach(item => {
+            const imgUrl = item.getAttribute('data-src');
+            
             item.addEventListener('click', () => {
                 modal.style.display = 'flex';
-                modalImg.src = item.getAttribute('data-src');
+                modalImg.src = imgUrl;
             });
         });
         
