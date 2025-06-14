@@ -175,16 +175,15 @@
         .our-story {
             background-color: white;
             text-align: center;
-            padding-bottom: 6rem; /* Reduced padding */
+            padding-bottom: 0 !important; /* Override default section padding to eliminate dangling line */
         }
         
         .timeline {
-            position: relative;
-            width: 75%;
+            width: 100%;
             margin: 3rem auto;
-            padding-bottom: 2rem;
+            padding-bottom: 0; /* Remove padding to eliminate dangling line */
+            position: relative;
         }
-        
         .timeline::after {
             content: '';
             position: absolute;
@@ -194,75 +193,38 @@
             bottom: 0;
             left: 50%;
             margin-left: -1px;
+            display: block;
         }
-        
-        /* Timeline Items */
         .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            text-align: left;
+            width: 100%;
+            padding: 20px 0;
             margin-bottom: 2rem;
+            position: static;
+            text-align: left;
         }
-        
-        /* Left and Right Positioning */
-        .timeline-item.left {
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-item.left,
+        .timeline-item.right {
             left: 0;
         }
-        
-        .timeline-item.right {
-            left: 50%;
-        }
-        
-        /* Remove overlap margins for side-by-side layout */
-        .timeline-item:nth-child(1),
-        .timeline-item:nth-child(2),
-        .timeline-item:nth-child(3),
-        .timeline-item:nth-child(4),
-        .timeline-item:nth-child(5),
-        .timeline-item:nth-child(6) {
-            margin-top: 0;
-            margin-bottom: 2rem;
-        }
-        
-        /* Timeline Dots/Circles */
         .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 16px; /* Smaller circle for better alignment */
-            height: 16px;
-            background-color: white;
-            border: 4px solid var(--accent-color);
-            border-radius: 50%;
-            top: 15px;
-            z-index: 2;
+            display: none;
         }
-        
-        /* Position the dots exactly on the center line */
-        .left::after {
-            right: -12px; /* Adjusted to align with center line */
-        }
-        
-        .right::after {
-            left: -12px; /* Adjusted to align with center line */
-        }
-        
-        /* Make timeline content wider */
         .timeline-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1;
-            width: 80%;
-            max-width: none;
+            width: 60%;
             margin: 0 auto;
             display: flex;
             gap: 20px;
             align-items: center;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
-        
         .timeline-photo {
             width: 225px;
             height: 300px; /* 4/3 aspect ratio */
@@ -271,27 +233,22 @@
             border-radius: 6px;
             flex-shrink: 0;
         }
-        
         .timeline-text {
             flex: 1;
         }
-        
         .timeline-text h3 {
             margin-top: 0;
         }
-        
         .date {
             font-style: italic;
             color: var(--secondary-color);
             margin-bottom: 1rem;
         }
-        
         /* Event Details Section */
         .event-details {
             background-color: var(--light-color);
             text-align: center;
         }
-        
         .cards {
             display: flex;
             flex-wrap: wrap;
@@ -299,7 +256,6 @@
             gap: 2rem;
             margin-top: 3rem;
         }
-        
         .card {
             flex: 1 1 300px;
             max-width: 350px;
@@ -309,46 +265,37 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
-        
         .card:hover {
             transform: translateY(-5px);
         }
-        
         .card:nth-child(1) .card-img {
             background: url('https://images.unsplash.com/photo-1522447984233-657d56a333f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Ceremony image - flowers */
         }
-        
         .card:nth-child(2) .card-img {
             background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Reception image - elegant setting */
         }
-        
         .card:nth-child(3) .card-img {
             background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Accommodations image - hotel */
         }
-        
         .card-content {
             padding: 2rem;
         }
-        
         .card h3 {
             color: var(--accent-color);
         }
-        
         .card-icon {
             font-size: 2rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
         }
-        
         /* Travel Information Section */
         .travel {
             background-color: white;
             text-align: center;
         }
-        
         .travel-tips {
             max-width: 800px;
             margin: 3rem auto;
@@ -358,49 +305,40 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        
         .travel-tips ul {
             padding-left: 1.5rem;
         }
-        
         .travel-tips li {
             margin-bottom: 0.8rem;
         }
-        
         .map-container {
             max-width: 800px;
             margin: 0 auto;
         }
-        
         .map {
             margin-top: 1rem;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        
         /* Travel card images */
         .travel .card:nth-child(1) .card-img {
             background: url('https://images.unsplash.com/photo-1542296332-2e4473faf563?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Airport/flying image */
         }
-        
         .travel .card:nth-child(2) .card-img {
             background: url('https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Mountain road image */
         }
-        
         .travel .card:nth-child(3) .card-img {
             background: url('https://images.unsplash.com/photo-1548274606-bcb031b1a6c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
             /* Salida downtown image */
         }
-        
         /* RSVP Section */
         .rsvp {
             background-color: white;
             text-align: center;
         }
-        
         .rsvp-form {
             max-width: 600px;
             margin: 0 auto;
@@ -409,18 +347,15 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
         }
-        
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
-        
         input, select, textarea {
             width: 100%;
             padding: 0.8rem;
@@ -428,12 +363,10 @@
             border-radius: 4px;
             font-family: var(--font-secondary);
         }
-        
         textarea {
             height: 100px;
             resize: vertical;
         }
-        
         .submit-btn {
             background-color: var(--accent-color);
             color: white;
@@ -445,17 +378,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
         .submit-btn:hover {
             background-color: #c59662;
         }
-        
         /* Gallery Section */
         .gallery {
             background-color: var(--light-color);
             text-align: center;
         }
-        
         .gallery-rotator {
             position: relative;
             width: 100%;
@@ -465,7 +395,6 @@
             overflow: hidden;
             margin-top: 3rem;
         }
-        
         .gallery-arrow {
             position: absolute;
             top: 50%;
@@ -475,16 +404,14 @@
             font-size: 2rem;
             color: var(--accent-color);
             cursor: pointer;
+            z-index: 10; /* Ensure arrows are on top */
         }
-        
         .gallery-arrow.left {
             left: 10px;
         }
-        
         .gallery-arrow.right {
             right: 10px;
         }
-        
         .gallery-rotator-image-container {
             position: absolute;
             top: 0;
@@ -496,18 +423,15 @@
             justify-content: center;
             flex-direction: column;
         }
-        
         .gallery-rotator-image {
             display: none;
         }
-        
         .gallery-rotator-img {
             max-width: 100%;
             max-height: 100%;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0,0,0,0.15);
         }
-        
         .gallery-rotator-caption {
             position: absolute;
             bottom: 0;
@@ -519,13 +443,11 @@
             border-radius: 0 0 8px 8px;
             text-align: center;
         }
-        
         /* Registry Section */
         .registry {
             background-color: white;
             text-align: center;
         }
-        
         .registry-logos {
             display: flex;
             flex-wrap: wrap;
@@ -533,40 +455,33 @@
             gap: 3rem;
             margin-top: 3rem;
         }
-        
         .registry-logo {
             filter: grayscale(100%);
             opacity: 0.7;
             transition: all 0.3s ease;
             max-width: 150px;
         }
-        
         .registry-logo:hover {
             filter: grayscale(0%);
             opacity: 1;
         }
-        
         /* FAQ Section */
         .faq {
             background-color: var(--light-color);
         }
-        
         .faq-container {
             max-width: 100%;
             margin: 0 auto;
             text-align: left;
         }
-        
         .faq h2 {
             text-align: left;
         }
-        
         .faq-item {
             margin-bottom: 1.5rem;
             border-bottom: 1px solid var(--primary-color);
             padding-bottom: 1rem;
         }
-        
         .faq-question {
             font-family: var(--font-main);
             font-size: 1.3rem;
@@ -576,7 +491,6 @@
             transition: all 0.3s ease;
             text-align: left;
         }
-        
         .faq-question::after {
             content: '+';
             position: absolute;
@@ -584,24 +498,20 @@
             font-size: 1.5rem;
             transition: transform 0.3s ease;
         }
-        
         .faq-question.active::after {
             transform: rotate(45deg);
         }
-        
         .faq-answer {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
             padding: 0 1rem;
         }
-        
         .faq-answer.show {
             max-height: 500px;
             padding: 1rem;
             margin-bottom: 1rem;
         }
-        
         /* Footer */
         .footer {
             background-color: var(--secondary-color);
@@ -609,17 +519,14 @@
             padding: 3rem 0;
             text-align: center;
         }
-        
         .footer h2 {
             margin-bottom: 1rem;
         }
-        
         .social-links {
             display: flex;
             justify-content: center;
             margin-bottom: 2rem;
         }
-        
         .social-link {
             display: inline-flex;
             align-items: center;
@@ -632,19 +539,16 @@
             margin: 0 0.5rem;
             transition: all 0.3s ease;
         }
-        
         .social-link:hover {
             background-color: var(--accent-color);
             color: white;
             transform: translateY(-3px);
         }
-        
         .footer p {
             margin-top: 2rem;
             font-size: 0.9rem;
             opacity: 0.8;
         }
-        
         /* Modal */
         .modal {
             display: none;
@@ -658,18 +562,15 @@
             justify-content: center;
             align-items: center;
         }
-        
         .modal-content {
             max-width: 80%;
             max-height: 80%;
         }
-        
         .modal-content img {
             width: 100%;
             height: auto;
             border-radius: 4px;
         }
-        
         .close-modal {
             position: absolute;
             top: 20px;
@@ -678,31 +579,25 @@
             font-size: 2rem;
             cursor: pointer;
         }
-        
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
         .fade-in {
             animation: fadeIn 1s ease-in;
         }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.8rem;
             }
-            
             h2 {
                 font-size: 2rem;
             }
-            
             .navbar .container {
                 padding: 1rem;
             }
-            
             .nav-links {
                 position: fixed;
                 top: 0;
@@ -716,30 +611,15 @@
                 transition: right 0.3s ease;
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
             }
-            
             .nav-links.active {
                 right: 0;
             }
-            
             .nav-links li {
                 margin: 1.5rem 0;
             }
-            
             .hamburger {
                 display: block;
                 z-index: 1001;
-            }
-            
-            .timeline {
-                width: 100%;
-                padding: 0;
-            }
-            .timeline-item,
-            .timeline-item.left,
-            .timeline-item.right {
-                width: 100%;
-                left: 0;
-                margin-bottom: 2rem;
             }
             .timeline-content {
                 flex-direction: column;
@@ -754,7 +634,6 @@
                 margin-bottom: 1rem;
             }
         }
-        
         /* Add these styles to your CSS section */
         .card.full-width {
             flex: 1 1 100%;
@@ -763,7 +642,6 @@
             flex-direction: row;
             align-items: center;
         }
-        
         .card.full-width .card-img {
             width: 40%;
             height: 100%;
@@ -771,30 +649,25 @@
             background: url('kelly-bats.jpeg') center/cover no-repeat;
             /* Mountain retreat panorama */
         }
-        
         .card.full-width .card-content {
             width: 60%;
             padding: 3rem;
             text-align: left;
         }
-        
         @media (max-width: 768px) {
             .card.full-width {
                 flex-direction: column;
             }
-            
             .card.full-width .card-img {
                 width: 100%;
                 height: 200px;
             }
-            
             .card.full-width .card-content {
                 width: 100%;
                 padding: 2rem;
                 text-align: center;
             }
         }
-        
         /* Add this CSS for the double-width card */
         .card.double-width {
             flex: 2 1 600px;
@@ -946,7 +819,7 @@
             <h2>Our Story</h2>
 
             <div class="timeline">
-                <div class="timeline-item left">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-photo" style="background-image: url('eldorado-peak.jpeg');"></div>
                         <div class="timeline-text">
@@ -957,7 +830,7 @@
                     </div>
                 </div>
                 
-                <div class="timeline-item right">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-photo" style="background-image: url('idaho-ski-cute.jpeg');"></div>
                         <div class="timeline-text">
@@ -968,7 +841,7 @@
                     </div>
                 </div>
 
-                <div class="timeline-item left">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-photo" style="background-image: url('shower-dinosaur.heic');"></div>
                         <div class="timeline-text">
@@ -979,13 +852,12 @@
                     </div>
                 </div>
                 
-                <div class="timeline-item right">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-photo" style="background-image: url('proposal.jpg');"></div>
                         <div class="timeline-text">
                             <h3>The Proposal</h3>
                             <div class="date">March 15, 2025</div>
-                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -999,6 +871,7 @@
             <h2>Photos & Memories</h2>
 
             <div class="gallery-rotator">
+                <button class="gallery-arrow left">&#8592;</button>
                 <div class="gallery-rotator-image-container">
                     <img class="gallery-rotator-img" src="bear-peak-selfie.jpeg" alt="bear-peak-selfie">
                     <div class="gallery-rotator-caption">bear-peak-selfie</div>
@@ -1051,6 +924,7 @@
                     const gallery = document.querySelector('.gallery-rotator');
                     const rotatorImg = gallery.querySelector('.gallery-rotator-img');
                     const rotatorCaption = gallery.querySelector('.gallery-rotator-caption');
+                    const leftArrow = gallery.querySelector('.gallery-arrow.left');
                     const rightArrow = gallery.querySelector('.gallery-arrow.right');
 
                     // Function to update the gallery display
@@ -1063,8 +937,17 @@
                     // Initialize with first image
                     updateGallery();
 
+                    // Right arrow - go to next image
                     rightArrow.addEventListener('click', function() {
                         galleryIndex = (galleryIndex + 1) % galleryImages.length;
+                        updateGallery();
+                    });
+
+                    // Left arrow - go to previous image
+                    leftArrow.addEventListener('click', function() {
+                        console.log('Left arrow clicked, current index:', galleryIndex);
+                        galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+                        console.log('New index:', galleryIndex);
                         updateGallery();
                     });
                 });
@@ -1098,7 +981,7 @@
             <h2>Frequently Asked Questions</h2>   
                 <div class="faq-item">
                     <div class="faq-question">What should I wear to the wedding?</div>
-                    <div class="faq-answer">Cocktail/garden party attire. The ceremony will be outdoors, so we recommend sunglasses, a light jacket, and shoes suitable for grass and gravel. </div>
+                    <div class="faq-answer">Cocktail/garden party attire. The ceremony will be outdoors, so we recommend sunglasses, possible sun hat, a light jacket, and shoes suitable for grass and gravel. </div>
                 </div>    
 
                 <div class="faq-item">
