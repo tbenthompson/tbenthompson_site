@@ -270,6 +270,8 @@
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -288,9 +290,15 @@
         }
         .card-content {
             padding: 2rem;
+            flex-grow: 1;
         }
         .card h3 {
             color: var(--accent-color);
+        }
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
         }
         .card-icon {
             font-size: 2rem;
@@ -669,6 +677,11 @@
             .card {
                 max-width: 100%;
                 margin: 0 auto 2rem auto;
+                min-height: auto;
+            }
+            
+            .card-content {
+                padding: 1.5rem;
             }
             
             .cards {
@@ -1058,7 +1071,10 @@
                 
                 <div class="faq-item">
                     <div class="faq-question">Will I get altitude sick?</div>
-                    <div class="faq-answer">In our experience, most people can ascend directly to Salida's elevation (7,000 ft) with no symptoms. Sensitive individuals may experience mild headaches or shortness of breath, which can be relieved with painkillers or Diamox.
+                    <div class="faq-answer">
+                        Salida's elevation (7,000 ft) is safely below the threshold where altitude symptoms typically begin. Sensitive individuals may experience slight symptoms such as headaches and fatigue, which can be relieved with over-the-counter painkillers.
+
+                        It's very common to feel mild altitude sickness during strenuous activity at higher elevations (e.g., hiking at a mountain pass on the drive over). Simply descend back to lower elevations to feel better.
                     </div>
                 </div>
                 <div class="faq-item">
