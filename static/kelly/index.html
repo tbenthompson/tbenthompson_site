@@ -335,19 +335,7 @@
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        /* Travel card images */
-        .travel .card:nth-child(1) .card-img {
-            background: url('https://images.unsplash.com/photo-1542296332-2e4473faf563?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
-            /* Airport/flying image */
-        }
-        .travel .card:nth-child(2) .card-img {
-            background: url('https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
-            /* Mountain road image */
-        }
-        .travel .card:nth-child(3) .card-img {
-            background: url('https://images.unsplash.com/photo-1548274606-bcb031b1a6c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
-            /* Salida downtown image */
-        }
+
         /* RSVP Section */
         .rsvp {
             background-color: white;
@@ -685,13 +673,30 @@
                 height: 250px;
             }
             
+            /* For travel cards without images, make sure they expand properly */
+            .travel .card {
+                min-height: 350px !important;
+                height: auto !important;
+                margin-bottom: 1.5rem;
+                width: 100%;
+                max-width: 100%;
+            }
+            
             .card-content {
                 padding: 1.5rem;
+                height: auto;
+                overflow: visible;
             }
             
             .cards {
                 flex-direction: column;
                 align-items: center;
+                gap: 1rem;
+            }
+            
+            .travel .card-content {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             /* Gallery arrows positioning for mobile */
@@ -828,8 +833,7 @@
             <h2>Travel Information</h2>
 
             <div class="cards">
-                <div class="card">
-                    <div class="card-img"></div>
+                                <div class="card">
                     <div class="card-content">
                         <div class="card-icon">
                             <i class="fas fa-plane"></i>
@@ -840,30 +844,23 @@
                 </div>
                 
                 <div class="card">
-                    <div class="card-img"></div>
                     <div class="card-content">
                         <div class="card-icon">
                             <i class="fas fa-car"></i>
                         </div>
                         <h3>Driving 3h to Salida</h3>
-                        <p> The drive takes about 2.5h from Denver and 3h from DIA/Boulder (plus traffic on Friday/Sunday evenings). The direct route, US-285-S, is super scenic. 
-                            <br>
-                            <br>
+                        <p> The drive takes about 2.5h from Denver and 3h from DIA/Boulder (plus traffic on Friday/Sunday evenings). The direct route, US-285-S, is super scenic.   
                             If you have an extra hour, take a detour over Guanella Pass: a spectacular road that goes high above treeline with great hike and photo stops. </p>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <div class="card-img"></div>
                     <div class="card-content">
                         <div class="card-icon">
                             <i class="fas fa-bed"></i>
                         </div>
                         <h3>Lodging</h3>
-                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/" target="_blank">Blue Coyote Ranch website</a>. Rooms and payment will be arranged through the venue closer to the date; early interest can be indicated in the RSVP form.
-                            <br>
-                            <br>    
-                            There are other hotels nearby in Salida, 5-10 minutes drive away.
+                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/" target="_blank">Blue Coyote Ranch website</a>. Rooms and payment will be arranged through the venue closer to the date, along with other options hotels nearby in Salida.
                         </p>
                     </div>
                 </div>
@@ -878,7 +875,7 @@
                     <li>Backcountry ski at Monarch Pass</li>
                     <li>Play in the sand at Great Sand Dunes National Park</li>
                     <li>See Colorado's largest bat colony take flight from Valley View</li>
-                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton Resort (spa vibe).</li>
+                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton (resort vibe).</li>
                 </ul>
             </div>
         </div>
@@ -1096,12 +1093,14 @@
     </section>
 
     <!-- Registry Section -->
+    <!--
     <section class="registry" id="registry">
         <div class="container">
             <h2>Gifts</h2>
             <p>Your presence at our wedding is the greatest gift of all. However, if you wish to give us a gift, we will provide registry information closer to the date.</p>
         </div>
     </section>
+    -->
 
     <!-- Image Modal -->
     <div class="modal">
