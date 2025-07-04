@@ -8,11 +8,10 @@
     <style>
         /* Base Styles */
         :root {
-            --primary-color: #B9CFED; /* Sky blue primary color */
-            --secondary-color: #E6B3C7; /* Dusty pink complement */
-            --accent-color: #5053AF; /* Darker blue for accents */
-            --text-color: #2a2a4b; /* Darkest blue for text */
-            --light-color: #EDF3FD; /* Light blue tint for backgrounds */
+            --secondary-color: #E6B7BD; /* Dusty pink complement */
+            --accent-color: #4F518C; /* Darker blue for accents */
+            --text-color: #283548; /* Darkest blue for text */
+            --light-color: #F3EFE7; /* Sandy tint for backgrounds */
             --font-main: 'Montserrat', sans-serif;
             --font-secondary: 'Montserrat', sans-serif;
         }
@@ -164,7 +163,7 @@
         .btn {
             display: inline-block;
             padding: 0.8rem 2rem;
-            background-color: var(--accent-color);
+            background-color: var(--text-color);
             color: white;
             text-decoration: none;
             font-weight: 500;
@@ -173,7 +172,7 @@
         }
         
         .btn:hover {
-            background-color: #c59662;
+            background-color: var(--accent-color);
             transform: translateY(-2px);
         }
         
@@ -345,9 +344,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
-            background-color: var(--light-color);
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -481,7 +478,7 @@
         }
         .faq-item {
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--primary-color);
+            border-bottom: 1px solid var(--text-color);
             padding-bottom: 1rem;
         }
         .faq-question {
