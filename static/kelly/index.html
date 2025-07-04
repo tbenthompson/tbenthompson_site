@@ -8,11 +8,11 @@
     <style>
         /* Base Styles */
         :root {
-            --primary-color: #70b1e0; /* Sky blue primary color */
-            --secondary-color: #8a9e8d; /* Sage green complement */
-            --accent-color: #4682b4; /* Steel blue for accents */
-            --text-color: #4a4a4a;
-            --light-color: #f2f7fb; /* Light blue tint for backgrounds */
+            --primary-color: #B9CFED; /* Sky blue primary color */
+            --secondary-color: #E6B3C7; /* Dusty pink complement */
+            --accent-color: #5053AF; /* Darker blue for accents */
+            --text-color: #2a2a4b; /* Darkest blue for text */
+            --light-color: #EDF3FD; /* Light blue tint for backgrounds */
             --font-main: 'Montserrat', sans-serif;
             --font-secondary: 'Montserrat', sans-serif;
         }
@@ -194,7 +194,7 @@
             content: '';
             position: absolute;
             width: 2px;
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             top: 0;
             bottom: 0;
             left: 50%;
@@ -247,7 +247,7 @@
         }
         .date {
             font-style: italic;
-            color: var(--secondary-color);
+            color: var(--text-color);
             margin-bottom: 1rem;
         }
         /* Event Details Section */
@@ -302,7 +302,7 @@
         }
         .card-icon {
             font-size: 2rem;
-            color: var(--primary-color);
+            color: var(--secondary-color);
             margin-bottom: 1rem;
         }
         /* Travel Information Section */
@@ -799,6 +799,8 @@
                         <br>
                         <p><b>Blue Coyote Ranch, Salida, Colorado.</b></p>
                         <br>
+                        <p>Cocktail / formal garden party attire.</p>
+                        <br>
                         <p>Dinner and dancing to follow.</p>
                     </div>
                 </div>
@@ -860,7 +862,7 @@
                             <i class="fas fa-bed"></i>
                         </div>
                         <h3>Lodging</h3>
-                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/" target="_blank">Blue Coyote Ranch website</a>. We've already booked the entire property and will share more details on housing options closer to the date.
+                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/" target="_blank">Blue Coyote Ranch website</a>. We've already booked the entire property and will share more details of on- and off-site housing options closer to the date.
                         </p>
                     </div>
                 </div>
@@ -875,7 +877,7 @@
                     <li>Backcountry ski at Monarch Pass</li>
                     <li>Play in the sand at Great Sand Dunes National Park</li>
                     <li>See Colorado's largest bat colony take flight from Valley View</li>
-                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton (resort vibe).</li>
+                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton (resort vibe)</li>
                 </ul>
             </div>
         </div>
@@ -1028,18 +1030,17 @@
     <section class="rsvp" id="rsvp">
         <div class="container">
             <h2>RSVP</h2>
-            <p>Formal invitations and RSVP deadline will follow in 2026. Early RSVPs are welcome as soon as you know your plans.</p>
+            <p>Formal invitations and RSVP deadline will follow in 2026. 
+                <br>
+                Early RSVPs are welcome as soon as you know your plans.</p>
             
             <div class="rsvp-form">
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEnogtGAix7R6XyTmUoaRjFkYAIFF07NNKwUOviX6rxI_wwA/viewform?usp=share_link&ouid=114931624159287126777" 
                    target="_blank" 
                    class="btn" 
                    style="font-size: 1.2rem; padding: 1rem 2.5rem;">
-                    Fill Out RSVP Form
+                    RSVP
                 </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--secondary-color);">
-                    Click the button above to open the RSVP form in a new tab
-                </p>
             </div>
         </div>
     </section>
@@ -1049,8 +1050,16 @@
         <div class="container">
             <h2>Frequently Asked Questions</h2>   
                 <div class="faq-item">
-                    <div class="faq-question">What should I wear to the wedding?</div>
-                    <div class="faq-answer">Cocktail/formal garden party attire - wear something that makes you feel beautiful!  The ceremony will be outdoors, so your comfort may be improved by sunglasses, a sun hat, a light jacket, and shoes suitable for grass and gravel. </div>
+                    <div class="faq-question">What should I wear?</div>
+                    <div class="faq-answer">
+                        The ceremony will be outdoors with a cocktail or formal garden party dress code. Wear something that makes you feel celebratory!
+                        <br>
+                        <br>
+                        For your comfort, we recommend shoes suitable for grass and gravel; sunglasses and/or sunhat for bright afternoon sun; and a warmer layer for the evening. We have indoor spaces available in case of bad weather.
+                        <br>
+                        <br>
+                        Welcome dinner and farewell brunch will be casual (though the bride enjoys dressing up, and you're welcome to join in).
+                </div>
                 </div>
 
                 <div class="faq-item">
@@ -1060,8 +1069,7 @@
                 
                 <div class="faq-item">
                     <div class="faq-question">Are pets welcome?</div>
-                    <div class="faq-answer">Dogs are warmly welcomed, and the Blue Coyote has an off-leash area where Wish had a great time chasing rabbits. Overnight guests will be asked to cover a $25/day dog fee. 
-                        <br>
+                    <div class="faq-answer">Dogs are warmly welcomed, and the Blue Coyote has an off-leash area where Wish had a great time chasing rabbits.
                         <br>
                         Unfortunately, the ranch is not suitable for other pets.</div>
                 </div>
@@ -1074,9 +1082,10 @@
                 <div class="faq-item">
                     <div class="faq-question">Will I get altitude sick?</div>
                     <div class="faq-answer">
-                        Salida's elevation (7,000 ft) is safely below the threshold where altitude symptoms typically begin. Sensitive individuals may experience slight symptoms such as headaches and fatigue, which can be relieved with over-the-counter painkillers.
-
-                        It's very common to feel mild altitude sickness during strenuous activity at higher elevations (e.g., hiking at a mountain pass on the drive over). Simply descend back to lower elevations to feel better.
+                        Salida's elevation (7,000 ft) is safely below the threshold where altitude sickness typically begin. Sensitive individuals may experience brief headaches and fatigue, which can be relieved with over-the-counter painkillers.
+                        <br>
+                        <br>
+                        It's common to feel mild altitude sickness if you do strenuous activity on your first day at higher elevations (e.g., a hike at a mountain pass on the drive over). Simply descend back to lower elevations to feel better.
                     </div>
                 </div>
                 <div class="faq-item">
