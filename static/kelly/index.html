@@ -430,6 +430,7 @@
             max-height: 100%;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            object-fit: contain;
         }
         .gallery-rotator-caption {
             position: absolute;
@@ -642,7 +643,7 @@
             }
             .timeline-photo {
                 width: 100%;
-                height: 200px;
+                height: 300px;
                 margin-bottom: 1rem;
             }
             
@@ -696,15 +697,32 @@
                 overflow-wrap: break-word;
             }
             
+            /* Gallery - auto-height on mobile so images fill width */
+            .gallery-rotator {
+                height: auto;
+                max-height: none;
+                min-height: 0;
+            }
+
+            .gallery-rotator-image-container {
+                position: relative;
+            }
+
+            .gallery-rotator-img {
+                width: 100%;
+                max-height: 80vh;
+                object-fit: contain;
+            }
+
             /* Gallery arrows positioning for mobile */
             .gallery-arrow {
                 font-size: 1.5rem;
             }
-            
+
             .gallery-arrow.left {
                 left: 5px;
             }
-            
+
             .gallery-arrow.right {
                 right: 5px;
             }
@@ -910,7 +928,7 @@
 
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-photo" style="background-image: url('shower-dinosaur.heic');"></div>
+                        <div class="timeline-photo" style="background-image: url('shower-dinosaur.jpeg');"></div>
                         <div class="timeline-text">
                             <h3>Moved In Together</h3>
                             <div class="date">October 15, 2024</div>
@@ -970,7 +988,7 @@
                         {src: 'ski-eats.jpeg', caption: 'Ben is the snackmaster'},
                         {src: 'kelly-wish-rocks.jpeg', caption: 'Kelly finds a cliff that Wish won\'t go down'},
                         {src: 'kelly-jamie-ski.jpeg', caption: 'Skinning up to the Continental Divide with Jamie...'},
-                        {src: 'kelly-julien-ski.jpeg', caption: '...and up again on another trip with Julian'},
+                        {src: 'kelly-julien-ski.jpeg', caption: '...and up again on another trip with Julien'},
                         {src: 'kelly-licks-icicle.jpeg', caption: 'Kelly licks icicle'},
                         {src: 'kelly-sneaky-elf.jpeg', caption: 'Car camping (with a cloak) above treeline on Guanella Pass'},
                         {src: 'kelly-dad-flatirons.jpg', caption: 'Greg Kochanski comes to visit and hike in Colorado'},
@@ -985,7 +1003,7 @@
                         {src: 'kissing-with-friends.jpeg', caption: 'Night out in Boulder with Tim, Leah, and Greg (photographer)'},
                         {src: 'snowy-kb-flatirons.jpeg', caption: 'Kelly has taken up trail running to keep up with Ben (photo by Greg)'},
                         {src: 'snowy-kbw-flatirons.jpeg', caption: 'Wish remains speediest (photo by Greg)'},
-                        {src: 'living-room.jpeg', caption: 'A happy evening in our new home (photo by Greg)'}
+                        {src: 'living-room.jpeg', caption: 'A happy evening in our old place (photo by Greg)'}
                     ];
                     
                     let galleryIndex = 0;
