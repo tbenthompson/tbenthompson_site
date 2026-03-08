@@ -761,10 +761,136 @@
                 text-align: center;
             }
         }
+        /* Retreat sub-events inside Mountain Retreat card */
+        .retreat-events {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+        .retreat-event {
+            flex: 1;
+            background-color: var(--light-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .retreat-event-img {
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+        }
+        .retreat-event-text {
+            padding: 1rem;
+        }
+        .retreat-event-text h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: var(--accent-color);
+        }
+        .retreat-event-text h4 i {
+            margin-right: 0.3rem;
+        }
+        .retreat-event-text p {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        @media (max-width: 768px) {
+            .retreat-events {
+                flex-direction: column;
+            }
+        }
+
         /* Add this CSS for the double-width card */
         .card.double-width {
             flex: 2 1 600px;
             max-width: 700px;
+        }
+
+        /* Schedule / Invitation Section */
+        .schedule {
+            background-color: var(--light-color);
+            text-align: center;
+            padding-bottom: 5rem;
+        }
+        .schedule-card {
+            max-width: 420px;
+            margin: 0 auto;
+            background-color: #FAF8F4;
+            border-radius: 4px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+        }
+        .schedule-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+        .schedule-event {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .schedule-event:last-of-type {
+            border-bottom: none;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0;
+        }
+        .schedule-event h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+            color: var(--text-color);
+        }
+        .schedule-event .schedule-date {
+            font-style: italic;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-color);
+        }
+        .schedule-event .schedule-details {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        .schedule-rsvp {
+            margin-top: 1.5rem;
+        }
+        .schedule-rsvp h3 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+        .schedule-rsvp p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .schedule-lodging {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+        .schedule-flower {
+            width: 120px;
+            margin: 0 auto 0.5rem auto;
+            display: block;
+            opacity: 0.85;
+        }
+        @media (max-width: 768px) {
+            .schedule-card {
+                margin: 0 1rem;
+                padding: 2.5rem 1.5rem;
+            }
         }
     </style>
 </head>
@@ -793,15 +919,15 @@
         <div class="hero-content">
             <h1>Kelly & Ben</h1>
             <p class="date-location">Saturday, June 6, 2026 • Salida, Colorado</p>
-            <a href="#rsvp" class="btn">RSVP</a>
+            <a href="#rsvp" class="btn">RSVP by April 6th</a>
         </div>
     </section>
 
-    <!-- Event Details Section -->
+    <!-- Event Details & Schedule Section -->
     <section class="event-details" id="event-details">
         <div class="container">
-            <h2>Event Details</h2>
-            
+            <h2>Event Details & Schedule</h2>
+
             <div class="cards">
                 <div class="card full-width">
                     <div class="card-img wide-img" style="background: url('./will-you-marry-me.jpg') center/cover no-repeat;"></div>
@@ -819,18 +945,34 @@
                         <p>Dinner and dancing to follow.</p>
                     </div>
                 </div>
-                
-                
+
+                <div class="card full-width">
+                    <div class="card-img wide-img" style="background: url('./living-room.jpeg') center/cover no-repeat;"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-days"></i>
+                        </div>
+                        <h3>Event Schedule</h3>
+                        <p> We'll stay at the Blue Coyote Ranch from Thursday to Monday (June 4-8). We know that many of you would enjoy spending time in this beautiful area - we'd love for you to join us! </p>
+                        <br>
+                        <p><b><i class="fas fa-fire"></i> Light Up the Night</b> — 6pm, Friday June 5. Dinner, s'mores, glowstick-capture-the-flag. <em>(bright/glow clothes opt'l)</em></p>
+                        <br>
+                        <p><b><i class="fas fa-heart"></i> Wedding</b> — 4pm, Saturday June 6. Dinner and dancing to follow. <em>(cocktail/formal garden attire)</em></p>
+                        <br>
+                        <p><b><i class="fas fa-mug-hot"></i> Mountain Coffee</b> — 10am, Sunday June 7. Light breakfast. Hot springs may follow. <em>(casual attire)</em></p>
+                    </div>
+                </div>
+
                 <div class="card full-width">
                     <div class="card-img wide-img" style="background: url('./blue-coyote-view.png') center/cover no-repeat;"></div>
                     <div class="card-content">
                         <div class="card-icon">
-                            <i class="fas fa-mountain"></i>
+                            <i class="fas fa-bed"></i>
                         </div>
-                        <h3>Mountain Retreat</h3>
-                        <p> We'll stay at the Blue Coyote Ranch from Thursday to Monday (June 4-8). We know that many of you would enjoy spending time in this beautiful area - we'd love for you to join us! </p>
-                        <br>
+                        <h3>Lodging</h3>
                         <p> We've reserved the property for the weekend, with room to accommodate most guests in modern lodge/cabins with full kitchens and good internet. Join us to explore the mountains, WFH with a view, or hang out in the hot tub. </p>
+                        <br>
+                        <p><em>We are providing Friday–Sunday lodging on-site and at the nearby Woodland Motel. Reserve via RSVP.</em></p>
                     </div>
                 </div>
 
@@ -871,28 +1013,17 @@
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-icon">
-                            <i class="fas fa-bed"></i>
-                        </div>
-                        <h3>Lodging</h3>
-                        <p> The Blue Coyote can accommodate most guests on-site in a mix of lodge rooms, luxury cabins, and RV sites. More details are available at <a href="https://www.bluecoyoteranch.com/" target="_blank">Blue Coyote Ranch website</a>. We've already booked the entire property and will share more details of on- and off-site housing options closer to the date. We'll have an option to partially pay for the on-site housing.
-                        </p>
-                    </div>
-                </div>
-
             <div class="travel-tips">
                 <h3>Nearby Activities</h3>
                 <ul>
-                    <li>Check out the art galleries and eat on the riverfront in downtown Salida</li>
+                    <li>Check out the <a href="https://www.colorfulcolorado.com/plan-your-visit/salida/" target="_blank">art galleries</a> and eat on the <a href="https://www.uncovercolorado.com/towns/salida/" target="_blank">riverfront</a> in downtown Salida</li>
                     <li>Take a 1/2 mi nature walk around the ranch</li>
-                    <li>Hike up to 14,000 ft on Mt. Shavano</li>
-                    <li>Tube down the Arkansas River</li>
-                    <li>Backcountry ski at Monarch Pass</li>
-                    <li>Play in the sand at Great Sand Dunes National Park</li>
-                    <li>See Colorado's largest bat colony take flight from Valley View</li>
-                    <li>Relax in the hot springs at Valley View (naked hippy vibe) or Mt. Princeton (resort vibe)</li>
+                    <li>Hike up to 14,000 ft on <a href="https://www.14ers.com/route.php?route=shav1" target="_blank">Mt. Shavano</a></li>
+                    <li>Tube down the <a href="https://www.totallytubularsalida.com/rentalprices" target="_blank">Arkansas River</a></li>
+                    <li>Hiking and photos at <a href="https://www.alltrails.com/us/colorado/monarch" target="_blank">Monarch Pass</a></li>
+                    <li>Play in the sand at <a href="https://www.nps.gov/grsa/planyourvisit/index.htm" target="_blank">Great Sand Dunes National Park</a></li>
+                    <li>See Colorado's largest bat colony take flight from <a href="https://www.olt.org/mine/bats" target="_blank">Valley View</a></li>
+                    <li>Relax in the hot springs at <a href="https://www.olt.org/valley-view-hot-springs-guidelines/" target="_blank">Valley View</a> (naked hippy vibe) or <a href="https://mtprinceton.com/" target="_blank">Mt. Princeton</a> (resort vibe)</li>
                 </ul>
             </div>
         </div>
@@ -985,7 +1116,7 @@
                         {src: 'big-flakes.jpeg', caption: 'Huge snowflakes on a trip to visit Greg and Leah in Pocatello. This trip was the one time in Kelly\'s consulting life that she flew 13h for a weekend'},
                         {src: 'totality.jpeg', caption: 'Total eclipse in Ohio with Ben\'s parents'},
                         {src: 'kelly-lt.jpeg', caption: 'Kelly discusses birds with Lyke Thompson'},
-                        {src: 'ski-eats.jpeg', caption: 'Ben is the snackmaster'},
+                        {src: 'ski-eats.jpeg', caption: 'Ben is the snackmaster (photo credit: Tim)'},
                         {src: 'kelly-wish-rocks.jpeg', caption: 'Kelly finds a cliff that Wish won\'t go down'},
                         {src: 'kelly-jamie-ski.jpeg', caption: 'Skinning up to the Continental Divide with Jamie...'},
                         {src: 'kelly-julien-ski.jpeg', caption: '...and up again on another trip with Julien'},
@@ -1045,10 +1176,10 @@
     <section class="rsvp" id="rsvp">
         <div class="container">
             <h2>RSVP</h2>
-            <p>Formal invitations and RSVP deadline will follow in 2026. 
-                <br>
-                Early RSVPs are welcome as soon as you know your plans.</p>
-            
+            <p>We sent invitations out recently and we'd appreciate responses by April 6th.</p>
+            <br>
+            <p>The RSVP form will walk you through detailed accommodation options. We will book rooms for you based on your responses, so you may want to figure out your travel dates before you RSVP.</p>
+
             <div class="rsvp-form">
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEnogtGAix7R6XyTmUoaRjFkYAIFF07NNKwUOviX6rxI_wwA/viewform?usp=share_link&ouid=114931624159287126777" 
                    target="_blank" 
