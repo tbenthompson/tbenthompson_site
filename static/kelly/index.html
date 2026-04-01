@@ -448,6 +448,45 @@
             background-color: white;
             text-align: center;
         }
+        .registry-intro {
+            max-width: 700px;
+            margin: 0 auto 2.5rem auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .registry-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .registry-card {
+            flex: 1 1 380px;
+            max-width: 420px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+        .registry-card h3 {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .registry-card h3 i {
+            margin-right: 0.5rem;
+        }
+        .registry-card p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .registry-card a.btn {
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
         .registry-logos {
             display: flex;
             flex-wrap: wrap;
@@ -464,6 +503,15 @@
         .registry-logo:hover {
             filter: grayscale(0%);
             opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .registry-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .registry-card {
+                max-width: 100%;
+            }
         }
         /* FAQ Section */
         .faq {
@@ -905,6 +953,7 @@
                 <li><a href="#travel">Travel</a></li>
                 <li><a href="#our-story">Our Story</a></li>
                 <li><a href="#photos">Photos</a></li>
+                <li><a href="#registry">Registry</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
             <div class="hamburger">
@@ -1174,6 +1223,27 @@
         </div>
     </section>
 
+    <!-- Registry Section -->
+    <section class="registry" id="registry">
+        <div class="container">
+            <h2>Gifts</h2>
+            <p class="registry-intro">Your presence is, truly, the greatest gift. We are thrilled to host you.</p>
+
+            <div class="registry-cards">
+                <div class="registry-card">
+                    <h3><i class="fas fa-mug-hot"></i> Dinnerware Registry</h3>
+                    <p>If you would like to have a little presence in our home going forwards, we encourage you to gift a piece of dinnerware. These have been commissioned from a local potter (you'll pass in sight of <a href="https://maps.app.goo.gl/3M1oMnPWdNMQBx5q8" target="_blank">their studio</a> on the way to the wedding) who will inscribe your initials into your chosen piece, so that more of our future meals will be surrounded in spirit by friends and family.</p>
+                    <a href="https://www.artspiral.com/home/kelly-and-ben-wedding-registry" target="_blank" class="btn">Browse Dinnerware</a>
+                </div>
+
+                <div class="registry-card">
+                    <h3><i class="fas fa-hand-holding-heart"></i> Charity Registry</h3>
+                    <p>We otherwise encourage you to direct any financial value you might usually give in a wedding gift towards our charity registry. Both of us have been blessed by loving families, treasured friends, trusted communities, and the kindnesses of strangers. We hope to share those blessings with others in need. Ben has donated ~25% of his lifetime income thus far, much of it through GiveWell, and Kelly has also been a regular supporter. Your donations will support our goals and values in a way that physical registry gifts could not.</p>
+                    <a href="https://www.givewell.org/benandkelly" target="_blank" class="btn">Donate via GiveWell</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- FAQ Section -->
     <section class="faq" id="faq">
@@ -1230,16 +1300,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Registry Section -->
-    <!--
-    <section class="registry" id="registry">
-        <div class="container">
-            <h2>Gifts</h2>
-            <p>Your presence at our wedding is the greatest gift of all. However, if you wish to give us a gift, we will provide registry information closer to the date.</p>
-        </div>
-    </section>
-    -->
 
     <!-- Image Modal -->
     <div class="modal">
@@ -1298,13 +1358,15 @@
         const attendingSelect = document.getElementById('attending');
         const guestCountGroup = document.getElementById('guest-count-group');
         
-        attendingSelect.addEventListener('change', () => {
-            if (attendingSelect.value === 'yes') {
-                guestCountGroup.style.display = 'block';
-            } else {
-                guestCountGroup.style.display = 'none';
-            }
-        });
+        if (attendingSelect && guestCountGroup) {
+            attendingSelect.addEventListener('change', () => {
+                if (attendingSelect.value === 'yes') {
+                    guestCountGroup.style.display = 'block';
+                } else {
+                    guestCountGroup.style.display = 'none';
+                }
+            });
+        }
         
         // Gallery Modal
         const galleryItems = document.querySelectorAll('.gallery-item');
@@ -1331,19 +1393,6 @@
                 modal.style.display = 'none';
             }
         });
-        
-        // Form Submission
-        const rsvpForm = document.getElementById('rsvp-form');
-        
-        rsvpForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Here you would typically send the form data to a server
-            // For now, we'll just show an alert
-            alert('Thank you for your RSVP! We look forward to celebrating with you.');
-            rsvpForm.reset();
-        });
     </script>
 </body>
 </html>
-        
